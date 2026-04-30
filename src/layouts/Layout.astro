@@ -67,7 +67,9 @@ const allSchema = schema
     <meta name="theme-color" content="#fafaf7" />
     <meta name="color-scheme" content="light" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site summary" />
@@ -115,8 +117,8 @@ const allSchema = schema
     <a href="#main" class="skip-link">Skip to main content</a>
     <header class="site-header">
       <div class="container site-header__inner">
-        <a href="/" class="site-header__logo">
-          RestaurantCalcs
+        <a href="/" class="site-header__logo" aria-label="RestaurantCalcs home">
+          <img src="/logo.png" alt="RestaurantCalcs" class="site-header__logo-img" width="220" height="48" />
         </a>
         <nav class="site-header__nav">
           <a href="/calculators" class="site-header__link">Calculators</a>
@@ -199,11 +201,15 @@ const allSchema = schema
       }
 
       .site-header__logo {
-        font-family: var(--font-display);
-        font-size: 1.125rem;
-        font-weight: 600;
-        letter-spacing: -0.012em;
-        color: var(--color-heading);
+        display: inline-flex;
+        align-items: center;
+        height: 44px;
+      }
+
+      .site-header__logo-img {
+        height: 32px;
+        width: auto;
+        display: block;
       }
 
       .site-header__nav {
@@ -268,6 +274,7 @@ const allSchema = schema
         font-weight: 600;
         color: var(--color-heading);
         margin-bottom: var(--space-2);
+        letter-spacing: -0.012em;
       }
 
       .site-footer__links {
