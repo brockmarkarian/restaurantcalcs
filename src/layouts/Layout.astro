@@ -1,0 +1,368 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  schema?: Record<string, any> | Array<Record<string, any>>;
+}
+
+const {
+  title = 'RestaurantCalcs — Restaurant math, done right.',
+  description = 'Free calculators for food cost, labor, tip pool, menu pricing, and more. Built for independent restaurant operators. No signup. Math shown.',
+  ogImage = '/og-default.png',
+  schema,
+} = Astro.props;
+
+const SITE_URL = 'https://restaurantcalcs.com';
+const canonical = new URL(Astro.url.pathname, SITE_URL).toString();
+const ogImageUrl = new URL(ogImage, SITE_URL).toString();
+
+// Site-wide schema — Organization + WebSite
+const baseSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'RestaurantCalcs',
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.png`,
+    description: 'Free calculators for restaurant operators. Food cost, labor, tip pool, menu pricing, and more.',
+    sameAs: [],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: 'RestaurantCalcs',
+    description,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    inLanguage: 'en-US',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  },
+];
+
+const allSchema = schema
+  ? Array.isArray(schema)
+    ? [...baseSchema, ...schema]
+    : [...baseSchema, schema]
+  : baseSchema;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafaf7" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site summary" />
+
+    <title>{title}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RestaurantCalcs" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Geist + Geist Mono from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- General Sans from Fontshare -->
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD: Organization + WebSite + page-specific schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(allSchema)}></script>
+
+    <!--
+      Google AdSense — uncomment + replace ca-pub-XXXXXXXXXXXXXXXX once approved.
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a href="/" class="site-header__logo">
+          RestaurantCalcs
+        </a>
+        <nav class="site-header__nav">
+          <a href="/calculators" class="site-header__link">Calculators</a>
+          <a href="/blog" class="site-header__link">Insights</a>
+          <a href="/about" class="site-header__link">About</a>
+          <a href="/calculators/food-cost" class="btn btn-primary btn-small">Try a calc</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Margin ad rails — visible on wide viewports only -->
+    <aside class="rail rail--left" aria-hidden="true">
+      <div class="rail__inner">
+        <span class="rail__label">Advertisement</span>
+        <div class="rail__placeholder">
+          <span>▢</span>
+          <span class="num">160 × 600</span>
+        </div>
+      </div>
+    </aside>
+    <aside class="rail rail--right" aria-hidden="true">
+      <div class="rail__inner">
+        <span class="rail__label">Advertisement</span>
+        <div class="rail__placeholder">
+          <span>▢</span>
+          <span class="num">160 × 600</span>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <div class="site-footer__logo">RestaurantCalcs</div>
+          <p class="t-caption">Restaurant math, done right.</p>
+        </div>
+        <div class="site-footer__links">
+          <div class="site-footer__col">
+            <h4 class="t-micro">Calculators</h4>
+            <a href="/calculators/food-cost" class="t-caption">Food cost %</a>
+            <a href="/calculators/labor-cost" class="t-caption">Labor cost %</a>
+            <a href="/calculators/tip-pool" class="t-caption">Tip pool</a>
+            <a href="/calculators/menu-pricing" class="t-caption">Menu pricing</a>
+          </div>
+          <div class="site-footer__col">
+            <h4 class="t-micro">Resources</h4>
+            <a href="/blog" class="t-caption">Insights</a>
+            <a href="/about" class="t-caption">About</a>
+            <a href="/contact" class="t-caption">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="site-footer__legal">
+          <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators.</span>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(250, 250, 247, 0.85);
+        backdrop-filter: saturate(180%) blur(10px);
+        -webkit-backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .site-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+
+      .site-header__logo {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: -0.012em;
+        color: var(--color-heading);
+      }
+
+      .site-header__nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+      }
+
+      .site-header__link {
+        font-family: var(--font-body);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-body);
+        transition: color var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 4px;
+      }
+
+      .site-header__link:hover {
+        color: var(--color-heading);
+      }
+
+      @media (max-width: 720px) {
+        .site-header__nav {
+          gap: var(--space-4);
+        }
+        .site-header__link:not(.btn) {
+          display: none;
+        }
+      }
+
+      main {
+        min-height: calc(100vh - 68px);
+      }
+
+      .site-footer {
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        padding: var(--space-16) 0 var(--space-8);
+        margin-top: var(--space-24);
+      }
+
+      .site-footer__inner {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: var(--space-12);
+        margin-bottom: var(--space-12);
+      }
+
+      @media (max-width: 720px) {
+        .site-footer__inner {
+          grid-template-columns: 1fr;
+          gap: var(--space-8);
+        }
+      }
+
+      .site-footer__logo {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--color-heading);
+        margin-bottom: var(--space-2);
+      }
+
+      .site-footer__links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-12);
+      }
+
+      .site-footer__col {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .site-footer__col h4 {
+        margin-bottom: var(--space-3);
+      }
+
+      .site-footer__col a {
+        transition: color var(--transition-fast);
+        padding: 6px 0;
+        min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      @media (max-width: 720px) {
+        .site-footer__col a {
+          padding: 10px 0;
+          min-height: 44px;
+        }
+      }
+
+      .site-footer__col a:hover {
+        color: var(--color-heading);
+      }
+
+      .site-footer__legal {
+        padding-top: var(--space-6);
+        border-top: 1px solid var(--color-border);
+      }
+
+      /* Margin ad rails — only on wide screens (above 1480px) */
+      .rail {
+        display: none;
+      }
+
+      @media (min-width: 1480px) {
+        .rail {
+          display: block;
+          position: fixed;
+          top: 100px;
+          width: 160px;
+          z-index: 5;
+        }
+        .rail--left { left: max(16px, calc((100vw - 1180px) / 2 - 200px)); }
+        .rail--right { right: max(16px, calc((100vw - 1180px) / 2 - 200px)); }
+      }
+
+      .rail__inner {
+        background: var(--color-cream);
+        border: 1px dashed var(--color-border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 600px;
+      }
+
+      .rail__label {
+        padding: 6px 10px;
+        font-family: var(--font-body);
+        font-size: 0.625rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-muted);
+        background: rgba(122, 117, 105, 0.06);
+        border-bottom: 1px dashed var(--color-border);
+        text-align: center;
+      }
+
+      .rail__placeholder {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: var(--color-muted);
+      }
+
+      .rail__placeholder .num {
+        font-size: 0.75rem;
+      }
+    </style>
+  </body>
+</html>

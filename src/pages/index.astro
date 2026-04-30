@@ -1,0 +1,1052 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const calcs = [
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Compare food cost to revenue to spot menu margin issues.', time: '2 min', tag: 'Most used' },
+  { slug: 'recipe-cost', title: 'Recipe & Plate Cost', desc: 'Build plate cost from ingredient quantities and prices.', time: '5 min', tag: null },
+  { slug: 'labor-cost', title: 'Labor Cost Percentage', desc: 'Track labor as a share of revenue across shifts.', time: '2 min', tag: null },
+  { slug: 'tip-pool', title: 'Tip Pool & Tip Out', desc: 'Split tips fairly across roles by hours or points.', time: '3 min', tag: 'Popular' },
+  { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Reverse-engineer menu price from cost and target margin.', time: '2 min', tag: null },
+  { slug: 'liquor-pour-cost', title: 'Liquor Pour Cost', desc: 'Calculate pour cost % and benchmark against industry.', time: '3 min', tag: null },
+  { slug: 'break-even', title: 'Break-Even Revenue', desc: 'Find revenue needed to cover fixed and variable costs.', time: '5 min', tag: null },
+  { slug: 'inventory-variance', title: 'Inventory Variance', desc: 'Spot theft, waste, or counting errors in food inventory.', time: '4 min', tag: null },
+];
+
+const homepageSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': 'https://restaurantcalcs.com/#webpage',
+    url: 'https://restaurantcalcs.com/',
+    name: 'RestaurantCalcs — Restaurant math, done right.',
+    description: 'Free calculators for restaurant operators. Food cost, labor, tip pool, menu pricing, and more.',
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+    inLanguage: 'en-US',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'RestaurantCalcs — All calculators',
+    description: 'Eight free calculators for everyday restaurant operations math.',
+    itemListElement: calcs.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://restaurantcalcs.com/calculators/${c.slug}`,
+      name: c.title,
+      description: c.desc,
+    })),
+  },
+];
+---
+
+<Layout schema={homepageSchema}>
+  <section class="hero">
+    <div class="container hero__container">
+      <div class="hero__copy">
+        <p class="t-micro hero__eyebrow t-micro--saffron">Free tools · No signup</p>
+        <h1 class="hero__headline">
+          <span class="hero__line">Restaurant math,</span>
+          <span class="hero__line"><em class="hero__em">done right.</em></span>
+        </h1>
+        <p class="hero__subhead">
+          Eight calculators for the numbers operators actually run on a Tuesday lunch rush. Plug in. Get the answer with the math underneath. Move on.
+        </p>
+        <div class="hero__ctas">
+          <a href="/calculators/food-cost" class="btn btn-primary btn-large">
+            Calculate food cost
+            <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="#calculators" class="btn btn-secondary btn-large">All eight tools</a>
+        </div>
+        <div class="hero__trust">
+          <div class="hero__trust-dots">
+            <span class="hero__trust-dot"></span>
+            <span class="hero__trust-dot"></span>
+            <span class="hero__trust-dot"></span>
+          </div>
+          <p class="t-caption">Built by an operator. For operators. <strong>No accounts. No upsells.</strong></p>
+        </div>
+      </div>
+
+      <div class="hero__viz" data-parallax>
+        <div class="stack" data-stack>
+          <!-- Background card 3 -->
+          <article class="stack-card stack-card--c3" aria-hidden="true">
+            <div class="stack-card__head">
+              <span class="t-micro">Tip pool · Friday</span>
+            </div>
+            <div class="stack-card__split">
+              <div class="split-row"><span>Server A</span><span class="num">$184.20</span></div>
+              <div class="split-row"><span>Server B</span><span class="num">$201.50</span></div>
+              <div class="split-row"><span>Bar</span><span class="num">$98.40</span></div>
+              <div class="split-row"><span>Bussers</span><span class="num">$62.10</span></div>
+            </div>
+          </article>
+
+          <!-- Background card 2 -->
+          <article class="stack-card stack-card--c2" aria-hidden="true">
+            <div class="stack-card__head">
+              <span class="t-micro">Recipe cost · Carbonara</span>
+            </div>
+            <div class="stack-card__rows">
+              <div class="recipe-row"><span>Guanciale 80g</span><span class="num">$3.40</span></div>
+              <div class="recipe-row"><span>Pecorino 30g</span><span class="num">$1.85</span></div>
+              <div class="recipe-row"><span>Eggs (2)</span><span class="num">$0.80</span></div>
+              <div class="recipe-row"><span>Bucatini 100g</span><span class="num">$0.62</span></div>
+              <div class="recipe-row recipe-row--total"><span>Plate cost</span><span class="num">$6.67</span></div>
+            </div>
+          </article>
+
+          <!-- Foreground card — live result -->
+          <article class="stack-card stack-card--c1">
+            <div class="stack-card__head">
+              <span class="t-micro stack-card__label">Food cost percentage</span>
+              <span class="status-pill" data-status="healthy">
+                <span class="status-pill__dot"></span>Healthy
+              </span>
+            </div>
+            <div class="stack-card__result" aria-live="polite" aria-atomic="true">
+              <span class="result-num" data-counter="28.4">0.0</span>
+              <span class="result-num__pct" aria-hidden="true">%</span>
+              <span class="visually-hidden">percent food cost</span>
+            </div>
+            <div class="stack-card__benchmark">
+              <span class="t-caption">Industry benchmark</span>
+              <span class="t-caption num">28–32%</span>
+            </div>
+            <div class="stack-card__bar">
+              <div class="bar-track">
+                <div class="bar-zone bar-zone--good"></div>
+                <div class="bar-zone bar-zone--warn"></div>
+                <div class="bar-zone bar-zone--bad"></div>
+                <div class="bar-marker" data-bar-marker style="left: 28.4%"></div>
+              </div>
+              <div class="bar-labels">
+                <span class="t-caption num">0</span>
+                <span class="t-caption num">50%</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Floating glyphs in 3D space -->
+          <span class="glyph glyph--pct" aria-hidden="true">%</span>
+          <span class="glyph glyph--dollar" aria-hidden="true">$</span>
+          <span class="glyph glyph--coin" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="strip">
+    <div class="container">
+      <div class="strip__inner">
+        <span class="t-micro">Built for the line, not the boardroom</span>
+        <span class="strip__divider" aria-hidden="true"></span>
+        <span class="strip__brand">Free forever</span>
+        <span class="strip__dot" aria-hidden="true">·</span>
+        <span class="strip__brand">No signup</span>
+        <span class="strip__dot" aria-hidden="true">·</span>
+        <span class="strip__brand">Mobile-friendly</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container ad-wrap">
+    <aside class="ad-inline" aria-hidden="true">
+      <span class="ad-inline__label">Advertisement</span>
+      <div class="ad-inline__inner">
+        <span class="num">728 × 90</span>
+        <span class="t-caption">Leaderboard ad slot</span>
+      </div>
+    </aside>
+  </div>
+
+  <section class="tools" id="calculators">
+    <div class="container">
+      <div class="tools__header">
+        <p class="t-micro t-micro--saffron">Eight calculators</p>
+        <h2 class="tools__headline">
+          Every number a kitchen runs.
+          <em class="tools__em">Nothing it doesn't.</em>
+        </h2>
+        <p class="t-body-large tools__subhead">
+          Pick a tool. Plug the numbers in. The math is shown underneath every result so you can trust it — and teach it to your sous in thirty seconds.
+        </p>
+      </div>
+
+      <div class="tools__grid">
+        {calcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}`} class={`tool-card ${i === 0 ? 'tool-card--feature' : ''}`}>
+            <div class="tool-card__top">
+              <div class="tool-card__index num">{String(i + 1).padStart(2, '0')}</div>
+              {c.tag && <span class="tool-card__tag">{c.tag}</span>}
+            </div>
+            <h3 class="tool-card__title">{c.title}</h3>
+            <p class="tool-card__desc">{c.desc}</p>
+            <div class="tool-card__footer">
+              <span class="t-micro tool-card__time">{c.time} · free</span>
+              <span class="tool-card__arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container ad-wrap">
+    <aside class="ad-inline" aria-hidden="true">
+      <span class="ad-inline__label">Advertisement</span>
+      <div class="ad-inline__inner ad-inline__inner--rect">
+        <span class="num">336 × 280</span>
+        <span class="t-caption">In-content ad slot</span>
+      </div>
+    </aside>
+  </div>
+
+  <section class="why">
+    <div class="container">
+      <div class="why__grid">
+        <div class="why__col">
+          <p class="t-micro">Why we built this</p>
+          <h2 class="why__headline">
+            Most operations calculators are actually lead-gen forms.<br><em class="why__em">Ours aren't.</em>
+          </h2>
+        </div>
+        <div class="why__col">
+          <p class="t-body-large why__body">
+            RestaurantCalcs is one site for every operations math problem you'll hit on a Tuesday lunch rush. No accounts. No upsells. Just the answer with the math underneath, so you can teach it to your sous chef in thirty seconds.
+          </p>
+          <p class="t-body why__body why__body--muted">
+            Built by an operator who got tired of spreadsheets that crash on phones.
+          </p>
+          <a href="/about" class="why__link">Read the manifesto <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Mouse parallax on hero stack — rAF-throttled
+  const parallax = document.querySelector('[data-parallax]');
+  const stack = document.querySelector('[data-stack]');
+
+  if (parallax && stack && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let pendingFrame = 0;
+    let pendingX = 0;
+    let pendingY = 0;
+
+    const apply = () => {
+      pendingFrame = 0;
+      const tiltX = (-pendingY * 6).toFixed(2);
+      const tiltY = (pendingX * 8).toFixed(2);
+      (stack as HTMLElement).style.setProperty('--tilt-x', `${tiltX}deg`);
+      (stack as HTMLElement).style.setProperty('--tilt-y', `${tiltY}deg`);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const rect = parallax.getBoundingClientRect();
+      pendingX = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      pendingY = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      if (!pendingFrame) pendingFrame = requestAnimationFrame(apply);
+    };
+
+    parallax.addEventListener('mousemove', onMove as any);
+    parallax.addEventListener('mouseleave', () => {
+      if (pendingFrame) cancelAnimationFrame(pendingFrame);
+      pendingFrame = 0;
+      (stack as HTMLElement).style.setProperty('--tilt-x', '0deg');
+      (stack as HTMLElement).style.setProperty('--tilt-y', '0deg');
+    });
+  }
+
+  // Counter animation — runs on load, loops every 7s, pauses when tab hidden
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  if (counter) {
+    const target = parseFloat(counter.dataset.counter || '0');
+    const decimals = (counter.dataset.counter || '').includes('.') ? 1 : 0;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let intervalId: number | null = null;
+
+    function runCounter() {
+      if (reduced) {
+        counter!.textContent = target.toFixed(decimals);
+        return;
+      }
+      const start = performance.now();
+      const duration = 1100;
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = target * ease(t);
+        counter!.textContent = value.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(frame);
+        else {
+          counter!.classList.add('result-num--pulse');
+          setTimeout(() => counter!.classList.remove('result-num--pulse'), 320);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function startLoop() {
+      if (intervalId !== null) return;
+      runCounter();
+      intervalId = window.setInterval(runCounter, 7000);
+    }
+
+    function stopLoop() {
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') startLoop();
+      else stopLoop();
+    });
+
+    if (document.visibilityState === 'visible') startLoop();
+  }
+</script>
+
+<style>
+  /* ============================
+     HERO
+     ============================ */
+  .hero {
+    padding: var(--space-20) 0 var(--space-24);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200, 117, 0, 0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero__container {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  @media (max-width: 960px) {
+    .hero__container {
+      grid-template-columns: 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  .hero__copy {
+    max-width: 560px;
+  }
+
+  .hero__eyebrow {
+    color: var(--color-saffron-text);
+    margin-bottom: var(--space-5);
+  }
+
+  .hero__headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.5vw + 0.5rem, 4.25rem);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+    color: var(--color-heading);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__line {
+    display: block;
+  }
+
+  .hero__em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-saffron-text);
+    position: relative;
+  }
+
+  .hero__em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.18em;
+    background: var(--color-saffron-light);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .hero__subhead {
+    font-family: var(--font-body);
+    font-size: 1.18rem;
+    line-height: 1.55;
+    color: var(--color-body);
+    max-width: 52ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-10);
+  }
+
+  .btn-large {
+    padding: 16px 32px;
+    font-size: 1rem;
+  }
+
+  .btn__arrow {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    transition: transform var(--transition-fast);
+  }
+
+  .btn-primary:hover .btn__arrow {
+    transform: translateX(3px);
+  }
+
+  .hero__trust {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hero__trust-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .hero__trust-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-saffron);
+    opacity: 0.85;
+  }
+
+  .hero__trust-dot:nth-child(2) { opacity: 0.55; }
+  .hero__trust-dot:nth-child(3) { opacity: 0.30; }
+
+  /* ============================
+     3D STACK
+     ============================ */
+  .hero__viz {
+    position: relative;
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stack {
+    --tilt-x: -2deg;
+    --tilt-y: 0deg;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 480px;
+    transform-style: preserve-3d;
+    transform: rotateX(calc(-6deg + var(--tilt-x))) rotateY(calc(-8deg + var(--tilt-y))) rotateZ(0deg);
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stack-card {
+    position: absolute;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-8);
+    box-shadow:
+      0 1px 2px rgba(60, 50, 40, 0.06),
+      0 12px 28px rgba(60, 50, 40, 0.08),
+      0 32px 64px rgba(60, 50, 40, 0.10);
+    backface-visibility: hidden;
+  }
+
+  .stack-card--c1 {
+    /* Foreground — live result */
+    top: 60px;
+    left: 30px;
+    width: 360px;
+    transform: translateZ(80px);
+    z-index: 3;
+    animation: float-c1 6s ease-in-out infinite;
+  }
+
+  .stack-card--c2 {
+    /* Recipe cost — middle */
+    top: 240px;
+    left: 100px;
+    width: 320px;
+    transform: translateZ(20px) rotateY(4deg);
+    z-index: 2;
+    animation: float-c2 7s ease-in-out infinite;
+  }
+
+  .stack-card--c3 {
+    /* Tip pool — back */
+    top: 0;
+    left: 140px;
+    width: 280px;
+    transform: translateZ(-40px) rotateY(8deg);
+    z-index: 1;
+    opacity: 0.92;
+    animation: float-c3 8s ease-in-out infinite;
+  }
+
+  @keyframes float-c1 {
+    0%, 100% { transform: translateZ(80px) translateY(0px); }
+    50% { transform: translateZ(80px) translateY(-8px); }
+  }
+  @keyframes float-c2 {
+    0%, 100% { transform: translateZ(20px) rotateY(4deg) translateY(0px); }
+    50% { transform: translateZ(20px) rotateY(4deg) translateY(6px); }
+  }
+  @keyframes float-c3 {
+    0%, 100% { transform: translateZ(-40px) rotateY(8deg) translateY(0px); }
+    50% { transform: translateZ(-40px) rotateY(8deg) translateY(-5px); }
+  }
+
+  .stack-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+  }
+
+  .stack-card__label {
+    color: var(--color-muted);
+  }
+
+  .stack-card__result {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: var(--space-5);
+  }
+
+  .result-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    font-size: 5rem;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-saffron);
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .result-num--pulse {
+    transform: scale(1.025);
+  }
+
+  .result-num__pct {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    color: var(--color-saffron);
+    font-weight: 400;
+  }
+
+  .stack-card__benchmark {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    border-top: 1px dashed var(--color-border);
+    border-bottom: 1px dashed var(--color-border);
+    margin-bottom: var(--space-5);
+  }
+
+  .stack-card__bar { display: flex; flex-direction: column; gap: var(--space-2); }
+
+  .bar-track {
+    position: relative;
+    height: 6px;
+    background: var(--color-cream);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .bar-zone--good { left: 0; width: 28%; background: rgba(92, 107, 46, 0.25); }
+  .bar-zone--warn { left: 28%; width: 18%; background: rgba(200, 117, 0, 0.30); }
+  .bar-zone--bad { left: 46%; width: 54%; background: rgba(177, 90, 31, 0.22); }
+
+  .bar-marker {
+    position: absolute;
+    top: -3px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-saffron);
+    border: 2px solid var(--color-white);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(60, 50, 40, 0.3);
+    transform: translateX(-50%);
+  }
+
+  .bar-labels { display: flex; justify-content: space-between; }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(92, 107, 46, 0.12);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-result-success);
+  }
+
+  .status-pill__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-result-success);
+    box-shadow: 0 0 0 3px rgba(92, 107, 46, 0.18);
+  }
+
+  .recipe-row, .split-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.875rem;
+    color: var(--color-body);
+    border-bottom: 1px dashed var(--color-border-soft);
+  }
+
+  .recipe-row:last-child, .split-row:last-child { border-bottom: none; }
+
+  .recipe-row--total {
+    margin-top: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-heading);
+    border-bottom: none;
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+
+  .stack-card__rows, .stack-card__split { display: flex; flex-direction: column; }
+
+  /* Floating glyphs */
+  .glyph {
+    position: absolute;
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--color-saffron);
+    opacity: 0.18;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .glyph--pct {
+    top: -10px;
+    right: 30px;
+    font-size: 4.5rem;
+    transform: translateZ(140px) rotate(-8deg);
+    animation: drift 12s ease-in-out infinite;
+  }
+
+  .glyph--dollar {
+    bottom: 40px;
+    right: -10px;
+    font-size: 5.5rem;
+    transform: translateZ(100px) rotate(6deg);
+    animation: drift 14s ease-in-out infinite reverse;
+    color: var(--color-result-success);
+    opacity: 0.20;
+  }
+
+  .glyph--coin {
+    top: 200px;
+    right: -30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--color-saffron);
+    background: radial-gradient(circle at 30% 30%, var(--color-saffron-light), var(--color-saffron));
+    transform: translateZ(60px) rotateZ(15deg);
+    opacity: 0.4;
+    animation: drift-coin 10s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translateZ(140px) rotate(-8deg) translateY(0); }
+    50% { transform: translateZ(140px) rotate(-8deg) translateY(-12px); }
+  }
+
+  @keyframes drift-coin {
+    0%, 100% { transform: translateZ(60px) rotateZ(15deg) translateY(0); }
+    50% { transform: translateZ(60px) rotateZ(25deg) translateY(-14px); }
+  }
+
+  @media (max-width: 960px) {
+    .hero__viz { min-height: 460px; max-width: 480px; margin: 0 auto; }
+    .stack { transform: rotateX(-3deg) rotateY(-4deg) scale(0.85); }
+  }
+
+  @media (max-width: 540px) {
+    /* Mobile fallback — hide background cards + glyphs, show only foreground result */
+    .hero__viz { min-height: auto; perspective: none; padding: 0; }
+    .stack {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      transform: none;
+    }
+    .stack-card--c1 {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: none;
+      animation: none;
+    }
+    .stack-card--c2,
+    .stack-card--c3,
+    .glyph { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stack-card--c1, .stack-card--c2, .stack-card--c3, .glyph, .glyph--coin { animation: none; }
+  }
+
+  /* ============================
+     STRIP
+     ============================ */
+  .strip {
+    background: var(--color-heading);
+    color: var(--color-cream);
+    padding: var(--space-5) 0;
+    margin-bottom: var(--space-20);
+  }
+
+  .strip__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .strip__inner .t-micro { color: rgba(244, 241, 234, 0.55); }
+
+  .strip__divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(244, 241, 234, 0.25);
+  }
+
+  .strip__brand {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-cream);
+    letter-spacing: -0.01em;
+  }
+
+  .strip__dot {
+    color: rgba(244, 241, 234, 0.4);
+    font-size: 1.5rem;
+    line-height: 0;
+  }
+
+  /* ============================
+     TOOLS
+     ============================ */
+  .tools {
+    padding: var(--space-12) 0 var(--space-24);
+  }
+
+  .tools__header {
+    max-width: 760px;
+    margin-bottom: var(--space-16);
+  }
+
+  .tools__headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.25rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+    color: var(--color-heading);
+    margin: var(--space-4) 0 var(--space-5);
+  }
+
+  .tools__em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-muted);
+    display: block;
+  }
+
+  .tools__subhead {
+    max-width: 60ch;
+  }
+
+  .tools__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-5);
+  }
+
+  .tool-card {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-7) var(--space-6) var(--space-6);
+    box-shadow: var(--shadow-warm);
+    transition: var(--transition-med);
+    color: inherit;
+    min-height: 240px;
+    position: relative;
+  }
+
+  .tool-card--feature {
+    grid-column: span 6;
+    background: linear-gradient(135deg, var(--color-saffron-light) 0%, var(--color-white) 60%);
+    border-color: var(--color-saffron);
+  }
+
+  .tool-card:nth-child(2) { grid-column: span 3; }
+  .tool-card:nth-child(3) { grid-column: span 3; }
+  .tool-card:nth-child(4) { grid-column: span 3; }
+  .tool-card:nth-child(5) { grid-column: span 3; }
+  .tool-card:nth-child(6) { grid-column: span 3; }
+  .tool-card:nth-child(7) { grid-column: span 4; }
+  .tool-card:nth-child(8) { grid-column: span 5; }
+
+  @media (max-width: 960px) {
+    .tools__grid { grid-template-columns: repeat(2, 1fr); }
+    .tool-card,
+    .tool-card--feature,
+    .tool-card:nth-child(n) { grid-column: span 1; }
+  }
+
+  @media (max-width: 540px) {
+    .tools__grid { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+
+  .tool-card:hover {
+    border-color: var(--color-saffron);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-3px);
+  }
+
+  .tool-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-5);
+  }
+
+  .tool-card__index {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-saffron-text);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    padding-top: 4px;
+    position: relative;
+  }
+
+  .tool-card__index::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 6px;
+    height: 1px;
+    background: var(--color-saffron);
+    transform: translateY(-50%);
+  }
+
+  .tool-card__tag {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-saffron-text);
+    background: var(--color-saffron-light);
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  .tool-card__title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.20;
+    letter-spacing: -0.012em;
+    color: var(--color-heading);
+    margin-bottom: var(--space-2);
+  }
+
+  .tool-card__desc {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-body);
+    line-height: 1.55;
+    margin-bottom: var(--space-6);
+    flex-grow: 1;
+  }
+
+  .tool-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-soft);
+  }
+
+  .tool-card__time { color: var(--color-muted); }
+
+  .tool-card__arrow {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    color: var(--color-saffron-text);
+    transition: transform var(--transition-fast);
+  }
+
+  .tool-card:hover .tool-card__arrow { transform: translateX(5px); }
+
+  /* ============================
+     WHY
+     ============================ */
+  .why {
+    padding: var(--space-20) 0 var(--space-24);
+    background: var(--color-cream);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .why__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (max-width: 720px) {
+    .why__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
+
+  .why__headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
+    font-weight: 300;
+    line-height: 1.18;
+    letter-spacing: -0.018em;
+    color: var(--color-heading);
+    margin-top: var(--space-3);
+  }
+
+  .why__em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-saffron-text);
+  }
+
+  .why__body + .why__body {
+    margin-top: var(--space-4);
+  }
+
+  .why__body--muted {
+    color: var(--color-muted);
+  }
+
+  .why__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--space-6);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-saffron-text);
+    transition: gap var(--transition-fast);
+  }
+
+  .why__link:hover {
+    gap: 12px;
+  }
+
+  .why__link span {
+    font-family: var(--font-mono);
+    transition: transform var(--transition-fast);
+  }
+
+  .why__link:hover span {
+    transform: translateX(3px);
+  }
+
+  /* ============================
+     INLINE AD SLOTS
+     ============================ */
+  .ad-wrap {
+    margin: var(--space-12) auto;
+  }
+
+  .ad-inline {
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-cream);
+    overflow: hidden;
+  }
+
+  .ad-inline__label {
+    display: block;
+    padding: 6px 12px;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    background: rgba(122, 117, 105, 0.06);
+    border-bottom: 1px dashed var(--color-border);
+  }
+
+  .ad-inline__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: var(--space-6);
+    min-height: 90px;
+  }
+
+  .ad-inline__inner--rect {
+    min-height: 280px;
+  }
+</style>

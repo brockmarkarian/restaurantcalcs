@@ -1,0 +1,30 @@
+# RestaurantCalcs
+
+> Free, no-signup calculators for independent restaurant operators. Food cost percentage, recipe cost, labor cost, tip pool, menu pricing, liquor pour cost, break-even revenue, and inventory variance — with the math shown underneath every result.
+
+RestaurantCalcs is a single-page utility site for restaurant operations math. Every calculator is free, requires no account, runs in the browser, and shows step-by-step calculations alongside the result so operators can trust the answer and teach it to their staff. Built by a restaurant operator who got tired of spreadsheets that crash on phones.
+
+Each calculator includes:
+- Plain-English explanation of the formula
+- Industry benchmark comparison
+- "Show your math" expandable breakdown
+- Mobile-first interface for use on the line
+
+## Calculators
+
+- [Food Cost Percentage](https://restaurantcalcs.com/calculators/food-cost): Compare food cost to revenue to spot menu margin issues. Industry healthy range: 28–32%.
+- [Recipe & Plate Cost](https://restaurantcalcs.com/calculators/recipe-cost): Build plate cost from ingredient quantities and prices. Calculates per-portion food cost.
+- [Labor Cost Percentage](https://restaurantcalcs.com/calculators/labor-cost): Track labor as a share of revenue across shifts. Industry healthy range: 25–35%.
+- [Tip Pool & Tip Out](https://restaurantcalcs.com/calculators/tip-pool): Split tips fairly across roles by hours or points. Supports multi-role pools.
+- [Menu Pricing](https://restaurantcalcs.com/calculators/menu-pricing): Reverse-engineer menu price from cost and target margin.
+- [Liquor Pour Cost](https://restaurantcalcs.com/calculators/liquor-pour-cost): Calculate pour cost % and benchmark against industry. Industry healthy range: 18–24%.
+- [Restaurant Break-Even Revenue](https://restaurantcalcs.com/calculators/break-even): Find revenue needed to cover fixed and variable costs.
+- [Inventory Variance](https://restaurantcalcs.com/calculators/inventory-variance): Spot theft, waste, or counting errors in food inventory.
+
+## Audience
+
+Independent restaurant owners, general managers, sous chefs, bar managers, and operators of indie restaurants, bars, and cafes who run operations math on phones between rushes — not enterprise chains with custom POS analytics.
+
+## Differentiator
+
+Unlike Toast, Square, and Restaurant365 — whose calculators are gated behind email signups or built into paid subscriptions — RestaurantCalcs is free, requires no account, and is designed to be used in the kitchen on a phone in 60 seconds.

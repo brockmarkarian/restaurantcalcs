@@ -1,0 +1,35 @@
+# build output
+dist/
+.astro/
+.wrangler/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment / secrets
+.env
+.env.local
+.env.production
+.dev.vars
+*.secret
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# design source presets (kept locally for reference, not deployed)
+.design-presets/
+
+# misc
+.cache/
+.screenshots/
