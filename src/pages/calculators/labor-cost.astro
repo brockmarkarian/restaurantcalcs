@@ -1,0 +1,1299 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Labor Cost Percentage Calculator — Free | RestaurantCalcs';
+const description = 'Labor cost % with fully-loaded burden + concept-aware thresholds (QSR, fast casual, casual, fine, pizza, cafe). SPLH benchmarks included.';
+
+const faq = [
+  {
+    q: 'What is a good labor cost percentage for a restaurant?',
+    a: 'A healthy labor cost percentage runs 25–35% of total revenue for most full-service restaurants. Quick-service typically targets 20–25%, fast casual 25–30%, casual dining 28–35%, and fine dining 30–40%. Pizza concepts run 25–30%. Anything sustained above 35% for full-service signals scheduling, productivity, or wage-vs-pricing problems.',
+  },
+  {
+    q: 'How do you calculate labor cost percentage?',
+    a: 'Labor cost percentage equals total labor cost divided by total revenue, multiplied by 100. The formula is: (Total Labor Cost ÷ Total Revenue) × 100 = Labor Cost %. The critical part is what you include in "total labor cost" — most operators undercount.',
+  },
+  {
+    q: 'What should be included in total labor cost?',
+    a: 'True labor cost is fully burdened: hourly wages + salaries + payroll taxes (FICA 7.65% + FUTA + SUTA) + workers compensation insurance + health benefits + paid time off + meal benefits + bonuses. Tip credit jurisdictions may use a tip-adjusted base. Operators who track only "wages" routinely understate labor cost by 15–25%.',
+  },
+  {
+    q: 'What is prime cost and how does labor fit in?',
+    a: 'Prime cost is food cost plus labor cost as a percentage of total revenue. A healthy prime cost is 60–65% for full-service, 55–60% for fast casual. Labor and food cost are negatively correlated — cutting one usually shifts cost to the other. Both must be controlled together to avoid moving money around.',
+  },
+  {
+    q: 'How do I lower my labor cost percentage?',
+    a: 'Ranked by impact: (1) match scheduling to actual demand by daypart — most operators over-staff slow shifts, (2) cross-train so fewer people cover more positions, (3) reduce overtime by capping shifts at 40 hours per pay period, (4) revisit menu engineering to shed labor-heavy items, (5) automate prep and ordering where possible. Most operators find 2–4pp without reducing service quality.',
+  },
+  {
+    q: 'How often should I run labor cost?',
+    a: 'Daily for any operator running on tight margins. Weekly is the minimum standard. Many high-performing operators track real-time labor cost as a percentage of running sales each shift via their POS — so they can flex labor down within a slow shift instead of finding out at month-end.',
+  },
+  {
+    q: 'What is a "scheduled labor" vs "actual labor" report?',
+    a: 'Scheduled labor is what you planned to spend. Actual labor is what you actually spent (after late punches, overtime, no-shows, comps). The variance is the productivity story: if actual exceeds scheduled by more than 3%, your scheduling assumptions are wrong or shift discipline is loose. Best operators target under 1% variance.',
+  },
+  {
+    q: 'Should tipped employees be in the labor cost number?',
+    a: 'Yes — but use the tip credit base if your jurisdiction allows it. Otherwise the math overstates your true labor cost since tips are pass-through revenue. Federal minimum tipped wage is $2.13/hr but many states require higher or full minimum. Consult your state labor authority and use the actual cash you pay (not the gross tipped wage).',
+  },
+  {
+    q: 'How does sales volume affect labor cost percentage?',
+    a: 'Inversely. The same staffing schedule against higher sales drops your labor cost percentage. This is the leverage operators chase: protect schedule discipline, push sales, watch labor% drop. Conversely, when sales drop, labor% spikes unless you can flex hours down quickly.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. The calculation runs entirely in your browser and disappears the moment you close the tab. No signup, no email, no account, no analytics on your numbers.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': 'https://restaurantcalcs.com/calculators/labor-cost/#webpage',
+    url: 'https://restaurantcalcs.com/calculators/labor-cost/',
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+    breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/labor-cost/#breadcrumb' },
+    inLanguage: 'en-US',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': 'https://restaurantcalcs.com/calculators/labor-cost/#breadcrumb',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 3, name: 'Labor Cost Percentage', item: 'https://restaurantcalcs.com/calculators/labor-cost/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/labor-cost/#tool',
+    name: 'Labor Cost Percentage Calculator',
+    description: 'Free web-based calculator for restaurant labor cost percentage with concept-aware thresholds (QSR / Fast casual / Casual / Fine / Pizza / Cafe), fully-loaded burden multiplier, and SPLH benchmarks.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/labor-cost/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to calculate labor cost percentage',
+    description: 'Step-by-step calculation of fully-burdened labor cost percentage for a restaurant.',
+    totalTime: 'PT5M',
+    supply: [
+      { '@type': 'HowToSupply', name: 'Total hourly wages paid (in dollars)' },
+      { '@type': 'HowToSupply', name: 'Total salaried wages paid (in dollars)' },
+      { '@type': 'HowToSupply', name: 'Payroll taxes, benefits, workers comp (in dollars)' },
+      { '@type': 'HowToSupply', name: 'Total revenue for the period (in dollars)' },
+    ],
+    step: [
+      { '@type': 'HowToStep', position: 1, name: 'Sum all wages', text: 'Add hourly wages plus salaried compensation paid during the period.' },
+      { '@type': 'HowToStep', position: 2, name: 'Add full burden', text: 'Add payroll taxes (FICA 7.65% + state SUTA), workers compensation insurance, health benefits, paid time off, and meal benefits.' },
+      { '@type': 'HowToStep', position: 3, name: 'Calculate total labor cost', text: 'Total Labor Cost = Hourly + Salaried + Burden. This is the true cost of your labor — not just wages.' },
+      { '@type': 'HowToStep', position: 4, name: 'Calculate labor cost %', text: 'Labor Cost % = (Total Labor Cost ÷ Total Revenue) × 100. Compare to your concept benchmark — full-service is typically 28–35%, QSR 20–25%.' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+const benchmarks = [
+  { name: 'Quick service', low: 20, high: 25 },
+  { name: 'Fast casual', low: 25, high: 30 },
+  { name: 'Casual dining', low: 28, high: 35 },
+  { name: 'Fine dining', low: 30, high: 40 },
+  { name: 'Pizza concepts', low: 25, high: 30 },
+  { name: 'Coffee / cafe', low: 25, high: 32 },
+];
+
+const scenarios = [
+  {
+    title: 'The 42% casual diner',
+    setup: 'Casual dining concept, lunch and dinner. Labor stuck at 42% for three months. Owner blamed minimum wage hikes.',
+    diagnosis: 'Schedule built around historic peak coverage but lunch traffic dropped 18% post-pandemic. Same staffing against lower sales = ratio jumped 6pp. Two front-of-house positions overlapped during slow shifts.',
+    fix: 'Cut one server position from Mon–Wed lunch, shifted prep cook to flex schedule, set sales-per-labor-hour target by daypart.',
+    outcome: 'Down to 33% in 6 weeks. $9,400/month margin recovered without a single hour cut from busy shifts.',
+  },
+  {
+    title: 'The 22% pizza shop',
+    setup: 'Owner-operated pizza concept, 22% labor cost. Owner thought he was crushing it.',
+    diagnosis: 'Owner was working 70 hours/week unpaid. True labor cost (paying himself a market wage) would be 31%. He was subsidizing the business with his time.',
+    fix: 'Paid himself a manager salary, hired one additional shift lead, freed up 25 hours/week.',
+    outcome: 'Real labor cost is 30%. Sustainable. Owner stopped burning out — and has time to grow the business.',
+  },
+  {
+    title: 'The 28% cafe with overtime creep',
+    setup: 'Specialty cafe, labor at 28% — looks healthy. But variance vs scheduled labor was running 6%.',
+    diagnosis: 'Two key staff each working 47 hours/week, triggering overtime. Schedule listed 38 hours but punch-outs ran late. Overtime alone added $600/week in unbudgeted labor.',
+    fix: 'Capped shifts at 40 hours by adding one part-time hire, enforced punch-out discipline at close.',
+    outcome: 'Labor down to 26%, variance under 1%. $2,400/month back. No service degradation.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Cost of goods sold as % of food sales.' },
+  { slug: 'tip-pool', title: 'Tip Pool & Tip Out', desc: 'Split tips fairly across roles.' },
+  { slug: 'prime-cost', title: 'Prime Cost', desc: 'Labor is the second component.' },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Labor Cost Calculator</span>
+      </nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Labor cost calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Labor Cost Percentage Calculator</h1>
+      <p class="calc-page__intro">
+        Half of restaurant prime cost. Most operators undercount labor by 15–25% because they only track wages, not the full burden. This calculator does <strong>fully-burdened labor</strong> (wages + salaries + payroll taxes + benefits + workers comp) and shows your variance from target.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form data-mode="quick">
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Compares labor cost to revenue. Detailed mode adds full burden (taxes + benefits + workers comp) — most operators undercount labor by 15–25% by tracking only wages.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
+        </div>
+
+        <div class="mode-toggle" role="tablist" aria-label="Calculation mode">
+          <button type="button" class="mode-toggle__btn is-active" data-mode-btn="quick" role="tab" aria-selected="true">
+            Quick
+            <span class="mode-toggle__hint">2 inputs</span>
+          </button>
+          <button type="button" class="mode-toggle__btn" data-mode-btn="detailed" role="tab" aria-selected="false">
+            Detailed
+            <span class="mode-toggle__hint">full burden + variance</span>
+          </button>
+          <button type="button" class="mode-toggle__btn" data-mode-btn="schedule" role="tab" aria-selected="false">
+            Schedule
+            <span class="mode-toggle__hint">build by shift + OT alerts</span>
+          </button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="concept">Restaurant concept</label>
+          <select id="concept" name="concept">
+            <option value="qsr">Quick service / QSR (target 20–25%)</option>
+            <option value="fast-casual">Fast casual (target 25–30%)</option>
+            <option value="casual" selected>Casual dining (target 28–35%)</option>
+            <option value="fine">Fine dining (target 30–40%)</option>
+            <option value="pizza">Pizza (target 25–30%)</option>
+            <option value="cafe">Coffee / cafe (target 25–32%)</option>
+          </select>
+          <p class="form-row__hint">Sets benchmark thresholds and SPLH targets for your concept type.</p>
+        </div>
+
+        <!-- Quick mode -->
+        <div class="form-group" data-group="quick">
+          <div class="form-row">
+            <label class="form-row__label" for="cost">Total labor cost (period)</label>
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="9000" autocomplete="off" />
+            </div>
+            <p class="form-row__hint">Wages + salaries + taxes + benefits combined.</p>
+          </div>
+        </div>
+
+        <!-- Detailed mode -->
+        <div class="form-group form-group--hidden" data-group="detailed">
+          <div class="form-row">
+            <label class="form-row__label" for="hourly">Hourly wages</label>
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="hourly" name="hourly" type="number" inputmode="decimal" min="0" step="0.01" placeholder="5800" autocomplete="off" />
+            </div>
+            <p class="form-row__hint">Total hourly wages paid during period.</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="salary">Salaried wages</label>
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="salary" name="salary" type="number" inputmode="decimal" min="0" step="0.01" placeholder="2500" autocomplete="off" />
+            </div>
+            <p class="form-row__hint">Manager and salaried compensation.</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="burden">Taxes, benefits, workers comp</label>
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="burden" name="burden" type="number" inputmode="decimal" min="0" step="0.01" placeholder="1500" autocomplete="off" />
+            </div>
+            <p class="form-row__hint">Payroll taxes (FICA 7.65%, FUTA, SUTA), benefits, workers comp insurance, PTO accrual.</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="auto-burden">
+              <input type="checkbox" id="auto-burden" name="auto-burden" style="margin-right:6px" />
+              Auto-calc burden (wages × 25%)
+            </label>
+            <p class="form-row__hint">Industry rule of thumb (Restaurant365, 7shifts, Square): true labor = wages × ~1.25 (FICA 7.65% + FUTA/SUTA ~3% + WC ~3% + benefits ~10%). Overrides burden field above.</p>
+          </div>
+        </div>
+
+        <!-- Schedule mode: shift roster -->
+        <div class="form-group form-group--hidden" data-group="schedule">
+          <div class="sched">
+            <div class="sched__head">
+              <h3 class="sched__title">Weekly schedule</h3>
+              <p class="sched__hint">Add one row per employee. Hours over 40/week trigger overtime (federal: 1.5× rate). California, Alaska, Nevada, Colorado also have daily OT thresholds — consult your state labor board.</p>
+            </div>
+
+            <div class="sched__rows" data-sched-rows>
+              <!-- Rows injected by JS -->
+            </div>
+
+            <div class="sched__actions">
+              <button type="button" class="btn btn-secondary btn-small" data-sched-add>
+                + Add employee
+              </button>
+              <button type="button" class="sched__example" data-sched-example>
+                Load example crew
+              </button>
+              <button type="button" class="sched__clear" data-sched-clear>
+                Clear all
+              </button>
+            </div>
+
+            <div class="sched__totals" data-sched-totals>
+              <div class="sched__total-row">
+                <span class="sched__total-label">Total scheduled hours</span>
+                <span class="sched__total-value num" data-sched-hours>0</span>
+              </div>
+              <div class="sched__total-row">
+                <span class="sched__total-label">Straight-time wages</span>
+                <span class="sched__total-value num" data-sched-straight>$0</span>
+              </div>
+              <div class="sched__total-row" data-sched-ot-row hidden>
+                <span class="sched__total-label">+ Overtime premium</span>
+                <span class="sched__total-value num is-watch" data-sched-ot-cost>$0</span>
+              </div>
+              <div class="sched__total-row sched__total-row--final">
+                <span class="sched__total-label">Wages subtotal</span>
+                <span class="sched__total-value num" data-sched-wages>$0</span>
+              </div>
+            </div>
+
+            <div class="sched__alerts" data-sched-alerts hidden>
+              <!-- OT alerts injected here -->
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="sched-burden">
+              <input type="checkbox" id="sched-burden" name="sched-burden" checked style="margin-right:6px" />
+              Apply 25% burden (taxes + benefits + workers comp)
+            </label>
+            <p class="form-row__hint">Adds payroll taxes (FICA 7.65% + FUTA/SUTA ~3% + WC ~3% + benefits ~10%) on top of wages. Most operators forget this and undercount labor by 15–25%.</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="sched-salary">Salaried payroll (optional)</label>
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="sched-salary" name="sched-salary" type="number" inputmode="decimal" min="0" step="50" placeholder="1500" autocomplete="off" />
+              <span class="input-shell__suffix">/wk</span>
+            </div>
+            <p class="form-row__hint">GM, AGM, sous chef weekly salary not paid hourly. Added on top of shift wages.</p>
+          </div>
+        </div>
+
+        <!-- Shared: revenue -->
+        <div class="form-row">
+          <label class="form-row__label" for="revenue">Total revenue (food + beverage)</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="30000" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">All sales revenue for the period — food + beverage + retail.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="hours">Total labor hours (optional)</label>
+          <div class="input-shell">
+            <input id="hours" name="hours" type="number" inputmode="decimal" min="0" step="0.5" placeholder="450" autocomplete="off" />
+            <span class="input-shell__suffix">hrs</span>
+          </div>
+          <p class="form-row__hint">Sum of all hours worked. Returns sales-per-labor-hour (SPLH) — industry-standard scheduling metric.</p>
+        </div>
+
+        <!-- Optional advanced fields -->
+        <div class="form-group form-group--hidden" data-group="detailed">
+          <details class="optional-fields">
+            <summary class="optional-fields__trigger">
+              <span class="optional-fields__icon" aria-hidden="true">+</span>
+              Add target &amp; scheduled (optional)
+            </summary>
+            <div class="optional-fields__body">
+              <div class="form-row">
+                <label class="form-row__label" for="target">Target labor cost %</label>
+                <div class="input-shell">
+                  <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="30" autocomplete="off" />
+                  <span class="input-shell__suffix">%</span>
+                </div>
+                <p class="form-row__hint">Your goal — calculator shows variance from target in dollars.</p>
+              </div>
+
+              <div class="form-row">
+                <label class="form-row__label" for="theoretical">Scheduled labor %</label>
+                <div class="input-shell">
+                  <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="28" autocomplete="off" />
+                  <span class="input-shell__suffix">%</span>
+                </div>
+                <p class="form-row__hint">What you scheduled. Variance flags overtime, late punches, or scheduling errors.</p>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="period">Period (for reference)</label>
+          <select id="period" name="period">
+            <option value="week">Weekly</option>
+            <option value="month" selected>Monthly</option>
+            <option value="quarter">Quarterly</option>
+            <option value="year">Annual</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Calculate labor cost
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption">
+          <strong>Nothing is saved or sent.</strong> All math runs in your browser.
+        </p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Your labor cost</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big">
+            <span class="result-num" data-counter>0.0</span>
+            <span class="result-num__pct" aria-hidden="true">%</span>
+            <span class="visually-hidden">percent labor cost</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Industry healthy range</span>
+            <span class="t-caption num">25–35%</span>
+          </div>
+
+          <div class="calc-result__bar">
+            <div class="bar-track">
+              <div class="bar-zone bar-zone--lean"></div>
+              <div class="bar-zone bar-zone--good"></div>
+              <div class="bar-zone bar-zone--watch"></div>
+              <div class="bar-zone bar-zone--bad"></div>
+              <div class="bar-marker" data-marker style="left: 0%"></div>
+            </div>
+            <div class="bar-labels">
+              <span class="t-caption num">0%</span>
+              <span class="t-caption num">25%</span>
+              <span class="t-caption num">50%</span>
+            </div>
+          </div>
+
+          <div class="calc-result__extras" data-extras hidden>
+            <div class="extras-row">
+              <span class="extras-row__label">Total labor cost</span>
+              <span class="extras-row__value num" data-cogs>$0.00</span>
+            </div>
+            <div class="extras-row" data-splh-row hidden>
+              <span class="extras-row__label">Sales per labor hour</span>
+              <span class="extras-row__value num" data-splh>—</span>
+            </div>
+            <div class="extras-row" data-target-row hidden>
+              <span class="extras-row__label">Vs. target</span>
+              <span class="extras-row__value num" data-target-variance>—</span>
+            </div>
+            <div class="extras-row" data-target-money-row hidden>
+              <span class="extras-row__label">Cost impact at target</span>
+              <span class="extras-row__value num" data-target-money>—</span>
+            </div>
+            <div class="extras-row" data-theoretical-row hidden>
+              <span class="extras-row__label">Vs. scheduled</span>
+              <span class="extras-row__value num" data-theoretical-variance>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter values above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Labor is the only cost you can <em>fix in 24 hours</em>.</h2>
+      <div class="essay__body">
+        <p>
+          You can't reprice your menu by Friday. You can't renegotiate produce vendors mid-week. You can't change your lease. Almost every line on the P&amp;L moves on quarterly or annual cycles — except labor.
+        </p>
+        <p>
+          Labor is the lever you can move tonight. A bartender who didn't need to come in until 5pm instead of 4pm. A prep cook who can leave 90 minutes early because catering pre-built the order. Two servers cut from a slow Tuesday lunch. Each individual decision is small. Across 30 weekly shifts, those decisions are 4–6 percentage points of margin.
+        </p>
+        <p class="essay__pull">
+          Operators who track labor weekly are doing the bare minimum. Operators who track sales-per-labor-hour by daypart in real time during the shift — those are the ones whose competitors can't figure out why they're profitable.
+        </p>
+        <p>
+          The trap is undercounting. Wages alone is not labor cost. Add 15–25% for taxes, benefits, and workers comp before you compare to any benchmark. Then track variance from your scheduled budget every week. The variance — not the absolute number — is where the money lives.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <!-- Operator story: Cosmos nightclub scheduling -->
+    <section class="operator-story">
+      <img src="/illustrations/labor-cost.webp" alt="Editorial illustration of a vintage timeclock punch card and leather-bound staff schedule book on a worn wooden bar after closing." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">From the schedule book</p>
+      <h2 class="essay__headline">Late-night labor is where <em>good schedules go to die</em>.</h2>
+      <div class="essay__body">
+        <p>
+          As GM at Cosmos, the hardest schedule decisions weren't the ones for the dinner crowd. Dinner is patterned. You know within an hour when the rush hits, when it tapers, who you need at the door. The decisions that hurt are the late-night ones — the bar's still going at 1am, the nightclub doesn't close until 2am, and you have eight people on the clock who haven't sold a drink in twenty minutes.
+        </p>
+        <p>
+          Cutting a bartender at the wrong moment costs you the next rush. Keeping them ten minutes too long costs you forty bucks of labor on a slow night. Multiply by five nights a week, fifty weeks a year, and you're talking real money — silently, without any single decision feeling wrong in the moment.
+        </p>
+        <p>
+          The thing nobody teaches you when you go from bartender to GM is that the schedule isn't a list of names and times. It's a forecast — every shift is a bet on what the night will do. Some nights you bet wrong. The job is making sure you bet right more often than not, and that you have the data to know when you're consistently betting wrong.
+        </p>
+        <p class="essay__pull">
+          Your labor cost percentage doesn't tell you who to cut. It tells you whether your schedule is built for the sales you actually have, or the sales you wish you had.
+        </p>
+        <p>
+          And there's the part nobody warns you about: when the owner's not engaged in the schedule, the schedule fights for itself. Senior staff lock in their preferred shifts regardless of where they're needed. New hires get scattered into the worst slots because nobody's protecting them. Overtime creeps up on the people who can't say no. As GM I was running interference on all of that for three of the five years I was there. The math kept me honest. The math is what tells you whether a "tough but fair" schedule actually pencils.
+        </p>
+        <p>
+          That's what this calculator does. It tells you the truth about your labor program in two numbers — labor cost % against your concept benchmark, and SPLH against the band for your service model. Both numbers in the green = you're scheduling right. One in the red = something to investigate. Both in the red = you've got a structural problem that scheduling alone won't fix.
+        </p>
+        <div class="operator-byline">
+          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__name">Brock Markarian</span>
+          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="benchmarks">
+      <h2 class="benchmarks__headline">Benchmarks <em>by concept type</em></h2>
+      <p class="t-body-large benchmarks__intro">
+        Healthy labor cost varies by service model. Full-service runs higher than quick-service because of more staff per cover. Use these as a sanity check — your actual target depends on your menu complexity, market wages, and prep model.
+      </p>
+      <div class="benchmarks__chart">
+        {benchmarks.map((b) => (
+          <div class="bench-bar">
+            <div class="bench-bar__name">{b.name}</div>
+            <div class="bench-bar__track">
+              <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.low * 2}%`} title={`${b.low}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.high * 2}%`} title={`${b.high}%`}></div>
+            </div>
+            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
+          </div>
+        ))}
+        <div class="bench-axis">
+          <div class="bench-axis__track">
+            <span class="bench-axis__tick num" style="left: 0%">0%</span>
+            <span class="bench-axis__tick num" style="left: 20%">10%</span>
+            <span class="bench-axis__tick num" style="left: 40%">20%</span>
+            <span class="bench-axis__tick num" style="left: 60%">30%</span>
+            <span class="bench-axis__tick num" style="left: 80%">40%</span>
+            <span class="bench-axis__tick num" style="left: 100%">50%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three different labor problems</h2>
+      <p class="t-body-large scenarios__intro">
+        Same percentage tells different stories. Labor cost % alone is the smoke alarm — the cause is always more specific.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row">
+              <span class="scenario-card__label">Diagnosis</span>
+              <p class="scenario-card__text">{s.diagnosis}</p>
+            </div>
+            <div class="scenario-card__row">
+              <span class="scenario-card__label">Fix</span>
+              <p class="scenario-card__text">{s.fix}</p>
+            </div>
+            <div class="scenario-card__row scenario-card__row--outcome">
+              <span class="scenario-card__label">Outcome</span>
+              <p class="scenario-card__text"><strong>{s.outcome}</strong></p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost" target="_blank" rel="noopener">Toast — Restaurant Labor Cost Benchmarks</a></li>
+        <li><a href="https://www.7shifts.com/blog/labor-cost-percentage/" target="_blank" rel="noopener">7shifts — Labor Cost Percentage by Concept</a></li>
+        <li><a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener">BLS — Food Services & Drinking Places Industry</a></li>
+        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15 — Tipped Employees Under the FLSA</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const marker = document.querySelector('[data-marker]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+  const extras = document.querySelector('[data-extras]') as HTMLElement | null;
+  const cogsEl = document.querySelector('[data-cogs]') as HTMLElement | null;
+  const targetRow = document.querySelector('[data-target-row]') as HTMLElement | null;
+  const targetVarEl = document.querySelector('[data-target-variance]') as HTMLElement | null;
+  const targetMoneyRow = document.querySelector('[data-target-money-row]') as HTMLElement | null;
+  const targetMoneyEl = document.querySelector('[data-target-money]') as HTMLElement | null;
+  const theoreticalRow = document.querySelector('[data-theoretical-row]') as HTMLElement | null;
+  const theoreticalVarEl = document.querySelector('[data-theoretical-variance]') as HTMLElement | null;
+  const modeBtns = document.querySelectorAll<HTMLButtonElement>('[data-mode-btn]');
+
+  if (form && counter && marker && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    let mode: 'quick' | 'detailed' | 'schedule' = 'quick';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    type ShiftRow = { id: string; name: string; role: string; hours: number; rate: number };
+    let shifts: ShiftRow[] = [];
+    let nextId = 1;
+    const ROLES = ['Server', 'Bartender', 'Host', 'Busser', 'Runner', 'Line cook', 'Prep cook', 'Dishwasher', 'Manager', 'Other'];
+    const OT_THRESHOLD = 40;
+    const OT_MULTIPLIER = 0.5; // premium on top of straight time
+
+    function uid() { return 'sh' + nextId++; }
+
+    function renderSchedRows() {
+      const wrap = document.querySelector('[data-sched-rows]') as HTMLElement | null;
+      if (!wrap) return;
+      wrap.innerHTML = shifts.map(s => {
+        const isOT = s.hours > OT_THRESHOLD;
+        const optionsHtml = ROLES.map(r => `<option value="${r}"${r === s.role ? ' selected' : ''}>${r}</option>`).join('');
+        return `<div class="sched-row${isOT ? ' is-ot' : ''}" data-row-id="${s.id}">
+          <input type="text" class="sched-row__name" placeholder="Name" value="${s.name.replace(/"/g, '&quot;')}" data-field="name" aria-label="Employee name" />
+          <select data-field="role" aria-label="Role">${optionsHtml}</select>
+          <input type="number" inputmode="decimal" min="0" step="0.5" placeholder="hrs" value="${s.hours || ''}" data-field="hours" aria-label="Weekly hours" />
+          <input type="number" inputmode="decimal" min="0" step="0.25" placeholder="rate" value="${s.rate || ''}" data-field="rate" aria-label="Hourly rate" />
+          <button type="button" class="sched-row__remove" data-row-remove aria-label="Remove ${s.name || 'row'}">×</button>
+        </div>`;
+      }).join('');
+    }
+
+    function computeSched() {
+      let totalHours = 0;
+      let straightWages = 0;
+      let otHours = 0;
+      let otPremium = 0;
+      const otAlerts: { name: string; hours: number; cost: number }[] = [];
+
+      shifts.forEach(s => {
+        if (!s.hours || !s.rate) return;
+        totalHours += s.hours;
+        const baseHours = Math.min(s.hours, OT_THRESHOLD);
+        const overHours = Math.max(0, s.hours - OT_THRESHOLD);
+        straightWages += s.hours * s.rate;
+        if (overHours > 0) {
+          otHours += overHours;
+          const premium = overHours * s.rate * OT_MULTIPLIER;
+          otPremium += premium;
+          otAlerts.push({ name: s.name || 'Unnamed', hours: s.hours, cost: premium });
+        }
+      });
+
+      return { totalHours, straightWages, otHours, otPremium, otAlerts, wagesSubtotal: straightWages + otPremium };
+    }
+
+    function renderSchedTotals() {
+      const r = computeSched();
+      const hoursEl = document.querySelector('[data-sched-hours]');
+      const straightEl = document.querySelector('[data-sched-straight]');
+      const otRow = document.querySelector('[data-sched-ot-row]') as HTMLElement | null;
+      const otCostEl = document.querySelector('[data-sched-ot-cost]');
+      const wagesEl = document.querySelector('[data-sched-wages]');
+      const alertsEl = document.querySelector('[data-sched-alerts]') as HTMLElement | null;
+
+      if (hoursEl) hoursEl.textContent = r.totalHours.toFixed(1);
+      if (straightEl) straightEl.textContent = fmtUSD(r.straightWages);
+      if (wagesEl) wagesEl.textContent = fmtUSD(r.wagesSubtotal);
+      if (otRow) otRow.hidden = r.otPremium <= 0;
+      if (otCostEl) otCostEl.textContent = fmtUSD(r.otPremium);
+
+      if (alertsEl) {
+        if (r.otAlerts.length === 0) {
+          alertsEl.hidden = true;
+          alertsEl.innerHTML = '';
+        } else {
+          alertsEl.hidden = false;
+          alertsEl.innerHTML = r.otAlerts.map(a =>
+            `<div class="sched__alert"><strong>OT alert:</strong> ${a.name} scheduled ${a.hours.toFixed(1)} hrs (over 40). Premium cost: ${fmtUSD(a.cost)}.</div>`
+          ).join('');
+        }
+      }
+      return r;
+    }
+
+    function fmtUSD(n: number): string {
+      const sign = n < 0 ? '-' : '';
+      const abs = Math.abs(n);
+      return sign + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function fmtSignedUSD(n: number): string {
+      const sign = n < 0 ? '−' : '+';
+      const abs = Math.abs(n);
+      return sign + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800, decimals = 1) {
+      if (reduced) {
+        el.textContent = to.toFixed(decimals);
+        return;
+      }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * ease(t);
+        el.textContent = value.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(frame);
+        else {
+          el.classList.add('result-num--pulse');
+          setTimeout(() => el.classList.remove('result-num--pulse'), 320);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // Concept-aware thresholds + SPLH benchmarks (per Toast, 7shifts, Restaurant365)
+    const CONCEPTS: Record<string, { label: string; low: number; high: number; splhLow: number; splhHigh: number }> = {
+      qsr:           { label: 'QSR',          low: 20, high: 25, splhLow: 40, splhHigh: 60 },
+      'fast-casual': { label: 'Fast casual',  low: 25, high: 30, splhLow: 55, splhHigh: 80 },
+      casual:        { label: 'Casual',       low: 28, high: 35, splhLow: 60, splhHigh: 85 },
+      fine:          { label: 'Fine dining',  low: 30, high: 40, splhLow: 80, splhHigh: 150 },
+      pizza:         { label: 'Pizza',        low: 25, high: 30, splhLow: 50, splhHigh: 80 },
+      cafe:          { label: 'Cafe',         low: 25, high: 32, splhLow: 50, splhHigh: 80 },
+    };
+
+    function getConcept() {
+      const key = (document.querySelector('#concept') as HTMLSelectElement)?.value || 'casual';
+      return CONCEPTS[key] || CONCEPTS.casual;
+    }
+
+    function statusFor(pct: number): { key: string; label: string } {
+      const c = getConcept();
+      const watchHigh = c.high + 4;
+      if (pct < c.low) return { key: 'lean', label: 'Lean' };
+      if (pct <= c.high) return { key: 'healthy', label: 'Healthy' };
+      if (pct <= watchHigh) return { key: 'watch', label: 'Watch' };
+      return { key: 'critical', label: 'Critical' };
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Enter values';
+      marker!.style.left = '0%';
+      animateCounter(counter!, lastValue, 0, 400, 1);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
+      if (extras) extras.hidden = true;
+    }
+
+    function calc() {
+      const data = new FormData(form!);
+      const revenue = parseFloat(String(data.get('revenue') || '0')) || 0;
+
+      let totalLabor = 0;
+      let mathRows = '';
+
+      let scheduleHours = 0;
+
+      if (mode === 'quick') {
+        totalLabor = parseFloat(String(data.get('cost') || '0')) || 0;
+        if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
+        mathRows = `
+          <tr><td>Total labor cost</td><td class="num">${fmtUSD(totalLabor)}</td></tr>
+          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+        `;
+      } else if (mode === 'schedule') {
+        const r = renderSchedTotals();
+        scheduleHours = r.totalHours;
+        const applyBurden = (document.querySelector('#sched-burden') as HTMLInputElement)?.checked ?? true;
+        const burden = applyBurden ? r.wagesSubtotal * 0.25 : 0;
+        const salary = parseFloat(String(data.get('sched-salary') || '0')) || 0;
+        totalLabor = r.wagesSubtotal + burden + salary;
+        if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
+        const otNote = r.otPremium > 0 ? ` (incl. ${fmtUSD(r.otPremium)} OT premium)` : '';
+        mathRows = `
+          <tr><td>Scheduled hours</td><td class="num">${r.totalHours.toFixed(1)} hrs</td></tr>
+          <tr><td>Straight-time wages</td><td class="num">${fmtUSD(r.straightWages)}</td></tr>
+          ${r.otPremium > 0 ? `<tr><td>+ OT premium (${r.otHours.toFixed(1)} hrs × 0.5×)</td><td class="num">${fmtUSD(r.otPremium)}</td></tr>` : ''}
+          <tr class="math-table__step"><td>= Wages subtotal${otNote}</td><td class="num">${fmtUSD(r.wagesSubtotal)}</td></tr>
+          ${applyBurden ? `<tr><td>+ 25% burden (taxes + benefits + WC)</td><td class="num">${fmtUSD(burden)}</td></tr>` : ''}
+          ${salary > 0 ? `<tr><td>+ Salaried payroll</td><td class="num">${fmtUSD(salary)}</td></tr>` : ''}
+          <tr class="math-table__step"><td>= Total labor cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
+          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+        `;
+      } else {
+        const hourly = parseFloat(String(data.get('hourly') || '0')) || 0;
+        const salary = parseFloat(String(data.get('salary') || '0')) || 0;
+        const burdenRaw = parseFloat(String(data.get('burden') || '0')) || 0;
+        const autoBurden = (document.querySelector('#auto-burden') as HTMLInputElement)?.checked || false;
+        const burden = autoBurden ? (hourly + salary) * 0.25 : burdenRaw;
+        totalLabor = hourly + salary + burden;
+        if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
+        mathRows = `
+          <tr><td>Hourly wages</td><td class="num">${fmtUSD(hourly)}</td></tr>
+          <tr><td>+ Salaries</td><td class="num">${fmtUSD(salary)}</td></tr>
+          <tr><td>+ Taxes, benefits, comp${autoBurden ? ' (auto: wages × 25%)' : ''}</td><td class="num">${fmtUSD(burden)}</td></tr>
+          <tr class="math-table__step"><td>= Total labor cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
+          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+        `;
+      }
+
+      const pct = (totalLabor / revenue) * 100;
+      const clamped = Math.min(50, Math.max(0, pct));
+      const markerPos = (clamped / 50) * 100;
+
+      animateCounter(counter!, lastValue, pct, 800, 1);
+      lastValue = pct;
+
+      const s = statusFor(pct);
+      statusPill!.dataset.status = s.key;
+      statusLabel!.textContent = s.label;
+      marker!.style.left = `${markerPos}%`;
+
+      // SPLH calculation — works in all modes if hours provided
+      const formHours = parseFloat(String(data.get('hours') || '0')) || 0;
+      const hoursWorked = mode === 'schedule' ? scheduleHours : formHours;
+      const splhRow = document.querySelector('[data-splh-row]') as HTMLElement | null;
+      const splhEl = document.querySelector('[data-splh]') as HTMLElement | null;
+      const showExtrasForSPLH = hoursWorked > 0;
+
+      if (mode === 'detailed' || mode === 'schedule' || showExtrasForSPLH) {
+        if (extras) extras.hidden = false;
+        if (cogsEl) cogsEl.textContent = fmtUSD(totalLabor);
+      }
+
+      const concept = getConcept();
+      if (hoursWorked > 0 && splhRow && splhEl) {
+        splhRow.hidden = false;
+        const splh = revenue / hoursWorked;
+        let splhClass = 'is-good';
+        if (splh < concept.splhLow) splhClass = 'is-bad';
+        else if (splh < concept.splhLow * 1.1) splhClass = 'is-watch';
+        splhEl.textContent = `${fmtUSD(splh)}/hr (target ${concept.splhLow}–${concept.splhHigh})`;
+        splhEl.className = `extras-row__value num ${splhClass}`;
+      } else if (splhRow) {
+        splhRow.hidden = true;
+      }
+
+      if (mode === 'detailed' && extras && cogsEl) {
+        const targetRaw = parseFloat(String(data.get('target') || ''));
+        const target = isNaN(targetRaw) ? null : targetRaw;
+        const theoreticalRaw = parseFloat(String(data.get('theoretical') || ''));
+        const theoretical = isNaN(theoreticalRaw) ? null : theoreticalRaw;
+
+        if (target !== null && targetRow && targetVarEl && targetMoneyRow && targetMoneyEl) {
+          const diff = pct - target;
+          targetRow.hidden = false;
+          targetVarEl.textContent = `${diff >= 0 ? '+' : '−'}${Math.abs(diff).toFixed(2)}pp`;
+          targetVarEl.className = `extras-row__value num ${diff > 0.5 ? 'is-bad' : diff < -0.5 ? 'is-lean' : 'is-good'}`;
+          targetMoneyRow.hidden = false;
+          const targetLabor = revenue * (target / 100);
+          const moneyDiff = totalLabor - targetLabor;
+          targetMoneyEl.textContent = moneyDiff >= 0
+            ? `${fmtSignedUSD(moneyDiff)} over target`
+            : `${fmtSignedUSD(moneyDiff)} under target`;
+          targetMoneyEl.className = `extras-row__value num ${moneyDiff > 0 ? 'is-bad' : 'is-good'}`;
+        } else if (targetRow && targetMoneyRow) {
+          targetRow.hidden = true;
+          targetMoneyRow.hidden = true;
+        }
+
+        if (theoretical !== null && theoreticalRow && theoreticalVarEl) {
+          const tDiff = pct - theoretical;
+          theoreticalRow.hidden = false;
+          theoreticalVarEl.textContent = `${tDiff >= 0 ? '+' : '−'}${Math.abs(tDiff).toFixed(2)}pp variance`;
+          theoreticalVarEl.className = `extras-row__value num ${Math.abs(tDiff) > 3 ? 'is-bad' : Math.abs(tDiff) > 1 ? 'is-watch' : 'is-good'}`;
+        } else if (theoreticalRow) {
+          theoreticalRow.hidden = true;
+        }
+      } else if (extras) {
+        extras.hidden = true;
+      }
+
+      let note = '';
+      if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch overtime creep.`;
+      if (s.label === 'Lean') note = `Below typical ${concept.label} range (${concept.low}–${concept.high}%). Verify burden — wages alone undercounts by 15–25%. Or you may be over-relying on owner labor.`;
+      if (s.label === 'Watch') note = `Slightly above ${concept.label} healthy range (${concept.low}–${concept.high}%). Common causes: overtime creep, schedule built for old sales volume, slow-shift overstaffing.`;
+      if (s.label === 'Critical') note = `Above ${concept.label} healthy range (${concept.low}–${concept.high}%). Investigate: overtime, scheduling vs daypart sales, productivity per labor hour, prep-vs-line ratio.`;
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          ${mathRows}
+          <tr class="math-table__step"><td>Labor cost ÷ Revenue</td><td class="num">${(totalLabor / revenue).toFixed(4)}</td></tr>
+          <tr class="math-table__step"><td>× 100</td><td class="num">${pct.toFixed(2)}%</td></tr>
+          <tr class="math-table__final"><td>Labor cost percentage</td><td class="num"><strong>${pct.toFixed(1)}%</strong></td></tr>
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calc();
+    });
+
+    modeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const newMode = btn.dataset.modeBtn as 'quick' | 'detailed' | 'schedule';
+        if (newMode === mode) return;
+        mode = newMode;
+        modeBtns.forEach((b) => {
+          const isActive = b.dataset.modeBtn === mode;
+          b.classList.toggle('is-active', isActive);
+          b.setAttribute('aria-selected', String(isActive));
+        });
+        form.dataset.mode = mode;
+        document.querySelectorAll<HTMLElement>('[data-group]').forEach((g) => {
+          g.classList.toggle('form-group--hidden', g.dataset.group !== mode);
+        });
+        // Hide manual hours input in schedule mode (computed from shifts)
+        const hoursRow = (document.querySelector('#hours') as HTMLElement | null)?.closest('.form-row') as HTMLElement | null;
+        if (hoursRow) hoursRow.style.display = mode === 'schedule' ? 'none' : '';
+        reset();
+        if (mode === 'schedule') { renderSchedRows(); renderSchedTotals(); calc(); }
+      });
+    });
+
+    // Schedule roster wiring
+    const schedRowsWrap = document.querySelector('[data-sched-rows]') as HTMLElement | null;
+    const schedAddBtn = document.querySelector('[data-sched-add]');
+    const schedExBtn = document.querySelector('[data-sched-example]');
+    const schedClearBtn = document.querySelector('[data-sched-clear]');
+
+    function addShift(partial?: Partial<ShiftRow>) {
+      shifts.push({
+        id: uid(),
+        name: partial?.name || '',
+        role: partial?.role || 'Server',
+        hours: partial?.hours ?? 0,
+        rate: partial?.rate ?? 0,
+      });
+      renderSchedRows();
+      renderSchedTotals();
+      if (mode === 'schedule') debouncedCalc();
+    }
+
+    function clearShifts() {
+      shifts = [];
+      renderSchedRows();
+      renderSchedTotals();
+      if (mode === 'schedule') debouncedCalc();
+    }
+
+    function loadExampleCrew() {
+      shifts = [];
+      const example: Partial<ShiftRow>[] = [
+        { name: 'Sarah',  role: 'Bartender',   hours: 38, rate: 14 },
+        { name: 'Mike',   role: 'Bartender',   hours: 35, rate: 14 },
+        { name: 'Anna',   role: 'Server',      hours: 32, rate: 16 },
+        { name: 'Jose',   role: 'Server',      hours: 30, rate: 16 },
+        { name: 'Carlos', role: 'Line cook',   hours: 45, rate: 22 },
+        { name: 'Lily',   role: 'Prep cook',   hours: 30, rate: 18 },
+        { name: 'Dave',   role: 'Dishwasher',  hours: 25, rate: 16 },
+        { name: 'Tara',   role: 'Host',        hours: 24, rate: 17 },
+      ];
+      example.forEach(p => shifts.push({ id: uid(), name: p.name!, role: p.role!, hours: p.hours!, rate: p.rate! }));
+      renderSchedRows();
+      renderSchedTotals();
+      if (mode === 'schedule') debouncedCalc();
+    }
+
+    schedAddBtn?.addEventListener('click', () => addShift());
+    schedExBtn?.addEventListener('click', loadExampleCrew);
+    schedClearBtn?.addEventListener('click', clearShifts);
+
+    if (schedRowsWrap) {
+      schedRowsWrap.addEventListener('input', (e) => {
+        const t = e.target as HTMLInputElement | HTMLSelectElement;
+        const row = (t as HTMLElement).closest('[data-row-id]') as HTMLElement | null;
+        if (!row) return;
+        const id = row.dataset.rowId;
+        const sh = shifts.find(s => s.id === id);
+        if (!sh) return;
+        const field = t.dataset.field;
+        if (field === 'name') sh.name = t.value;
+        else if (field === 'role') sh.role = t.value;
+        else if (field === 'hours') sh.hours = parseFloat(t.value) || 0;
+        else if (field === 'rate') sh.rate = parseFloat(t.value) || 0;
+        // Update OT highlight without re-rendering full row (preserves focus)
+        if (field === 'hours') row.classList.toggle('is-ot', sh.hours > OT_THRESHOLD);
+        renderSchedTotals();
+        if (mode === 'schedule') debouncedCalc();
+      });
+      schedRowsWrap.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest('[data-row-remove]') as HTMLElement | null;
+        if (!btn) return;
+        const row = btn.closest('[data-row-id]') as HTMLElement | null;
+        if (!row) return;
+        shifts = shifts.filter(s => s.id !== row.dataset.rowId);
+        renderSchedRows();
+        renderSchedTotals();
+        if (mode === 'schedule') debouncedCalc();
+      });
+    }
+
+    function loadExample() {
+      if (mode === 'quick') {
+        (document.querySelector('#cost') as HTMLInputElement).value = '9000';
+      } else if (mode === 'detailed') {
+        (document.querySelector('#hourly') as HTMLInputElement).value = '5800';
+        (document.querySelector('#salary') as HTMLInputElement).value = '2500';
+        (document.querySelector('#burden') as HTMLInputElement).value = '1500';
+      } else if (mode === 'schedule') {
+        loadExampleCrew();
+        const sal = document.querySelector('#sched-salary') as HTMLInputElement | null;
+        if (sal) sal.value = '1500';
+      }
+      (document.querySelector('#revenue') as HTMLInputElement).value = mode === 'schedule' ? '32000' : '30000';
+      const hoursInput = document.querySelector('#hours') as HTMLInputElement | null;
+      if (hoursInput && mode !== 'schedule') hoursInput.value = '450';
+      calc();
+    }
+
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+
+  .mode-toggle { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 4px; gap: 2px; margin-bottom: var(--space-2); }
+  @media (max-width: 540px) { .mode-toggle { grid-template-columns: 1fr; } }
+  .mode-toggle__btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 10px 12px; background: transparent; border: none; border-radius: 8px; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-muted); cursor: pointer; transition: all var(--transition-fast); min-height: 48px; }
+  .mode-toggle__btn.is-active { background: var(--color-white); color: var(--color-heading); box-shadow: var(--shadow-warm); }
+  .mode-toggle__hint { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; color: var(--color-muted); text-transform: none; letter-spacing: 0; text-align: center; }
+
+  /* Schedule mode UI */
+  .sched { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+  .sched__head { display: flex; flex-direction: column; gap: var(--space-2); }
+  .sched__title { font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.0625rem; font-weight: 600; color: var(--color-heading); margin: 0; }
+  .sched__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45; margin: 0; }
+
+  .sched__rows { display: flex; flex-direction: column; gap: var(--space-2); }
+  .sched__rows:empty::before { content: 'No employees yet. Click "Load example crew" or "+ Add employee" to start.'; display: block; padding: var(--space-5) var(--space-4); text-align: center; font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); border: 1.5px dashed var(--color-border); border-radius: var(--radius-md); }
+
+  .sched-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.9fr) 32px; gap: 6px; align-items: center; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; padding: 6px 6px 6px 8px; transition: border-color var(--transition-fast); }
+  .sched-row:focus-within { border-color: var(--color-saffron); }
+  .sched-row.is-ot { border-color: var(--color-saffron); background: linear-gradient(180deg, rgba(200, 117, 0, 0.06), var(--color-white)); }
+  @media (max-width: 720px) { .sched-row { grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; } .sched-row > input, .sched-row > select { font-size: 0.875rem !important; } .sched-row .sched-row__remove { grid-column: 2; justify-self: end; } }
+
+  .sched-row input, .sched-row select { background: transparent; border: none; padding: 6px 8px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: var(--color-heading); outline: none; min-width: 0; width: 100%; border-radius: 4px; }
+  .sched-row input:focus, .sched-row select:focus { background: var(--color-cream); }
+  .sched-row select { font-family: var(--font-body); }
+  .sched-row__name { font-family: var(--font-body) !important; }
+  .sched-row__remove { background: transparent; border: none; color: var(--color-muted); cursor: pointer; padding: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; transition: all var(--transition-fast); }
+  .sched-row__remove:hover { background: rgba(192, 57, 43, 0.1); color: #c0392b; }
+
+  .sched__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .sched__example, .sched__clear { background: transparent; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-body); cursor: pointer; transition: all var(--transition-fast); }
+  .sched__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
+  .sched__clear:hover { border-color: #c0392b; color: #c0392b; }
+
+  .sched__totals { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) 0 0; border-top: 1px dashed var(--color-border); }
+  .sched__total-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-family: var(--font-body); font-size: 0.8125rem; }
+  .sched__total-row[hidden] { display: none; }
+  .sched__total-label { color: var(--color-body); }
+  .sched__total-value { font-weight: 600; color: var(--color-heading); }
+  .sched__total-value.is-watch { color: var(--color-saffron-text); }
+  .sched__total-row--final { padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--color-heading); }
+  .sched__total-row--final .sched__total-label { font-weight: 600; }
+  .sched__total-row--final .sched__total-value { font-size: 1rem; color: var(--color-saffron-text); }
+
+  .sched__alerts { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3); background: rgba(200, 117, 0, 0.08); border-left: 3px solid var(--color-saffron); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  .sched__alerts[hidden] { display: none; }
+  .sched__alert { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-heading); line-height: 1.4; }
+  .sched__alert strong { color: var(--color-saffron-text); }
+
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-group { display: flex; flex-direction: column; gap: var(--space-5); }
+  .form-group--hidden { display: none; }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell__prefix { padding-right: 0; }
+  .input-shell__suffix { padding-left: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .optional-fields { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .optional-fields__trigger { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); cursor: pointer; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .optional-fields__trigger::-webkit-details-marker { display: none; }
+  .optional-fields__icon { font-family: var(--font-mono); color: var(--color-saffron-text); transition: transform var(--transition-fast); }
+  .optional-fields[open] .optional-fields__icon { transform: rotate(45deg); }
+  .optional-fields__body { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); border-top: 1px dashed var(--color-border); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); flex-wrap: wrap; gap: var(--space-2); }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .calc-result__big .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(4rem, 11vw + 0.5rem, 7.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .calc-result__big .result-num--pulse { transform: scale(1.025); }
+  .calc-result__big .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__bar { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .bar-track { position: relative; height: 8px; background: var(--color-cream); border-radius: 999px; }
+  .bar-zone { position: absolute; top: 0; bottom: 0; border-radius: 999px; }
+  /* Labor-cost zones: 0-25 lean, 25-32 healthy, 32-36 watch, 36-50 critical */
+  .bar-zone--lean { left: 0%; width: 50%; background: rgba(74, 88, 38, 0.18); }
+  .bar-zone--good { left: 50%; width: 14%; background: rgba(74, 88, 38, 0.40); }
+  .bar-zone--watch { left: 64%; width: 8%; background: rgba(200, 117, 0, 0.32); }
+  .bar-zone--bad { left: 72%; width: 28%; background: rgba(156, 79, 28, 0.28); }
+  .bar-marker { position: absolute; top: -4px; width: 16px; height: 16px; background: var(--color-saffron); border: 3px solid var(--color-white); border-radius: 50%; box-shadow: 0 1px 6px var(--alpha-shadow-deep); transform: translateX(-50%); transition: left var(--transition-med); }
+  .bar-labels { display: flex; justify-content: space-between; }
+
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: background var(--transition-fast), color var(--transition-fast); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-pill[data-status="empty"] { background: rgba(122, 117, 105, 0.10); color: var(--color-muted); }
+  .status-pill[data-status="empty"] .status-pill__dot { background: var(--color-muted); box-shadow: 0 0 0 3px rgba(122, 117, 105, 0.18); }
+  .status-pill[data-status="lean"], .status-pill[data-status="healthy"] { background: var(--alpha-success-tint); color: var(--color-result-success); }
+  .status-pill[data-status="lean"] .status-pill__dot, .status-pill[data-status="healthy"] .status-pill__dot { background: var(--color-result-success); box-shadow: 0 0 0 3px var(--alpha-success-ring); }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.12); color: var(--color-saffron-text); }
+  .status-pill[data-status="watch"] .status-pill__dot { background: var(--color-saffron); box-shadow: 0 0 0 3px rgba(200, 117, 0, 0.20); }
+  .status-pill[data-status="critical"] { background: rgba(156, 79, 28, 0.14); color: #823a14; }
+  .status-pill[data-status="critical"] .status-pill__dot { background: #9c4f1c; box-shadow: 0 0 0 3px rgba(156, 79, 28, 0.22); }
+
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .calc-result__extras[hidden] { display: none; }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row[hidden] { display: none; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+  .extras-row__value.is-good { color: var(--color-result-success); }
+  .extras-row__value.is-lean { color: var(--color-result-success); }
+  .extras-row__value.is-watch { color: var(--color-saffron-text); }
+  .extras-row__value.is-bad { color: #823a14; }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; transition: background var(--transition-fast); }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__trigger:hover { background: var(--color-border-soft); }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  @media (max-width: 540px) { .math-table { font-size: 0.875rem; } .math-table td { padding: 8px 4px; } }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .essay, .operator-story { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+
+  .benchmarks { margin-bottom: var(--space-16); max-width: 880px; }
+  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .benchmarks__headline em { font-style: italic; font-weight: 500; color: var(--color-muted); }
+  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .benchmarks__chart { display: flex; flex-direction: column; gap: 0; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); }
+  .bench-bar { display: grid; grid-template-columns: 220px 1fr 90px; gap: var(--space-5); align-items: center; padding: var(--space-3) 0; border-bottom: 1px dashed var(--color-border); }
+  .bench-bar:last-of-type { border-bottom: none; }
+  @media (max-width: 640px) { .bench-bar { grid-template-columns: 1fr 80px; grid-template-rows: auto auto; gap: var(--space-2); } .bench-bar__name { grid-column: 1 / -1; } .bench-bar__track { grid-column: 1 / 2; } .bench-bar__range { grid-column: 2 / 3; align-self: center; } }
+  .bench-bar__name { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); }
+  .bench-bar__track { position: relative; height: 6px; background: var(--color-cream); border-radius: 999px; }
+  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: var(--color-saffron); border-radius: 999px; opacity: 0.55; }
+  .bench-bar__tick { position: absolute; top: -3px; width: 2px; height: 12px; background: var(--color-saffron); transform: translateX(-50%); }
+  .bench-bar__range { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); text-align: right; }
+  .bench-axis { display: grid; grid-template-columns: 220px 1fr 90px; gap: var(--space-5); align-items: center; padding-top: var(--space-3); margin-top: var(--space-2); border-top: 1px solid var(--color-border); }
+  .bench-axis__track { grid-column: 2; position: relative; height: 14px; }
+  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-muted); }
+  @media (max-width: 640px) { .bench-axis { display: none; } }
+
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

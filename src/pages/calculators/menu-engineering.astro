@@ -1,0 +1,1063 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Menu Engineering Matrix Calculator — Free | RestaurantCalcs';
+const description = 'Free menu engineering calculator. Classifies every menu item as Star, Plowhorse, Puzzle, or Dog using contribution margin and popularity. Math shown.';
+
+const faq = [
+  {
+    q: 'What is menu engineering?',
+    a: 'Plot every menu item on two axes: contribution margin (menu price minus food cost in dollars) and popularity (units sold). The result is a 2×2 matrix that tells you which items pay rent and which ones are eating it. The framework comes from Donald Smith at Cornell in 1982 (Cornell SHA). Forty-plus years later it is still the standard, because the math has not changed.',
+  },
+  {
+    q: 'Stars, plowhorses, puzzles, dogs — what are they?',
+    a: 'Star: high CM, high popularity. Hero on the menu, protect price, train upsells. Plowhorse: low CM, high popularity. Volume drivers that bleed profit. Reprice or rebuild the recipe. Puzzle: high CM, low popularity. Money makers nobody orders. Reposition, photograph, train servers to suggest. Dog: low CM, low popularity. Remove or rework.',
+  },
+  {
+    q: 'How often should I run it?',
+    a: 'Quarterly minimum. Monthly during a launch, after a price change, or when food costs spike. The 90-day cadence aligns with the seasonal product cycle most distributors run, and gives you four data points a year to tell trend from noise.',
+  },
+  {
+    q: 'What is a healthy contribution margin?',
+    a: 'Full-service: 65–75% CM (food cost 25–35% of menu price, per Toast). QSR/fast-casual 70–80%. Fine dining 70%+ floor. Beverages run higher: beer 75–80%, wine 65–75%, cocktails 80–85%. The matrix uses your menu average as the threshold, not an industry number — comparison stays apples to apples inside your own concept.',
+  },
+  {
+    q: 'How do I fix a plowhorse?',
+    a: 'Three levers in order of speed. Raise price 5–10% on the item alone. Plowhorses are popular by definition, demand is inelastic at small bumps. Rebuild the recipe: smaller portion, swap a premium ingredient nobody tastes, tighten plate spec. Reposition to a less prominent spot. Plowhorses get demoted, not deleted.',
+  },
+  {
+    q: 'Should I remove dogs immediately?',
+    a: 'Not always. Some dogs do strategic work. The vegetarian item nobody orders may be why a four-top chose you. The kids plate may be the reason a family came in at all. Audit each dog for strategic role before cutting. Two consecutive quarters in the dog quadrant with no strategic purpose, then remove. Replace with a star variant in the same category.',
+  },
+  {
+    q: 'What about beverages?',
+    a: 'Run them in a separate matrix. Beverage CM runs 15–25 points higher than food. Mixing them in pulls the food average up and makes real food stars look like dogs. Two parallel matrices, same logic, different averages.',
+  },
+  {
+    q: 'I have 200 items. Where do I start?',
+    a: 'Two approaches. Run the matrix by category — apps, entrees, desserts separately. Within-category averages are more useful than aggregate. Then focus the analysis on the top 80% of revenue. Pareto holds in restaurants: roughly 20% of items drive 80% of contribution. Engineering the long tail is rarely worth the work.',
+  },
+  {
+    q: 'Volume or margin — which matters more?',
+    a: 'Neither alone. The matrix exists because operators kept making the wrong call from one variable. A 280-unit/month plowhorse at 58% CM contributes more dollars than a 40-unit puzzle at 72% CM. But the puzzle has higher margin per cover and is under-promoted. Most operators undervalue puzzles because they read the popularity column first. The matrix forces both reads at once.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Every row, every input, every classification runs in your browser and disappears the moment you close the tab. No signup, no email, no account, no analytics on your numbers.',
+  },
+];
+
+const scenarios = [
+  {
+    title: 'The filet that was popular and unprofitable',
+    setup: 'Steakhouse, filet at $45, $19 food cost, 280 units a month. CM 58%. Owner saw the unit count and assumed it was a star.',
+    diagnosis: 'Inside the actual menu, the filet was a plowhorse. Other steaks ran 70% CM at similar price points. The filet was popular but bleeding 12 points of margin against the rest of the section. Three years of "raise prices later" added up to roughly $12K a year of left-on-the-table contribution. The owner had read the popularity column first and stopped reading.',
+    fix: 'Price moved $45 to $48. Cut from 8oz to a 6oz center cut, upgraded the demi-glace presentation to read as a premium plate. CM rose to 67%. Volume held at 270 units.',
+    outcome: 'Monthly contribution moved from $7,280 to $7,830. Same item, same customer, same plate cost percentage. About $600/month from one matrix read. The math was the easy part. Pulling the trigger on a popular item was the hard part.',
+  },
+  {
+    title: 'The puzzle that nobody had a slot for',
+    setup: 'Daily-special scallop dish, server-mentioned only. 90 units a month at 73% CM when offered. Never on the printed menu.',
+    diagnosis: 'High CM, decent volume despite zero print real estate. Classic puzzle profile (Cornell 1982). The kitchen liked making it. FOH liked selling it. Customers who got it loved it. The question was whether it would scale with a permanent slot.',
+    fix: 'Permanent menu, top of the entree section, photo on the table tent. Server training: lead with the scallop on Tuesdays and Thursdays. Recipe locked at the same plate cost.',
+    outcome: 'Volume jumped to 240 units a month. CM held at 73%. Top contribution-dollar item on the menu within a quarter. The thesis confirmed itself: the dish was not unpopular. It was unpromoted.',
+  },
+  {
+    title: 'The crab cake nobody wanted to remove',
+    setup: 'Crab cake appetizer, $24 menu, $11 food cost, 38 units a month. CM 54%. Held a top-third appetizer slot for two years on sentiment from the original menu.',
+    diagnosis: 'Below average on both axes. Two consecutive quarters in the dog quadrant. The slot was working at about $494/month of contribution while the rest of the apps section averaged closer to $1,800.',
+    fix: 'Removed. Replaced with a shrimp cocktail at $18 menu, $5 food cost. Same prominent slot. Same category, same customer expectation.',
+    outcome: 'Shrimp cocktail: 180 units a month, 72% CM, immediate star. Same menu real estate now contributing $2,340 a month vs the old $494. Replacing one dog with one star paid for an entire prep cook shift. The sentimental hold cost about $22K over the two years it held the spot.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'recipe-cost', title: 'Recipe Cost', desc: 'Feeds the food cost input per item.' },
+  { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Uses contribution margin output.' },
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Aggregates from menu engineering.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/menu-engineering/#webpage', url: 'https://restaurantcalcs.com/calculators/menu-engineering/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/menu-engineering/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/menu-engineering/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    { '@type': 'ListItem', position: 3, name: 'Menu Engineering Matrix', item: 'https://restaurantcalcs.com/calculators/menu-engineering/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/menu-engineering/#tool',
+    name: 'Menu Engineering Matrix Calculator',
+    description: 'Free web-based menu engineering calculator. Classifies every menu item as Star, Plowhorse, Puzzle, or Dog using contribution margin and popularity. Math shown.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/menu-engineering/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'How to run a menu engineering analysis', totalTime: 'PT10M', supply: [
+    { '@type': 'HowToSupply', name: 'Item name (per menu item)' },
+    { '@type': 'HowToSupply', name: 'Food cost per plate (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Menu price (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Units sold over the period' },
+  ], step: [
+    { '@type': 'HowToStep', position: 1, name: 'Pull POS sales mix', text: 'Export the sales mix report from your POS for the period. Toast, Square, Clover, and TouchBistro all support this. Get item-level units sold for the same window your food cost data covers.' },
+    { '@type': 'HowToStep', position: 2, name: 'Add each item to the table', text: 'Enter item name, food cost (per plate), menu price, and units sold for each item. The calculator computes contribution margin in dollars and percent automatically.' },
+    { '@type': 'HowToStep', position: 3, name: 'Read the classification', text: 'Each item is classified as Star, Plowhorse, Puzzle, or Dog based on whether its contribution margin and popularity are above or below the menu averages.' },
+    { '@type': 'HowToStep', position: 4, name: 'Action by quadrant', text: 'Stars: protect price, hero on menu. Plowhorses: raise price 5–10% or rebuild recipe. Puzzles: better placement, server training, photograph for socials. Dogs: remove or rework completely.' },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Menu Engineering Matrix</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Menu engineering calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Menu Engineering Matrix Calculator</h1>
+      <p class="calc-page__intro">
+        Plot every item as a <strong>Star, Plowhorse, Puzzle, or Dog</strong> on contribution margin and popularity. The framework comes from Donald Smith at Cornell, 1982. Still the single best menu decision tool an operator owns (Cornell SHA). The math is the easy part. The discipline of running it every quarter is the entire game.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Add every menu item with its food cost, menu price, and units sold. Classifies each item by whether its contribution margin and popularity are above or below the menu averages. Returns total contribution dollars and a quadrant action plan.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example menu</button>
+        </div>
+
+        <div class="menu">
+          <div class="menu__head">
+            <h3 class="menu__title">Menu items</h3>
+            <p class="menu__hint">One row per item. Pull units sold from your POS sales mix report for a meaningful window (30 days minimum, 90 days ideal).</p>
+          </div>
+
+          <div class="menu__table" role="table" aria-label="Menu items">
+            <div class="menu__thead" role="row">
+              <span role="columnheader">Item</span>
+              <span role="columnheader">Food cost</span>
+              <span role="columnheader">Menu price</span>
+              <span role="columnheader">Units sold</span>
+              <span role="columnheader" aria-label="Remove"></span>
+            </div>
+            <div class="menu__rows" data-menu-rows>
+              <!-- Rows injected by JS -->
+            </div>
+          </div>
+
+          <div class="menu__actions">
+            <button type="button" class="btn btn-secondary btn-small" data-menu-add>
+              + Add item
+            </button>
+            <button type="button" class="menu__example" data-menu-example>
+              Load example menu
+            </button>
+            <button type="button" class="menu__clear" data-menu-clear>
+              Clear all
+            </button>
+          </div>
+
+          <div class="menu__totals" data-menu-totals>
+            <div class="menu__total-row">
+              <span class="menu__total-label">Items in matrix</span>
+              <span class="menu__total-value num" data-menu-count>0</span>
+            </div>
+            <div class="menu__total-row">
+              <span class="menu__total-label">Total units sold</span>
+              <span class="menu__total-value num" data-menu-units>0</span>
+            </div>
+            <div class="menu__total-row menu__total-row--final">
+              <span class="menu__total-label">Total contribution dollars</span>
+              <span class="menu__total-value num" data-menu-contrib>$0</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Run matrix
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Total contribution</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Add items</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big">
+            <span class="result-num__pre" aria-hidden="true">$</span>
+            <span class="result-num" data-counter>0</span>
+            <span class="visually-hidden">total contribution dollars</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Healthy menu mix</span>
+            <span class="t-caption num">stars + puzzles &gt;50%, dogs &lt;15%</span>
+          </div>
+
+          <div class="matrix" data-matrix aria-label="Menu engineering 2x2 matrix: contribution margin vs popularity">
+            <div class="matrix__plot">
+              <span class="matrix__axis-y" aria-hidden="true">
+                <span class="matrix__axis-label">Contribution margin →</span>
+              </span>
+              <span class="matrix__axis-x" aria-hidden="true">
+                <span class="matrix__axis-label">Popularity →</span>
+              </span>
+              <span class="matrix__hline" aria-hidden="true"></span>
+              <span class="matrix__vline" aria-hidden="true"></span>
+              <span class="matrix__corner matrix__corner--puzzle">
+                <span class="matrix__corner-label">Puzzle</span>
+                <span class="matrix__corner-count num" data-q-puzzle>0</span>
+              </span>
+              <span class="matrix__corner matrix__corner--star">
+                <span class="matrix__corner-label">Star</span>
+                <span class="matrix__corner-count num" data-q-star>0</span>
+              </span>
+              <span class="matrix__corner matrix__corner--dog">
+                <span class="matrix__corner-label">Dog</span>
+                <span class="matrix__corner-count num" data-q-dog>0</span>
+              </span>
+              <span class="matrix__corner matrix__corner--plowhorse">
+                <span class="matrix__corner-label">Plowhorse</span>
+                <span class="matrix__corner-count num" data-q-plow>0</span>
+              </span>
+              <div class="matrix__dots" data-matrix-dots></div>
+            </div>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Avg contribution margin</span>
+              <span class="extras-row__value num" data-avg-cm>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Avg units per item</span>
+              <span class="extras-row__value num" data-avg-pop>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Top star</span>
+              <span class="extras-row__value num" data-top-star>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Worst dog</span>
+              <span class="extras-row__value num" data-worst-dog>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Add items above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="results-table" data-results-section hidden>
+      <h2 class="results-table__headline">Classified results</h2>
+      <p class="t-body-large results-table__intro">
+        Every item with its quadrant assignment, contribution margin, and dollar contribution. Sorted by contribution dollars, descending.
+      </p>
+      <div class="results-table__wrap">
+        <table class="results-table__table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="num">Food cost</th>
+              <th class="num">Price</th>
+              <th class="num">CM $</th>
+              <th class="num">CM %</th>
+              <th class="num">Units</th>
+              <th class="num">Contribution $</th>
+              <th>Class</th>
+            </tr>
+          </thead>
+          <tbody data-results-body>
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/menu-engineering.webp" alt="Editorial illustration of a restaurant menu being marked up at a back-of-house desk with a vintage red pencil drawing star and check marks, brass scale weighing two plate cards, worn moleskine notebook with hand-drawn tally marks." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Menu engineering is the <em>second</em> biggest move an operator makes.</h2>
+      <div class="essay__body">
+        <p>
+          Schedule discipline is the first. After that, nothing moves the P&amp;L like a properly engineered menu. Same revenue, same labor, same rent — and two or three points of margin between a menu built on data and a menu built on what the chef likes.
+        </p>
+        <p>
+          Most operators run menu engineering by gut. They know the wings sell. They know the lamb does not. They have a vague sense the burger is profitable and the salad is not. What they do not have is a quadrant. Without a quadrant, you cannot tell a plowhorse from a star. Both sell. Only one pays rent. Confusing them is how a restaurant stays open while the bank account never grows.
+        </p>
+        <p class="essay__pull">
+          The menu is the only marketing asset most restaurants have. Every customer reads it. Every server uses it. Every dish on it is either pulling weight or being subsidized by another dish.
+        </p>
+        <p>
+          Felix at Flaco's Cafe is a friend of mine. His parents came straight from Cuba and cooked the menu themselves. The food was incredible. Service was warm in a way you cannot fake. They gave plates away to staff every shift, comped regulars, sent food out for the AC tech and the priest. Nobody tracked the cost of any of it. Flaco's closed. Not because the food was wrong. Because nobody was running the math on the generosity. A matrix would have caught that the comp-heavy plates were dogs by contribution while sitting in the highest-traffic slots on the menu. Discipline is not being cheap. It is knowing what you are giving away, so you can choose to do it on purpose.
+        </p>
+        <p>
+          The framework comes from Donald Smith at Cornell, 1982. Forty-plus years later it is still the standard because the underlying logic has not moved. Two axes. Four quadrants. Specific actions per quadrant. The math is high school algebra. Running it every quarter is what separates the operators who renew leases from the ones who quietly do not.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="quadrant-guide">
+      <h2 class="quadrant-guide__headline">The quadrant guide. <em>What to do with each one.</em></h2>
+      <p class="t-body-large quadrant-guide__intro">
+        Classification is the easy half. The hard half is acting on it. One specific play per quadrant. No mystery, no committee.
+      </p>
+
+      <div class="quadrant-guide__grid">
+        <article class="qg-card qg-card--star">
+          <span class="qg-card__badge">Star</span>
+          <h3 class="qg-card__title">Protect the price. Hero on the menu.</h3>
+          <ul class="qg-card__list">
+            <li>Top-third menu placement with a box, photo, or "chef pick" callout.</li>
+            <li>Server training: lead with the star when describing the section.</li>
+            <li>Hold price until you see meaningful resistance. Stars are inelastic at small bumps.</li>
+            <li>Watch food cost monthly. A star with creeping food cost becomes a plowhorse fast.</li>
+          </ul>
+        </article>
+
+        <article class="qg-card qg-card--plowhorse">
+          <span class="qg-card__badge">Plowhorse</span>
+          <h3 class="qg-card__title">Raise price or rebuild the recipe.</h3>
+          <ul class="qg-card__list">
+            <li>Raise price 5–10%. Plowhorses are popular. Demand holds at small increases.</li>
+            <li>Rebuild the recipe to cut food cost. Smaller portion, swap a premium ingredient that does not change the dish identity.</li>
+            <li>Tighten plate spec. Walk the line. Plowhorses often suffer from over-portioning.</li>
+            <li>Demote on the menu. Plowhorses do not need a hero spot. The volume is already there.</li>
+          </ul>
+        </article>
+
+        <article class="qg-card qg-card--puzzle">
+          <span class="qg-card__badge">Puzzle</span>
+          <h3 class="qg-card__title">Better placement. Server training. Photograph it.</h3>
+          <ul class="qg-card__list">
+            <li>Move to a hero menu spot. Top of the section, boxed callout, photo on the table tent.</li>
+            <li>Train servers to recommend the puzzle when asked "what is good." High CM means every conversion is worth more.</li>
+            <li>Photograph for socials. Puzzles are often photogenic items that customers do not know exist.</li>
+            <li>Consider featuring as a daily special for two weeks to seed demand.</li>
+          </ul>
+        </article>
+
+        <article class="qg-card qg-card--dog">
+          <span class="qg-card__badge">Dog</span>
+          <h3 class="qg-card__title">Remove. Replace with a star variant.</h3>
+          <ul class="qg-card__list">
+            <li>Audit for strategic role first. Is this the only vegetarian, kids, or allergy-safe item? If yes, rework the recipe.</li>
+            <li>If no strategic role and two consecutive quarters as a dog, remove it.</li>
+            <li>Replace the menu slot with a star variant in the same category.</li>
+            <li>Last resort before deletion: price drop with rebrand. New name, new description, repositioned.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three menu engineering wins</h2>
+      <p class="t-body-large scenarios__intro">
+        Same matrix, different fixes. The play depends on the quadrant the item lives in.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://scholarship.sha.cornell.edu/" target="_blank" rel="noopener">Donald Smith — Menu Engineering: A Practical Guide (Cornell, 1982)</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/menu-engineering" target="_blank" rel="noopener">Toast — Menu Engineering Worksheet</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Menu Profitability Analysis</a></li>
+        <li><a href="https://www.posist.com/restaurant-times/restro-gyaan/menu-engineering-restaurant.html" target="_blank" rel="noopener">POSist — Menu Engineering Matrix Explained</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+  const resultsSection = document.querySelector('[data-results-section]') as HTMLElement | null;
+  const resultsBody = document.querySelector('[data-results-body]') as HTMLElement | null;
+
+  const qStarEl = document.querySelector('[data-q-star]') as HTMLElement | null;
+  const qPlowEl = document.querySelector('[data-q-plow]') as HTMLElement | null;
+  const qPuzzleEl = document.querySelector('[data-q-puzzle]') as HTMLElement | null;
+  const qDogEl = document.querySelector('[data-q-dog]') as HTMLElement | null;
+
+  const avgCmEl = document.querySelector('[data-avg-cm]') as HTMLElement | null;
+  const avgPopEl = document.querySelector('[data-avg-pop]') as HTMLElement | null;
+  const topStarEl = document.querySelector('[data-top-star]') as HTMLElement | null;
+  const worstDogEl = document.querySelector('[data-worst-dog]') as HTMLElement | null;
+
+  const menuCountEl = document.querySelector('[data-menu-count]') as HTMLElement | null;
+  const menuUnitsEl = document.querySelector('[data-menu-units]') as HTMLElement | null;
+  const menuContribEl = document.querySelector('[data-menu-contrib]') as HTMLElement | null;
+
+  if (form && counter && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    type ItemRow = { id: string; name: string; foodCost: number; price: number; units: number };
+    let items: ItemRow[] = [];
+    let nextId = 1;
+
+    // Classification thresholds (per Smith / Cornell + Toast simplification)
+    // High CM = item CM > 90% of weighted average CM
+    // High popularity = item units > 70% of mean popularity (units per item)
+    const CM_THRESHOLD = 0.9;
+    const POP_THRESHOLD = 0.7;
+
+    function uid() { return 'mi' + nextId++; }
+
+    function fmtUSD(n: number): string {
+      const sign = n < 0 ? '-' : '';
+      const abs = Math.abs(n);
+      return sign + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function fmtUSDInt(n: number): string {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800) {
+      if (reduced) {
+        el.textContent = Math.round(to).toLocaleString('en-US');
+        return;
+      }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * ease(t);
+        el.textContent = Math.round(value).toLocaleString('en-US');
+        if (t < 1) requestAnimationFrame(frame);
+        else {
+          el.classList.add('result-num--pulse');
+          setTimeout(() => el.classList.remove('result-num--pulse'), 320);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function renderMenuRows() {
+      const wrap = document.querySelector('[data-menu-rows]') as HTMLElement | null;
+      if (!wrap) return;
+      wrap.innerHTML = items.map(it => {
+        return `<div class="menu-row" data-row-id="${it.id}">
+          <input type="text" class="menu-row__name" placeholder="Item name" value="${it.name.replace(/"/g, '&quot;')}" data-field="name" aria-label="Item name" />
+          <div class="menu-row__money">
+            <span class="menu-row__prefix">$</span>
+            <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.foodCost || ''}" data-field="foodCost" aria-label="Food cost" />
+          </div>
+          <div class="menu-row__money">
+            <span class="menu-row__prefix">$</span>
+            <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.price || ''}" data-field="price" aria-label="Menu price" />
+          </div>
+          <input type="number" inputmode="decimal" min="0" step="1" placeholder="units" value="${it.units || ''}" data-field="units" aria-label="Units sold" />
+          <button type="button" class="menu-row__remove" data-row-remove aria-label="Remove ${it.name || 'row'}">×</button>
+        </div>`;
+      }).join('');
+    }
+
+    function addItem(partial?: Partial<ItemRow>) {
+      items.push({
+        id: uid(),
+        name: partial?.name || '',
+        foodCost: partial?.foodCost ?? 0,
+        price: partial?.price ?? 0,
+        units: partial?.units ?? 0,
+      });
+      renderMenuRows();
+      debouncedCalc();
+    }
+
+    function clearItems() {
+      items = [];
+      renderMenuRows();
+      debouncedCalc();
+    }
+
+    function loadExampleMenu() {
+      items = [];
+      const example: Partial<ItemRow>[] = [
+        { name: 'Filet mignon 8oz',     foodCost: 19.00, price: 45.00, units: 280 },
+        { name: 'Ribeye 12oz',          foodCost: 16.50, price: 52.00, units: 220 },
+        { name: 'Burger w/ fries',      foodCost: 5.20,  price: 18.00, units: 410 },
+        { name: 'Pan seared scallops',  foodCost: 11.00, price: 38.00, units: 90  },
+        { name: 'Chicken parmesan',     foodCost: 6.40,  price: 24.00, units: 195 },
+        { name: 'Caesar salad',         foodCost: 2.80,  price: 14.00, units: 320 },
+        { name: 'Crab cake appetizer',  foodCost: 11.00, price: 24.00, units: 38  },
+        { name: 'Truffle fries',        foodCost: 2.10,  price: 12.00, units: 175 },
+        { name: 'Lamb shank',           foodCost: 13.50, price: 36.00, units: 55  },
+        { name: 'House cheesecake',     foodCost: 1.80,  price: 11.00, units: 130 },
+      ];
+      example.forEach(p => items.push({
+        id: uid(),
+        name: p.name!,
+        foodCost: p.foodCost!,
+        price: p.price!,
+        units: p.units!,
+      }));
+      renderMenuRows();
+      calc();
+    }
+
+    function classify(item: ItemRow, avgCM: number, avgPop: number) {
+      const cm = item.price - item.foodCost;
+      const highCM = cm > avgCM * CM_THRESHOLD;
+      const highPop = item.units > avgPop * POP_THRESHOLD;
+      if (highCM && highPop) return 'star';
+      if (!highCM && highPop) return 'plowhorse';
+      if (highCM && !highPop) return 'puzzle';
+      return 'dog';
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Add items';
+      animateCounter(counter!, lastValue, 0, 400);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Add items above to see the calculation.</p>';
+      [qStarEl, qPlowEl, qPuzzleEl, qDogEl].forEach(e => { if (e) e.textContent = '0'; });
+      [avgCmEl, avgPopEl, topStarEl, worstDogEl].forEach(e => { if (e) e.textContent = '—'; });
+      if (menuCountEl) menuCountEl.textContent = '0';
+      if (menuUnitsEl) menuUnitsEl.textContent = '0';
+      if (menuContribEl) menuContribEl.textContent = '$0';
+      if (resultsSection) resultsSection.hidden = true;
+    }
+
+    function calc() {
+      const valid = items.filter(it => it.price > 0 && it.units > 0);
+      const itemCount = valid.length;
+
+      if (menuCountEl) menuCountEl.textContent = String(itemCount);
+
+      if (itemCount === 0) {
+        reset();
+        return;
+      }
+
+      let totalUnits = 0;
+      let totalContribution = 0;
+      let weightedCMNum = 0;
+      valid.forEach(it => {
+        const cm = it.price - it.foodCost;
+        totalUnits += it.units;
+        weightedCMNum += cm * it.units;
+        totalContribution += cm * it.units;
+      });
+
+      const avgCM = totalUnits > 0 ? weightedCMNum / totalUnits : 0;
+      const avgPop = itemCount > 0 ? totalUnits / itemCount : 0;
+
+      if (menuUnitsEl) menuUnitsEl.textContent = totalUnits.toLocaleString('en-US');
+      if (menuContribEl) menuContribEl.textContent = fmtUSDInt(totalContribution);
+
+      // Classify each
+      const classified = valid.map(it => {
+        const cm = it.price - it.foodCost;
+        const cmPct = it.price > 0 ? (cm / it.price) * 100 : 0;
+        const foodCostPct = it.price > 0 ? (it.foodCost / it.price) * 100 : 0;
+        const itemContribution = cm * it.units;
+        const klass = classify(it, avgCM, avgPop);
+        return { ...it, cm, cmPct, foodCostPct, itemContribution, klass };
+      });
+
+      // Sort by contribution dollars desc for results table
+      classified.sort((a, b) => b.itemContribution - a.itemContribution);
+
+      // Quadrant counts
+      const counts = { star: 0, plowhorse: 0, puzzle: 0, dog: 0 } as Record<string, number>;
+      classified.forEach(c => { counts[c.klass]++; });
+
+      if (qStarEl) qStarEl.textContent = String(counts.star);
+      if (qPlowEl) qPlowEl.textContent = String(counts.plowhorse);
+      if (qPuzzleEl) qPuzzleEl.textContent = String(counts.puzzle);
+      if (qDogEl) qDogEl.textContent = String(counts.dog);
+
+      // Render scatter dots
+      const dotsWrap = document.querySelector('[data-matrix-dots]') as HTMLElement | null;
+      if (dotsWrap && classified.length > 0) {
+        const maxUnits = Math.max(...classified.map(c => c.units));
+        const maxCM = Math.max(...classified.map(c => c.cm));
+        const minCM = Math.min(...classified.map(c => c.cm));
+        const cmRange = maxCM - minCM || 1;
+        dotsWrap.innerHTML = classified.map(c => {
+          const xPct = maxUnits > 0 ? (c.units / maxUnits) * 80 + 10 : 50;
+          const yNorm = (c.cm - minCM) / cmRange;
+          const yPct = 90 - yNorm * 80;
+          const safeName = (c.name || 'Unnamed').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+          const cmStr = fmtUSD(c.cm);
+          return `<span class="matrix__dot matrix__dot--${c.klass}" tabindex="0" style="left:${xPct.toFixed(1)}%; top:${yPct.toFixed(1)}%" aria-label="${safeName}: ${c.klass}, ${cmStr} CM, ${c.units} units">
+            <span class="matrix__dot-tip">${safeName} · ${cmStr} CM · ${c.units} units</span>
+          </span>`;
+        }).join('');
+      } else if (dotsWrap) {
+        dotsWrap.innerHTML = '';
+      }
+
+      const dogPct = itemCount > 0 ? (counts.dog / itemCount) * 100 : 0;
+
+      let statusKey = 'healthy';
+      let statusText = 'Healthy';
+      if (dogPct > 25) { statusKey = 'critical'; statusText = 'Critical'; }
+      else if (dogPct > 15) { statusKey = 'watch'; statusText = 'Watch'; }
+      statusPill!.dataset.status = statusKey;
+      statusLabel!.textContent = statusText;
+
+      animateCounter(counter!, lastValue, totalContribution, 800);
+      lastValue = totalContribution;
+
+      // Top star and worst dog
+      const stars = classified.filter(c => c.klass === 'star');
+      const dogs = classified.filter(c => c.klass === 'dog');
+      const topStar = stars.length > 0 ? stars.reduce((a, b) => a.itemContribution > b.itemContribution ? a : b) : null;
+      const worstDog = dogs.length > 0 ? dogs.reduce((a, b) => a.itemContribution < b.itemContribution ? a : b) : null;
+
+      if (avgCmEl) avgCmEl.textContent = fmtUSD(avgCM);
+      if (avgPopEl) avgPopEl.textContent = avgPop.toFixed(1) + ' units';
+      if (topStarEl) topStarEl.textContent = topStar ? `${topStar.name || 'Unnamed'} (${fmtUSDInt(topStar.itemContribution)})` : '—';
+      if (worstDogEl) worstDogEl.textContent = worstDog ? `${worstDog.name || 'Unnamed'} (${fmtUSDInt(worstDog.itemContribution)})` : '—';
+
+      // Results table
+      if (resultsSection && resultsBody) {
+        resultsSection.hidden = false;
+        resultsBody.innerHTML = classified.map(c => {
+          const name = (c.name || 'Unnamed').replace(/</g, '&lt;');
+          return `<tr>
+            <td>${name}</td>
+            <td class="num">${fmtUSD(c.foodCost)}</td>
+            <td class="num">${fmtUSD(c.price)}</td>
+            <td class="num">${fmtUSD(c.cm)}</td>
+            <td class="num">${c.cmPct.toFixed(1)}%</td>
+            <td class="num">${c.units.toLocaleString('en-US')}</td>
+            <td class="num"><strong>${fmtUSDInt(c.itemContribution)}</strong></td>
+            <td><span class="badge badge--${c.klass}">${c.klass.charAt(0).toUpperCase() + c.klass.slice(1)}</span></td>
+          </tr>`;
+        }).join('');
+      }
+
+      // Math
+      const cmThresholdDollars = avgCM * CM_THRESHOLD;
+      const popThresholdUnits = avgPop * POP_THRESHOLD;
+      let note = '';
+      if (statusText === 'Healthy') note = `Dog share is ${dogPct.toFixed(0)}% of items (under 15% target). Menu is healthy. Focus next quarter on converting puzzles into stars through placement and server training.`;
+      if (statusText === 'Watch') note = `Dog share is ${dogPct.toFixed(0)}% of items (15–25% range). Audit each dog for strategic role. Two consecutive quarters in dog quadrant = remove or rework.`;
+      if (statusText === 'Critical') note = `Dog share is ${dogPct.toFixed(0)}% of items (over 25%). The menu is carrying weight. Cut at least half the dogs this quarter. Replace each cut item with a star variant in the same category.`;
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          <tr><td>Items in matrix</td><td class="num">${itemCount}</td></tr>
+          <tr><td>Total units sold</td><td class="num">${totalUnits.toLocaleString('en-US')}</td></tr>
+          <tr><td>Total contribution dollars</td><td class="num">${fmtUSD(totalContribution)}</td></tr>
+          <tr class="math-table__step"><td>Weighted avg CM (sum(cm × units) ÷ total units)</td><td class="num">${fmtUSD(avgCM)}</td></tr>
+          <tr class="math-table__step"><td>Avg popularity (units ÷ items)</td><td class="num">${avgPop.toFixed(1)}</td></tr>
+          <tr><td>High CM threshold (avg CM × ${CM_THRESHOLD})</td><td class="num">${fmtUSD(cmThresholdDollars)}</td></tr>
+          <tr><td>High popularity threshold (avg pop × ${POP_THRESHOLD})</td><td class="num">${popThresholdUnits.toFixed(1)} units</td></tr>
+          <tr class="math-table__step"><td>Stars (high CM &amp; high pop)</td><td class="num">${counts.star}</td></tr>
+          <tr class="math-table__step"><td>Plowhorses (low CM &amp; high pop)</td><td class="num">${counts.plowhorse}</td></tr>
+          <tr class="math-table__step"><td>Puzzles (high CM &amp; low pop)</td><td class="num">${counts.puzzle}</td></tr>
+          <tr class="math-table__step"><td>Dogs (low CM &amp; low pop)</td><td class="num">${counts.dog}</td></tr>
+          <tr class="math-table__final"><td>Dog share of menu</td><td class="num"><strong>${dogPct.toFixed(1)}%</strong></td></tr>
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calc();
+    });
+
+    // Wiring for menu rows (input + click delegation)
+    const menuRowsWrap = document.querySelector('[data-menu-rows]') as HTMLElement | null;
+    const menuAddBtn = document.querySelector('[data-menu-add]');
+    const menuExBtn = document.querySelector('[data-menu-example]');
+    const menuClearBtn = document.querySelector('[data-menu-clear]');
+
+    menuAddBtn?.addEventListener('click', () => addItem());
+    menuExBtn?.addEventListener('click', loadExampleMenu);
+    menuClearBtn?.addEventListener('click', clearItems);
+
+    if (menuRowsWrap) {
+      menuRowsWrap.addEventListener('input', (e) => {
+        const t = e.target as HTMLInputElement;
+        const row = (t as HTMLElement).closest('[data-row-id]') as HTMLElement | null;
+        if (!row) return;
+        const id = row.dataset.rowId;
+        const it = items.find(i => i.id === id);
+        if (!it) return;
+        const field = t.dataset.field;
+        if (field === 'name') it.name = t.value;
+        else if (field === 'foodCost') it.foodCost = parseFloat(t.value) || 0;
+        else if (field === 'price') it.price = parseFloat(t.value) || 0;
+        else if (field === 'units') it.units = parseFloat(t.value) || 0;
+        debouncedCalc();
+      });
+      menuRowsWrap.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest('[data-row-remove]') as HTMLElement | null;
+        if (!btn) return;
+        const row = btn.closest('[data-row-id]') as HTMLElement | null;
+        if (!row) return;
+        items = items.filter(i => i.id !== row.dataset.rowId);
+        renderMenuRows();
+        debouncedCalc();
+      });
+    }
+
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExampleMenu);
+    loadExampleMenu();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
+  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
+  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
+
+  /* Menu items table */
+  .menu { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+  .menu__head { display: flex; flex-direction: column; gap: var(--space-2); }
+  .menu__title { font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.0625rem; font-weight: 600; color: var(--color-heading); margin: 0; }
+  .menu__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45; margin: 0; }
+
+  .menu__table { display: flex; flex-direction: column; gap: var(--space-2); }
+  .menu__thead { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.7fr) 32px; gap: 6px; padding: 0 8px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted); }
+  @media (max-width: 720px) { .menu__thead { display: none; } }
+
+  .menu__rows { display: flex; flex-direction: column; gap: var(--space-2); }
+  .menu__rows:empty::before { content: 'No items yet. Click "Load example menu" or "+ Add item" to start.'; display: block; padding: var(--space-5) var(--space-4); text-align: center; font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); border: 1.5px dashed var(--color-border); border-radius: var(--radius-md); }
+
+  .menu-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.7fr) 32px; gap: 6px; align-items: center; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; padding: 6px 6px 6px 8px; transition: border-color var(--transition-fast); }
+  .menu-row:focus-within { border-color: var(--color-saffron); }
+  @media (max-width: 720px) { .menu-row { grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; } .menu-row__name { grid-column: 1 / -1; } .menu-row > input, .menu-row > .menu-row__money { font-size: 0.875rem !important; } .menu-row .menu-row__remove { grid-column: 2; justify-self: end; } }
+
+  .menu-row input { background: transparent; border: none; padding: 6px 8px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: var(--color-heading); outline: none; min-width: 0; width: 100%; border-radius: 4px; }
+  .menu-row input:focus { background: var(--color-cream); }
+  .menu-row__name { font-family: var(--font-body) !important; }
+  .menu-row__money { display: flex; align-items: center; gap: 0; background: transparent; border-radius: 4px; min-width: 0; }
+  .menu-row__money input { padding-left: 2px; }
+  .menu-row__prefix { font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-muted); padding-left: 6px; flex-shrink: 0; }
+  .menu-row__remove { background: transparent; border: none; color: var(--color-muted); cursor: pointer; padding: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; transition: all var(--transition-fast); }
+  .menu-row__remove:hover { background: rgba(192, 57, 43, 0.1); color: #c0392b; }
+
+  .menu__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .menu__example, .menu__clear { background: transparent; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-body); cursor: pointer; transition: all var(--transition-fast); }
+  .menu__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
+  .menu__clear:hover { border-color: #c0392b; color: #c0392b; }
+
+  .menu__totals { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) 0 0; border-top: 1px dashed var(--color-border); }
+  .menu__total-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-family: var(--font-body); font-size: 0.8125rem; }
+  .menu__total-label { color: var(--color-body); }
+  .menu__total-value { font-weight: 600; color: var(--color-heading); }
+  .menu__total-row--final { padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--color-heading); }
+  .menu__total-row--final .menu__total-label { font-weight: 600; }
+  .menu__total-row--final .menu__total-value { font-size: 1rem; color: var(--color-saffron-text); }
+
+  /* Result card */
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); flex-wrap: wrap; gap: var(--space-2); }
+
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .result-num__pre { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .result-num--pulse { transform: scale(1.025); }
+  .calc-result__benchmark { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); gap: var(--space-3); }
+
+  /* Scatter matrix in result card */
+  .matrix { margin-bottom: var(--space-5); padding-left: 28px; padding-bottom: 24px; position: relative; }
+  .matrix__plot { position: relative; aspect-ratio: 1; width: 100%; background:
+    linear-gradient(135deg, rgba(40, 80, 130, 0.08) 0%, rgba(40, 80, 130, 0.08) 50%, transparent 50%),
+    linear-gradient(225deg, rgba(74, 88, 38, 0.10) 0%, rgba(74, 88, 38, 0.10) 50%, transparent 50%),
+    linear-gradient(315deg, rgba(200, 117, 0, 0.10) 0%, rgba(200, 117, 0, 0.10) 50%, transparent 50%),
+    linear-gradient(45deg, rgba(192, 57, 43, 0.10) 0%, rgba(192, 57, 43, 0.10) 50%, transparent 50%);
+    background-size: 50% 50%; background-position: 0 0, 100% 0, 100% 100%, 0 100%; background-repeat: no-repeat;
+    border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+  .matrix__hline, .matrix__vline { position: absolute; background: var(--color-border); }
+  .matrix__hline { left: 0; right: 0; top: 50%; height: 1px; }
+  .matrix__vline { top: 0; bottom: 0; left: 50%; width: 1px; }
+  .matrix__axis-y, .matrix__axis-x { position: absolute; font-family: var(--font-body); font-size: 0.6875rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .matrix__axis-y { left: -28px; top: 50%; transform: rotate(-90deg) translateX(50%); transform-origin: right center; }
+  .matrix__axis-x { left: 50%; bottom: -22px; transform: translateX(-50%); white-space: nowrap; }
+  .matrix__corner { position: absolute; display: flex; flex-direction: column; gap: 2px; padding: 6px 8px; pointer-events: none; }
+  .matrix__corner-label { font-family: var(--font-body); font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .matrix__corner-count { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 500; line-height: 1; }
+  .matrix__corner--puzzle { top: 0; left: 0; }
+  .matrix__corner--puzzle .matrix__corner-label, .matrix__corner--puzzle .matrix__corner-count { color: #285082; }
+  .matrix__corner--star { top: 0; right: 0; align-items: flex-end; }
+  .matrix__corner--star .matrix__corner-label, .matrix__corner--star .matrix__corner-count { color: #4a5826; }
+  .matrix__corner--dog { bottom: 0; left: 0; }
+  .matrix__corner--dog .matrix__corner-label, .matrix__corner--dog .matrix__corner-count { color: #c0392b; }
+  .matrix__corner--plowhorse { bottom: 0; right: 0; align-items: flex-end; }
+  .matrix__corner--plowhorse .matrix__corner-label, .matrix__corner--plowhorse .matrix__corner-count { color: var(--color-saffron-text); }
+  .matrix__dots { position: absolute; inset: 0; }
+  .matrix__dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid var(--color-white); box-shadow: 0 1px 4px rgba(0,0,0,0.18); transition: transform var(--transition-fast); cursor: help; }
+  .matrix__dot:hover, .matrix__dot:focus { transform: translate(-50%, -50%) scale(1.4); z-index: 10; }
+  .matrix__dot--star { background: #4a5826; }
+  .matrix__dot--plowhorse { background: var(--color-saffron-cta); }
+  .matrix__dot--puzzle { background: #285082; }
+  .matrix__dot--dog { background: #c0392b; }
+  .matrix__dot-tip { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--color-heading); color: var(--color-white); font-family: var(--font-body); font-size: 0.6875rem; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
+  .matrix__dot:hover .matrix__dot-tip, .matrix__dot:focus .matrix__dot-tip { opacity: 1; }
+
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: background var(--transition-fast), color var(--transition-fast); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-pill[data-status="empty"] { background: rgba(122, 117, 105, 0.10); color: var(--color-muted); }
+  .status-pill[data-status="empty"] .status-pill__dot { background: var(--color-muted); box-shadow: 0 0 0 3px rgba(122, 117, 105, 0.18); }
+  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
+  .status-pill[data-status="healthy"] .status-pill__dot { background: #4a5826; box-shadow: 0 0 0 3px rgba(74, 88, 38, 0.18); }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
+  .status-pill[data-status="watch"] .status-pill__dot { background: var(--color-saffron); box-shadow: 0 0 0 3px rgba(200, 117, 0, 0.20); }
+  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .status-pill[data-status="critical"] .status-pill__dot { background: #c0392b; box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.22); }
+
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; gap: var(--space-3); }
+  .extras-row__label { color: var(--color-body); flex-shrink: 0; }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); text-align: right; }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; transition: background var(--transition-fast); }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__trigger:hover { background: var(--color-border-soft); }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  /* Classified results table */
+  .results-table { margin: var(--space-12) 0 var(--space-16); }
+  .results-table[hidden] { display: none; }
+  .results-table__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.625rem, 3vw + 0.5rem, 2.25rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .results-table__intro { max-width: 64ch; margin-bottom: var(--space-6); }
+  .results-table__wrap { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow-x: auto; box-shadow: var(--shadow-warm); }
+  .results-table__table { width: 100%; border-collapse: collapse; min-width: 720px; }
+  .results-table__table thead th { padding: var(--space-3) var(--space-4); text-align: left; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted); border-bottom: 1px solid var(--color-border); background: var(--color-cream); white-space: nowrap; }
+  .results-table__table thead th.num { text-align: right; }
+  .results-table__table tbody td { padding: var(--space-3) var(--space-4); border-bottom: 1px dashed var(--color-border); font-family: var(--font-body); font-size: 0.9375rem; color: var(--color-heading); vertical-align: middle; }
+  .results-table__table tbody td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  .results-table__table tbody tr:last-child td { border-bottom: none; }
+
+  .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .badge--star { background: rgba(74, 88, 38, 0.14); color: #4a5826; }
+  .badge--plowhorse { background: rgba(200, 117, 0, 0.16); color: var(--color-saffron-text); }
+  .badge--puzzle { background: rgba(40, 80, 130, 0.12); color: #285082; }
+  .badge--dog { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+
+  /* Quadrant guide section */
+  .quadrant-guide { margin-bottom: var(--space-16); }
+  .quadrant-guide__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-3); }
+  .quadrant-guide__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .quadrant-guide__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .quadrant-guide__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .quadrant-guide__grid { grid-template-columns: 1fr; } }
+  .qg-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .qg-card__badge { align-self: flex-start; padding: 4px 12px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .qg-card--star .qg-card__badge { background: rgba(74, 88, 38, 0.14); color: #4a5826; }
+  .qg-card--plowhorse .qg-card__badge { background: rgba(200, 117, 0, 0.16); color: var(--color-saffron-text); }
+  .qg-card--puzzle .qg-card__badge { background: rgba(40, 80, 130, 0.12); color: #285082; }
+  .qg-card--dog .qg-card__badge { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .qg-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin: 0; }
+  .qg-card__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .qg-card__list li { position: relative; padding-left: var(--space-5); font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+  .qg-card__list li::before { content: ''; position: absolute; left: 4px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--color-saffron); }
+
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
+
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .cited-sources { margin-bottom: var(--space-12); }
+  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  .cited-sources a { color: var(--color-saffron-text); }
+  .cited-sources a:hover { color: var(--color-saffron-hover); }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>
+
+<style is:global>
+  /* Dynamically rendered dots need global styles since they bypass Astro scoping */
+  .matrix__dots { position: absolute; inset: 0; pointer-events: none; }
+  .matrix__dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.18); transition: transform 180ms ease-out; cursor: help; pointer-events: auto; display: block; }
+  .matrix__dot:hover, .matrix__dot:focus { transform: translate(-50%, -50%) scale(1.4); z-index: 10; outline: none; }
+  .matrix__dot--star { background: #4a5826; }
+  .matrix__dot--plowhorse { background: #c87500; }
+  .matrix__dot--puzzle { background: #285082; }
+  .matrix__dot--dog { background: #c0392b; }
+  .matrix__dot-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); white-space: nowrap; background: #1a1814; color: #fafaf7; font-family: 'Geist', sans-serif; font-size: 0.6875rem; font-weight: 500; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 150ms ease-out; z-index: 20; }
+  .matrix__dot:hover .matrix__dot-tip, .matrix__dot:focus .matrix__dot-tip { opacity: 1; }
+</style>

@@ -1,0 +1,843 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Third-Party Delivery Profit Calculator — Free | RestaurantCalcs';
+const description = 'Third-party delivery profit calculator. DoorDash, UberEats, GrubHub commission stack vs food, labor, packaging. Net margin per order. Math shown.';
+
+const faq = [
+  {
+    q: 'What is third-party delivery commission?',
+    a: 'The percentage of every order subtotal a platform keeps before passing the rest to you. Standard rates are 30% on DoorDash, UberEats, and GrubHub (Toast). Reduced "marketplace" or "lite" tiers run 15–25% but typically require you to handle delivery or visibility limits.',
+  },
+  {
+    q: 'How much does DoorDash, UberEats, or GrubHub really cost?',
+    a: 'Commission is the headline. The full take is bigger. Standard tier: 30% commission + processing + packaging + promo + tablet/integration fees. Stacked, the platform-side cost on a typical order runs 35–45% of subtotal before food cost (Toast, R365). That is why operators who only model commission lose money on delivery.',
+  },
+  {
+    q: 'What is the true cost of a delivery order?',
+    a: 'Add platform commission + payment processing + per-order packaging + promo discount + monthly platform fees divided by orders + food cost + labor cost + other variable costs. The same order that runs 22% net margin in the dining room can run negative on a third-party platform with the same menu price.',
+  },
+  {
+    q: 'Why are some operators losing money on delivery?',
+    a: 'They priced the platform menu at dining-room prices and never modeled the commission stack. Platform menu price equal to dine-in menu price is the single most common mistake (R365). The fix is dual pricing: platform menu set 15–20% above dine-in to absorb commission and protect margin.',
+  },
+  {
+    q: 'Should I raise menu prices on delivery platforms?',
+    a: 'Yes. Industry guidance is 15–20% above dine-in, depending on your commission tier (Toast). Platforms allow this. Customers expect it. The alternative is subsidizing the platform with your dining-room margin, which most operators do without realizing it. Run the math weekly. If net margin on platform orders is below 8%, the menu prices are too low.',
+  },
+  {
+    q: 'What is "delivery markup" and how much should it be?',
+    a: 'A separate platform-only menu price set above dine-in to offset commission. Standard markup is 15% on a 30% commission tier. Math: if commission is 30% and target margin is 15%, you need roughly 18% above dine-in just to break even on the platform-side stack before food cost. Lower commission tiers (UberEats Lite, GrubHub partnership) need less markup.',
+  },
+  {
+    q: 'How do I calculate break-even on a delivery order?',
+    a: 'Break-even subtotal = (food cost $ + labor cost $ + other variable cost $ + packaging + integration fee per order) ÷ (1 - commission % - processing % - promo %). The reverse-solve in this calculator does this for you. Punch in the numbers and it tells you the platform menu price for any target margin.',
+  },
+  {
+    q: 'Are delivery promos worth it?',
+    a: 'Sometimes. Promo discounts feel like marketing spend until you model them. Then they look like additional commission. A "$5 off $30" promo is a 17% discount stacked on top of 30% commission. Net take to operator before food cost is around 53% of subtotal. The platforms market promos as growth tools. They are growth tools. They are also a margin trap if you run them on every order without modeling the stack.',
+  },
+  {
+    q: 'What about ghost kitchens and virtual brands?',
+    a: 'Same math, different storefront. Ghost kitchens still pay the commission stack on every order. Virtual brands inside an existing kitchen reduce labor and rent allocation, which improves the math, but does not change the platform-side take. Run the per-order P&L the same way (R365). The commission stack does not care if you have a dining room.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. The math runs in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const benchmarks = [
+  { name: 'DoorDash standard', low: 30, high: 30 },
+  { name: 'DoorDash Marketplace', low: 25, high: 25 },
+  { name: 'UberEats standard', low: 30, high: 30 },
+  { name: 'UberEats Lite', low: 15, high: 15 },
+  { name: 'GrubHub standard', low: 30, high: 30 },
+  { name: 'GrubHub partnership', low: 20, high: 20 },
+  { name: 'ezCater', low: 18, high: 18 },
+];
+
+const scenarios = [
+  {
+    title: 'The "we did not know what we did not know" diner',
+    setup: 'Casual diner running a healthy 22% net on dine-in. Owner had been on DoorDash and UberEats for two years, both at 30% commission. Never modeled the per-order P&L for delivery.',
+    diagnosis: 'Built the platform P&L from scratch. Commission 30% + processing 2.9% + packaging $0.85 + promo participation 10% + tablet fee. Net margin on platform orders was negative 3%. Every delivery order was costing the operator about a dollar before they shook the bag.',
+    fix: 'Raised platform menu prices 18% across the board. Industry-standard delivery markup (Toast). Dropped opt-in to platform promos. Kept the listing visible without stacking discounts.',
+    outcome: 'Net margin on platform orders moved to 11% in six weeks. Volume dropped about 8% from losing the promo halo. Total platform contribution to monthly margin doubled.',
+  },
+  {
+    title: 'The QSR operator who ran the math first',
+    setup: 'Fast-casual bowl concept. Modeled the delivery P&L before listing on any platform. Set platform menu 15% above dine-in from day one based on commission-stack math.',
+    diagnosis: 'Standard 30% commission tier. Modeled net margin at 12% per platform order using their concept-typical food cost (28%) and a labor allocation that reflected the kitchen-only delivery flow (no FOH labor on delivery covers).',
+    fix: 'No fix. The pricing was right at launch. They used the platforms for incremental volume, not to cannibalize dine-in customers who were happy to come in.',
+    outcome: 'Hitting 12–14% net on platform orders consistently. Platform volume is roughly 22% of revenue, contributing proportionally. The discipline was modeling the stack before listing, not after.',
+  },
+  {
+    title: 'The promo-stacked nightmare',
+    setup: 'Independent burger spot. Owner saw delivery as "free marketing" and opted into every promo the platforms offered. 20% off, $5 off $30, free delivery on Tuesdays. Stacked on top of standard 30% commission.',
+    diagnosis: 'Did the per-order P&L. Commission 30% + promo 20% + processing 2.9% + packaging + tablet fee = 55% of subtotal gone before food cost. Food at 30% on top. Labor allocation on top. Net was negative on every promo order.',
+    fix: 'Stopped treating promo as marketing. Promo is commission. The platform takes the discount out of operator revenue, not out of platform revenue. Re-modeled with promo as commission-equivalent. Pulled out of all promos. Raised platform prices 18%.',
+    outcome: 'Net margin recovered from negative to about 9% on platform orders. Order volume dropped roughly 30%. Total platform contribution to monthly profit went up because each remaining order actually made money.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'prime-cost', title: 'Prime Cost', desc: 'Delivery shifts prime cost up. Track both.' },
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Food cost % drives delivery break-even.' },
+  { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Dual-pricing strategy starts here.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/delivery-profit/#webpage', url: 'https://restaurantcalcs.com/calculators/delivery-profit/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/delivery-profit/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/delivery-profit/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    { '@type': 'ListItem', position: 3, name: 'Third-Party Delivery Profit', item: 'https://restaurantcalcs.com/calculators/delivery-profit/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/delivery-profit/#tool',
+    name: 'Third-Party Delivery True-Profit Calculator',
+    description: 'Free web-based delivery profit calculator. Models the full commission stack (DoorDash, UberEats, GrubHub) plus food, labor, packaging, promo, and integration fees to return net margin per platform order.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/delivery-profit/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'How to calculate true profit on a third-party delivery order', totalTime: 'PT3M', supply: [
+    { '@type': 'HowToSupply', name: 'Platform order subtotal (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Platform commission percentage' },
+    { '@type': 'HowToSupply', name: 'Payment processing percentage' },
+    { '@type': 'HowToSupply', name: 'Packaging cost per order (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Promo discount percentage' },
+    { '@type': 'HowToSupply', name: 'Monthly platform fees and monthly orders' },
+    { '@type': 'HowToSupply', name: 'Food cost percentage' },
+    { '@type': 'HowToSupply', name: 'Labor cost percentage' },
+    { '@type': 'HowToSupply', name: 'Other variable cost percentage' },
+  ], step: [
+    { '@type': 'HowToStep', position: 1, name: 'Sum platform-side costs', text: 'Commission + processing + packaging + promo discount + monthly fees divided by monthly orders. This is what the platform takes before food cost.' },
+    { '@type': 'HowToStep', position: 2, name: 'Add operator-side costs', text: 'Food cost + labor cost + other variable costs as percentages of subtotal.' },
+    { '@type': 'HowToStep', position: 3, name: 'Subtract from subtotal', text: 'Net profit = subtotal - all costs. Net margin % = net profit ÷ subtotal × 100.' },
+    { '@type': 'HowToStep', position: 4, name: 'Compare to healthy band', text: 'Healthy delivery net margin is 10–20% on platform orders. Below 3% signals platform pricing is too low. Negative signals you are subsidizing the platform.' },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Delivery Profit</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Delivery profit calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Third-Party Delivery True-Profit Calculator</h1>
+      <p class="calc-page__intro">
+        DoorDash, UberEats, and GrubHub take 15–30% commission. Then processing, packaging, promo, and tablet fees stack on top. Most operators model commission and stop there. The full take usually runs <strong>35–45%</strong> of subtotal before food cost (Toast). This calculator runs the per-order P&L. Healthy net margin on platform orders is 10–20%.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Builds the full per-order P&L for a third-party delivery order. Commission, processing, packaging, promo, integration fees, plus food, labor, and other variable cost. Returns net profit per order, net margin %, and a reverse-solved platform menu price for your target margin.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="subtotal">Order subtotal</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="subtotal" name="subtotal" type="number" inputmode="decimal" min="0" step="0.50" placeholder="32" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Pre-tax, pre-tip subtotal of the order on the platform menu price.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="platform">Platform / commission tier</label>
+          <select id="platform" name="platform">
+            <option value="doordash-30" selected>DoorDash standard (30%)</option>
+            <option value="doordash-25">DoorDash Marketplace (25%)</option>
+            <option value="ubereats-30">UberEats standard (30%)</option>
+            <option value="ubereats-15">UberEats Lite — operator delivers (15%)</option>
+            <option value="grubhub-30">GrubHub standard (30%)</option>
+            <option value="grubhub-20">GrubHub partnership (20%)</option>
+            <option value="ezcater-18">ezCater (18%)</option>
+            <option value="custom">Custom commission %</option>
+          </select>
+          <p class="form-row__hint">Commission rates per Toast and platform partner pages. Lower tiers usually require operator delivery or visibility tradeoffs.</p>
+        </div>
+
+        <div class="form-row" data-custom-row hidden>
+          <label class="form-row__label" for="commission">Custom commission %</label>
+          <div class="input-shell">
+            <input id="commission" name="commission" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Whatever your platform contract says. Read the small print — bundle promotions can shift this number.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="processing">Payment processing %</label>
+          <div class="input-shell">
+            <input id="processing" name="processing" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="2.9" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Default 2.9%. Some platforms include this in commission, some pass it through. Read your contract.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="packaging">Packaging cost per order</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="packaging" name="packaging" type="number" inputmode="decimal" min="0" step="0.05" placeholder="0.85" autocomplete="off" />
+          </div>
+          <p class="form-row__hint">Clamshell + utensils + bag + label. Sustainable packaging often runs $1.20–1.80.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="promo">Promo / discount % offered</label>
+          <div class="input-shell">
+            <input id="promo" name="promo" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="10" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">"$5 off $30" is roughly 17%. The platform takes the discount out of your revenue, not theirs.</p>
+        </div>
+
+        <div class="form-row form-row--split">
+          <label class="form-row__label">Monthly platform fees ÷ Monthly orders</label>
+          <div class="form-row__split">
+            <div class="input-shell">
+              <span class="input-shell__prefix">$</span>
+              <input id="monthly-fees" name="monthly-fees" type="number" inputmode="decimal" min="0" step="5" placeholder="30" autocomplete="off" />
+            </div>
+            <span class="form-row__split-divider" aria-hidden="true">÷</span>
+            <div class="input-shell">
+              <input id="monthly-orders" name="monthly-orders" type="number" inputmode="decimal" min="1" step="10" placeholder="250" autocomplete="off" />
+            </div>
+          </div>
+          <p class="form-row__hint">Tablet rental + integration + any platform-side fixed monthly cost, divided by monthly platform orders. Default $30 ÷ 250 = $0.12 per order.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="food-cost">Food cost %</label>
+          <div class="input-shell">
+            <input id="food-cost" name="food-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" required />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Concept benchmark: casual 28–32%, QSR 25–30%, pizza 22–28%, fine dining 30–35% (NRA, Toast).</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="labor-cost">Labor cost %</label>
+          <div class="input-shell">
+            <input id="labor-cost" name="labor-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" required />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Allocate kitchen-side labor only if delivery never touches FOH. Most operators allocate full burden to keep the comparison honest.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="other-cost">Other variable cost %</label>
+          <div class="input-shell">
+            <input id="other-cost" name="other-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="5" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Paper, cleaning, utilities-at-margin, credit losses. Default 5%.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="target-margin">Target net margin % (for reverse-solve)</label>
+          <div class="input-shell">
+            <input id="target-margin" name="target-margin" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="15" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Calculator returns suggested platform menu price to hit this margin given your inputs.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Calculate delivery profit
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Net profit per order</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big calc-result__big--money">
+            <span class="result-num__pct" aria-hidden="true">$</span>
+            <span class="result-num" data-counter>0.00</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Healthy delivery net margin</span>
+            <span class="t-caption num" data-bench>10–20%</span>
+          </div>
+
+          <div class="calc-result__bar">
+            <div class="bar-track">
+              <div class="bar-zone bar-zone--bad"></div>
+              <div class="bar-zone bar-zone--watch"></div>
+              <div class="bar-zone bar-zone--good"></div>
+              <div class="bar-zone bar-zone--lean"></div>
+              <div class="bar-marker" data-marker style="left: 0%"></div>
+            </div>
+            <div class="bar-labels">
+              <span class="t-caption num">-10%</span>
+              <span class="t-caption num">10%</span>
+              <span class="t-caption num">30%+</span>
+            </div>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Order subtotal</span>
+              <span class="extras-row__value num" data-subtotal>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Total platform take</span>
+              <span class="extras-row__value num" data-platform-take>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Total cost (all in)</span>
+              <span class="extras-row__value num" data-total-cost>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Net margin %</span>
+              <span class="extras-row__value num" data-margin-pct>—</span>
+            </div>
+            <div class="extras-row extras-row--highlight">
+              <span class="extras-row__label">Suggested platform price for target margin</span>
+              <span class="extras-row__value num" data-suggested>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter values above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/delivery-profit.webp" alt="Editorial illustration of a restaurant kitchen pass with three takeout bags labeled with platform stickers, an open ledger showing per-order cost lines, a vintage adding machine, and a bar towel folded on the corner." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Delivery is a <em>different P&L</em>, not a discount on the dining room.</h2>
+      <div class="essay__body">
+        <p>
+          Most operators treat third-party delivery as the dining-room menu, on a different channel, at the same price. That is the trap. The dining-room P&L pays rent, FOH labor, atmosphere, and a 10–15% net margin out of a 70-cents-on-the-dollar gross take. The delivery P&L pays the same food cost, the same back-of-house labor, plus a 30% commission, plus processing, plus packaging, plus a promo discount you may not have modeled as a cost. Same plate. Different machine. Different math.
+        </p>
+        <p>
+          The "free marketing" framing is the second trap. Platforms market themselves as customer acquisition. They are. They are also a 35–45% take of subtotal before food cost (Toast). If a regular customer orders dine-in tonight at 22% net margin, then orders the same plate on DoorDash next week at negative 3% net margin, the platform did not bring you a new customer. It cannibalized a profitable order with an unprofitable one and called it growth.
+        </p>
+        <p class="essay__pull">
+          Run the platform menu as its own concept. Different price, different P&L, different target margin. Most of the operators I have watched lose money on delivery were running it as a discount on dining-room margin. They were not.
+        </p>
+        <p>
+          The fix is dual pricing. Industry standard is 15–20% above dine-in to absorb the commission stack (Toast, R365). Platforms allow it. Customers expect it. The operators who set this on day one run 12–14% net on platform orders consistently. The operators who priced delivery at dine-in prices for two years and then modeled the math, like the diner in scenario one, have to raise platform prices 18% in a single move, lose some volume, and still come out ahead because the orders that remain actually make money. The math is the easy part. The discipline is checking the per-order P&L weekly and refusing to call promo "marketing spend" when it is just commission with a different name.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="benchmarks">
+      <h2 class="benchmarks__headline">Commission rates <em>by platform tier</em></h2>
+      <p class="t-body-large benchmarks__intro">
+        Standard tiers cluster at 30%. Reduced tiers exist but trade off visibility (Marketplace), require operator-provided delivery (UberEats Lite), or are partnership-specific (GrubHub partnership, ezCater corporate). Always read your contract — bundle promotions and growth-tier opt-ins can shift the number.
+      </p>
+      <div class="benchmarks__chart">
+        {benchmarks.map((b) => (
+          <div class="bench-bar">
+            <div class="bench-bar__name">{b.name}</div>
+            <div class="bench-bar__track">
+              <div class="bench-bar__zone" style={`left: 0%; width: ${b.high}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.high}%`}></div>
+            </div>
+            <div class="bench-bar__range num">{b.low}%</div>
+          </div>
+        ))}
+        <div class="bench-axis">
+          <div class="bench-axis__track">
+            <span class="bench-axis__tick num" style="left: 0%">0%</span>
+            <span class="bench-axis__tick num" style="left: 25%">25%</span>
+            <span class="bench-axis__tick num" style="left: 50%">50%</span>
+            <span class="bench-axis__tick num" style="left: 75%">75%</span>
+            <span class="bench-axis__tick num" style="left: 100%">100%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three different delivery stories</h2>
+      <p class="t-body-large scenarios__intro">
+        Same platforms. Same commission tiers. Different outcomes, depending on whether the operator modeled the per-order P&L before listing or after they noticed margin had drifted.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/third-party-delivery" target="_blank" rel="noopener">Toast — Third-Party Delivery Commission Analysis</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Off-Premise Sales Trends</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Delivery Profitability Guide</a></li>
+        <li><a href="https://www.usfoods.com/our-services/business-trends.html" target="_blank" rel="noopener">US Foods — Delivery P&L Whitepaper</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const marker = document.querySelector('[data-marker]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const benchEl = document.querySelector('[data-bench]') as HTMLElement | null;
+  const subtotalEl = document.querySelector('[data-subtotal]') as HTMLElement | null;
+  const platformTakeEl = document.querySelector('[data-platform-take]') as HTMLElement | null;
+  const totalCostEl = document.querySelector('[data-total-cost]') as HTMLElement | null;
+  const marginPctEl = document.querySelector('[data-margin-pct]') as HTMLElement | null;
+  const suggestedEl = document.querySelector('[data-suggested]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+  const platformSelect = document.querySelector('#platform') as HTMLSelectElement | null;
+  const customRow = document.querySelector('[data-custom-row]') as HTMLElement | null;
+
+  if (form && counter && marker && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const PLATFORM_RATES: Record<string, { label: string; rate: number }> = {
+      'doordash-30':  { label: 'DoorDash standard',     rate: 30 },
+      'doordash-25':  { label: 'DoorDash Marketplace',  rate: 25 },
+      'ubereats-30':  { label: 'UberEats standard',     rate: 30 },
+      'ubereats-15':  { label: 'UberEats Lite',         rate: 15 },
+      'grubhub-30':   { label: 'GrubHub standard',      rate: 30 },
+      'grubhub-20':   { label: 'GrubHub partnership',   rate: 20 },
+      'ezcater-18':   { label: 'ezCater',               rate: 18 },
+      'custom':       { label: 'Custom',                rate: 30 },
+    };
+
+    function fmtUSD(n: number) {
+      const sign = n < 0 ? '-' : '';
+      return sign + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function fmtUSDPlain(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800) {
+      if (reduced) { el.textContent = to.toFixed(2); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const v = from + (to - from) * ease(t);
+        el.textContent = v.toFixed(2);
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function getCommissionPct() {
+      const key = platformSelect?.value || 'doordash-30';
+      if (key === 'custom') {
+        const v = parseFloat((document.querySelector('#commission') as HTMLInputElement)?.value || '30');
+        return isNaN(v) ? 30 : v;
+      }
+      return PLATFORM_RATES[key]?.rate ?? 30;
+    }
+
+    function statusFor(marginPct: number) {
+      if (marginPct < 0) return { key: 'critical', label: 'Bleeding' };
+      if (marginPct < 3) return { key: 'critical', label: 'Critical' };
+      if (marginPct < 10) return { key: 'watch', label: 'Watch' };
+      if (marginPct <= 20) return { key: 'healthy', label: 'Healthy' };
+      return { key: 'lean', label: 'Strong' };
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Enter values';
+      marker!.style.left = '0%';
+      animateCounter(counter!, lastValue, 0, 400);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
+      [subtotalEl, platformTakeEl, totalCostEl, marginPctEl, suggestedEl].forEach(e => { if (e) e.textContent = '—'; });
+    }
+
+    function calc() {
+      const data = new FormData(form!);
+      const subtotal = parseFloat(String(data.get('subtotal') || '0')) || 0;
+      const commissionPct = getCommissionPct();
+      const procPct = parseFloat(String(data.get('processing') || '0')) || 0;
+      const packaging = parseFloat(String(data.get('packaging') || '0')) || 0;
+      const promoPct = parseFloat(String(data.get('promo') || '0')) || 0;
+      const monthlyFees = parseFloat(String(data.get('monthly-fees') || '0')) || 0;
+      const monthlyOrders = parseFloat(String(data.get('monthly-orders') || '0')) || 1;
+      const foodCostPct = parseFloat(String(data.get('food-cost') || '0')) || 0;
+      const laborCostPct = parseFloat(String(data.get('labor-cost') || '0')) || 0;
+      const otherCostPct = parseFloat(String(data.get('other-cost') || '0')) || 0;
+      const targetMarginPct = parseFloat(String(data.get('target-margin') || '0')) || 0;
+
+      if (subtotal <= 0) { reset(); return; }
+
+      const platformFee = subtotal * (commissionPct / 100);
+      const procFee = subtotal * (procPct / 100);
+      const promoDiscount = subtotal * (promoPct / 100);
+      const foodCost = subtotal * (foodCostPct / 100);
+      const laborCost = subtotal * (laborCostPct / 100);
+      const otherCost = subtotal * (otherCostPct / 100);
+      const integrationPerOrder = monthlyOrders > 0 ? monthlyFees / monthlyOrders : 0;
+
+      const platformTake = platformFee + procFee + promoDiscount;
+      const totalCosts = foodCost + laborCost + otherCost + platformTake + packaging + integrationPerOrder;
+      const netProfit = subtotal - totalCosts;
+      const netMarginPct = (netProfit / subtotal) * 100;
+      const platformTakePct = (platformTake / subtotal) * 100;
+
+      // Reverse-solve: targetSubtotal × (1 - commission% - proc% - promo% - target%) = fixed costs (food + labor + other + packaging + integration)
+      // But food/labor/other are %-based, so they scale with subtotal. Treat them as part of the variable side.
+      // Then: subtotal × (1 - commission% - proc% - promo% - food% - labor% - other% - target%) = packaging + integration
+      const variableTakePct = (commissionPct + procPct + promoPct + foodCostPct + laborCostPct + otherCostPct + targetMarginPct) / 100;
+      const denom = 1 - variableTakePct;
+      let suggestedPrice = 0;
+      if (denom > 0) {
+        suggestedPrice = (packaging + integrationPerOrder) / denom;
+      }
+
+      animateCounter(counter!, lastValue, netProfit, 800);
+      lastValue = netProfit;
+
+      const s = statusFor(netMarginPct);
+      statusPill!.dataset.status = s.key;
+      statusLabel!.textContent = s.label;
+
+      // Marker mapping: -10% to +30% range
+      const mapped = Math.min(100, Math.max(0, ((netMarginPct + 10) / 40) * 100));
+      marker!.style.left = `${mapped}%`;
+
+      if (benchEl) benchEl.textContent = '10–20%';
+      if (subtotalEl) subtotalEl.textContent = fmtUSDPlain(subtotal);
+      if (platformTakeEl) platformTakeEl.textContent = `${fmtUSDPlain(platformTake)} (${platformTakePct.toFixed(1)}%)`;
+      if (totalCostEl) totalCostEl.textContent = fmtUSDPlain(totalCosts);
+      if (marginPctEl) marginPctEl.textContent = `${netMarginPct.toFixed(1)}%`;
+      if (suggestedEl) suggestedEl.textContent = (denom > 0 && targetMarginPct > 0) ? fmtUSDPlain(suggestedPrice) : '—';
+
+      const platformLabel = PLATFORM_RATES[platformSelect?.value || 'doordash-30']?.label || 'Platform';
+
+      let note = '';
+      if (s.label === 'Bleeding') note = `Negative net on platform orders. You are subsidizing the platform with dining-room margin. Standard fix is dual pricing — set platform menu 15–20% above dine-in (Toast, R365). The reverse-solve above shows the platform price for your target margin.`;
+      if (s.label === 'Critical') note = `Below 3% net margin. One bad week of food cost or labor drift puts this negative. Healthy band on delivery is 10–20%. Look at promo participation and platform menu pricing first.`;
+      if (s.label === 'Watch') note = `Below the 10% healthy floor. Either platform menu prices are too low or promo stacking is eating margin. Promo discount is commission with a different name — model it that way.`;
+      if (s.label === 'Healthy') note = `Inside the 10–20% healthy band for ${platformLabel}. Maintain weekly tracking. Watch for commission-tier changes and promo opt-ins that quietly push you back to Watch.`;
+      if (s.label === 'Strong') note = `Above 20% net on platform orders. Strong. Verify the food cost and labor cost inputs are realistic for delivery — under-allocating either is the most common reason this number reads high.`;
+
+      const suggestedRow = (denom > 0 && targetMarginPct > 0)
+        ? `<tr class="math-table__step"><td>Suggested platform price for ${targetMarginPct.toFixed(1)}% net margin</td><td class="num"><strong>${fmtUSDPlain(suggestedPrice)}</strong></td></tr>`
+        : '';
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          <tr><td>Order subtotal</td><td class="num">${fmtUSDPlain(subtotal)}</td></tr>
+          <tr><td>− Platform commission (${commissionPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(platformFee)}</td></tr>
+          <tr><td>− Payment processing (${procPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(procFee)}</td></tr>
+          <tr><td>− Promo discount (${promoPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(promoDiscount)}</td></tr>
+          <tr class="math-table__step"><td>= Total platform take</td><td class="num">${fmtUSDPlain(platformTake)} (${platformTakePct.toFixed(1)}%)</td></tr>
+          <tr><td>− Packaging</td><td class="num">${fmtUSDPlain(packaging)}</td></tr>
+          <tr><td>− Integration ($${monthlyFees.toFixed(2)}/mo ÷ ${monthlyOrders} orders)</td><td class="num">${fmtUSDPlain(integrationPerOrder)}</td></tr>
+          <tr><td>− Food cost (${foodCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(foodCost)}</td></tr>
+          <tr><td>− Labor cost (${laborCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(laborCost)}</td></tr>
+          <tr><td>− Other variable cost (${otherCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(otherCost)}</td></tr>
+          <tr class="math-table__step"><td>= Total cost</td><td class="num">${fmtUSDPlain(totalCosts)}</td></tr>
+          <tr class="math-table__final"><td>Net profit per order</td><td class="num"><strong>${fmtUSD(netProfit)}</strong></td></tr>
+          <tr class="math-table__final"><td>Net margin %</td><td class="num"><strong>${netMarginPct.toFixed(1)}%</strong></td></tr>
+          ${suggestedRow}
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    function handlePlatformChange() {
+      if (!customRow || !platformSelect) return;
+      if (platformSelect.value === 'custom') {
+        customRow.removeAttribute('hidden');
+      } else {
+        customRow.setAttribute('hidden', '');
+      }
+    }
+
+    if (platformSelect) {
+      platformSelect.addEventListener('change', handlePlatformChange);
+    }
+
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (calcDebounce !== null) clearTimeout(calcDebounce); calc(); });
+
+    function loadExample() {
+      (document.querySelector('#subtotal') as HTMLInputElement).value = '32';
+      (document.querySelector('#platform') as HTMLSelectElement).value = 'doordash-30';
+      (document.querySelector('#processing') as HTMLInputElement).value = '2.9';
+      (document.querySelector('#packaging') as HTMLInputElement).value = '0.85';
+      (document.querySelector('#promo') as HTMLInputElement).value = '10';
+      (document.querySelector('#monthly-fees') as HTMLInputElement).value = '30';
+      (document.querySelector('#monthly-orders') as HTMLInputElement).value = '250';
+      (document.querySelector('#food-cost') as HTMLInputElement).value = '30';
+      (document.querySelector('#labor-cost') as HTMLInputElement).value = '30';
+      (document.querySelector('#other-cost') as HTMLInputElement).value = '5';
+      (document.querySelector('#target-margin') as HTMLInputElement).value = '15';
+      handlePlatformChange();
+      calc();
+    }
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .form-row__split { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-2); align-items: center; }
+  .form-row__split-divider { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-muted); text-align: center; }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
+  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
+  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--color-cream); color: var(--color-muted); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
+  .status-pill[data-status="lean"] { background: rgba(74, 88, 38, 0.10); color: #4a5826; }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
+  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .calc-result__big--money { gap: 2px; }
+  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3rem, 8vw + 0.5rem, 5.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .result-num--pulse { transform: scale(1.025); }
+  .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__bar { margin-bottom: var(--space-5); }
+  .bar-track { position: relative; height: 12px; border-radius: 999px; overflow: hidden; background: var(--color-cream); display: flex; }
+  .bar-zone { height: 100%; }
+  .bar-zone--bad { flex: 25; background: linear-gradient(90deg, rgba(192, 57, 43, 0.55), rgba(192, 57, 43, 0.30)); }
+  .bar-zone--watch { flex: 25; background: linear-gradient(90deg, rgba(200, 117, 0, 0.55), rgba(200, 117, 0, 0.35)); }
+  .bar-zone--good { flex: 25; background: linear-gradient(90deg, rgba(74, 88, 38, 0.55), rgba(74, 88, 38, 0.40)); }
+  .bar-zone--lean { flex: 25; background: linear-gradient(90deg, rgba(74, 88, 38, 0.30), rgba(74, 88, 38, 0.20)); }
+  .bar-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--color-heading); border-radius: 2px; transition: left 320ms cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(-50%); }
+  .bar-labels { display: flex; justify-content: space-between; margin-top: 6px; color: var(--color-muted); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; gap: var(--space-3); }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); text-align: right; }
+  .extras-row--highlight { margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--color-saffron); }
+  .extras-row--highlight .extras-row__label { color: var(--color-saffron-text); font-weight: 500; }
+  .extras-row--highlight .extras-row__value { color: var(--color-saffron-text); font-weight: 600; }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .benchmarks { margin-bottom: var(--space-16); }
+  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .benchmarks__headline em { font-style: italic; color: var(--color-saffron-text); }
+  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .benchmarks__chart { display: flex; flex-direction: column; gap: var(--space-3); max-width: 720px; }
+  .bench-bar { display: grid; grid-template-columns: 180px 1fr 70px; gap: var(--space-4); align-items: center; }
+  @media (max-width: 540px) { .bench-bar { grid-template-columns: 130px 1fr 60px; gap: var(--space-3); } }
+  .bench-bar__name { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-heading); }
+  .bench-bar__track { position: relative; height: 10px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 999px; overflow: hidden; }
+  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-cta)); border-radius: 999px; }
+  .bench-bar__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-heading); }
+  .bench-bar__range { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-saffron-text); text-align: right; }
+  .bench-axis { padding-top: 6px; }
+  .bench-axis__track { position: relative; height: 14px; }
+  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.6875rem; color: var(--color-muted); }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .cited-sources { margin-bottom: var(--space-12); }
+  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  .cited-sources a { color: var(--color-saffron-text); }
+  .cited-sources a:hover { color: var(--color-saffron-hover); }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

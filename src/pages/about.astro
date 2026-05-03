@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'About RestaurantCalcs — Why this site exists';
+const description = 'RestaurantCalcs is a free, no-signup tool built for independent restaurant operators. Built by an operator who got tired of spreadsheets that crash on phones.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': 'https://restaurantcalcs.com/about/#webpage',
+    url: 'https://restaurantcalcs.com/about/',
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+    inLanguage: 'en-US',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://restaurantcalcs.com/about/' },
+    ],
+  },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="about-page">
+    <header class="about-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>About</span>
+      </nav>
+      <p class="t-micro t-micro--saffron">About</p>
+      <h1 class="about-page__title">Restaurant math, <em>done right.</em></h1>
+      <p class="about-page__lede">
+        RestaurantCalcs is a free suite of calculators for the operations math every independent restaurant runs every week — food cost, recipe cost, labor cost (with shift schedule mode + OT detection), tip pool, menu pricing, liquor pour cost, draft beer / keg cost, break-even, inventory variance, prime cost, no-show deposit, and menu engineering.
+      </p>
+    </header>
+
+    <section class="about-page__body">
+      <h2>Why this site exists</h2>
+      <p>
+        <a href="https://pos.toasttab.com/resources" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://www.marginedge.com/blog" target="_blank" rel="noopener nofollow">MarginEdge</a>, <a href="https://home.binwise.com/" target="_blank" rel="noopener nofollow">BinWise</a> — every one of them has a free calculator behind an email gate. You sign up, get added to a marketing list, and three days later a sales rep emails you about their $400/month POS package. Or the calculator is buried inside a paid product you'd need to switch your whole back-office to use.
+      </p>
+      <p>
+        Independent operators don't need another sales funnel. They need a number, fast, on a phone, between rushes — with the formula visible underneath so the math can be trusted, taught to staff, and verified.
+      </p>
+
+      <h2>What we built</h2>
+      <p>
+        Every formula audited against authoritative sources (<a href="https://pos.toasttab.com/resources" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://www.marginedge.com/blog" target="_blank" rel="noopener nofollow">MarginEdge</a>, <a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener nofollow">National Restaurant Association</a>, <a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener nofollow">U.S. DOL Wage &amp; Hour</a>, <a href="https://www.ciachef.edu/" target="_blank" rel="noopener nofollow">CIA</a>, <a href="https://home.binwise.com/" target="_blank" rel="noopener nofollow">BinWise</a>, <a href="https://bevspot.com/blog/" target="_blank" rel="noopener nofollow">BevSpot</a>). Every result shows the math step-by-step. Every calculator runs entirely in your browser — nothing is stored, transmitted, or sent to a server. Close the tab and your data is gone.
+      </p>
+      <p>
+        The site is intentionally narrow: just calculators, no SaaS, no upsells, no sponsored content. Ad-supported via Google AdSense so the math stays free.
+      </p>
+
+      <h2>Methodology</h2>
+      <p>
+        Each calculator was built against the canonical industry formula:
+      </p>
+      <ul>
+        <li><strong>Food Cost %</strong> = COGS ÷ Food Sales × 100. COGS = Beginning Inventory + Purchases + Transfers In − Transfers Out − Employee Meals − Comps − Ending Inventory.</li>
+        <li><strong>Recipe / Plate Cost</strong> = Σ(quantity × unit cost) ÷ portions. Optional Q-factor for misc absorption.</li>
+        <li><strong>Labor Cost %</strong> = (Wages + Salaries + Burden) ÷ Revenue × 100. Concept-aware thresholds (QSR, fast casual, casual, fine, pizza, cafe).</li>
+        <li><strong>Tip Pool</strong> = pool distributed by hours, points-weighted, equal split, or tip-out by role %. FLSA §3(m)(2)(B) compliance flags built in.</li>
+        <li><strong>Menu Pricing</strong> = Plate Cost ÷ Target Food Cost % (cost-plus / factor pricing). Charm rounding to nearest .95 or .99.</li>
+        <li><strong>Liquor Pour Cost</strong> = aggregate (Cost ÷ Revenue × 100) or per-drink (bottle cost × pour size ÷ usable oz, with spillage adjustment).</li>
+        <li><strong>Break-Even</strong> = Fixed Costs ÷ Contribution Margin. Optional Margin of Safety + capacity check.</li>
+        <li><strong>Inventory Variance</strong> = (Actual − Theoretical) ÷ Sales. Sign-aware status (positive = waste/theft direction, negative = recipe stale or under-portioning).</li>
+      </ul>
+      <p>
+        Sources cited inline on each calculator page where industry benchmarks or thresholds appear.
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        Every calculator runs in your browser using JavaScript. We never store, transmit, or persist your inputs. There's no account, no signup, no email capture. The only data we collect is aggregate visit counts (page URL, country, browser) for AdSense-funded operations. See <a href="/privacy/">Privacy Policy</a>.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, feedback, calculator suggestions, formula corrections — email <a href="mailto:hello@restaurantcalcs.com">hello@restaurantcalcs.com</a>.
+      </p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .about-page { max-width: 760px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .about-page__header { margin-bottom: var(--space-12); }
+  .about-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.5rem, 5vw + 0.5rem, 4rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin: var(--space-4) 0 var(--space-5); }
+  .about-page__title em { font-style: italic; color: var(--color-saffron-text); }
+  .about-page__lede { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); }
+  .about-page__body h2 { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.5rem; font-weight: 500; color: var(--color-heading); margin-top: var(--space-10); margin-bottom: var(--space-4); }
+  .about-page__body p { font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-4); }
+  .about-page__body ul { list-style: none; padding: 0; margin: 0 0 var(--space-5) 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .about-page__body li { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); padding-left: var(--space-4); position: relative; }
+  .about-page__body li::before { content: '·'; position: absolute; left: 4px; color: var(--color-saffron); font-weight: 700; font-size: 1.25rem; }
+  .about-page__body a { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; }
+  .about-page__body a:hover { color: var(--color-saffron-hover); }
+  .about-page__body strong { color: var(--color-heading); font-weight: 600; }
+</style>

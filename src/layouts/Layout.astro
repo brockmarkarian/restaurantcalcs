@@ -6,21 +6,53 @@ interface Props {
   description?: string;
   ogImage?: string;
   schema?: Record<string, any> | Array<Record<string, any>>;
+  hideRails?: boolean;
 }
 
 const {
-  title = 'RestaurantCalcs — Restaurant math, done right.',
-  description = 'Free calculators for food cost, labor, tip pool, menu pricing, and more. Built for independent restaurant operators. No signup. Math shown.',
+  title = 'RestaurantCalcs — Free Restaurant Operations Calculators',
+  description = 'Eight free calculators for restaurant ops math: food cost, labor, tip pool, pricing, pour cost, break-even, variance. Built by a 5-year GM. Math shown.',
   ogImage = '/og-default.png',
   schema,
+  hideRails = false,
 } = Astro.props;
 
 const SITE_URL = 'https://restaurantcalcs.com';
 const canonical = new URL(Astro.url.pathname, SITE_URL).toString();
-const ogImageUrl = new URL(ogImage, SITE_URL).toString();
 
-// Site-wide schema — Organization + WebSite
+// Auto-resolve per-page OG image based on URL pathname.
+// Generator outputs /og/index.png, /og/blog_food-cost-discipline-flacos.png, etc.
+function pathToOgSlug(p: string): string {
+  if (p === '/' || p === '') return 'index';
+  return p.replace(/^\/|\/$/g, '').replace(/\//g, '_');
+}
+const autoOgPath = `/og/${pathToOgSlug(Astro.url.pathname)}.png`;
+const resolvedOgPath = ogImage === '/og-default.png' ? autoOgPath : ogImage;
+const ogImageUrl = new URL(resolvedOgPath, SITE_URL).toString();
+
+// Site-wide schema — Person + Organization + WebSite
 const baseSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE_URL}/#founder`,
+    name: 'Brock Markarian',
+    jobTitle: 'Founder, RestaurantCalcs',
+    description: 'Restaurant operator and digital strategist. Builds tools used by independent restaurant owners, GMs, sous chefs, and bar managers. Co-owner at Cosmos Taverna and 395 Bar & Grill.',
+    knowsAbout: [
+      'Restaurant operations',
+      'Food cost percentage',
+      'Recipe costing',
+      'Labor cost analysis',
+      'Tip pool compliance (FLSA)',
+      'Menu pricing strategy',
+      'Beverage cost management',
+      'Inventory variance analysis',
+      'Break-even analysis',
+    ],
+    url: `${SITE_URL}/about/`,
+    worksFor: { '@id': `${SITE_URL}/#organization` },
+  },
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -29,6 +61,7 @@ const baseSchema = [
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     description: 'Free calculators for restaurant operators. Food cost, labor, tip pool, menu pricing, and more.',
+    founder: { '@id': `${SITE_URL}/#founder` },
     sameAs: [],
   },
   {
@@ -91,27 +124,28 @@ const allSchema = schema
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Geist + Geist Mono from Google Fonts -->
+    <!-- Fraunces (display) + Geist + Geist Mono from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- General Sans from Fontshare -->
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,500;12..96,75..100,600;12..96,75..100,700&family=Geist:ital,wght@0,300..700;1,400..600&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
     <!-- JSON-LD: Organization + WebSite + page-specific schema -->
     <script type="application/ld+json" set:html={JSON.stringify(allSchema)}></script>
 
-    <!--
-      Google AdSense — uncomment + replace ca-pub-XXXXXXXXXXXXXXXX once approved.
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-    -->
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
+
+    <!-- Google Analytics 4 (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2N6BDLH40Y');
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>
@@ -121,37 +155,246 @@ const allSchema = schema
           <img src="/logo.png" alt="RestaurantCalcs" class="site-header__logo-img" width="220" height="48" />
         </a>
         <nav class="site-header__nav">
-          <a href="/calculators" class="site-header__link">Calculators</a>
-          <a href="/blog" class="site-header__link">Insights</a>
-          <a href="/about" class="site-header__link">About</a>
-          <a href="/calculators/food-cost" class="btn btn-primary btn-small">Try a calc</a>
+          <a href="/blog/" class="site-header__link">Blog</a>
+          <a href="/about/" class="site-header__link">About</a>
+          <details class="nav-dd">
+            <summary class="nav-dd__trigger btn btn-primary btn-small">
+              Calculators
+              <span class="nav-dd__chev" aria-hidden="true">▾</span>
+            </summary>
+            <div class="nav-dd__panel" role="menu">
+              <a href="/calculators/food-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Food Cost %</span>
+                <span class="nav-dd__item-desc">Cost vs revenue, healthy 28–32%</span>
+              </a>
+              <a href="/calculators/recipe-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Recipe & Plate Cost</span>
+                <span class="nav-dd__item-desc">Build plate cost from ingredients</span>
+              </a>
+              <a href="/calculators/labor-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Labor Cost %</span>
+                <span class="nav-dd__item-desc">Concept-aware thresholds + SPLH</span>
+              </a>
+              <a href="/calculators/tip-pool/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Tip Pool & Tip Out</span>
+                <span class="nav-dd__item-desc">Hours/points/equal + FLSA flags</span>
+              </a>
+              <a href="/calculators/menu-pricing/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Menu Pricing</span>
+                <span class="nav-dd__item-desc">Cost ÷ target margin + charm rounding</span>
+              </a>
+              <a href="/calculators/liquor-pour-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Liquor Pour Cost</span>
+                <span class="nav-dd__item-desc">Bottle math + spillage</span>
+              </a>
+              <a href="/calculators/break-even/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Break-Even Revenue</span>
+                <span class="nav-dd__item-desc">Fixed ÷ contribution margin + covers/day</span>
+              </a>
+              <a href="/calculators/inventory-variance/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Inventory Variance</span>
+                <span class="nav-dd__item-desc">Theoretical vs actual usage</span>
+              </a>
+              <a href="/calculators/prime-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Prime Cost</span>
+                <span class="nav-dd__item-desc">Food + bev + labor as % of revenue</span>
+              </a>
+              <a href="/calculators/keg-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Draft Beer / Keg Cost</span>
+                <span class="nav-dd__item-desc">Pour cost, profit per keg</span>
+              </a>
+              <a href="/calculators/no-show-deposit/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">No-Show & Deposit</span>
+                <span class="nav-dd__item-desc">Cost of empty seats + deposit math</span>
+              </a>
+              <a href="/calculators/menu-engineering/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Menu Engineering</span>
+                <span class="nav-dd__item-desc">Star / Plowhorse / Puzzle / Dog matrix</span>
+              </a>
+              <a href="/calculators/delivery-profit/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Delivery True-Profit</span>
+                <span class="nav-dd__item-desc">DoorDash, UberEats, GrubHub net per order</span>
+              </a>
+              <a href="/calculators/catering-pricing/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Catering Pricing</span>
+                <span class="nav-dd__item-desc">Per-head + service charge + gratuity</span>
+              </a>
+              <a href="/calculators/turnover-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Employee Turnover Cost</span>
+                <span class="nav-dd__item-desc">Annual cost of replacement hires</span>
+              </a>
+              <a href="/calculators/fountain-cost/" class="nav-dd__item" role="menuitem">
+                <span class="nav-dd__item-title">Fountain Drink / BIB Cost</span>
+                <span class="nav-dd__item-desc">Pour cost on soda + sparkling drinks</span>
+              </a>
+              <a href="/calculators/" class="nav-dd__all" role="menuitem">All calculators <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
+          <button type="button" class="site-header__try btn btn-secondary btn-small" data-random-calc aria-label="Open a random calculator">
+            Try a calc
+          </button>
+          <button type="button" class="site-header__burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer" data-burger>
+            <span class="site-header__burger-bar"></span>
+            <span class="site-header__burger-bar"></span>
+            <span class="site-header__burger-bar"></span>
+          </button>
         </nav>
       </div>
     </header>
 
+    <!-- Mobile drawer -->
+    <div class="drawer" id="mobile-drawer" data-drawer hidden>
+      <div class="drawer__scrim" data-drawer-close></div>
+      <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Site navigation">
+        <div class="drawer__head">
+          <span class="drawer__logo">RestaurantCalcs</span>
+          <button type="button" class="drawer__close" data-drawer-close aria-label="Close menu">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <p class="drawer__eyebrow">Calculators</p>
+        <ul class="drawer__list">
+          <li><a href="/calculators/food-cost/" class="drawer__link">Food Cost %</a></li>
+          <li><a href="/calculators/recipe-cost/" class="drawer__link">Recipe & Plate Cost</a></li>
+          <li><a href="/calculators/labor-cost/" class="drawer__link">Labor Cost %</a></li>
+          <li><a href="/calculators/tip-pool/" class="drawer__link">Tip Pool & Tip Out</a></li>
+          <li><a href="/calculators/menu-pricing/" class="drawer__link">Menu Pricing</a></li>
+          <li><a href="/calculators/liquor-pour-cost/" class="drawer__link">Liquor Pour Cost</a></li>
+          <li><a href="/calculators/break-even/" class="drawer__link">Break-Even Revenue</a></li>
+          <li><a href="/calculators/inventory-variance/" class="drawer__link">Inventory Variance</a></li>
+          <li><a href="/calculators/prime-cost/" class="drawer__link">Prime Cost</a></li>
+          <li><a href="/calculators/keg-cost/" class="drawer__link">Draft Beer / Keg Cost</a></li>
+          <li><a href="/calculators/no-show-deposit/" class="drawer__link">No-Show & Deposit</a></li>
+          <li><a href="/calculators/menu-engineering/" class="drawer__link">Menu Engineering</a></li>
+          <li><a href="/calculators/delivery-profit/" class="drawer__link">Delivery True-Profit</a></li>
+          <li><a href="/calculators/catering-pricing/" class="drawer__link">Catering Pricing</a></li>
+          <li><a href="/calculators/turnover-cost/" class="drawer__link">Employee Turnover Cost</a></li>
+          <li><a href="/calculators/fountain-cost/" class="drawer__link">Fountain Drink / BIB Cost</a></li>
+          <li><a href="/calculators/" class="drawer__link drawer__link--all">All calculators <span aria-hidden="true">→</span></a></li>
+        </ul>
+
+        <p class="drawer__eyebrow">Site</p>
+        <ul class="drawer__list">
+          <li><a href="/blog/" class="drawer__link">Blog</a></li>
+          <li><a href="/about/" class="drawer__link">About</a></li>
+          <li><a href="/contact/" class="drawer__link">Contact</a></li>
+        </ul>
+
+        <button type="button" class="drawer__random btn btn-primary btn-large" data-random-calc>
+          Try a random calc
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="drawer__foot t-caption">Free tools · No signup · No email</p>
+      </aside>
+    </div>
+
     <!-- Margin ad rails — visible on wide viewports only -->
-    <aside class="rail rail--left" aria-hidden="true">
-      <div class="rail__inner">
-        <span class="rail__label">Advertisement</span>
-        <div class="rail__placeholder">
-          <span>▢</span>
-          <span class="num">160 × 600</span>
-        </div>
-      </div>
-    </aside>
-    <aside class="rail rail--right" aria-hidden="true">
-      <div class="rail__inner">
-        <span class="rail__label">Advertisement</span>
-        <div class="rail__placeholder">
-          <span>▢</span>
-          <span class="num">160 × 600</span>
-        </div>
-      </div>
-    </aside>
+    {!hideRails && (
+      <>
+        <aside class="rail rail--left" aria-hidden="true">
+          <div class="rail__inner">
+            <span class="rail__label">Advertisement</span>
+            <div class="rail__placeholder">
+              <span>▢</span>
+              <span class="num">160 × 600</span>
+            </div>
+          </div>
+        </aside>
+        <aside class="rail rail--right" aria-hidden="true">
+          <div class="rail__inner">
+            <span class="rail__label">Advertisement</span>
+            <div class="rail__placeholder">
+              <span>▢</span>
+              <span class="num">160 × 600</span>
+            </div>
+          </div>
+        </aside>
+      </>
+    )}
 
     <main id="main">
       <slot />
     </main>
+
+    <script is:inline>
+      // Close calculator dropdown on outside click + Escape
+      (function () {
+        var dd = document.querySelector('.nav-dd');
+        if (!dd) return;
+        document.addEventListener('click', function (e) {
+          if (dd.open && !dd.contains(e.target)) dd.open = false;
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && dd.open) {
+            dd.open = false;
+            var trig = dd.querySelector('summary');
+            if (trig) trig.focus();
+          }
+        });
+        // Close after navigation click within panel
+        var panel = dd.querySelector('.nav-dd__panel');
+        if (panel) panel.addEventListener('click', function (e) {
+          if (e.target.tagName === 'A') dd.open = false;
+        });
+      })();
+
+      // Random calculator (any button w/ [data-random-calc])
+      (function () {
+        var btns = document.querySelectorAll('[data-random-calc]');
+        if (!btns.length) return;
+        var slugs = [
+          'food-cost', 'recipe-cost', 'labor-cost', 'tip-pool',
+          'menu-pricing', 'liquor-pour-cost', 'break-even', 'inventory-variance',
+          'prime-cost', 'keg-cost', 'no-show-deposit', 'menu-engineering',
+          'delivery-profit', 'catering-pricing', 'turnover-cost', 'fountain-cost'
+        ];
+        btns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var current = location.pathname;
+            var pool = slugs.filter(function (s) { return current.indexOf('/calculators/' + s + '/') === -1; });
+            var pick = pool[Math.floor(Math.random() * pool.length)];
+            location.href = '/calculators/' + pick + '/';
+          });
+        });
+      })();
+
+      // Mobile drawer
+      (function () {
+        var burger = document.querySelector('[data-burger]');
+        var drawer = document.querySelector('[data-drawer]');
+        if (!burger || !drawer) return;
+        function open() {
+          drawer.hidden = false;
+          burger.setAttribute('aria-expanded', 'true');
+          document.body.classList.add('drawer-open');
+          var firstLink = drawer.querySelector('a, button');
+          if (firstLink) setTimeout(function () { firstLink.focus(); }, 50);
+        }
+        function close() {
+          drawer.hidden = true;
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('drawer-open');
+        }
+        burger.addEventListener('click', function () {
+          if (drawer.hidden) open(); else close();
+        });
+        drawer.querySelectorAll('[data-drawer-close]').forEach(function (el) {
+          el.addEventListener('click', close);
+        });
+        // Close on link click (excluding random-calc which navigates anyway)
+        drawer.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', close);
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !drawer.hidden) {
+            close();
+            burger.focus();
+          }
+        });
+      })();
+    </script>
 
     <footer class="site-footer">
       <div class="container site-footer__inner">
@@ -161,23 +404,35 @@ const allSchema = schema
         </div>
         <div class="site-footer__links">
           <div class="site-footer__col">
-            <h4 class="t-micro">Calculators</h4>
-            <a href="/calculators/food-cost" class="t-caption">Food cost %</a>
-            <a href="/calculators/labor-cost" class="t-caption">Labor cost %</a>
-            <a href="/calculators/tip-pool" class="t-caption">Tip pool</a>
-            <a href="/calculators/menu-pricing" class="t-caption">Menu pricing</a>
+            <h3 class="t-micro">Calculators</h3>
+            <a href="/calculators/food-cost/" class="t-caption">Food cost %</a>
+            <a href="/calculators/labor-cost/" class="t-caption">Labor cost %</a>
+            <a href="/calculators/tip-pool/" class="t-caption">Tip pool</a>
+            <a href="/calculators/menu-pricing/" class="t-caption">Menu pricing</a>
+            <a href="/calculators/" class="t-caption">All calculators →</a>
           </div>
           <div class="site-footer__col">
-            <h4 class="t-micro">Resources</h4>
-            <a href="/blog" class="t-caption">Insights</a>
-            <a href="/about" class="t-caption">About</a>
-            <a href="/contact" class="t-caption">Contact</a>
+            <h3 class="t-micro">Resources</h3>
+            <a href="/blog/" class="t-caption">Blog</a>
+            <a href="/about/" class="t-caption">About</a>
+            <a href="/contact/" class="t-caption">Contact</a>
+          </div>
+          <div class="site-footer__col">
+            <h3 class="t-micro">Legal</h3>
+            <a href="/privacy/" class="t-caption">Privacy</a>
+            <a href="/terms/" class="t-caption">Terms</a>
           </div>
         </div>
       </div>
       <div class="container">
+        <div class="site-footer__disclaimer">
+          <p>
+            <strong>Disclaimer:</strong> All calculators are provided for educational and informational purposes only. Results depend on the accuracy of your inputs and should not be considered financial, accounting, tax, or legal advice. Consult a qualified professional before making business decisions based on these results. Tip pool calculations in particular are subject to federal (FLSA) and state labor laws — consult a labor attorney before implementing any tip pool or tip-out policy. RestaurantCalcs makes no warranty of accuracy or fitness for a particular purpose, and is not liable for any decisions made based on these tools.
+          </p>
+        </div>
         <div class="site-footer__legal">
           <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators.</span>
+          <span class="t-caption site-footer__updated">Last reviewed <time datetime="2026-05-01">May 1, 2026</time></span>
         </div>
       </div>
     </footer>
@@ -197,19 +452,24 @@ const allSchema = schema
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 68px;
+        height: 96px;
       }
 
       .site-header__logo {
         display: inline-flex;
         align-items: center;
-        height: 44px;
+        height: 72px;
+        margin-left: -8px;
       }
 
       .site-header__logo-img {
-        height: 32px;
+        height: 56px;
         width: auto;
         display: block;
+      }
+
+      @media (max-width: 540px) {
+        .site-header__logo-img { height: 40px; }
       }
 
       .site-header__nav {
@@ -234,12 +494,168 @@ const allSchema = schema
         color: var(--color-heading);
       }
 
+      .site-header__try { display: none; }
+      .site-header__burger { display: none; background: transparent; border: none; cursor: pointer; padding: 8px; width: 44px; height: 44px; flex-direction: column; justify-content: center; gap: 5px; align-items: center; border-radius: var(--radius-md); transition: background var(--transition-fast); }
+      .site-header__burger:hover { background: var(--color-cream); }
+      .site-header__burger-bar { display: block; width: 22px; height: 2px; background: var(--color-heading); border-radius: 2px; transition: transform var(--transition-fast), opacity var(--transition-fast); }
+      .site-header__burger[aria-expanded="true"] .site-header__burger-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .site-header__burger[aria-expanded="true"] .site-header__burger-bar:nth-child(2) { opacity: 0; }
+      .site-header__burger[aria-expanded="true"] .site-header__burger-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
       @media (max-width: 720px) {
         .site-header__nav {
-          gap: var(--space-4);
+          gap: var(--space-3);
         }
         .site-header__link:not(.btn) {
           display: none;
+        }
+        .site-header__try {
+          display: inline-flex;
+        }
+        .site-header__burger {
+          display: inline-flex;
+          order: 99;
+        }
+        .site-header__nav .nav-dd {
+          display: none;
+        }
+      }
+
+      /* Mobile drawer */
+      .drawer { position: fixed; inset: 0; z-index: 100; }
+      .drawer[hidden] { display: none; }
+      .drawer__scrim { position: absolute; inset: 0; background: rgba(26, 24, 20, 0.5); animation: drawer-fade 200ms ease-out both; }
+      .drawer__panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(360px, 88vw); background: var(--color-white); display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-5); overflow-y: auto; box-shadow: -8px 0 32px rgba(0,0,0,0.18); animation: drawer-slide 220ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+      @keyframes drawer-fade { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes drawer-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+      .drawer__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-2); }
+      .drawer__logo { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 600; color: var(--color-heading); letter-spacing: -0.012em; }
+      .drawer__close { background: transparent; border: none; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; line-height: 1; color: var(--color-body); display: inline-flex; align-items: center; justify-content: center; transition: background var(--transition-fast); }
+      .drawer__close:hover { background: var(--color-cream); }
+      .drawer__eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-saffron-text); margin: var(--space-3) 0 4px; }
+      .drawer__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+      .drawer__link { display: block; padding: 12px 14px; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); border-radius: var(--radius-md); transition: background var(--transition-fast); text-decoration: none; }
+      .drawer__link:hover, .drawer__link:focus { background: var(--color-cream); }
+      .drawer__link--all { color: var(--color-saffron-text); font-weight: 600; }
+      .drawer__random { margin-top: var(--space-4); width: 100%; justify-content: center; }
+      .drawer__foot { margin-top: auto; padding-top: var(--space-3); text-align: center; color: var(--color-muted); }
+
+      body.drawer-open { overflow: hidden; }
+
+      /* Calculators dropdown */
+      .nav-dd {
+        position: relative;
+      }
+
+      .nav-dd__trigger {
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        gap: 6px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .nav-dd__trigger::-webkit-details-marker {
+        display: none;
+      }
+
+      .nav-dd__chev {
+        font-size: 0.75rem;
+        transition: transform var(--transition-fast);
+        color: var(--color-white);
+        opacity: 0.85;
+      }
+
+      .nav-dd[open] .nav-dd__chev {
+        transform: rotate(180deg);
+      }
+
+      .nav-dd__panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: min(540px, calc(100vw - 32px));
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 4px 12px var(--alpha-shadow-1), 0 24px 48px -12px var(--alpha-shadow-2);
+        padding: var(--space-3);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        z-index: 60;
+        animation: nav-dd-in 180ms var(--ease-out, ease-out) both;
+      }
+
+      @keyframes nav-dd-in {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .nav-dd__item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 10px 12px;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        transition: background var(--transition-fast);
+      }
+
+      .nav-dd__item:hover {
+        background: var(--color-cream);
+      }
+
+      .nav-dd__item-title {
+        font-family: var(--font-body);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-heading);
+        line-height: 1.2;
+      }
+
+      .nav-dd__item-desc {
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        line-height: 1.3;
+        color: var(--color-muted);
+      }
+
+      .nav-dd__all {
+        grid-column: 1 / -1;
+        margin-top: 4px;
+        padding: 10px 12px;
+        border-top: 1px dashed var(--color-border);
+        font-family: var(--font-body);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--color-saffron-text);
+        text-decoration: none;
+        text-align: center;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+        transition: background var(--transition-fast);
+      }
+
+      .nav-dd__all:hover {
+        background: var(--color-cream);
+        color: var(--color-saffron-hover);
+      }
+
+      @media (max-width: 720px) {
+        .nav-dd__panel {
+          position: fixed;
+          top: 96px;
+          left: 16px;
+          right: 16px;
+          width: auto;
+          transform: none;
+          max-height: calc(100vh - 120px);
+          overflow-y: auto;
+        }
+        @keyframes nav-dd-in {
+          from { opacity: 0; transform: translateY(-6px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       }
 
@@ -279,8 +695,11 @@ const allSchema = schema
 
       .site-footer__links {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-12);
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-8);
+      }
+      @media (max-width: 540px) {
+        .site-footer__links { grid-template-columns: repeat(2, 1fr); }
       }
 
       .site-footer__col {
@@ -289,7 +708,7 @@ const allSchema = schema
         gap: var(--space-2);
       }
 
-      .site-footer__col h4 {
+      .site-footer__col h3 {
         margin-bottom: var(--space-3);
       }
 
@@ -312,10 +731,34 @@ const allSchema = schema
         color: var(--color-heading);
       }
 
-      .site-footer__legal {
+      .site-footer__disclaimer {
         padding-top: var(--space-6);
         border-top: 1px solid var(--color-border);
+        margin-bottom: var(--space-4);
       }
+
+      .site-footer__disclaimer p {
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        line-height: 1.55;
+        color: var(--color-muted);
+        max-width: 80ch;
+      }
+
+      .site-footer__disclaimer strong {
+        color: var(--color-body);
+        font-weight: 600;
+      }
+
+      .site-footer__legal {
+        padding-top: var(--space-4);
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+      }
+      .site-footer__updated { color: var(--color-muted); }
 
       /* Margin ad rails — only on wide screens (above 1480px) */
       .rail {

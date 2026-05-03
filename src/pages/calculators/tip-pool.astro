@@ -1,0 +1,811 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Tip Pool & Tip Out Calculator — Free | RestaurantCalcs';
+const description = 'Split tips by hours, points, equal, or tip-out %. Built-in FLSA compliance flags + tip-credit gate + manager-prohibition warnings.';
+
+const faq = [
+  {
+    q: 'How does a restaurant tip pool work?',
+    a: 'A tip pool combines tips from all tipped employees and redistributes by a defined formula — usually weighted by hours worked, by points (role-based weight), or by a hybrid. Pools encourage teamwork and protect tipped employees from slow shifts. Federal law (FLSA) governs which roles can be in the pool — back-of-house can only be included if no tip credit is taken.',
+  },
+  {
+    q: 'What is hours-weighted vs points-weighted distribution?',
+    a: 'Hours-weighted: each employee\'s share = (their hours ÷ total hours) × total pool. Simple and fair. Points-weighted: each role gets a point value (server 10, bartender 8, busser 5, runner 4); each employee\'s share = (their points × their hours) ÷ (sum of all points × hours) × total pool. Points reflect role-specific responsibility and effort.',
+  },
+  {
+    q: 'What is tip out vs tip pool?',
+    a: 'Tip out: a server keeps the majority of their tips and "tips out" support staff by paying a percentage of sales (or tips) to bartender, busser, runner, etc. Common percentages: bartender 5–8% of liquor sales, busser 2–4% of food sales, runner 1–2%. Tip pool: ALL tips combined and redistributed. Different states and operators favor different models.',
+  },
+  {
+    q: 'Is a tip pool legal?',
+    a: 'Yes, federally — but with strict rules. Mandatory pools are legal for tipped employees who customarily receive tips. Back-of-house can only be in the pool if NO tip credit is taken (you pay full minimum wage to all tipped employees). Managers and supervisors can never be in the pool. State laws vary — some are stricter. Consult a labor attorney before implementing.',
+  },
+  {
+    q: 'Can managers be in the tip pool?',
+    a: 'No. Federal law prohibits managers and supervisors from receiving tips from a pool, regardless of whether tip credit is taken. "Manager" is defined as someone with authority to hire, fire, supervise, or direct other employees. A working bartender who occasionally directs traffic isn\'t a manager; a salaried floor manager is.',
+  },
+  {
+    q: 'How do I handle credit card processing fees on tips?',
+    a: 'Federal law allows employers to deduct the credit card processing fee from the tip portion before distribution — but the percentage must match the actual fee, not be marked up. Many operators don\'t deduct it because the optics are bad and the savings are small. Document your policy clearly.',
+  },
+  {
+    q: 'How often should tips be distributed?',
+    a: 'Most operators distribute weekly with the regular paycheck (pretax) or daily in cash at end of shift. Daily is more popular with employees but harder to administrate. Weekly through payroll is cleaner for taxes but creates float. Both are legal. Pick a convention and document it in the employee handbook.',
+  },
+  {
+    q: 'What if tips need to go up to minimum wage?',
+    a: 'If the tip credit jurisdiction allows you to pay below minimum wage (federal $2.13/hr for tipped employees), you must "true up" to minimum wage if pooled tips don\'t bring an employee to minimum. The employer is responsible for the gap. Track this carefully — it\'s the most common wage-theft lawsuit category in restaurants.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. The calculation runs entirely in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/tip-pool/#webpage', url: 'https://restaurantcalcs.com/calculators/tip-pool/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/tip-pool/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/tip-pool/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 3, name: 'Tip Pool & Tip Out', item: 'https://restaurantcalcs.com/calculators/tip-pool/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/tip-pool/#tool',
+    name: 'Tip Pool & Tip Out Calculator',
+    description: 'Free web-based tip pool calculator. Hours-weighted, points-weighted, equal split, or tip-out by role %. FLSA §3(m)(2)(B) compliance flags, tip-credit awareness, BOH violation warnings.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/tip-pool/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to split a tip pool fairly and legally',
+    description: 'Step-by-step calculation of tip pool distribution by hours, points, equal share, or tip-out percentage — with FLSA compliance checks.',
+    totalTime: 'PT3M',
+    supply: [
+      { '@type': 'HowToSupply', name: 'Total tips collected for the period (or server total tips for tip-out mode)' },
+      { '@type': 'HowToSupply', name: 'Each employee\'s name, role, and hours worked' },
+      { '@type': 'HowToSupply', name: 'Tip-credit status (does employer pay sub-minimum wage?)' },
+    ],
+    step: [
+      { '@type': 'HowToStep', position: 1, name: 'Verify legal compliance', text: 'Managers and supervisors are prohibited from receiving pooled tips (FLSA §3(m)(2)(B), 2018 CAA). If you take a tip credit (paying tipped staff sub-minimum wage), the pool is restricted to customarily-tipped FOH only — no cooks or dishwashers.' },
+      { '@type': 'HowToStep', position: 2, name: 'Pick a distribution method', text: 'Hours-weighted (each share = hours / total hours × pool), points-weighted (role × hours), equal split (per-person flat), or tip-out by % of sales/tips.' },
+      { '@type': 'HowToStep', position: 3, name: 'Enter employees', text: 'For each employee: name, role, and hours (or tip-out % for tip-out mode). The calculator weights each share according to the chosen method.' },
+      { '@type': 'HowToStep', position: 4, name: 'Verify the math', text: 'Confirm the total distributed equals the pool (within rounding). Post the breakdown so any team member can verify their share — transparency is the best defense against pool disputes.' },
+      { '@type': 'HowToStep', position: 5, name: 'Document and consult', text: 'Save the breakdown for your records. Any pool policy change should be reviewed by a labor attorney; FLSA penalties for tip violations are routinely six-figure.' },
+    ],
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+
+const relatedCalcs = [
+  { slug: 'labor-cost', title: 'Labor Cost Percentage', desc: 'Total labor as % of revenue.' },
+  { slug: 'prime-cost', title: 'Prime Cost', desc: 'Tipped wages roll into total labor.' },
+  { slug: 'liquor-pour-cost', title: 'Liquor Pour Cost', desc: 'Bar program margin.' },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Tip Pool Calculator</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Tip pool calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Tip Pool &amp; Tip Out Calculator</h1>
+      <p class="calc-page__intro">
+        Split a tip pool fairly across servers, bartenders, bussers, and runners. Choose <strong>hours-weighted</strong>, <strong>points-weighted</strong>, or <strong>equal split</strong>. Returns per-employee distribution and role rollup.
+      </p>
+    </header>
+
+    <section class="calc-grid calc-grid--wide">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Splits a tip pool fairly across servers, bartenders, bussers, and runners. Pick a method (hours, points, equal, or tip-out by role %), add employees, get per-person distribution.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example shift</button>
+        </div>
+
+        <aside class="legal-banner" role="note" aria-label="Legal compliance">
+          <p class="legal-banner__head"><strong>Read before distributing tips.</strong></p>
+          <ul class="legal-banner__list">
+            <li><strong>Managers and supervisors cannot receive pooled tips.</strong> Full stop. FLSA §3(m)(2)(B), 2018 CAA amendment. <a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15 →</a></li>
+            <li><strong>Tip credit on?</strong> Pool is restricted to customarily-tipped employees (FOH only — no cooks, dishwashers).</li>
+            <li><strong>No tip credit (CA, WA, OR, NV, MT, MN, AK)?</strong> BOH may be included in pool per 2021 DOL final rule.</li>
+            <li>This calc does not enforce these rules. Compliance is on you.</li>
+          </ul>
+        </aside>
+
+        <div class="form-row">
+          <label class="form-row__label" for="tipcredit">Are you taking a tip credit?</label>
+          <select id="tipcredit" name="tipcredit">
+            <option value="no" selected>No — paying full min wage (CA, WA, NY, etc.)</option>
+            <option value="yes">Yes — paying tipped sub-minimum + tips</option>
+          </select>
+          <p class="form-row__hint">If yes, only customarily-tipped employees (servers, bartenders, bussers, runners, hosts) may share the pool. Cooks and dishwashers are excluded.</p>
+        </div>
+
+        <div class="legal-warning" data-legal-warning hidden role="alert">
+          <strong>Warning:</strong> You added a back-of-house role (cook or dishwasher) while taking a tip credit. <strong>This is illegal under FLSA</strong>. Either remove the BOH employee or switch tip-credit to "No" (and verify your wage rate complies with state law).
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="pool" data-pool-label>Total tip pool</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="pool" name="pool" type="number" inputmode="decimal" min="0" step="0.01" placeholder="2400" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint" data-pool-hint>Total tips collected for the period being distributed.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="method">Distribution method</label>
+          <select id="method" name="method">
+            <option value="hours" selected>Tip pool — hours-weighted</option>
+            <option value="points">Tip pool — points-weighted (role × hours)</option>
+            <option value="equal">Tip pool — equal split</option>
+            <option value="tipout">Tip-out — server keeps, tips out support staff by %</option>
+          </select>
+          <p class="form-row__hint" data-method-hint>Hours: split by hours worked. Points: weight by role responsibility. Equal: same share each. Tip-out: server keeps majority, tips out other roles by percentage.</p>
+        </div>
+
+        <div class="employees-table-wrap">
+          <div class="employees-table">
+            <div class="employees-table__head">
+              <span>Name</span>
+              <span data-role-col>Role</span>
+              <span data-hours-col>Hours</span>
+              <span data-points-col>Points</span>
+              <span class="visually-hidden">Remove</span>
+            </div>
+            <div class="employees-table__body" data-rows></div>
+          </div>
+
+          <button type="button" class="btn-add-row" data-add-row>
+            <span aria-hidden="true">+</span> <span data-add-label>Add employee</span>
+          </button>
+        </div>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label" data-result-label>Average per employee</span>
+          </div>
+
+          <div class="calc-result__big calc-result__big--money">
+            <span class="result-num__pct" aria-hidden="true">$</span>
+            <span class="result-num" data-counter>0.00</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Total pool distributed</span>
+            <span class="t-caption num" data-pool-total>$0.00</span>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Employees</span>
+              <span class="extras-row__value num" data-emp-count>0</span>
+            </div>
+            <div class="extras-row" data-hours-row hidden>
+              <span class="extras-row__label">Total hours</span>
+              <span class="extras-row__value num" data-total-hours>—</span>
+            </div>
+            <div class="extras-row" data-rate-row hidden>
+              <span class="extras-row__label">Effective rate / hour</span>
+              <span class="extras-row__value num" data-rate>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show distribution
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Add employees above to see the distribution.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">A bad tip pool kills <em>more teams than slow shifts</em>.</h2>
+      <div class="essay__body">
+        <p>
+          Tipped employees notice every dollar. A pool that runs cleanly is invisible. A pool that drifts — math errors, missing hours, perceived favoritism — becomes the entire conversation in the back hallway by week two.
+        </p>
+        <p>
+          The fix isn't a fancier formula. It's consistency, transparency, and arithmetic that anyone can verify. Post the totals at end of shift. Show the formula. Let any employee recount on the spot.
+        </p>
+        <p class="essay__pull">
+          Hours-weighted is the simplest and best defense against accusations of favoritism. Points-weighted is fairer when roles have meaningfully different responsibility. Both work — what doesn't work is changing the method without telling the team.
+        </p>
+        <p>
+          And remember the federal rules: managers never in the pool, back-of-house only if no tip credit is taken, credit card fee deductions only at actual rate. The labor lawsuits in this category are routinely six-figure. Get it right.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <!-- Operator story: Cosmos bar tip pool reality -->
+    <section class="operator-story">
+      <img src="/illustrations/tip-pool.webp" alt="Editorial illustration of folded cash bills being divided into neat piles on a bar at end of shift, with a glass tip jar nearby." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">From behind the bar</p>
+      <h2 class="essay__headline">The tip pool is <em>where the team breaks</em> — or doesn't.</h2>
+      <div class="essay__body">
+        <p>
+          I bartended at Cosmos for years before becoming GM. In that time I watched tip pool fights end friendships, end shifts early, end careers. The math is the easy part. The conversations around the math are the entire game.
+        </p>
+        <p>
+          The first thing I learned: hours-weighted is the only system that survives a busy Saturday with three new hires and one senior bartender. Equal split feels fair on paper but punishes the senior who actually carries the rush. Points-weighted feels fair until somebody asks why the bartender's points are double the busser's, and then you're defending an org chart on a Friday at 2am.
+        </p>
+        <p>
+          The second thing I learned: post the math. Print it. Tape it to the wall. Show every line — pool total, hours, share. Anybody on the team can recount it in thirty seconds. Transparency kills the conspiracy theories before they start. The minute somebody thinks the pool is rigged in someone else's favor, the team is broken until the next reset, and the next reset costs you a night.
+        </p>
+        <p class="essay__pull">
+          The bartender who works hardest doesn't notice the tip pool. The bartender who works the least notices it the most. Both are signals.
+        </p>
+        <p>
+          The third thing — and this one matters legally — is that managers and supervisors cannot legally take from the pool, ever, regardless of how much they helped on the floor. I had to give that conversation to owners more than once. The 2018 FLSA amendment is unambiguous. The 2024 Fifth Circuit ruling on the 80/20/30 rule didn't change it. Managers receiving tips from a pool is a direct DOL violation and a six-figure lawsuit waiting to happen.
+        </p>
+        <p>
+          That's why this calculator has the FLSA banner, the tip-credit toggle, and the BOH violation warning. The math is simple. The legal compliance is what kills operators who don't pay attention.
+        </p>
+        <div class="operator-byline">
+          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__name">Brock Markarian</span>
+          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15 — Tipped Employees Under the FLSA</a></li>
+        <li><a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener">DOL — Final Rule on Tip Regulations</a></li>
+        <li><a href="https://restaurant.org/" target="_blank" rel="noopener">National Restaurant Association — Compliance Resources</a></li>
+        <li><a href="https://www.7shifts.com/blog/tip-pooling-laws/" target="_blank" rel="noopener">7shifts — Tip Pooling Laws Guide</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const ROLE_POINTS: Record<string, number> = {
+    server: 10,
+    bartender: 8,
+    busser: 5,
+    runner: 4,
+    host: 4,
+    barback: 5,
+    cook: 5,
+    dishwasher: 4,
+    other: 6,
+  };
+
+  // BOH roles — only legal in pool when employer is NOT taking a tip credit (per 2021 DOL final rule).
+  const BOH_ROLES = new Set(['cook', 'dishwasher']);
+
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const rowsEl = document.querySelector('[data-rows]') as HTMLElement | null;
+  const addRowBtn = document.querySelector('[data-add-row]') as HTMLButtonElement | null;
+  const poolTotalEl = document.querySelector('[data-pool-total]') as HTMLElement | null;
+  const empCountEl = document.querySelector('[data-emp-count]') as HTMLElement | null;
+  const hoursRow = document.querySelector('[data-hours-row]') as HTMLElement | null;
+  const totalHoursEl = document.querySelector('[data-total-hours]') as HTMLElement | null;
+  const rateRow = document.querySelector('[data-rate-row]') as HTMLElement | null;
+  const rateEl = document.querySelector('[data-rate]') as HTMLElement | null;
+  const pointsCol = document.querySelector('[data-points-col]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+
+  if (form && counter && rowsEl && addRowBtn && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    let rowId = 0;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fmtUSD(n: number): string {
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800, decimals = 2) {
+      if (reduced) { el.textContent = to.toFixed(decimals); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * ease(t);
+        el.textContent = value.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function addRow(name = '', role = 'server', hours = '', points = '') {
+      const id = ++rowId;
+      const row = document.createElement('div');
+      row.className = 'employee-row';
+      row.dataset.rowId = String(id);
+      const roleOpts = Object.keys(ROLE_POINTS).map(k => `<option value="${k}"${k === role ? ' selected' : ''}>${k.charAt(0).toUpperCase() + k.slice(1)} (${ROLE_POINTS[k]} pts)</option>`).join('');
+      row.innerHTML = `
+        <input type="text" class="employee-row__name" name="name-${id}" placeholder="e.g. Alex" value="${name}" autocomplete="off" />
+        <select class="employee-row__role" name="role-${id}">${roleOpts}</select>
+        <input type="number" class="employee-row__hours num" name="hours-${id}" inputmode="decimal" min="0" step="0.25" placeholder="6.5" value="${hours}" autocomplete="off" />
+        <input type="number" class="employee-row__points num" name="points-${id}" inputmode="decimal" min="0" step="0.5" placeholder="auto" value="${points}" autocomplete="off" />
+        <button type="button" class="employee-row__remove" data-remove-row aria-label="Remove employee">×</button>
+      `;
+      rowsEl!.appendChild(row);
+
+      const removeBtn = row.querySelector('[data-remove-row]') as HTMLButtonElement;
+      removeBtn.addEventListener('click', () => {
+        if (rowsEl!.children.length > 1) {
+          row.remove();
+          calc();
+        }
+      });
+    }
+
+    function updateLabelsForMode(method: string) {
+      const poolLabel = document.querySelector('[data-pool-label]') as HTMLElement | null;
+      const poolHint = document.querySelector('[data-pool-hint]') as HTMLElement | null;
+      const methodHint = document.querySelector('[data-method-hint]') as HTMLElement | null;
+      const hoursCol = document.querySelector('[data-hours-col]') as HTMLElement | null;
+      const pointsCol = document.querySelector('[data-points-col]') as HTMLElement | null;
+      const roleCol = document.querySelector('[data-role-col]') as HTMLElement | null;
+      const addLabel = document.querySelector('[data-add-label]') as HTMLElement | null;
+      const resultLabel = document.querySelector('[data-result-label]') as HTMLElement | null;
+      const head = document.querySelector('.employees-table__head') as HTMLElement | null;
+      const body = document.querySelector('.employees-table__body') as HTMLElement | null;
+
+      if (method === 'tipout') {
+        if (poolLabel) poolLabel.textContent = 'Server total tips';
+        if (poolHint) poolHint.textContent = 'Total tips the server earned for the shift before tipping out support staff.';
+        if (methodHint) methodHint.textContent = 'Server keeps the remainder. Each support role gets a percentage of total tips. Sum of percentages can be ≤ 100%.';
+        if (hoursCol) hoursCol.textContent = 'Tip-out %';
+        if (pointsCol) pointsCol.style.display = 'none';
+        if (roleCol) roleCol.style.display = 'none';
+        if (addLabel) addLabel.textContent = 'Add support role';
+        if (resultLabel) resultLabel.textContent = 'Server keeps';
+        // Tip-out grid: Name | Tip-out % | Remove
+        if (head) head.style.gridTemplateColumns = 'minmax(140px, 2fr) minmax(100px, 1fr) 36px';
+        if (body) body.classList.add('employees-table__body--tipout');
+      } else {
+        if (poolLabel) poolLabel.textContent = 'Total tip pool';
+        if (poolHint) poolHint.textContent = 'Total tips collected for the period being distributed.';
+        if (methodHint) methodHint.textContent = 'Hours: split by hours worked. Points: weight by role responsibility. Equal: same share each.';
+        if (hoursCol) hoursCol.textContent = 'Hours';
+        if (pointsCol) { pointsCol.style.display = ''; pointsCol.style.opacity = method === 'points' ? '1' : '0.4'; }
+        if (roleCol) roleCol.style.display = '';
+        if (addLabel) addLabel.textContent = 'Add employee';
+        if (resultLabel) resultLabel.textContent = 'Average per employee';
+        if (head) head.style.gridTemplateColumns = '';
+        if (body) body.classList.remove('employees-table__body--tipout');
+      }
+
+      // Toggle points + role on each existing row
+      document.querySelectorAll('.employee-row__points').forEach(el => {
+        (el as HTMLElement).style.display = method === 'tipout' ? 'none' : '';
+      });
+      document.querySelectorAll('.employee-row__role').forEach(el => {
+        (el as HTMLElement).style.display = method === 'tipout' ? 'none' : '';
+      });
+    }
+
+    function calc() {
+      const pool = parseFloat((document.querySelector('#pool') as HTMLInputElement)?.value || '') || 0;
+      const method = (document.querySelector('#method') as HTMLSelectElement)?.value || 'hours';
+      const tipCredit = (document.querySelector('#tipcredit') as HTMLSelectElement)?.value || 'no';
+
+      updateLabelsForMode(method);
+
+      // Tip-credit + BOH legality check
+      const legalWarning = document.querySelector('[data-legal-warning]') as HTMLElement | null;
+      let hasBohViolation = false;
+      if (tipCredit === 'yes') {
+        rowsEl!.querySelectorAll('.employee-row').forEach((rowEl) => {
+          const id = parseInt((rowEl as HTMLElement).dataset.rowId || '0');
+          const role = (rowEl.querySelector(`[name="role-${id}"]`) as HTMLSelectElement)?.value || '';
+          if (BOH_ROLES.has(role)) hasBohViolation = true;
+        });
+      }
+      if (legalWarning) legalWarning.hidden = !hasBohViolation;
+
+      const employees: { id: number; name: string; role: string; hours: number; points: number; weight: number; share: number; pct?: number }[] = [];
+      let totalHours = 0;
+      let totalWeight = 0;
+      let totalTipoutPct = 0;
+
+      rowsEl!.querySelectorAll('.employee-row').forEach((rowEl) => {
+        const id = parseInt((rowEl as HTMLElement).dataset.rowId || '0');
+        const name = (rowEl.querySelector(`[name="name-${id}"]`) as HTMLInputElement)?.value || `Employee ${id}`;
+        const role = (rowEl.querySelector(`[name="role-${id}"]`) as HTMLSelectElement)?.value || 'server';
+        const hoursOrPct = parseFloat((rowEl.querySelector(`[name="hours-${id}"]`) as HTMLInputElement)?.value || '') || 0;
+        const customPoints = parseFloat((rowEl.querySelector(`[name="points-${id}"]`) as HTMLInputElement)?.value || '');
+        const points = !isNaN(customPoints) && customPoints > 0 ? customPoints : (ROLE_POINTS[role] || 6);
+
+        if (method === 'tipout') {
+          // hoursOrPct is interpreted as tip-out %
+          if (hoursOrPct > 0) {
+            const pct = hoursOrPct;
+            totalTipoutPct += pct;
+            employees.push({ id, name, role, hours: 0, points: 0, weight: pct, share: 0, pct });
+          }
+        } else {
+          let weight = 0;
+          if (method === 'hours') weight = hoursOrPct;
+          else if (method === 'points') weight = points * hoursOrPct;
+          else if (method === 'equal') weight = 1;
+
+          if (hoursOrPct > 0 || method === 'equal') {
+            totalHours += hoursOrPct;
+            totalWeight += weight;
+            employees.push({ id, name, role, hours: hoursOrPct, points, weight, share: 0 });
+          }
+        }
+      });
+
+      if (pool <= 0 || employees.length === 0) {
+        animateCounter(counter!, lastValue, 0, 400, 2);
+        lastValue = 0;
+        if (poolTotalEl) poolTotalEl.textContent = '$0.00';
+        if (empCountEl) empCountEl.textContent = '0';
+        if (hoursRow) hoursRow.hidden = true;
+        if (rateRow) rateRow.hidden = true;
+        mathBody!.innerHTML = '<p class="t-caption">Add employees above to see the distribution.</p>';
+        return;
+      }
+
+      let resultDisplay = 0;
+      let serverKeep = 0;
+
+      if (method === 'tipout') {
+        // Calculate each support role share + server's keep
+        if (totalTipoutPct > 100) {
+          mathBody!.innerHTML = `<p class="t-caption" style="color:#823a14"><strong>Tip-out percentages exceed 100%.</strong> Sum of all tip-out %s must be ≤ 100%. Currently ${totalTipoutPct.toFixed(1)}%.</p>`;
+          animateCounter(counter!, lastValue, 0, 400, 2);
+          lastValue = 0;
+          return;
+        }
+        employees.forEach(e => { e.share = pool * ((e.pct || 0) / 100); });
+        const totalTippedOut = employees.reduce((s, e) => s + e.share, 0);
+        serverKeep = pool - totalTippedOut;
+        resultDisplay = serverKeep;
+      } else {
+        if (totalWeight === 0) {
+          mathBody!.innerHTML = '<p class="t-caption">Add hours to at least one employee.</p>';
+          return;
+        }
+        employees.forEach(e => { e.share = pool * (e.weight / totalWeight); });
+        resultDisplay = pool / employees.length;
+      }
+
+      animateCounter(counter!, lastValue, resultDisplay, 800, 2);
+      lastValue = resultDisplay;
+
+      if (poolTotalEl) poolTotalEl.textContent = fmtUSD(pool);
+      if (empCountEl) empCountEl.textContent = String(employees.length);
+
+      if (method !== 'tipout' && hoursRow && totalHoursEl && totalHours > 0) {
+        hoursRow.hidden = false;
+        totalHoursEl.textContent = `${totalHours.toFixed(1)} hrs`;
+      } else if (hoursRow) {
+        hoursRow.hidden = true;
+      }
+      if (method !== 'tipout' && rateRow && rateEl && totalHours > 0) {
+        rateRow.hidden = false;
+        rateEl.textContent = `${fmtUSD(pool / totalHours)}/hr avg`;
+      } else if (rateRow) {
+        rateRow.hidden = true;
+      }
+
+      if (method === 'tipout') {
+        const totalTippedOut = employees.reduce((s, e) => s + e.share, 0);
+        const cardsHtml = employees.map(e => `
+          <div class="dist-card">
+            <div class="dist-card__main">
+              <span class="dist-card__name">${e.name}</span>
+              <span class="dist-card__share num"><strong>${fmtUSD(e.share)}</strong></span>
+            </div>
+            <div class="dist-card__sub">
+              <span class="dist-card__role">${e.role}</span>
+              <span class="dist-card__detail num">${(e.pct || 0).toFixed(1)}% of tips</span>
+            </div>
+          </div>
+        `).join('');
+        mathBody!.innerHTML = `
+          <div class="dist-list">${cardsHtml}</div>
+          <div class="dist-summary">
+            <div class="dist-summary__row"><span>Total tipped out</span><span class="num">${fmtUSD(totalTippedOut)} <em>(${totalTipoutPct.toFixed(1)}%)</em></span></div>
+            <div class="dist-summary__row dist-summary__row--final"><span><strong>Server keeps</strong></span><span class="num"><strong>${fmtUSD(serverKeep)}</strong></span></div>
+          </div>
+        `;
+      } else {
+        const totalDist = employees.reduce((s, e) => s + e.share, 0);
+        const cardsHtml = employees.map(e => `
+          <div class="dist-card">
+            <div class="dist-card__main">
+              <span class="dist-card__name">${e.name}</span>
+              <span class="dist-card__share num"><strong>${fmtUSD(e.share)}</strong></span>
+            </div>
+            <div class="dist-card__sub">
+              <span class="dist-card__role">${e.role}</span>
+              <span class="dist-card__detail num">${method === 'equal' ? 'equal split' : `${e.hours.toFixed(1)}h${method === 'points' ? ` × ${e.points}pt` : ''}`}</span>
+            </div>
+          </div>
+        `).join('');
+        mathBody!.innerHTML = `
+          <div class="dist-list">${cardsHtml}</div>
+          <div class="dist-summary">
+            <div class="dist-summary__row dist-summary__row--final"><span><strong>Total distributed</strong></span><span class="num"><strong>${fmtUSD(totalDist)}</strong></span></div>
+          </div>
+        `;
+      }
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    addRowBtn.addEventListener('click', () => {
+      addRow();
+      calc();
+    });
+
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+
+    // Load example: 4-employee dinner shift, $2400 pool, hours-weighted
+    function loadExample() {
+      rowsEl!.innerHTML = '';
+      addRow('Alex', 'server', '8', '');
+      addRow('Jordan', 'server', '8', '');
+      addRow('Sam', 'bartender', '6', '');
+      addRow('Riley', 'busser', '4', '');
+      (document.querySelector('#pool') as HTMLInputElement).value = '2400';
+      (document.querySelector('#method') as HTMLSelectElement).value = 'hours';
+      calc();
+    }
+
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+
+    // Auto-load example on first load
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  .calc-grid--wide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  @media (max-width: 880px) { .calc-grid, .calc-grid--wide { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix { padding: 0 0 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  /* Employee table */
+  .employees-table-wrap { display: flex; flex-direction: column; gap: var(--space-3); }
+  .employees-table { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; background: var(--color-canvas); }
+  .employees-table__head { display: grid; grid-template-columns: minmax(120px, 1.6fr) minmax(110px, 1.2fr) minmax(72px, 0.8fr) minmax(72px, 0.8fr) 36px; gap: var(--space-3); align-items: center; padding: 12px 16px; background: var(--color-cream); border-bottom: 1px solid var(--color-border); font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+  :global(.employee-row) { display: grid; grid-template-columns: minmax(120px, 1.6fr) minmax(110px, 1.2fr) minmax(72px, 0.8fr) minmax(72px, 0.8fr) 36px; gap: var(--space-3); align-items: center; padding: 10px 16px; border-bottom: 1px dashed var(--color-border); }
+  :global(.employees-table__body--tipout .employee-row) { grid-template-columns: minmax(140px, 2fr) minmax(100px, 1fr) 36px; }
+  :global(.employee-row:last-child) { border-bottom: none; }
+  :global(.employee-row input), :global(.employee-row select) { padding: 12px 14px; font-family: var(--font-body); font-size: 1rem; color: var(--color-heading); background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; outline: none; transition: all 200ms ease; width: 100%; min-width: 0; }
+  :global(.employee-row input.num) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  :global(.employee-row select) { padding-right: 28px; appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  :global(.employee-row input:focus), :global(.employee-row select:focus) { border-color: #c87500; box-shadow: 0 0 0 2px rgba(200, 117, 0, 0.18); }
+  :global(.employee-row__remove) { width: 32px; height: 32px; padding: 0; border: none; background: transparent; color: var(--color-muted); font-size: 1.375rem; line-height: 1; cursor: pointer; border-radius: 6px; transition: all 200ms ease; }
+  :global(.employee-row__remove:hover) { background: rgba(156, 79, 28, 0.10); color: #823a14; }
+
+  @media (max-width: 760px) {
+    .employees-table__head { display: none; }
+    :global(.employee-row) { grid-template-columns: 1fr 1fr 36px; grid-template-rows: auto auto auto; gap: 8px; padding: 14px 14px; }
+    :global(.employee-row__name) { grid-column: 1 / 3; grid-row: 1; }
+    :global(.employee-row__role) { grid-column: 1 / 3; grid-row: 2; }
+    :global(.employee-row__hours) { grid-column: 1; grid-row: 3; }
+    :global(.employee-row__points) { grid-column: 2; grid-row: 3; }
+    :global(.employee-row__remove) { grid-column: 3; grid-row: 1 / 4; align-self: start; }
+  }
+
+  .btn-add-row { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); cursor: pointer; transition: all var(--transition-fast); align-self: flex-start; }
+  .btn-add-row:hover { background: var(--color-saffron-light); border-color: var(--color-saffron); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 2px; margin-bottom: var(--space-5); }
+  .calc-result__big .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .calc-result__big .result-num--pulse { transform: scale(1.025); }
+  .calc-result__big .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row[hidden] { display: none; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .math-table th, .math-table td { padding: 6px 4px; }
+  .math-table th { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); text-align: left; border-bottom: 1px solid var(--color-border); }
+  .math-table td { border-bottom: 1px dashed var(--color-border); }
+  .math-table td:last-child, .math-table th:last-child { text-align: right; }
+  .math-table__final td { padding-top: var(--space-3); border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table--dist tbody tr:last-child td { border-bottom: none; }
+
+  /* Distribution list — stacked cards work in any width */
+  :global(.dist-list) { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  :global(.dist-card) { padding: 10px 12px; background: var(--color-canvas); border: 1px solid var(--color-border); border-radius: 8px; transition: all 150ms ease; }
+  :global(.dist-card:hover) { border-color: var(--color-saffron); background: var(--color-cream); }
+  :global(.dist-card__main) { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  :global(.dist-card__name) { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); }
+  :global(.dist-card__share) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1rem; color: var(--color-saffron-text); white-space: nowrap; }
+  :global(.dist-card__sub) { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  :global(.dist-card__role) { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); text-transform: capitalize; }
+  :global(.dist-card__detail) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.75rem; color: var(--color-muted); white-space: nowrap; }
+  :global(.dist-summary) { display: flex; flex-direction: column; gap: 4px; padding-top: 10px; border-top: 1px solid var(--color-border); }
+  :global(.dist-summary__row) { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 4px; font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  :global(.dist-summary__row .num) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--color-heading); white-space: nowrap; }
+  :global(.dist-summary__row em) { font-style: normal; color: var(--color-muted); font-size: 0.8125rem; }
+  :global(.dist-summary__row--final) { padding-top: 10px; margin-top: 4px; border-top: 1.5px solid var(--color-heading); font-size: 1rem; }
+  :global(.dist-summary__row--final strong) { color: var(--color-heading); }
+  :global(.dist-summary__row--final .num strong) { color: var(--color-saffron-text); font-size: 1.125rem; }
+
+  /* Distribution table — looser, easier to read */
+  .math-table--dist { font-size: 0.9375rem; }
+  .math-table--dist th { padding: 10px 12px 8px; font-size: 0.6875rem; }
+  .math-table--dist th:first-child { padding-left: 4px; }
+  .math-table--dist th:last-child { padding-right: 4px; }
+  .math-table--dist td { padding: 12px 12px; vertical-align: middle; }
+  .math-table--dist td:first-child { padding-left: 4px; font-weight: 500; color: var(--color-heading); }
+  .math-table--dist td:last-child { padding-right: 4px; white-space: nowrap; }
+  .math-table--dist tbody tr { transition: background 150ms ease; }
+  .math-table--dist tbody tr:hover { background: var(--color-canvas); }
+  .math-table--dist td:nth-child(2) { color: var(--color-muted); font-size: 0.8125rem; text-transform: capitalize; }
+  .math-table--dist td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--color-heading); }
+  .math-table--dist td.num strong { color: var(--color-saffron-text); }
+  .math-table--dist tfoot td { padding-top: 14px; padding-bottom: 14px; font-size: 0.9375rem; }
+  .math-table--dist tfoot tr:not(.math-table__final) td { border-top: 1px solid var(--color-border); border-bottom: none; color: var(--color-body); }
+  .math-table--dist .math-table__final td { padding-top: 10px; }
+  .math-table--dist .math-table__final td.num strong { font-size: 1.0625rem; }
+  @media (max-width: 540px) {
+    .math-table--dist { font-size: 0.875rem; }
+    .math-table--dist td { padding: 10px 8px; }
+    .math-table--dist td:nth-child(2) { font-size: 0.75rem; }
+  }
+  .essay, .operator-story { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* Legal compliance banner */
+  .legal-banner { padding: var(--space-4) var(--space-5); background: #fef9f3; border: 1px solid #c87500; border-left: 4px solid #c87500; border-radius: var(--radius-md); }
+  .legal-banner__head { margin: 0 0 var(--space-2) 0; font-family: var(--font-body); font-size: 0.9375rem; color: var(--color-heading); }
+  .legal-banner__list { margin: 0; padding-left: var(--space-5); display: flex; flex-direction: column; gap: 6px; font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); }
+  .legal-banner__list a { color: var(--color-saffron-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .legal-banner__list a:hover { color: var(--color-saffron-hover); }
+
+  /* Legal violation warning (live) */
+  .legal-warning { padding: var(--space-3) var(--space-4); background: #fbeaea; border: 1.5px solid #c0392b; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; line-height: 1.5; color: #823b32; }
+  .legal-warning[hidden] { display: none; }
+  .legal-warning strong { color: #c0392b; }
+</style>

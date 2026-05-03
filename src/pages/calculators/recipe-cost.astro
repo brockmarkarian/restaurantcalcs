@@ -1,0 +1,704 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Recipe & Plate Cost Calculator — Free | RestaurantCalcs';
+const description = 'Build plate cost from ingredients. Unlimited rows, unit-aware costing, optional Q-factor. Get per-portion cost and suggested menu price. Math shown.';
+
+const faq = [
+  {
+    q: 'How do you calculate recipe cost?',
+    a: 'Recipe cost equals the sum of all ingredient costs at the quantities used. For each ingredient: Quantity × Unit Cost = Line Cost. Sum all lines = Total Recipe Cost. Divide by yield (number of portions) = Cost Per Portion (plate cost).',
+  },
+  {
+    q: 'What is plate cost vs recipe cost?',
+    a: 'Recipe cost is the total cost to produce a batch (e.g., a pot of soup). Plate cost is the cost per portion served (one bowl from that pot). Plate cost = Recipe Cost ÷ Yield. Plate cost is what you compare to menu price for food cost percentage.',
+  },
+  {
+    q: 'How accurate does ingredient cost need to be?',
+    a: 'As accurate as the latest invoice. Most operators update ingredient costs quarterly at minimum, monthly during inflation. Outdated unit costs are the #1 reason theoretical food cost diverges from actual — and why variance reports lie.',
+  },
+  {
+    q: 'How do I handle yield loss / trim?',
+    a: 'Bake it into the unit cost. A 10-pound case of beef tenderloin at $180 ($18/lb as-purchased) yields ~7 pounds trimmed — so your real cost per usable pound is $180 ÷ 7 = $25.71/lb. Use that number as your $ per unit in the recipe row. This is more accurate than guessing a waste % per ingredient (most operators don\'t track that anyway).',
+  },
+  {
+    q: 'What about overhead, labor, and packaging?',
+    a: 'Recipe cost typically captures food only — direct ingredient cost. Labor and overhead are tracked separately as labor cost % and operating expenses. Packaging (takeout containers, paper) is sometimes added to recipe cost for delivery items and sometimes pulled to a separate "supplies" line. Pick a convention and apply consistently.',
+  },
+  {
+    q: 'How do I price a dish from recipe cost?',
+    a: 'Use the menu pricing formula: Menu Price = Plate Cost ÷ Target Food Cost %. If plate cost is $4.50 and target is 30%, menu price = $4.50 ÷ 0.30 = $15. Round to $14.95 or $15.00. Then verify the menu price feels right for your concept and market.',
+  },
+  {
+    q: 'How often should I re-cost recipes?',
+    a: 'Quarterly minimum. Monthly during cost spikes. The discipline beats the precision — a "good enough" cost updated regularly beats a precise cost from 18 months ago. Most POS recipe modules support bulk price updates from invoice imports.',
+  },
+  {
+    q: 'Should I include modifiers and add-ons?',
+    a: 'Track them as separate items, not bundled into the base recipe. A burger and "burger plus bacon" should be two costed recipes. Modifiers tracked as costs let you price modifiers properly (the +$3 bacon should make money, not break even).',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. The calculation runs entirely in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/recipe-cost/#webpage', url: 'https://restaurantcalcs.com/calculators/recipe-cost/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/recipe-cost/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/recipe-cost/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 3, name: 'Recipe & Plate Cost', item: 'https://restaurantcalcs.com/calculators/recipe-cost/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/recipe-cost/#tool',
+    name: 'Recipe & Plate Cost Calculator',
+    description: 'Free web-based recipe costing calculator. Add unlimited ingredient rows, set quantities and unit costs, get cost per portion + suggested menu price.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/recipe-cost/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to calculate recipe cost and plate cost',
+    description: 'Step-by-step calculation of total recipe cost and per-portion plate cost.',
+    totalTime: 'PT5M',
+    supply: [
+      { '@type': 'HowToSupply', name: 'Ingredient list with quantities' },
+      { '@type': 'HowToSupply', name: 'Cost per unit for each ingredient (from invoices)' },
+      { '@type': 'HowToSupply', name: 'Number of portions the recipe yields' },
+    ],
+    step: [
+      { '@type': 'HowToStep', position: 1, name: 'List ingredients', text: 'Write down every ingredient in the recipe with the quantity used and the unit (oz, lb, g, ea, cup, tsp, tbsp, etc.).' },
+      { '@type': 'HowToStep', position: 2, name: 'Get unit costs', text: 'Pull the most recent invoice price for each ingredient and convert to a per-unit cost matching your recipe units. For trimmed proteins, use as-purchased cost ÷ usable yield.' },
+      { '@type': 'HowToStep', position: 3, name: 'Multiply and sum', text: 'For each ingredient: Quantity × Unit Cost = Line Cost. Sum all line costs for the total recipe cost.' },
+      { '@type': 'HowToStep', position: 4, name: 'Divide by yield', text: 'Plate Cost = Total Recipe Cost ÷ Number of Portions. This is your per-serving food cost.' },
+      { '@type': 'HowToStep', position: 5, name: 'Apply Q-factor (optional)', text: 'Add 5–10% Q-factor for miscellaneous absorption (bread, condiments, packaging). Industry-standard adjustment for menu-priced items.' },
+    ],
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+
+const relatedCalcs = [
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Aggregate cost vs revenue.' },
+  { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Price from plate cost.' },
+  { slug: 'menu-engineering', title: 'Menu Engineering', desc: 'Plot recipe cost on the matrix.' },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Recipe Cost Calculator</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Recipe &amp; plate cost calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Recipe &amp; Plate Cost Calculator</h1>
+      <p class="calc-page__intro">
+        Add ingredients, set quantities, get plate cost. Calculate <strong>per-portion cost</strong> from a recipe batch. Optional target food cost % returns a suggested menu price with markup multiplier.
+      </p>
+    </header>
+
+    <section class="calc-grid calc-grid--wide">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Builds plate cost from ingredients. Pick units (oz, lb, g, ea), enter quantity + cost per unit. Calculator multiplies, sums, and divides by yield to give you cost per portion.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example recipe (Carbonara)</button>
+        </div>
+
+        <div class="recipe-header-grid">
+          <div class="form-row">
+            <label class="form-row__label" for="recipe-name">
+              <span class="step-num">01</span>
+              Recipe name
+            </label>
+            <input id="recipe-name" name="recipe-name" type="text" class="text-input" placeholder="Carbonara" autocomplete="off" />
+          </div>
+
+          <div class="form-row">
+            <label class="form-row__label" for="yield">
+              <span class="step-num">02</span>
+              Makes how many portions?
+              <button type="button" class="help-tip" aria-label="What yield means">
+                <span aria-hidden="true">?</span>
+                <span class="help-tip__pop" role="tooltip">Number of <strong>plates served</strong> from one batch of this recipe. A pot of soup yielding 8 bowls = 8.</span>
+              </button>
+            </label>
+            <div class="input-shell">
+              <input id="yield" name="yield" type="number" inputmode="decimal" min="1" step="1" placeholder="4" autocomplete="off" />
+              <span class="input-shell__suffix">portions</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="recipe-table-wrap">
+          <p class="form-row__label" style="display:flex;gap:var(--space-2);align-items:center;margin-bottom:var(--space-2)">
+            <span class="step-num">03</span>
+            Ingredients
+            <button type="button" class="help-tip" aria-label="How to enter ingredients">
+              <span aria-hidden="true">?</span>
+              <span class="help-tip__pop" role="tooltip">Pick the unit your ingredient is priced in (oz / lb / g / ea / cups). Enter quantity used + cost per unit. <strong>Tip:</strong> for trimmed proteins (tenderloin, fish), use the as-purchased cost ÷ trimmed weight to bake yield loss into the unit cost.</span>
+            </button>
+          </p>
+          <div class="unit-notice" role="note">
+            <strong>Important:</strong> the <em>$ per unit</em> column must match the unit you pick. If your invoice prices per <strong>lb</strong> but your recipe uses <strong>oz</strong>, divide the pack price by 16 to get $/oz — or pick <strong>lb</strong> here and enter qty in lb.
+          </div>
+          <div class="recipe-table">
+            <div class="recipe-table__head">
+              <span>Ingredient</span>
+              <span>Qty</span>
+              <span>Unit</span>
+              <span>$ per unit</span>
+              <span>Line</span>
+              <span class="visually-hidden">Remove</span>
+            </div>
+            <div class="recipe-table__body" data-rows>
+              <!-- Initial rows injected by JS -->
+            </div>
+          </div>
+
+          <button type="button" class="btn-add-row" data-add-row>
+            <span aria-hidden="true">+</span> Add ingredient
+          </button>
+        </div>
+
+        <details class="optional-fields">
+          <summary class="optional-fields__trigger">
+            <span class="optional-fields__icon" aria-hidden="true">+</span>
+            More options (Q-factor, target price)
+          </summary>
+          <div class="optional-fields__body">
+            <div class="form-row">
+              <label class="form-row__label" for="qfactor">
+                Q-factor %
+                <button type="button" class="help-tip" aria-label="What Q-factor means">
+                  <span aria-hidden="true">?</span>
+                  <span class="help-tip__pop" role="tooltip">Miscellaneous absorption: bread service, garnish, condiments, packaging, sub-recipe rounding. Industry default <strong>5–10%</strong> (Toast, Culinary Pro). Applied to plate cost after yield divide.</span>
+                </button>
+              </label>
+              <div class="input-shell">
+                <input id="qfactor" name="qfactor" type="number" inputmode="decimal" min="0" max="30" step="0.5" placeholder="0" autocomplete="off" />
+                <span class="input-shell__suffix">%</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-row__label" for="target">
+                Target food cost %
+                <button type="button" class="help-tip" aria-label="What target means">
+                  <span aria-hidden="true">?</span>
+                  <span class="help-tip__pop" role="tooltip">Concept benchmark (28–32% casual, 30–35% fine dining). Returns suggested menu price.</span>
+                </button>
+              </label>
+              <div class="input-shell">
+                <input id="target" name="target" type="number" inputmode="decimal" min="1" max="100" step="0.5" placeholder="30" autocomplete="off" />
+                <span class="input-shell__suffix">%</span>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Plate cost</span>
+          </div>
+
+          <div class="calc-result__big calc-result__big--money">
+            <span class="result-num__pct" aria-hidden="true">$</span>
+            <span class="result-num" data-counter>0.00</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Recipe total</span>
+            <span class="t-caption num" data-recipe-total>$0.00</span>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Ingredient lines</span>
+              <span class="extras-row__value num" data-line-count>0</span>
+            </div>
+            <div class="extras-row" data-yield-row hidden>
+              <span class="extras-row__label">Yield</span>
+              <span class="extras-row__value num" data-yield-display>—</span>
+            </div>
+            <div class="extras-row" data-suggested-row hidden>
+              <span class="extras-row__label">Suggested menu price</span>
+              <span class="extras-row__value num" data-suggested>—</span>
+            </div>
+            <div class="extras-row" data-markup-row hidden>
+              <span class="extras-row__label">Markup multiplier</span>
+              <span class="extras-row__value num" data-markup>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter ingredients above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/recipe-cost.webp" alt="Editorial illustration of fresh ingredients arranged on butcher paper around a vintage kitchen scale: herbs, eggs, dried pasta, and a wedge of cheese with a chef's notepad nearby." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Plate cost is <em>where pricing starts</em>.</h2>
+      <div class="essay__body">
+        <p>
+          Every menu price is a hypothesis about plate cost. Operators who guess at plate cost are pricing on vibes. Operators who measure plate cost are pricing on data.
+        </p>
+        <p>
+          The difference shows up two years later. Operator A raised prices reactively, only when food cost % drifted into trouble. Operator B repriced quarterly based on updated plate cost — and stayed two steps ahead of inflation.
+        </p>
+        <p class="essay__pull">
+          A recipe costed once, never updated, is worse than no recipe cost at all. It gives false confidence that the math works while the underlying numbers are 18 months stale.
+        </p>
+        <p>
+          Recipe cost is the input to almost every other operations metric: theoretical food cost, variance analysis, menu engineering, plate cost benchmarking. Get it right and re-cost regularly — everything else compounds from there.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/recipe-costing" target="_blank" rel="noopener">Toast — Recipe Costing Guide</a></li>
+        <li><a href="https://www.restaurant365.com/blog/recipe-costing-restaurants/" target="_blank" rel="noopener">Restaurant365 — Recipe Costing Best Practices</a></li>
+        <li><a href="https://www.ciachef.edu/" target="_blank" rel="noopener">Culinary Institute of America — Yield & Costing Methodology</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const rowsEl = document.querySelector('[data-rows]') as HTMLElement | null;
+  const addRowBtn = document.querySelector('[data-add-row]') as HTMLButtonElement | null;
+  const recipeTotalEl = document.querySelector('[data-recipe-total]') as HTMLElement | null;
+  const lineCountEl = document.querySelector('[data-line-count]') as HTMLElement | null;
+  const yieldRow = document.querySelector('[data-yield-row]') as HTMLElement | null;
+  const yieldDisplayEl = document.querySelector('[data-yield-display]') as HTMLElement | null;
+  const suggestedRow = document.querySelector('[data-suggested-row]') as HTMLElement | null;
+  const suggestedEl = document.querySelector('[data-suggested]') as HTMLElement | null;
+  const markupRow = document.querySelector('[data-markup-row]') as HTMLElement | null;
+  const markupEl = document.querySelector('[data-markup]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+
+  if (form && counter && rowsEl && addRowBtn && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    let rowId = 0;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fmtUSD(n: number): string {
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800, decimals = 2) {
+      if (reduced) { el.textContent = to.toFixed(decimals); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * ease(t);
+        el.textContent = value.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    const UNIT_OPTIONS = ['oz', 'lb', 'g', 'kg', 'ea', 'cup', 'tbsp', 'tsp', 'fl oz', 'ml', 'L'];
+
+    function addRow(name = '', qty = '', unit = 'oz', cost = '') {
+      const id = ++rowId;
+      const row = document.createElement('div');
+      row.className = 'recipe-row';
+      row.dataset.rowId = String(id);
+      const unitOpts = UNIT_OPTIONS.map(u => `<option value="${u}"${u === unit ? ' selected' : ''}>${u}</option>`).join('');
+      row.innerHTML = `
+        <input type="text" class="recipe-row__name" name="name-${id}" placeholder="e.g. Beef tenderloin" value="${name}" autocomplete="off" />
+        <input type="number" class="recipe-row__qty num" name="qty-${id}" inputmode="decimal" min="0" step="0.01" placeholder="8" value="${qty}" autocomplete="off" />
+        <select class="recipe-row__unit" name="unit-${id}" aria-label="Unit">${unitOpts}</select>
+        <div class="recipe-row__cost-shell">
+          <span class="recipe-row__cost-prefix" aria-hidden="true">$/${unit}</span>
+          <input type="number" class="recipe-row__cost num" name="cost-${id}" inputmode="decimal" min="0" step="0.001" placeholder="1.20" value="${cost}" aria-label="Cost per ${unit}" autocomplete="off" />
+        </div>
+        <span class="recipe-row__line num" data-line>$0.00</span>
+        <button type="button" class="recipe-row__remove" data-remove-row aria-label="Remove ingredient">×</button>
+      `;
+      rowsEl!.appendChild(row);
+
+      const removeBtn = row.querySelector('[data-remove-row]') as HTMLButtonElement;
+      removeBtn.addEventListener('click', () => {
+        if (rowsEl!.children.length > 1) {
+          row.remove();
+          calc();
+        }
+      });
+
+      const unitSel = row.querySelector('[name="unit-' + id + '"]') as HTMLSelectElement;
+      const costInput = row.querySelector('[name="cost-' + id + '"]') as HTMLInputElement;
+      const costPrefix = row.querySelector('.recipe-row__cost-prefix') as HTMLElement;
+      unitSel.addEventListener('change', () => {
+        const u = unitSel.value;
+        costPrefix.textContent = '$/' + u;
+        costInput.setAttribute('aria-label', 'Cost per ' + u);
+      });
+    }
+
+    function calc() {
+      const yield_ = parseFloat((document.querySelector('#yield') as HTMLInputElement)?.value || '') || 0;
+      const target = parseFloat((document.querySelector('#target') as HTMLInputElement)?.value || '') || 0;
+      const qFactorRaw = parseFloat((document.querySelector('#qfactor') as HTMLInputElement)?.value || '') || 0;
+      const qFactor = Math.min(30, Math.max(0, qFactorRaw)) / 100;
+      const recipeName = (document.querySelector('#recipe-name') as HTMLInputElement)?.value || 'Recipe';
+
+      let recipeTotal = 0;
+      let lineCount = 0;
+      const lines: { name: string; qty: number; cost: number; line: number }[] = [];
+
+      rowsEl!.querySelectorAll('.recipe-row').forEach((rowEl) => {
+        const id = (rowEl as HTMLElement).dataset.rowId;
+        const name = (rowEl.querySelector(`[name="name-${id}"]`) as HTMLInputElement)?.value || '';
+        const qty = parseFloat((rowEl.querySelector(`[name="qty-${id}"]`) as HTMLInputElement)?.value || '') || 0;
+        const unit = (rowEl.querySelector(`[name="unit-${id}"]`) as HTMLSelectElement)?.value || 'oz';
+        const cost = parseFloat((rowEl.querySelector(`[name="cost-${id}"]`) as HTMLInputElement)?.value || '') || 0;
+        const line = qty * cost;
+        const lineEl = rowEl.querySelector('[data-line]') as HTMLElement;
+        if (lineEl) lineEl.textContent = fmtUSD(line);
+        if (line > 0) {
+          recipeTotal += line;
+          lineCount++;
+          lines.push({ name: name ? `${name} (${qty} ${unit})` : 'Ingredient', qty, cost, line });
+        }
+      });
+
+      const platecostBase = yield_ > 0 ? recipeTotal / yield_ : recipeTotal;
+      const platecost = qFactor > 0 ? platecostBase * (1 + qFactor) : platecostBase;
+
+      if (recipeTotal === 0) {
+        animateCounter(counter!, lastValue, 0, 400, 2);
+        lastValue = 0;
+        if (recipeTotalEl) recipeTotalEl.textContent = '$0.00';
+        if (lineCountEl) lineCountEl.textContent = '0';
+        if (yieldRow) yieldRow.hidden = true;
+        if (suggestedRow) suggestedRow.hidden = true;
+        if (markupRow) markupRow.hidden = true;
+        mathBody!.innerHTML = '<p class="t-caption">Enter ingredients above to see the calculation.</p>';
+        return;
+      }
+
+      animateCounter(counter!, lastValue, platecost, 800, 2);
+      lastValue = platecost;
+
+      if (recipeTotalEl) recipeTotalEl.textContent = fmtUSD(recipeTotal);
+      if (lineCountEl) lineCountEl.textContent = String(lineCount);
+
+      if (yield_ > 0 && yieldRow && yieldDisplayEl) {
+        yieldRow.hidden = false;
+        yieldDisplayEl.textContent = `${yield_} portions`;
+      } else if (yieldRow) {
+        yieldRow.hidden = true;
+      }
+
+      let suggestedPrice = 0;
+      if (target > 0 && target < 100 && yield_ > 0 && suggestedRow && suggestedEl && markupRow && markupEl) {
+        suggestedPrice = platecost / (target / 100);
+        suggestedRow.hidden = false;
+        suggestedEl.textContent = `${fmtUSD(suggestedPrice)} (${target}% target)`;
+        markupRow.hidden = false;
+        markupEl.textContent = `${(suggestedPrice / platecost).toFixed(2)}× cost`;
+      } else if (suggestedRow && markupRow) {
+        suggestedRow.hidden = true;
+        markupRow.hidden = true;
+      }
+
+      const linesHtml = lines.map(l =>
+        `<tr><td>${l.name}</td><td class="num">${l.qty.toLocaleString()} × ${fmtUSD(l.cost)}</td><td class="num">${fmtUSD(l.line)}</td></tr>`
+      ).join('');
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          ${linesHtml}
+          <tr class="math-table__step"><td>Recipe total</td><td></td><td class="num"><strong>${fmtUSD(recipeTotal)}</strong></td></tr>
+          ${yield_ > 0 ? `<tr class="math-table__step"><td>÷ Yield</td><td class="num">${yield_} portions</td><td class="num">${fmtUSD(platecostBase)}/plate</td></tr>` : ''}
+          ${qFactor > 0 ? `<tr class="math-table__step"><td>× (1 + ${(qFactor * 100).toFixed(1)}% Q-factor)</td><td></td><td class="num">${fmtUSD(platecost)} adjusted</td></tr>` : ''}
+          <tr class="math-table__final"><td>Plate cost</td><td></td><td class="num"><strong>${fmtUSD(platecost)}</strong></td></tr>
+          ${suggestedPrice > 0 ? `<tr class="math-table__step"><td>÷ Target ${target}%</td><td></td><td class="num">${fmtUSD(suggestedPrice)} suggested price</td></tr>` : ''}
+        </table>
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    addRowBtn.addEventListener('click', () => {
+      addRow();
+      calc();
+    });
+
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+
+    // Load example: Carbonara recipe
+    function loadExample() {
+      // Clear existing rows
+      rowsEl!.innerHTML = '';
+      addRow('Guanciale', '2.8', 'oz', '1.20');       // 80g ≈ 2.8oz, ~$3.36
+      addRow('Pecorino Romano', '1.0', 'oz', '1.85');  // 30g ≈ 1.0oz, ~$1.85
+      addRow('Eggs', '2', 'ea', '0.40');               // 2 eggs, $0.80
+      addRow('Bucatini pasta', '3.5', 'oz', '0.18');   // 100g ≈ 3.5oz, $0.63
+      (document.querySelector('#recipe-name') as HTMLInputElement).value = 'Carbonara';
+      (document.querySelector('#yield') as HTMLInputElement).value = '4';
+      (document.querySelector('#target') as HTMLInputElement).value = '30';
+      // Re-attach remove listeners + recalc
+      calc();
+    }
+
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) {
+      loadExBtn.addEventListener('click', loadExample);
+    }
+
+    // Auto-load example on first load so user sees a working result
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  .calc-grid--wide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  @media (max-width: 880px) { .calc-grid, .calc-grid--wide { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .text-input { padding: 14px 16px; font-family: var(--font-body); font-size: 1rem; font-weight: 500; color: var(--color-heading); background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; transition: all var(--transition-fast); }
+  .text-input:focus { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__suffix { padding: 0 var(--space-4) 0 0; font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  /* Recipe header — name + yield side-by-side */
+  .recipe-header-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-4);
+    align-items: end;
+  }
+  @media (max-width: 540px) {
+    .recipe-header-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Form intro card */
+  .form-intro { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4) var(--space-5); background: var(--color-saffron-light); border: 1px solid var(--color-saffron); border-radius: var(--radius-md); margin-bottom: var(--space-3); }
+  .form-intro__what { margin: 0; font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.5; color: var(--color-heading); }
+  .form-intro__example { align-self: flex-start; background: transparent; border: 1px dashed var(--color-saffron); border-radius: var(--radius-sm); padding: 6px 12px; font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; color: var(--color-saffron-text); cursor: pointer; transition: all var(--transition-fast); }
+  .form-intro__example:hover { background: var(--color-white); border-style: solid; }
+
+  /* Step indicators */
+  .form-row__label { display: flex; align-items: center; gap: var(--space-2); }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; padding: 2px 8px; background: var(--color-saffron-text); color: var(--color-white); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; border-radius: 6px; flex-shrink: 0; }
+
+  /* Help tip */
+  .help-tip { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 50%; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; color: var(--color-muted); cursor: help; transition: all var(--transition-fast); margin-left: auto; }
+  .help-tip:hover, .help-tip:focus-visible { background: var(--color-saffron-light); border-color: var(--color-saffron); color: var(--color-saffron-text); }
+  .help-tip__pop { position: absolute; top: calc(100% + 8px); right: 0; width: 280px; padding: var(--space-3) var(--space-4); background: var(--color-heading); color: var(--color-cream); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 400; line-height: 1.5; letter-spacing: 0; text-transform: none; border-radius: var(--radius-md); box-shadow: 0 6px 20px rgba(60, 50, 40, 0.20); z-index: 10; opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity 180ms, transform 180ms; }
+  .help-tip__pop strong { color: var(--color-saffron-light); font-weight: 600; }
+  .help-tip:hover .help-tip__pop, .help-tip:focus-visible .help-tip__pop, .help-tip:focus-within .help-tip__pop { opacity: 1; transform: translateY(0); }
+  @media (max-width: 540px) { .help-tip__pop { width: 240px; right: -50%; } }
+
+  /* Unit-matching notice */
+  .unit-notice { padding: var(--space-3) var(--space-4); background: var(--color-saffron-light); border-left: 3px solid var(--color-saffron); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-heading); }
+  .unit-notice em { font-style: normal; font-family: var(--font-mono); font-size: 0.75rem; padding: 1px 6px; background: var(--color-white); border-radius: 4px; }
+
+  /* Cost-per-unit shell — shows $/oz, $/lb etc. (JS-injected, must use :global) */
+  :global(.recipe-row__cost-shell) { display: flex; align-items: stretch; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; transition: all 200ms ease; }
+  :global(.recipe-row__cost-shell:focus-within) { border-color: #c87500; box-shadow: 0 0 0 2px rgba(200, 117, 0, 0.18); }
+  :global(.recipe-row__cost-prefix) { display: inline-flex; align-items: center; padding: 0 10px; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 600; color: #a86200; background: #faf6ee; border-right: 1px dashed var(--color-border); flex-shrink: 0; min-width: 50px; justify-content: center; }
+  :global(.recipe-row__cost-shell input) { border: none !important; box-shadow: none !important; padding: 12px 14px !important; flex: 1; min-width: 0; background: transparent !important; font-family: var(--font-mono) !important; font-variant-numeric: tabular-nums; font-size: 1rem !important; }
+  :global(.recipe-row__cost-shell input:focus) { box-shadow: none !important; }
+
+  /* Recipe table */
+  .recipe-table-wrap { display: flex; flex-direction: column; gap: var(--space-3); }
+  .recipe-table { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; background: var(--color-canvas); }
+  .recipe-table__head { display: grid; grid-template-columns: minmax(140px, 1.8fr) minmax(64px, 0.8fr) minmax(72px, 0.8fr) minmax(120px, 1.5fr) minmax(72px, 0.8fr) 36px; gap: var(--space-3); align-items: center; padding: 12px 16px; background: var(--color-cream); border-bottom: 1px solid var(--color-border); font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+  .recipe-table__body { display: flex; flex-direction: column; }
+  :global(.recipe-row) { display: grid; grid-template-columns: minmax(140px, 1.8fr) minmax(64px, 0.8fr) minmax(72px, 0.8fr) minmax(120px, 1.5fr) minmax(72px, 0.8fr) 36px; gap: var(--space-3); align-items: center; padding: 10px 16px; border-bottom: 1px dashed var(--color-border); }
+  :global(.recipe-row:last-child) { border-bottom: none; }
+  :global(.recipe-row input), :global(.recipe-row select) { padding: 12px 14px; font-family: var(--font-body); font-size: 1rem; color: var(--color-heading); background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; outline: none; transition: all 200ms ease; width: 100%; min-width: 0; }
+  :global(.recipe-row input.num) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  :global(.recipe-row select) { padding-right: 28px; appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  :global(.recipe-row input:focus), :global(.recipe-row select:focus) { border-color: #c87500; box-shadow: 0 0 0 2px rgba(200, 117, 0, 0.18); }
+  :global(.recipe-row__line) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1rem; font-weight: 600; color: #a86200; text-align: right; padding-right: var(--space-2); white-space: nowrap; }
+  :global(.recipe-row__remove) { width: 32px; height: 32px; padding: 0; border: none; background: transparent; color: var(--color-muted); font-size: 1.375rem; line-height: 1; cursor: pointer; border-radius: 6px; transition: all 200ms ease; }
+  :global(.recipe-row__remove:hover) { background: rgba(156, 79, 28, 0.10); color: #823a14; }
+
+  @media (max-width: 760px) {
+    .recipe-table__head { display: none; }
+    :global(.recipe-row) { grid-template-columns: 1fr 1fr 36px; grid-template-rows: auto auto auto auto; gap: 8px; padding: 14px 14px; }
+    :global(.recipe-row__name) { grid-column: 1 / 3; grid-row: 1; }
+    :global(.recipe-row__qty) { grid-column: 1; grid-row: 2; }
+    :global(.recipe-row__unit) { grid-column: 2; grid-row: 2; }
+    :global(.recipe-row__cost-shell) { grid-column: 1 / 3; grid-row: 3; }
+    :global(.recipe-row__line) { grid-column: 1 / 3; grid-row: 4; text-align: left; padding-top: 6px; border-top: 1px dashed var(--color-border); padding-left: 0; }
+    :global(.recipe-row__remove) { grid-column: 3; grid-row: 1 / 5; align-self: start; }
+  }
+
+  .btn-add-row { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); cursor: pointer; transition: all var(--transition-fast); align-self: flex-start; }
+  .btn-add-row:hover { background: var(--color-saffron-light); border-color: var(--color-saffron); }
+
+  .optional-fields { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .optional-fields__trigger { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); cursor: pointer; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .optional-fields__trigger::-webkit-details-marker { display: none; }
+  .optional-fields__icon { font-family: var(--font-mono); color: var(--color-saffron-text); transition: transform var(--transition-fast); }
+  .optional-fields[open] .optional-fields__icon { transform: rotate(45deg); }
+  .optional-fields__body { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); border-top: 1px dashed var(--color-border); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 2px; margin-bottom: var(--space-5); }
+  .calc-result__big .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .calc-result__big .result-num--pulse { transform: scale(1.025); }
+  .calc-result__big .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row[hidden] { display: none; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  @media (max-width: 540px) { .math-table { font-size: 0.875rem; } .math-table td { padding: 8px 4px; } }
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

@@ -1,0 +1,800 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Fountain Drink / BIB Cost Calculator — Free | RestaurantCalcs';
+const description = 'Free fountain drink and BIB (bag-in-box) cost calculator. Pour cost % accounting for ice fill, cup, CO2, and free refills. Industry healthy 8–15%. Math shown.';
+
+const faq = [
+  {
+    q: 'How do you calculate fountain drink cost?',
+    a: 'Multiply syrup volume by (1 + mix ratio) to get finished beverage. Subtract ice fill from pour size to get effective beverage per cup. BIB price ÷ finished oz × effective pour = syrup cost. Add cup, lid, straw, and CO2. If you offer free refills, multiply by your refill multiplier (industry default 1.4 per BinWise).',
+  },
+  {
+    q: 'What is a BIB and how much does it yield?',
+    a: 'A BIB is a bag-in-box of soda syrup. Standard is 5 gallons (640 oz) of concentrated syrup. At a 5:1 mix ratio that is 3,840 oz of finished drink, or about 342 sixteen-ounce pours after a 30% ice fill (Coca-Cola Foodservice). Branded cola BIBs run $80–95. Store-brand or proprietary syrups can run $35–50 for the same volume.',
+  },
+  {
+    q: 'What is the mix ratio for fountain syrup?',
+    a: 'Industry standard is 5:1 (five parts carbonated water to one part syrup). Diet drinks and sparkling waters often run 4:1. Some specialty syrups go 6:1. The mix ratio determines how much finished drink you get from a BIB, so a wrong ratio setting on the dispenser quietly costs or gives away product on every pour.',
+  },
+  {
+    q: 'How does ice affect fountain drink cost?',
+    a: 'Ice displaces beverage. A 16 oz cup with 30% ice fill holds 11.2 oz of liquid, not 16. That sounds like good news for cost. It is, until the customer comes back for a free refill on a cup that holds 11.2 oz of soda not 16. Ice fill is the input most operators forget to adjust when they bump cup size.',
+  },
+  {
+    q: 'Should I offer free refills?',
+    a: 'Depends on the concept. Family casual? Often yes, it is a competitive expectation. The industry rule of thumb is 1.4 pours per visit when refills are free (BinWise). That is 40% more cost on every drink. The fix is rarely cutting refills entirely. It is pricing the menu like the math actually is. A one-refill cap drops the multiplier closer to 1.1 and recovers most of it.',
+  },
+  {
+    q: 'What is a healthy fountain drink pour cost?',
+    a: '8–15% on small to medium drinks (Toast, BinWise). Drops to 4–8% on large 32 oz pours because cup and CO2 cost stay flat while menu price scales up. Free refills add 35–50% to whatever number you started with. If you are running over 22% on fountain, something is wrong with cup cost, mix ratio, or you are running a 24 oz mega at $1.99.',
+  },
+  {
+    q: 'How much does the cup cost on a fountain drink?',
+    a: 'Roughly $0.08 to $0.30 depending on size and material. A 16 oz kraft paper cup with lid and straw is around $0.18. A 24 oz compostable PLA cup with biodegradable lid and paper straw can run $0.30+. Cup cost is often a higher line item than the syrup itself on small drinks. Switching to compostable without re-pricing the menu can move pour cost 4 points overnight.',
+  },
+  {
+    q: "What's the difference between branded and store-brand BIBs?",
+    a: 'Branded (Coke, Pepsi) BIBs run $80–95 for 5 gallons. Store-brand or proprietary equivalents run $35–50. Same yield, similar pour size. Customer satisfaction in blind taste tests on a 30% ice 16 oz pour is basically a coin flip on most colas. The contract obligation is usually the bigger constraint than the taste delta.',
+  },
+  {
+    q: 'Should fountain drinks be a profit center or loss leader?',
+    a: 'Profit center, almost always. Fountain has the highest margin of anything on the menu when you model it correctly (NRA). A $3.49 fountain at 12% pour cost has the same dollar profit as a $14 entree at 32% food cost. The trap is treating the fountain as a "throw-in" to support food sales. The math says it should be the highest-margin item on the ticket.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. Math runs in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const benchmarks = [
+  { name: '12 oz small', low: 4, high: 7 },
+  { name: '16 oz medium', low: 6, high: 10 },
+  { name: '20 oz large', low: 8, high: 12 },
+  { name: '24 oz extra-large', low: 10, high: 14 },
+  { name: '32 oz mega', low: 13, high: 18 },
+];
+
+const scenarios = [
+  {
+    title: 'The "free refills" margin killer',
+    setup: 'Family casual concept, 24 oz pour, free refills standard. Owner had been quoting $0.12 cost per drink to staff during onboarding for two years. Used that number to build menu pricing.',
+    diagnosis: 'Real cost: $0.31 per customer. Branded BIB at $90, 5:1 mix, 30% ice fill, $0.21 compostable cup, and a 1.4× refill multiplier (BinWise). The operator was modeling a single pour and ignoring the refill behavior. Across 180 fountain drinks per day that is $34/day extra cost, roughly $12K/year of margin he thought he had.',
+    fix: 'Switched to a one-refill-cap policy. Refill multiplier dropped from 1.4 to 1.1. Staff trained to ask once, not pour twice. Menu held at $3.49.',
+    outcome: 'Pour cost dropped from 18% to 13% on the 24 oz. Recovered roughly $9K/year on the cap alone. No customer pushback worth tracking. The "all you can drink" framing was costing more than it was loyalty-building.',
+  },
+  {
+    title: 'The branded vs store-brand swap',
+    setup: '12-tap fountain at a fast-casual concept. Running branded cola BIBs at $90 per unit. Pour cost on the 16 oz cola line running 8%, healthy on paper but cup costs were creeping up.',
+    diagnosis: 'Switched the cola line to a store-brand equivalent at $40 per BIB. Same mix ratio, same yield (Coca-Cola Foodservice yield reference applies regardless of label). Pour cost dropped from 8% to 4% on the cola tap. Other taps unchanged.',
+    fix: 'Ran a four-week blind comparison with regulars before committing. Two voted branded preferred, three voted store-brand preferred, the rest could not tell. No menu price change.',
+    outcome: 'About $14K/year saved on a single drink line. The contract had a 90-day exit clause nobody had read. The fountain was the highest-margin item on the menu before the swap. After the swap, it was not even close.',
+  },
+  {
+    title: 'The cup cost ambush',
+    setup: 'Operator switched all cups to compostable PLA after a sustainability push. Small cup went from $0.08 kraft paper to $0.21 compostable. Same menu price. Same pour size.',
+    diagnosis: 'Pour cost % on the small fountain jumped 4 points overnight. Owner spent six weeks blaming the BIB distributor for a cost increase. Distributor invoices had not changed. The cups had. Cup cost on a small drink is often a bigger line than the syrup.',
+    fix: 'Reverted small cups to kraft paper at $0.08. Kept compostable on the flagship 24 oz where the cup is a visible brand signal and a higher menu price absorbs the cost.',
+    outcome: 'Small cup pour cost back to 6%. The flagship 24 oz absorbed the compostable premium without breaking the band. Sustainability story preserved on the cup the customer photographs. The cup the customer drinks coffee out of at 7am went back to being cheap.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'liquor-pour-cost', title: 'Liquor Pour Cost', desc: 'Companion calc for spirits and cocktails.' },
+  { slug: 'keg-cost', title: 'Draft Beer / Keg Cost', desc: 'Draft beer pour cost and keg yield.' },
+  { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Uses pour cost output to set drink prices.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/fountain-cost/#webpage', url: 'https://restaurantcalcs.com/calculators/fountain-cost/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/fountain-cost/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/fountain-cost/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    { '@type': 'ListItem', position: 3, name: 'Fountain Drink / BIB Cost', item: 'https://restaurantcalcs.com/calculators/fountain-cost/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/fountain-cost/#tool',
+    name: 'Fountain Drink / BIB Cost Calculator',
+    description: 'Free web-based fountain drink BIB cost calculator. Pour cost % accounting for mix ratio, ice fill, cup cost, CO2, and free-refill multiplier.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/fountain-cost/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'How to calculate fountain drink pour cost', totalTime: 'PT2M', supply: [
+    { '@type': 'HowToSupply', name: 'BIB syrup volume in ounces (5 gal = 640 oz)' },
+    { '@type': 'HowToSupply', name: 'BIB purchase price (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Mix ratio (water:syrup, default 5:1)' },
+    { '@type': 'HowToSupply', name: 'Pour size in ounces (16 oz typical)' },
+    { '@type': 'HowToSupply', name: 'Ice fill percentage (30% typical)' },
+    { '@type': 'HowToSupply', name: 'Cup, lid, straw cost (in dollars)' },
+    { '@type': 'HowToSupply', name: 'CO2 cost per pour (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Menu price per drink (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Free-refill multiplier (default 1.4)' },
+  ], step: [
+    { '@type': 'HowToStep', position: 1, name: 'Calculate finished beverage volume', text: 'Multiply syrup volume by (1 + mix ratio). 640 oz × 6 = 3,840 oz at 5:1.' },
+    { '@type': 'HowToStep', position: 2, name: 'Calculate effective pour size', text: 'Pour size × (1 − ice fill %). 16 oz × 0.70 = 11.2 oz of beverage in a 16 oz cup at 30% ice.' },
+    { '@type': 'HowToStep', position: 3, name: 'Calculate syrup cost per pour', text: 'BIB price ÷ finished oz × effective pour. $90 ÷ 3,840 × 11.2 = $0.26 of syrup.' },
+    { '@type': 'HowToStep', position: 4, name: 'Add cup and CO2', text: 'Add cup/lid/straw cost and CO2 per pour. Single-pour total cost.' },
+    { '@type': 'HowToStep', position: 5, name: 'Apply refill multiplier', text: 'Multiply by 1.4 if refills are free. That is the real cost per customer.' },
+    { '@type': 'HowToStep', position: 6, name: 'Calculate pour cost percentage', text: 'Total cost per customer ÷ menu price × 100 = pour cost %.' },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Fountain Drink Cost</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Fountain drink calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Fountain Drink / BIB Cost Calculator</h1>
+      <p class="calc-page__intro">
+        Real cost per fountain drink, accounting for mix ratio, ice fill, cup, CO2, and free refills. Healthy pour cost is <strong>8–15%</strong> on small drinks, dropping to <strong>4–8%</strong> on large (Toast, BinWise). Most operators undercount this number by 2–4 points because they ignore the refill multiplier.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Calculates real cost per fountain drink, including ice displacement, cup, CO2, and free refills. Returns pour cost % vs industry benchmarks plus per-BIB profit.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="bib-volume">BIB syrup volume</label>
+          <div class="input-shell">
+            <input id="bib-volume" name="bib-volume" type="number" inputmode="decimal" min="0" step="32" placeholder="640" autocomplete="off" required />
+            <span class="input-shell__suffix">oz</span>
+          </div>
+          <p class="form-row__hint">Standard is 5 gal = 640 oz. 2.5 gal = 320 oz. 3 gal = 384 oz.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="bib-price">BIB purchase price</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="bib-price" name="bib-price" type="number" inputmode="decimal" min="0" step="5" placeholder="90" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Branded cola (Coke, Pepsi) typically $80–95. Store-brand or proprietary syrups $35–50.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="mix-ratio">Mix ratio (water:syrup)</label>
+          <select id="mix-ratio" name="mix-ratio">
+            <option value="5" selected>5:1 (industry standard, most colas)</option>
+            <option value="4">4:1 (diet, sparkling, some specialty)</option>
+            <option value="6">6:1 (a few specialty syrups)</option>
+            <option value="3">3:1 (juice concentrates)</option>
+          </select>
+          <p class="form-row__hint">Sets finished beverage yield. 5:1 means 1 oz syrup makes 6 oz drink (5 water + 1 syrup).</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="pour-size">Pour size</label>
+          <select id="pour-size" name="pour-size">
+            <option value="12">12 oz small</option>
+            <option value="16" selected>16 oz medium (standard)</option>
+            <option value="20">20 oz large</option>
+            <option value="24">24 oz extra-large</option>
+            <option value="32">32 oz mega</option>
+            <option value="custom">Custom size</option>
+          </select>
+          <p class="form-row__hint">Cup size, not finished beverage. Ice fill is subtracted next.</p>
+        </div>
+
+        <div class="form-row" id="custom-pour-row" style="display:none">
+          <label class="form-row__label" for="pour-size-custom">Custom pour size (oz)</label>
+          <div class="input-shell">
+            <input id="pour-size-custom" name="pour-size-custom" type="number" inputmode="decimal" min="1" step="0.5" placeholder="44" autocomplete="off" />
+            <span class="input-shell__suffix">oz</span>
+          </div>
+          <p class="form-row__hint">Enter pour size in ounces.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="ice-fill">Ice fill</label>
+          <div class="input-shell">
+            <input id="ice-fill" name="ice-fill" type="number" inputmode="decimal" min="0" max="80" step="5" placeholder="30" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Industry default 30%. Drive-through cups run 40%+. Ice displaces beverage so it lowers per-pour syrup cost.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="cup-cost">Cup + lid + straw cost</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="cup-cost" name="cup-cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.18" autocomplete="off" />
+          </div>
+          <p class="form-row__hint">Roughly $0.08 (small kraft) to $0.30 (large compostable). Often higher than the syrup itself on small drinks.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="co2-cost">CO2 cost per pour</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="co2-cost" name="co2-cost" type="number" inputmode="decimal" min="0" step="0.005" placeholder="0.01" autocomplete="off" />
+          </div>
+          <p class="form-row__hint">Roughly $0.01 per pour for cylinder rental + gas. Bulk CO2 systems run lower.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="menu-price">Menu price per drink</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="menu-price" name="menu-price" type="number" inputmode="decimal" min="0" step="0.10" placeholder="3.49" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Pre-tax menu price for one drink at this size.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="refill-mult">Free-refill multiplier</label>
+          <div class="input-shell">
+            <input id="refill-mult" name="refill-mult" type="number" inputmode="decimal" min="1" max="3" step="0.1" placeholder="1.4" autocomplete="off" />
+            <span class="input-shell__suffix">×</span>
+          </div>
+          <p class="form-row__hint">Industry default 1.4 when refills are free (BinWise). Use 1.0 for no refills, 1.1 for one-refill cap.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Calculate fountain pour cost
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Your pour cost</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big">
+            <span class="result-num" data-counter>0.0</span>
+            <span class="result-num__pct" aria-hidden="true">%</span>
+            <span class="visually-hidden">percent fountain pour cost</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Industry healthy range</span>
+            <span class="t-caption num" data-bench>5–15%</span>
+          </div>
+
+          <div class="calc-result__bar">
+            <div class="bar-track">
+              <div class="bar-zone bar-zone--lean"></div>
+              <div class="bar-zone bar-zone--good"></div>
+              <div class="bar-zone bar-zone--watch"></div>
+              <div class="bar-zone bar-zone--bad"></div>
+              <div class="bar-marker" data-marker style="left: 0%"></div>
+            </div>
+            <div class="bar-labels">
+              <span class="t-caption num">0%</span>
+              <span class="t-caption num">15%</span>
+              <span class="t-caption num">30%</span>
+            </div>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Pours per BIB</span>
+              <span class="extras-row__value num" data-pours>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Customers per BIB</span>
+              <span class="extras-row__value num" data-customers>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Cost per pour (syrup + CO2)</span>
+              <span class="extras-row__value num" data-cost-pour>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Cup cost per drink</span>
+              <span class="extras-row__value num" data-cup>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Total cost per customer</span>
+              <span class="extras-row__value num" data-total-customer>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Profit per customer</span>
+              <span class="extras-row__value num" data-profit-customer>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Profit per BIB</span>
+              <span class="extras-row__value num" data-profit-bib>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter values above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/fountain-cost.webp" alt="Editorial illustration of a stainless soda fountain dispenser on a vintage diner counter, frosted plastic cup with ice and dark cola, condensation on the side, a cardboard bag-in-box reading 'syrup' tucked under the counter." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Fountain is the highest-margin item on the menu. <em>If you actually model it.</em></h2>
+      <div class="essay__body">
+        <p>
+          A 5-gallon BIB of branded cola at $90 yields 3,840 oz of finished drink at a 5:1 mix. At a 16 oz pour with 30% ice, that is roughly 342 fountain drinks per box. Sell them at $3.49 and the BIB generates about $1,193 in revenue. The syrup cost on each pour is about a quarter (Coca-Cola Foodservice yield reference). That is the kind of margin nothing else on the menu touches.
+        </p>
+        <p>
+          Most operators ballpark fountain cost at $0.10–$0.25 and never run the actual stack. They miss the cup. They miss the CO2. They forget that ice fill is in the dispenser cup, not the BIB. And they almost always forget the free-refill multiplier. The industry rule of thumb is 1.4 pours per visit when refills are free (BinWise). On a 24 oz with a $0.21 compostable cup, that turns a "$0.12 drink" into a $0.31 drink. Two-to-four points of margin disappears on every ticket and the operator blames cup costs or the distributor.
+        </p>
+        <p class="essay__pull">
+          Fountain is the operator's blind spot. The line item is small enough nobody flinches at it, and the math compounds quietly underneath until the year-end P&L looks worse than the weekly reports said it would.
+        </p>
+        <p>
+          I ran the bar program at Cosmos Taverna for five years. We did not have a fountain. Sports bar, draft beer was the volume driver. But I have watched friends in fast-casual operate concepts where fountain was the single biggest profit line on the menu, and three of them undercosted it for years. Not because they were lazy. Because the line item was small and the math was non-obvious. Cup, ice, mix ratio, refills. Four variables, all moving, none of them on a normal P&L line.
+        </p>
+        <p>
+          Run the actual stack. Cup cost is the thing that sneaks up on you, small kraft paper at $0.08 versus large compostable at $0.30 is not a small swap. Refill multiplier is the second one. If you offer free refills, you are not selling a 16 oz drink, you are selling a 22 oz drink and pricing it like a 16. The fix is rarely "kill free refills." The fix is pricing the menu like the math actually is. Most fountain pricing was set in 2017 and has not been re-run since cup costs went up in 2022. The number on the calculator does not lie. The discipline of running it once a quarter is the entire game.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="benchmarks">
+      <h2 class="benchmarks__headline">Pour cost benchmarks <em>by drink size</em></h2>
+      <p class="t-body-large benchmarks__intro">
+        Pour cost % drops as drink size grows because cup and CO2 cost stay roughly flat while menu price scales up. These ranges assume a $3.49 base menu price scaling with size, 30% ice fill, and no free refills. Add 35–50% on top for free refills (1.4× multiplier per BinWise).
+      </p>
+      <div class="benchmarks__chart">
+        {benchmarks.map((b) => (
+          <div class="bench-bar">
+            <div class="bench-bar__name">{b.name}</div>
+            <div class="bench-bar__track">
+              <div class="bench-bar__zone" style={`left: ${b.low * 100 / 30}%; width: ${(b.high - b.low) * 100 / 30}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.low * 100 / 30}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.high * 100 / 30}%`}></div>
+            </div>
+            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
+          </div>
+        ))}
+        <div class="bench-axis">
+          <div class="bench-axis__track">
+            <span class="bench-axis__tick num" style="left: 0%">0%</span>
+            <span class="bench-axis__tick num" style="left: 25%">7.5%</span>
+            <span class="bench-axis__tick num" style="left: 50%">15%</span>
+            <span class="bench-axis__tick num" style="left: 75%">22.5%</span>
+            <span class="bench-axis__tick num" style="left: 100%">30%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three different fountain leaks</h2>
+      <p class="t-body-large scenarios__intro">
+        Same calculator, three different blind spots. The fix depends on which input you got wrong.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Beverage Profitability Trends</a></li>
+        <li><a href="https://www.coca-colacompany.com/brands/foodservice" target="_blank" rel="noopener">Coca-Cola Foodservice — BIB Yield Calculations</a></li>
+        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise — Beverage Cost Management</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast — Bar &amp; Beverage Profitability Guide</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const marker = document.querySelector('[data-marker]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const benchEl = document.querySelector('[data-bench]') as HTMLElement | null;
+  const poursEl = document.querySelector('[data-pours]') as HTMLElement | null;
+  const customersEl = document.querySelector('[data-customers]') as HTMLElement | null;
+  const costPourEl = document.querySelector('[data-cost-pour]') as HTMLElement | null;
+  const cupEl = document.querySelector('[data-cup]') as HTMLElement | null;
+  const totalCustomerEl = document.querySelector('[data-total-customer]') as HTMLElement | null;
+  const profitCustomerEl = document.querySelector('[data-profit-customer]') as HTMLElement | null;
+  const profitBibEl = document.querySelector('[data-profit-bib]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+  const pourSizeSel = document.querySelector('#pour-size') as HTMLSelectElement | null;
+  const customPourRow = document.querySelector('#custom-pour-row') as HTMLElement | null;
+
+  if (form && counter && marker && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const BENCH = { low: 5, high: 15 };
+
+    function fmtUSD(n: number) { return '$' + Math.round(n).toLocaleString('en-US'); }
+    function fmtUSDFull(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtUSDCents(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }); }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800) {
+      if (reduced) { el.textContent = to.toFixed(1); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const v = from + (to - from) * ease(t);
+        el.textContent = v.toFixed(1);
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function statusFor(pct: number) {
+      if (pct < 5) return { key: 'lean', label: 'Lean' };
+      if (pct <= 15) return { key: 'healthy', label: 'Healthy' };
+      if (pct <= 22) return { key: 'watch', label: 'Watch' };
+      return { key: 'critical', label: 'Critical' };
+    }
+
+    function getPourSize(): number {
+      const sel = pourSizeSel?.value || '16';
+      if (sel === 'custom') {
+        const c = parseFloat((document.querySelector('#pour-size-custom') as HTMLInputElement)?.value || '0');
+        return c > 0 ? c : 0;
+      }
+      return parseFloat(sel) || 0;
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Enter values';
+      marker!.style.left = '0%';
+      animateCounter(counter!, lastValue, 0, 400);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
+      [poursEl, customersEl, costPourEl, cupEl, totalCustomerEl, profitCustomerEl, profitBibEl].forEach(e => { if (e) e.textContent = '—'; });
+    }
+
+    function calc() {
+      const data = new FormData(form!);
+      const bibVolume = parseFloat(String(data.get('bib-volume') || '0')) || 0;
+      const bibPrice = parseFloat(String(data.get('bib-price') || '0')) || 0;
+      const mixRatio = parseFloat(String(data.get('mix-ratio') || '5')) || 5;
+      const pourSize = getPourSize();
+      const iceRaw = parseFloat(String(data.get('ice-fill') || '30'));
+      const ice = isNaN(iceRaw) ? 30 : iceRaw;
+      const cupCost = parseFloat(String(data.get('cup-cost') || '0')) || 0;
+      const co2Cost = parseFloat(String(data.get('co2-cost') || '0')) || 0;
+      const menuPrice = parseFloat(String(data.get('menu-price') || '0')) || 0;
+      const refillRaw = parseFloat(String(data.get('refill-mult') || '1.4'));
+      const refillMult = isNaN(refillRaw) || refillRaw < 1 ? 1.4 : refillRaw;
+
+      if (bibVolume <= 0 || bibPrice <= 0 || pourSize <= 0 || menuPrice <= 0) { reset(); return; }
+
+      const finishedBevOz = bibVolume * (1 + mixRatio);
+      const effectivePour = pourSize * (1 - ice / 100);
+      const syrupCostPour = (bibPrice / finishedBevOz) * effectivePour;
+      const singlePourCost = syrupCostPour + co2Cost;
+      const totalPerCustomer = singlePourCost * refillMult + cupCost;
+      const poursPerBIB = effectivePour > 0 ? Math.floor(finishedBevOz / effectivePour) : 0;
+      const customersPerBIB = refillMult > 0 ? Math.floor(poursPerBIB / refillMult) : 0;
+      const pourCostPct = (totalPerCustomer / menuPrice) * 100;
+      const profitPerCustomer = menuPrice - totalPerCustomer;
+      const profitPerBIB = customersPerBIB * profitPerCustomer;
+
+      if (benchEl) benchEl.textContent = `${BENCH.low}–${BENCH.high}%`;
+
+      // Bar scale: 0–30% range, multiply pct by (100/30) for marker
+      const clamped = Math.min(100, Math.max(0, pourCostPct * (100 / 30)));
+      animateCounter(counter!, lastValue, pourCostPct, 800);
+      lastValue = pourCostPct;
+      const s = statusFor(pourCostPct);
+      statusPill!.dataset.status = s.key;
+      statusLabel!.textContent = s.label;
+      marker!.style.left = `${clamped}%`;
+
+      if (poursEl) poursEl.textContent = poursPerBIB.toLocaleString('en-US');
+      if (customersEl) customersEl.textContent = customersPerBIB.toLocaleString('en-US');
+      if (costPourEl) costPourEl.textContent = fmtUSDCents(singlePourCost);
+      if (cupEl) cupEl.textContent = fmtUSDFull(cupCost);
+      if (totalCustomerEl) totalCustomerEl.textContent = fmtUSDFull(totalPerCustomer);
+      if (profitCustomerEl) profitCustomerEl.textContent = fmtUSDFull(profitPerCustomer);
+      if (profitBibEl) profitBibEl.textContent = fmtUSD(profitPerBIB);
+
+      let note = '';
+      if (s.label === 'Healthy') note = `Within healthy 5–15% fountain band. Profit per BIB: ${fmtUSD(profitPerBIB)}. Fountain is the highest-margin line on most menus when modeled like this.`;
+      if (s.label === 'Lean') note = `Below typical fountain pour cost. Either you have headroom to drop menu price for traffic, or one of the inputs (cup cost, refill multiplier) is too low. Verify the cup invoice and the actual refill behavior before celebrating.`;
+      if (s.label === 'Watch') note = `Above 15%. Common cause: free-refill multiplier × cup cost stack. A one-refill cap drops the multiplier from 1.4 to 1.1 and recovers most of the gap. Branded vs store-brand BIB swap is the second lever.`;
+      if (s.label === 'Critical') note = `Above 22%. Something is structurally wrong. Either the menu price is set for a smaller cup, the cup line item jumped (compostable PLA?), or the refill multiplier is closer to 2× than 1.4×. Run the cup invoice first.`;
+
+      const pourSizeStr = pourSize % 1 === 0 ? pourSize.toString() : pourSize.toFixed(1);
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          <tr><td>BIB syrup volume</td><td class="num">${bibVolume.toLocaleString('en-US')} oz</td></tr>
+          <tr><td>× (1 + mix ${mixRatio}:1)</td><td class="num">× ${(1 + mixRatio).toFixed(1)}</td></tr>
+          <tr class="math-table__step"><td>= Finished beverage</td><td class="num">${finishedBevOz.toLocaleString('en-US', { maximumFractionDigits: 0 })} oz</td></tr>
+          <tr><td>Pour size</td><td class="num">${pourSizeStr} oz</td></tr>
+          <tr><td>× (1 − ice ${ice}%)</td><td class="num">× ${(1 - ice / 100).toFixed(2)}</td></tr>
+          <tr class="math-table__step"><td>= Effective pour</td><td class="num">${effectivePour.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
+          <tr><td>BIB price ÷ finished oz × effective pour</td><td class="num">${fmtUSDCents(syrupCostPour)}</td></tr>
+          <tr><td>+ CO2 per pour</td><td class="num">${fmtUSDCents(co2Cost)}</td></tr>
+          <tr class="math-table__step"><td>= Single-pour cost</td><td class="num">${fmtUSDCents(singlePourCost)}</td></tr>
+          <tr><td>× refill multiplier</td><td class="num">× ${refillMult.toFixed(1)}</td></tr>
+          <tr><td>+ Cup + lid + straw</td><td class="num">${fmtUSDFull(cupCost)}</td></tr>
+          <tr class="math-table__step"><td>= Total cost per customer</td><td class="num"><strong>${fmtUSDFull(totalPerCustomer)}</strong></td></tr>
+          <tr><td>÷ Menu price</td><td class="num">${fmtUSDFull(menuPrice)}</td></tr>
+          <tr class="math-table__final"><td>Pour cost percentage</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    function togglePourCustom() {
+      if (!pourSizeSel || !customPourRow) return;
+      customPourRow.style.display = pourSizeSel.value === 'custom' ? '' : 'none';
+    }
+
+    pourSizeSel?.addEventListener('change', () => { togglePourCustom(); debouncedCalc(); });
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (calcDebounce !== null) clearTimeout(calcDebounce); calc(); });
+
+    function loadExample() {
+      (document.querySelector('#bib-volume') as HTMLInputElement).value = '640';
+      (document.querySelector('#bib-price') as HTMLInputElement).value = '90';
+      (document.querySelector('#mix-ratio') as HTMLSelectElement).value = '5';
+      (document.querySelector('#pour-size') as HTMLSelectElement).value = '16';
+      (document.querySelector('#ice-fill') as HTMLInputElement).value = '30';
+      (document.querySelector('#cup-cost') as HTMLInputElement).value = '0.18';
+      (document.querySelector('#co2-cost') as HTMLInputElement).value = '0.01';
+      (document.querySelector('#menu-price') as HTMLInputElement).value = '3.49';
+      (document.querySelector('#refill-mult') as HTMLInputElement).value = '1.4';
+      togglePourCustom();
+      calc();
+    }
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+    togglePourCustom();
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
+  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
+  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--color-cream); color: var(--color-muted); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
+  .status-pill[data-status="lean"] { background: rgba(74, 88, 38, 0.10); color: #4a5826; }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
+  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .result-num--pulse { transform: scale(1.025); }
+  .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__bar { margin-bottom: var(--space-5); }
+  .bar-track { position: relative; height: 12px; border-radius: 999px; overflow: hidden; background: var(--color-cream); display: flex; }
+  .bar-zone { height: 100%; }
+  .bar-zone--lean { flex: 17; background: linear-gradient(90deg, rgba(74, 88, 38, 0.20), rgba(74, 88, 38, 0.30)); }
+  .bar-zone--good { flex: 33; background: linear-gradient(90deg, rgba(74, 88, 38, 0.40), rgba(74, 88, 38, 0.55)); }
+  .bar-zone--watch { flex: 23; background: linear-gradient(90deg, rgba(200, 117, 0, 0.35), rgba(200, 117, 0, 0.55)); }
+  .bar-zone--bad { flex: 27; background: linear-gradient(90deg, rgba(192, 57, 43, 0.30), rgba(192, 57, 43, 0.55)); }
+  .bar-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--color-heading); border-radius: 2px; transition: left 320ms cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(-50%); }
+  .bar-labels { display: flex; justify-content: space-between; margin-top: 6px; color: var(--color-muted); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .benchmarks { margin-bottom: var(--space-16); }
+  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .benchmarks__headline em { font-style: italic; color: var(--color-saffron-text); }
+  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .benchmarks__chart { display: flex; flex-direction: column; gap: var(--space-3); max-width: 720px; }
+  .bench-bar { display: grid; grid-template-columns: 140px 1fr 90px; gap: var(--space-4); align-items: center; }
+  @media (max-width: 540px) { .bench-bar { grid-template-columns: 100px 1fr 80px; gap: var(--space-3); } }
+  .bench-bar__name { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-heading); }
+  .bench-bar__track { position: relative; height: 10px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 999px; overflow: hidden; }
+  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-cta)); border-radius: 999px; }
+  .bench-bar__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-heading); }
+  .bench-bar__range { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-saffron-text); text-align: right; }
+  .bench-axis { padding-top: 6px; }
+  .bench-axis__track { position: relative; height: 14px; }
+  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.6875rem; color: var(--color-muted); }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .cited-sources { margin-bottom: var(--space-12); }
+  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  .cited-sources a { color: var(--color-saffron-text); }
+  .cited-sources a:hover { color: var(--color-saffron-hover); }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

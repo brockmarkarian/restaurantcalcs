@@ -1,6 +1,6 @@
 # RestaurantCalcs
 
-> Free, no-signup calculators for independent restaurant operators. Food cost percentage, recipe cost, labor cost, tip pool, menu pricing, liquor pour cost, break-even revenue, and inventory variance — with the math shown underneath every result.
+> Free, no-signup calculators for independent restaurant operators. Food cost, recipe cost, labor, tip pool, menu pricing, liquor pour cost, break-even revenue, inventory variance, prime cost, draft beer / keg cost, no-show deposit, and menu engineering, with the math shown underneath every result.
 
 RestaurantCalcs is a single-page utility site for restaurant operations math. Every calculator is free, requires no account, runs in the browser, and shows step-by-step calculations alongside the result so operators can trust the answer and teach it to their staff. Built by a restaurant operator who got tired of spreadsheets that crash on phones.
 
@@ -14,12 +14,20 @@ Each calculator includes:
 
 - [Food Cost Percentage](https://restaurantcalcs.com/calculators/food-cost): Compare food cost to revenue to spot menu margin issues. Industry healthy range: 28–32%.
 - [Recipe & Plate Cost](https://restaurantcalcs.com/calculators/recipe-cost): Build plate cost from ingredient quantities and prices. Calculates per-portion food cost.
-- [Labor Cost Percentage](https://restaurantcalcs.com/calculators/labor-cost): Track labor as a share of revenue across shifts. Industry healthy range: 25–35%.
+- [Labor Cost Percentage](https://restaurantcalcs.com/calculators/labor-cost): Track labor as a share of revenue across shifts. Includes shift-by-shift schedule mode with OT detection. Industry healthy range: 25–35%.
 - [Tip Pool & Tip Out](https://restaurantcalcs.com/calculators/tip-pool): Split tips fairly across roles by hours or points. Supports multi-role pools.
 - [Menu Pricing](https://restaurantcalcs.com/calculators/menu-pricing): Reverse-engineer menu price from cost and target margin.
 - [Liquor Pour Cost](https://restaurantcalcs.com/calculators/liquor-pour-cost): Calculate pour cost % and benchmark against industry. Industry healthy range: 18–24%.
 - [Restaurant Break-Even Revenue](https://restaurantcalcs.com/calculators/break-even): Find revenue needed to cover fixed and variable costs.
 - [Inventory Variance](https://restaurantcalcs.com/calculators/inventory-variance): Spot theft, waste, or counting errors in food inventory.
+- [Prime Cost](https://restaurantcalcs.com/calculators/prime-cost): Food + beverage + labor as % of revenue. Concept-aware benchmarks. The single ops metric every operator should track weekly.
+- [Draft Beer / Keg Cost](https://restaurantcalcs.com/calculators/keg-cost): Pour cost, cost per pour, profit per keg. Healthy draft pour cost: 18–22%.
+- [No-Show & Deposit](https://restaurantcalcs.com/calculators/no-show-deposit): Cost of empty reserved seats, suggested deposit amount, and break-even no-show rate.
+- [Menu Engineering](https://restaurantcalcs.com/calculators/menu-engineering): Star, Plowhorse, Puzzle, and Dog matrix. Classify each menu item by contribution margin and popularity.
+- [Delivery True-Profit](https://restaurantcalcs.com/calculators/delivery-profit): DoorDash, UberEats, GrubHub net profit per order. Stacks commission + processing + packaging + promo. Reverse-solves "what should I charge on platform" for target margin.
+- [Catering & Event Pricing](https://restaurantcalcs.com/calculators/catering-pricing): Per-head pricing with food, labor, rentals, line items. Service charge and gratuity legal distinction (DOL Fact Sheet #15). Operator margin + customer-facing quote.
+- [Employee Turnover Cost](https://restaurantcalcs.com/calculators/turnover-cost): Annual cost of replacement hires. Hourly + salaried. Industry full-service: 75-130% turnover (NRA), $3K-$7K replacement cost per hourly hire (Cornell SHA).
+- [Fountain Drink / BIB Cost](https://restaurantcalcs.com/calculators/fountain-cost): BIB (bag-in-box) yield, mix ratio, ice fill, cup cost, free-refill multiplier. Real pour cost on soda and sparkling drinks. Healthy 8-15% on small drinks.
 
 ## Audience
 

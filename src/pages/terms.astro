@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Terms of Service — RestaurantCalcs';
+const description = 'Terms of service for RestaurantCalcs. Educational use only, no warranties, limitation of liability, advertising disclosures, governing law. Updated May 1, 2026.';
+
+const lastUpdated = '2026-04-30';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': 'https://restaurantcalcs.com/terms/#webpage',
+  url: 'https://restaurantcalcs.com/terms',
+  name: title,
+  description,
+  isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+  inLanguage: 'en-US',
+};
+---
+
+<Layout {title} {description} {schema}>
+  <article class="legal-page">
+    <header class="legal-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Terms of Service</span>
+      </nav>
+      <h1 class="legal-page__title">Terms of Service</h1>
+      <p class="legal-page__updated">Last updated: {lastUpdated}</p>
+    </header>
+
+    <section class="legal-page__body">
+      <h2>Acceptance</h2>
+      <p>
+        By using RestaurantCalcs (restaurantcalcs.com), you agree to these terms. If you do not agree, do not use the site.
+      </p>
+
+      <h2>Educational use only</h2>
+      <p>
+        RestaurantCalcs provides free calculators and educational content for restaurant operators. <strong>The calculators are tools, not advice.</strong> Results depend entirely on the accuracy of inputs you provide. You are responsible for verifying all results before making any business, financial, accounting, tax, employment, or legal decisions.
+      </p>
+      <p>
+        Nothing on this site constitutes financial, accounting, tax, legal, or labor advice. Consult qualified professionals (CPA, attorney, payroll provider, food cost consultant) before applying any output to your operation.
+      </p>
+
+      <h2>Tip pool calculations and labor law</h2>
+      <p>
+        The Tip Pool calculator is provided for arithmetic illustration only. Tip pooling, tip credits, and tip-out arrangements are subject to the <a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener nofollow">Fair Labor Standards Act (FLSA)</a> and varying state and local labor laws. Tip pool violations can result in significant federal and state penalties. <strong>Consult a labor attorney before implementing any tip pool or tip-out policy.</strong> RestaurantCalcs does not enforce legal compliance and is not responsible for any wage-and-hour claims, audits, or judgments arising from use of the calculator.
+      </p>
+
+      <h2>No warranty</h2>
+      <p>
+        The site and calculators are provided "as is" without warranties of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, accuracy, or non-infringement. While we strive for accuracy and cite industry sources (<a href="https://pos.toasttab.com/" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://restaurant.org/" target="_blank" rel="noopener nofollow">National Restaurant Association</a>, <a href="https://www.dol.gov/" target="_blank" rel="noopener nofollow">U.S. DOL</a>, <a href="https://www.marginedge.com/" target="_blank" rel="noopener nofollow">MarginEdge</a>, <a href="https://home.binwise.com/" target="_blank" rel="noopener nofollow">BinWise</a>, etc.) where applicable, we do not warrant that calculator outputs are free from error.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the maximum extent permitted by law, RestaurantCalcs and its operators shall not be liable for any direct, indirect, incidental, consequential, special, or exemplary damages arising from your use of, or inability to use, the site or calculators — including but not limited to lost profits, lost revenue, mistaken pricing, payroll errors, tip-pool disputes, tax misstatements, or business decisions based on calculator output.
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        We display advertisements (currently Google AdSense) to fund this free site. Ad content is selected by third parties and does not constitute an endorsement by RestaurantCalcs. We are not responsible for the products, services, or content of any third-party advertiser.
+      </p>
+
+      <h2>Acceptable use</h2>
+      <p>
+        You agree not to use the site to engage in unlawful activity, scrape content for resale, attempt to overload our infrastructure, reverse-engineer the calculators for competing commercial use, or otherwise interfere with normal operation of the site.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Site content, calculator implementations, copy, and design are © RestaurantCalcs unless otherwise indicated. The underlying mathematical formulas (food cost %, COGS, contribution margin, etc.) are industry-standard and not proprietary.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        We may update these terms at any time. Continued use after changes constitutes acceptance. Material changes will be reflected in the "Last updated" date above.
+      </p>
+
+      <h2>Governing law</h2>
+      <p>
+        These terms are governed by the laws of the State of California, without regard to conflict-of-law provisions. Any dispute will be resolved in the state or federal courts located in California.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms: <a href="mailto:hello@restaurantcalcs.com">hello@restaurantcalcs.com</a>.
+      </p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .legal-page { max-width: 760px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .legal-page__header { margin-bottom: var(--space-12); }
+  .legal-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .legal-page__updated { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-muted); }
+  .legal-page__body h2 { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.5rem; font-weight: 500; color: var(--color-heading); margin-top: var(--space-10); margin-bottom: var(--space-4); }
+  .legal-page__body h2:first-child { margin-top: 0; }
+  .legal-page__body p { font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-4); }
+  .legal-page__body a { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; }
+  .legal-page__body a:hover { color: var(--color-saffron-hover); }
+</style>

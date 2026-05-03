@@ -2,9 +2,10 @@
 
 :root {
   /* Color */
-  --color-saffron: #c87500;            /* fills, backgrounds, accents (with white text on top) */
-  --color-saffron-text: #a86200;       /* WCAG-safe saffron for text on light bg (4.8:1) */
-  --color-saffron-hover: #8d5200;      /* darker hover */
+  --color-saffron: #c87500;            /* visual brand — accents, decorative use only (3.49:1 white) */
+  --color-saffron-cta: #a86200;        /* CTA button BG — white text passes AA (4.8:1) */
+  --color-saffron-text: #8d5200;       /* text on light bg — passes AA on canvas + cream (~6:1) */
+  --color-saffron-hover: #6e3e00;      /* darker hover state */
   --color-saffron-light: #fbe9cf;
 
   --color-canvas: #fafaf7;
@@ -49,7 +50,7 @@
   --shadow-cta-hover: 0 6px 16px var(--alpha-saffron-glow-strong);
 
   /* Type */
-  --font-display: 'General Sans', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-body: 'Geist', system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 
@@ -78,6 +79,18 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 180ms var(--ease-out);
   --transition-med: 220ms var(--ease-out);
+
+  /* Section bg alternation — visual rhythm */
+  --bg-alt-cream: #f4f1ea;
+  --bg-alt-saffron: #fbf4e8;       /* subtle saffron-tinted cream */
+  --bg-alt-warm: #f8f4ec;          /* between cream + saffron */
+  --bg-alt-deep: #1a1814;          /* dark editorial moments */
+
+  /* Editorial gradients */
+  --gradient-saffron-warm: radial-gradient(ellipse 800px 600px at 20% 0%, rgba(200, 117, 0, 0.08), transparent 60%);
+  --gradient-saffron-deep: linear-gradient(135deg, var(--color-saffron-light) 0%, var(--color-cream) 50%, var(--color-canvas) 100%);
+  --gradient-card-warm: linear-gradient(180deg, var(--color-white) 0%, var(--color-cream) 100%);
+  --gradient-rule-saffron: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent);
 }
 
 * {
@@ -92,7 +105,7 @@ html, body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
-  font-feature-settings: "ss01", "calt";
+  font-feature-settings: "calt", "ss02";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -107,11 +120,301 @@ body::before {
   position: fixed;
   inset: 0;
   background: url('/noise.svg');
-  background-size: 240px 240px;
-  opacity: 0.35;
+  background-size: 200px 200px;
+  opacity: 0.55;
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: multiply;
+}
+
+/* Decorative section divider — saffron tick marks */
+.divider-tick {
+  position: relative;
+  height: 32px;
+  margin: var(--space-12) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.divider-tick::before,
+.divider-tick::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+.divider-tick__mark {
+  margin: 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.3em;
+  color: var(--color-saffron);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Editorial pull-quote — bigger, italic, displayed */
+.editorial-quote {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "opsz" 96, "wdth" 95;
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: -0.018em;
+  color: var(--color-heading);
+  padding: var(--space-6) 0 var(--space-6) var(--space-8);
+  border-left: 3px solid var(--color-saffron);
+  margin: var(--space-8) 0;
+  position: relative;
+}
+.editorial-quote::before {
+  content: '\201C';
+  position: absolute;
+  left: -8px;
+  top: -16px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--color-saffron);
+  opacity: 0.30;
+  pointer-events: none;
+}
+
+/* Numeric-as-art — big saffron number visual anchors */
+.numeric-art {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  font-size: clamp(4rem, 10vw + 1rem, 8rem);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--color-saffron-text);
+  display: inline-block;
+}
+
+/* Section bg variants */
+.bg-cream { background: var(--color-cream); }
+.bg-saffron-tint { background: var(--bg-alt-saffron); }
+.bg-warm { background: var(--bg-alt-warm); }
+.bg-deep { background: var(--bg-alt-deep); color: var(--color-cream); }
+.bg-deep h2, .bg-deep h3 { color: var(--color-white); }
+
+/* Editorial grid backdrop — subtle dot pattern on accent sections */
+.bg-dotted {
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+
+/* Cited sources block — appended to each calc page after FAQ for E-E-A-T + SEO external links */
+.cited-sources {
+  max-width: 880px;
+  margin: 0 auto var(--space-16);
+  padding: var(--space-7) var(--space-8);
+  background: var(--color-cream);
+  border-left: 3px solid var(--color-saffron);
+  border-radius: var(--radius-md);
+}
+.cited-sources p:first-child {
+  margin-bottom: var(--space-3);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.cited-sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.cited-sources li {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.50;
+  color: var(--color-body);
+  padding-left: var(--space-4);
+  position: relative;
+}
+.cited-sources li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  color: var(--color-saffron);
+  font-weight: 700;
+}
+.cited-sources a {
+  color: var(--color-saffron-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+.cited-sources a:hover {
+  color: var(--color-saffron-hover);
+}
+
+/* Mobile: reposition / shrink decorative quote pseudo-elements so they don't clip */
+@media (max-width: 540px) {
+  .essay__pull::before,
+  .editorial-quote::before {
+    font-size: 3rem !important;
+    left: 4px !important;
+    top: 4px !important;
+    opacity: 0.30 !important;
+  }
+  .essay__pull {
+    padding: var(--space-6) var(--space-2) var(--space-6) var(--space-7) !important;
+  }
+}
+
+/* Italic em fix — add breathing room so capital I doesn't merge into next char (/-look) */
+em {
+  letter-spacing: 0.03em;
+}
+h1 em, h2 em, h3 em, .post-page__title em, .essay__headline em, .calc-page__title em, .benchmarks__headline em, .scenarios__headline em, .calc-faq__headline em, .about-page__title em, .blog-index__title em, .post-page__cta-title em, .calc-index__title em {
+  letter-spacing: 0.05em;
+  padding-right: 0.12em;
+}
+
+/* Operator-story hero illustration */
+.operator-story__hero {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin: 0 auto var(--space-10);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1);
+  background: var(--color-cream);
+  object-fit: cover;
+}
+
+/* Operator-story byline — signed signoff at end */
+.operator-byline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+.operator-byline__dash {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+  color: var(--color-saffron);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.operator-byline__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "opsz" 36, "wdth" 95;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-heading);
+  letter-spacing: -0.01em;
+}
+.operator-byline__role {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* Operator-story headline em — saffron + underline, no italic ambiguity */
+.operator-story .essay__headline em {
+  font-style: normal;
+  color: var(--color-saffron-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-saffron);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+/* Drop cap on operator-story first paragraph — editorial signal */
+.operator-story .essay__body > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "wdth" 95;
+  font-size: 5.5rem;
+  font-weight: 600;
+  line-height: 0.85;
+  float: left;
+  margin: 8px 22px 0 0;
+  padding: 0;
+  color: var(--color-saffron-text);
+  letter-spacing: -0.04em;
+}
+
+/* Full-bleed bg behind operator-story sections — paper grain + saffron radial */
+.operator-story {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-16) 0;
+  overflow: hidden;
+}
+.operator-story::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  background-color: var(--bg-alt-saffron);
+  background-image:
+    radial-gradient(ellipse 800px 400px at 50% 0%, rgba(200, 117, 0, 0.08), transparent 60%),
+    url('/textures/paper-grain.webp');
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
+.operator-story::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  bottom: 0;
+  height: 900px;
+  margin-top: -450px;
+  background-image: url('/textures/coffee-ring.webp');
+  background-size: 900px 900px;
+  background-position: calc(100% + 100px) center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  z-index: -1;
+  pointer-events: none;
+}
+@media (max-width: 880px) {
+  .operator-story::after {
+    background-size: 700px 700px;
+    background-position: calc(100% + 220px) center;
+    opacity: 0.4;
+    height: 700px;
+    margin-top: -350px;
+  }
+}
+@media (max-width: 540px) {
+  .operator-story::after {
+    background-size: 520px 520px;
+    background-position: calc(100% + 200px) center;
+    opacity: 0.28;
+    height: 520px;
+    margin-top: -260px;
+  }
 }
 
 main, header, footer { position: relative; z-index: 2; }
@@ -124,7 +427,7 @@ img { max-width: 100%; height: auto; display: block; }
 .t-display-hero {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.025em;
   color: var(--color-heading);
@@ -133,7 +436,7 @@ img { max-width: 100%; height: auto; display: block; }
 .t-display-large {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.10;
   letter-spacing: -0.02em;
   color: var(--color-heading);
@@ -260,8 +563,132 @@ button:focus-visible {
   border: 0;
 }
 
+/* Form intro card — shared across calculators */
+.form-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-saffron-light);
+  border: 1px solid var(--color-saffron);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+.form-intro__what {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-heading);
+}
+.form-intro__example {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px dashed var(--color-saffron);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-saffron-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.form-intro__example:hover {
+  background: var(--color-white);
+  border-style: solid;
+}
+
+/* Numbered step indicator */
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 2px 8px;
+  background: var(--color-saffron-text);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* Help tip with tooltip popover */
+.help-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: help;
+  transition: all var(--transition-fast);
+  margin-left: auto;
+}
+.help-tip:hover, .help-tip:focus-visible {
+  background: var(--color-saffron-light);
+  border-color: var(--color-saffron);
+  color: var(--color-saffron-text);
+}
+.help-tip__pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-heading);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(60, 50, 40, 0.20);
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 180ms, transform 180ms;
+}
+.help-tip__pop strong {
+  color: var(--color-saffron-light);
+  font-weight: 600;
+}
+.help-tip:hover .help-tip__pop,
+.help-tip:focus-visible .help-tip__pop,
+.help-tip:focus-within .help-tip__pop {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 540px) {
+  .help-tip__pop { width: 240px; right: -50%; }
+}
+
+/* Per-calc result card disclaimer */
+.calc-disclaimer {
+  margin-top: var(--space-3);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  text-align: center;
+}
+
 .btn-primary {
-  background: var(--color-saffron);
+  background: var(--color-saffron-cta);
   color: var(--color-white);
   box-shadow: var(--shadow-cta);
 }

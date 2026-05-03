@@ -1,0 +1,724 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'No-Show Cost & Deposit Calculator — Free | RestaurantCalcs';
+const description = 'Restaurant no-show cost calculator. Models lost revenue, deposit recapture, and break-even no-show rate. Benchmarks by concept (casual 5–10%, fine 3–7%).';
+
+const faq = [
+  {
+    q: 'What is a no-show?',
+    a: 'A booked reservation that never arrives and never cancels. The table sat reserved. The kitchen prepped for it. FOH was scheduled around it. Nobody came. Late cancels under 24 hours are the same problem operationally — the table cannot be re-sold in time.',
+  },
+  {
+    q: 'What is a typical no-show rate?',
+    a: 'Industry-wide 5–15% depending on concept and daypart (OpenTable, Resy reporting). Walk-in heavy concepts run 0–3%. Casual dining 5–10%. Fine dining 3–7% with reservation discipline. Weekend brunch and holiday spike to 15–25%. Parties of 8+ are the worst category at 12–20%.',
+  },
+  {
+    q: 'How do I calculate the cost?',
+    a: 'Reservations × party size × no-show rate × average ticket = revenue lost. A 200-cover restaurant booking 280 reservations weekly, 3-top average, 8% no-show, $35 ticket loses about $2,350/week — roughly $122,000 a year. Most operators see the empty seat. They never run the annualized math.',
+  },
+  {
+    q: 'Should I charge a deposit?',
+    a: 'Deposits make sense above roughly 6% no-show, on parties of 6+, on weekend prime-time, and on holiday or special-event bookings. Below those thresholds, the friction of asking for a card costs more in lost reservations than it recaptures. Run the break-even number before you change policy.',
+  },
+  {
+    q: 'How much?',
+    a: '$20–$50 per cover scales to average ticket. Fine dining $50–$100 per cover or a full credit card hold. Casual caps at $20–$25 per cover. Material enough that forfeiting stings. Not so high that it kills booking volume on its own.',
+  },
+  {
+    q: 'Are deposits legal?',
+    a: 'Yes, in all 50 states. Deposits and cancellation fees are standard contract law if the policy is disclosed at booking and the amount is reasonable (not punitive). OpenTable, Resy, Tock, and SevenRooms handle disclosure and authorization automatically. Always state the policy at booking and on the confirmation email.',
+  },
+  {
+    q: 'What about same-day cancels?',
+    a: 'Same problem as no-shows operationally. Most policies treat under 24 hours as forfeitable, 48 hours for parties of 6+. Tighter cutoffs (12 hours, 6 hours) work for high-demand concepts where the waitlist fills the slot fast.',
+  },
+  {
+    q: 'How do OpenTable and Resy handle this?',
+    a: 'OpenTable Experiences and Resy both support card holds and pre-paid deposits at booking. OpenTable charges per-cover on top of the subscription. Resy is included in standard. Tock is built around deposits and pre-payment as the default and is preferred by fine dining and tasting-menu concepts.',
+  },
+  {
+    q: 'What is the break-even no-show rate?',
+    a: 'The rate at which forfeited deposits cover lost ticket revenue. Deposit ÷ average ticket × 100. A $25 deposit on a $35 ticket breaks even at 71%. A $25 deposit on a $90 ticket breaks even at 28%. Lower ratio means the deposit needs to be more aggressive — or the policy is doing risk-control work, not revenue-replacement work.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. Math runs in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const benchmarks = [
+  { name: 'Casual dining', low: 5, high: 10 },
+  { name: 'Fine dining', low: 3, high: 7 },
+  { name: 'Brunch / weekend', low: 10, high: 18 },
+  { name: 'Holiday / events', low: 15, high: 25 },
+  { name: 'Group bookings (8+)', low: 12, high: 20 },
+  { name: 'Walk-in heavy', low: 0, high: 3 },
+];
+
+const scenarios = [
+  {
+    title: 'The bottomless brunch with a 40-deep waitlist',
+    setup: '280 weekend reservations, 14% no-show, $42 average ticket. Bottomless mimosa concept. The waitlist on Saturday at noon was 40 parties deep.',
+    diagnosis: 'Annualized loss came to roughly $58K. The owner had been calling it "cost of doing business" for 18 months. The math is unforgiving once you write it down: 14% of a 280-rez week at $42 a cover, multiplied by 52, is a number nobody wants to read.',
+    fix: '$20 per cover deposit through Tock for weekend bookings only. 24-hour cancellation window. Weekday and walk-in untouched.',
+    outcome: 'No-show rate dropped to 5% in 90 days. About $39K/year recovered. Booking volume held flat. The friction filtered out the casual reservations — which was always the point.',
+  },
+  {
+    title: 'The fine dining 4-tops blocking the waitlist',
+    setup: '4-tops holding prime Friday slots while 8 parties sat on the waitlist. $90 average ticket. Owner resistant to deposits, worried about pushback.',
+    diagnosis: 'Ran the break-even. $25 deposit on $90 ticket = 28% break-even rate. Actual no-show was 6%. The deposit was never going to recover ticket revenue at that level. But the table-turn loss on a Friday at 8pm was real money the math was missing.',
+    fix: '$50 per cover deposit on parties of 4+, weekends only. 48-hour cancellation window. Inside-window cancels forfeit the full amount.',
+    outcome: 'Booking volume held. Waitlist parties got moved into prime slots. Same-day cancels on the targeted segment dropped from 12% to 3%. The deposit was never about the deposit revenue. It was about the booking psychology.',
+  },
+  {
+    title: 'The $3.33-per-cover deposit that did nothing',
+    setup: '6-tops no-showing at 22%. Standard policy was $20 deposit per booking — not per cover. $35 average ticket. $4,200 in lost tickets per month on group bookings alone.',
+    diagnosis: '$20 deposit on a 6-top is $3.33 a head. Forfeiting twenty bucks to skip a $210 reservation is rational behavior, not bad behavior. The deposit was not material at scale. The policy looked active and was operationally invisible.',
+    fix: '$20 per cover deposit on parties of 6+. A 6-top now has $120 on the line. Standard 24-hour cancellation. Smaller parties kept the no-deposit policy.',
+    outcome: 'No-show on large parties fell from 22% to 8% in 60 days. About $2,800/month recaptured. The lesson was not that deposits work. It was that per-cover scaling matters more than the dollar amount.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'break-even', title: 'Break-Even Revenue', desc: 'No-show losses feed break-even cushion.' },
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Over-prepped covers spike food cost when no-shows happen.' },
+  { slug: 'labor-cost', title: 'Labor Cost Percentage', desc: 'Over-staffed for ghost reservations.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/no-show-deposit/#webpage', url: 'https://restaurantcalcs.com/calculators/no-show-deposit/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/no-show-deposit/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/no-show-deposit/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    { '@type': 'ListItem', position: 3, name: 'No-Show & Deposit', item: 'https://restaurantcalcs.com/calculators/no-show-deposit/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/no-show-deposit/#tool',
+    name: 'Restaurant No-Show Cost & Deposit Calculator',
+    description: 'Free web-based no-show cost calculator. Models annual lost revenue, deposit recapture, and break-even no-show rate by concept type.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/no-show-deposit/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'How to calculate restaurant no-show cost', totalTime: 'PT3M', supply: [
+    { '@type': 'HowToSupply', name: 'Average ticket per cover (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Current no-show rate (percentage)' },
+    { '@type': 'HowToSupply', name: 'Reservations per week (count)' },
+    { '@type': 'HowToSupply', name: 'Average party size (count)' },
+    { '@type': 'HowToSupply', name: 'Suggested deposit per cover (in dollars)' },
+  ], step: [
+    { '@type': 'HowToStep', position: 1, name: 'Calculate covers booked per week', text: 'Multiply reservations by average party size to get total booked covers.' },
+    { '@type': 'HowToStep', position: 2, name: 'Apply no-show rate', text: 'Multiply booked covers by no-show rate to get no-show covers per week.' },
+    { '@type': 'HowToStep', position: 3, name: 'Multiply by average ticket', text: 'No-show covers × average ticket = weekly revenue lost. Multiply by 52 for annual.' },
+    { '@type': 'HowToStep', position: 4, name: 'Run break-even on deposit', text: 'Deposit ÷ average ticket × 100 = break-even no-show rate. Above that rate, deposit revenue covers lost ticket revenue.' },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>No-Show & Deposit</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">No-show cost calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Restaurant No-Show Cost & Deposit Calculator</h1>
+      <p class="calc-page__intro">
+        Every empty seat at a booked time slot already cost you food prep, FOH coverage, and a denied booking. This calculator runs the annualized math, models deposit recapture, and gives you the break-even no-show rate where a deposit program actually pencils. Most operators see one empty seat. They never multiply it by 52.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Models weekly, monthly, and annual revenue lost to no-shows. Calculates deposit recapture and break-even no-show rate by concept.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="ticket">Average ticket per cover</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="ticket" name="ticket" type="number" inputmode="decimal" min="0" step="1" placeholder="35" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Total check divided by guests. Use weekend prime-time average if no-shows concentrate there.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="noshow">No-show rate</label>
+          <div class="input-shell">
+            <input id="noshow" name="noshow" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="8" autocomplete="off" required />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Percentage of reservations that never arrive and never cancel. Industry range 5-15%.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="reservations">Reservations per week</label>
+          <div class="input-shell">
+            <input id="reservations" name="reservations" type="number" inputmode="numeric" min="0" step="5" placeholder="280" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Count of bookings, not covers. Pull from OpenTable, Resy, Tock, or SevenRooms reporting.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="party">Average party size</label>
+          <div class="input-shell">
+            <input id="party" name="party" type="number" inputmode="decimal" min="1" step="0.1" placeholder="3" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Covers per reservation. Casual concepts often run 2.5-3.5, fine dining 2-3, group venues 4+.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="deposit">Suggested deposit per cover</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="deposit" name="deposit" type="number" inputmode="decimal" min="0" step="1" placeholder="25" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">Industry standard $20-$50 per cover. Fine dining $50-$100. Casual $20-$25.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="forecast">Forecast no-show rate after deposit (optional)</label>
+          <div class="input-shell">
+            <input id="forecast" name="forecast" type="range" min="0" max="15" step="0.5" value="5" />
+            <span class="input-shell__suffix" data-forecast-display>5%</span>
+          </div>
+          <p class="form-row__hint">Slide to model net annual recovery if deposits drop the no-show rate to the target level.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Calculate no-show cost
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Monthly revenue lost</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big">
+            <span class="result-num__pct" aria-hidden="true">$</span>
+            <span class="result-num" data-counter>0</span>
+            <span class="visually-hidden">dollars per month lost to no-shows</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Industry no-show range</span>
+            <span class="t-caption num" data-bench>5–15%</span>
+          </div>
+
+          <div class="calc-result__bar">
+            <div class="bar-track">
+              <div class="bar-zone bar-zone--lean"></div>
+              <div class="bar-zone bar-zone--good"></div>
+              <div class="bar-zone bar-zone--watch"></div>
+              <div class="bar-zone bar-zone--bad"></div>
+              <div class="bar-marker" data-marker style="left: 0%"></div>
+            </div>
+            <div class="bar-labels">
+              <span class="t-caption num">0%</span>
+              <span class="t-caption num">10%</span>
+              <span class="t-caption num">20%+</span>
+            </div>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Weekly no-shows (covers)</span>
+              <span class="extras-row__value num" data-weekly-covers>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Weekly revenue lost</span>
+              <span class="extras-row__value num" data-weekly-lost>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Annual revenue lost</span>
+              <span class="extras-row__value num" data-annual-lost>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Deposit revenue at current rate</span>
+              <span class="extras-row__value num" data-deposit-rev>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Break-even no-show rate</span>
+              <span class="extras-row__value num" data-breakeven>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Net annual recovery w/ deposit</span>
+              <span class="extras-row__value num" data-net-recovery>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter values above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/no-show-deposit.webp" alt="Editorial illustration of an empty fine-dining table set for four after closing, two place settings still untouched, leather reservation book open with a pen resting on it, single unlit candle, dim shadowed dining room behind." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">A no-show is not an empty seat. <em>It is a denied booking.</em></h2>
+      <div class="essay__body">
+        <p>
+          The empty seat is what the operator sees on Saturday at 7:15pm. The denied booking is the one the host turned away at 4pm because the table was held. The kitchen prepped for it. FOH was scheduled around it. Somebody else got told no. The actual cost of a no-show is two or three times the average ticket, and most operators only count one of them.
+        </p>
+        <p>
+          Deposits work because of skin in the game. A reservation made with $20 attached is a different psychological commitment than a click and a phone number. OpenTable and Resy report no-show drops in the 50–80% range after deposit programs go live. The deposit is not the point. The deposit is the friction that filters out the casual booking before it ever blocks a table.
+        </p>
+        <p class="essay__pull">
+          A reservation without a deposit is a wish. A reservation with a deposit is a commitment. The math gets fixed when the booking psychology gets fixed.
+        </p>
+        <p>
+          Operators worry about pushback. The pushback is real and it filters in the right direction. The guest who refuses a $20 hold for a Saturday night is, statistically, the same guest most likely to no-show. Losing them is not a cost. It is the policy working. I know an operator who spent two years calling no-shows "the cost of doing business" while losing roughly $58K a year on a 14% rate. He runs $20-per-cover deposits on weekends now. The first month his no-show rate came back at 5%, he sat with the report for ten minutes before he believed it.
+        </p>
+        <p>
+          Every fine dining concept in every major market runs deposits in 2026. Guests adapted. The market adapted. The operators still eating the no-show cost are the ones who have not run the annualized math — usually because the empty seat in front of them does not look like $58,000 yet.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="benchmarks">
+      <h2 class="benchmarks__headline">No-show benchmarks <em>by concept type</em></h2>
+      <p class="t-body-large benchmarks__intro">
+        No-show rates vary by concept, daypart, and party size. Walk-in concepts barely have the problem. Group bookings and weekend brunch are the two worst categories. Use these as a sanity check, not a hard rule.
+      </p>
+      <div class="benchmarks__chart">
+        {benchmarks.map((b) => (
+          <div class="bench-bar">
+            <div class="bench-bar__name">{b.name}</div>
+            <div class="bench-bar__track">
+              <div class="bench-bar__zone" style={`left: ${b.low * 4}%; width: ${(b.high - b.low) * 4}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.low * 4}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.high * 4}%`}></div>
+            </div>
+            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
+          </div>
+        ))}
+        <div class="bench-axis">
+          <div class="bench-axis__track">
+            <span class="bench-axis__tick num" style="left: 0%">0%</span>
+            <span class="bench-axis__tick num" style="left: 25%">6%</span>
+            <span class="bench-axis__tick num" style="left: 50%">12%</span>
+            <span class="bench-axis__tick num" style="left: 75%">18%</span>
+            <span class="bench-axis__tick num" style="left: 100%">25%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three deposit decisions</h2>
+      <p class="t-body-large scenarios__intro">
+        The fix is not always a deposit. The fix is sometimes a smarter deposit. Same metric, different lever depending on which segment is bleeding.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://www.opentable.com/restaurant-solutions/resources/" target="_blank" rel="noopener">OpenTable — No-Show Reservation Reports</a></li>
+        <li><a href="https://blog.resy.com/" target="_blank" rel="noopener">Resy — Restaurant Reservation Best Practices</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/economic-indicators/" target="_blank" rel="noopener">National Restaurant Association — Industry Economic Indicators</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/" target="_blank" rel="noopener">Toast — Reservation Management Guide</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const marker = document.querySelector('[data-marker]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const benchEl = document.querySelector('[data-bench]') as HTMLElement | null;
+  const weeklyCoversEl = document.querySelector('[data-weekly-covers]') as HTMLElement | null;
+  const weeklyLostEl = document.querySelector('[data-weekly-lost]') as HTMLElement | null;
+  const annualLostEl = document.querySelector('[data-annual-lost]') as HTMLElement | null;
+  const depositRevEl = document.querySelector('[data-deposit-rev]') as HTMLElement | null;
+  const breakevenEl = document.querySelector('[data-breakeven]') as HTMLElement | null;
+  const netRecoveryEl = document.querySelector('[data-net-recovery]') as HTMLElement | null;
+  const forecastDisplay = document.querySelector('[data-forecast-display]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+
+  if (form && counter && marker && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fmtUSD(n: number) { return '$' + Math.round(n).toLocaleString('en-US'); }
+    function fmtUSDFull(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800) {
+      if (reduced) { el.textContent = Math.round(to).toLocaleString('en-US'); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const v = from + (to - from) * ease(t);
+        el.textContent = Math.round(v).toLocaleString('en-US');
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function statusFor(noShowPct: number) {
+      if (noShowPct < 5) return { key: 'lean', label: 'Lean' };
+      if (noShowPct <= 8) return { key: 'healthy', label: 'Healthy' };
+      if (noShowPct <= 12) return { key: 'watch', label: 'Watch' };
+      return { key: 'critical', label: 'Critical' };
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Enter values';
+      marker!.style.left = '0%';
+      animateCounter(counter!, lastValue, 0, 400);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
+      [weeklyCoversEl, weeklyLostEl, annualLostEl, depositRevEl, breakevenEl, netRecoveryEl].forEach(e => { if (e) e.textContent = '—'; });
+    }
+
+    function calc() {
+      const data = new FormData(form!);
+      const ticket = parseFloat(String(data.get('ticket') || '0')) || 0;
+      const noShowRate = parseFloat(String(data.get('noshow') || '0')) || 0;
+      const reservations = parseFloat(String(data.get('reservations') || '0')) || 0;
+      const party = parseFloat(String(data.get('party') || '0')) || 0;
+      const deposit = parseFloat(String(data.get('deposit') || '0')) || 0;
+      const forecastRate = parseFloat(String(data.get('forecast') || '0')) || 0;
+
+      if (forecastDisplay) forecastDisplay.textContent = `${forecastRate}%`;
+
+      if (ticket <= 0 || reservations <= 0 || party <= 0 || noShowRate <= 0) { reset(); return; }
+
+      const coversBookedPerWeek = reservations * party;
+      const noShowCoversPerWeek = coversBookedPerWeek * (noShowRate / 100);
+      const weeklyRevenueLost = noShowCoversPerWeek * ticket;
+      const monthlyRevenueLost = weeklyRevenueLost * 4.33;
+      const annualRevenueLost = weeklyRevenueLost * 52;
+      const depositRevenueWeekly = noShowCoversPerWeek * deposit;
+      const depositRevenueAnnual = depositRevenueWeekly * 52;
+      const breakEvenRate = ticket > 0 ? (deposit / ticket) * 100 : 0;
+
+      // Net recovery: revenue saved (forecast vs current) + remaining deposit revenue at forecast rate
+      const forecastNoShowCovers = coversBookedPerWeek * (forecastRate / 100);
+      const forecastWeeklyLost = forecastNoShowCovers * ticket;
+      const forecastDepositWeekly = forecastNoShowCovers * deposit;
+      const revenueSavedWeekly = weeklyRevenueLost - forecastWeeklyLost;
+      const netRecoveryAnnual = (revenueSavedWeekly + forecastDepositWeekly) * 52;
+
+      // Bar marker scaled to 20% max range
+      const clamped = Math.min(100, Math.max(0, (noShowRate / 20) * 100));
+      animateCounter(counter!, lastValue, monthlyRevenueLost, 800);
+      lastValue = monthlyRevenueLost;
+      const s = statusFor(noShowRate);
+      statusPill!.dataset.status = s.key;
+      statusLabel!.textContent = s.label;
+      marker!.style.left = `${clamped}%`;
+      if (benchEl) benchEl.textContent = '5–15%';
+
+      if (weeklyCoversEl) weeklyCoversEl.textContent = noShowCoversPerWeek.toFixed(1);
+      if (weeklyLostEl) weeklyLostEl.textContent = fmtUSD(weeklyRevenueLost);
+      if (annualLostEl) annualLostEl.textContent = fmtUSD(annualRevenueLost);
+      if (depositRevEl) depositRevEl.textContent = fmtUSD(depositRevenueAnnual);
+      if (breakevenEl) breakevenEl.textContent = `${breakEvenRate.toFixed(1)}%`;
+      if (netRecoveryEl) netRecoveryEl.textContent = fmtUSD(netRecoveryAnnual);
+
+      let note = '';
+      if (s.label === 'Lean') note = `No-show rate under 5% is healthy. Verify the number is real (some POS / reservation systems mis-tag late cancellations as walk-ins). At this rate the friction of a deposit program may cost more in lost reservations than it recaptures.`;
+      if (s.label === 'Healthy') note = `5-8% is the broad industry healthy band. Worth modeling a targeted deposit on weekend prime-time and parties of 6+ even if the overall rate is fine. Group bookings and weekend brunch typically run 2-3x the average.`;
+      if (s.label === 'Watch') note = `8-12% is above healthy. Annual loss is real money. Run the deposit math by segment: weekend, parties of 4+, holiday bookings. Most concepts can knock 4-6 percentage points off with a $20-25 per cover deposit on the worst segments only.`;
+      if (s.label === 'Critical') note = `Above 12% is structural. Either the booking source is too frictionless (walk-up sites, social media DMs without confirmation) or the policy is non-existent. Implement deposits across all reservations for 60 days. Industry data says no-show drops 50-80%.`;
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          <tr><td>Reservations / week</td><td class="num">${reservations.toLocaleString('en-US')}</td></tr>
+          <tr><td>× Average party size</td><td class="num">${party}</td></tr>
+          <tr class="math-table__step"><td>= Covers booked / week</td><td class="num">${coversBookedPerWeek.toFixed(0)}</td></tr>
+          <tr><td>× No-show rate</td><td class="num">${noShowRate}%</td></tr>
+          <tr class="math-table__step"><td>= No-show covers / week</td><td class="num">${noShowCoversPerWeek.toFixed(1)}</td></tr>
+          <tr><td>× Average ticket</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
+          <tr class="math-table__step"><td>= Weekly revenue lost</td><td class="num">${fmtUSDFull(weeklyRevenueLost)}</td></tr>
+          <tr><td>× 52 weeks</td><td class="num">52</td></tr>
+          <tr class="math-table__final"><td>Annual revenue lost</td><td class="num"><strong>${fmtUSD(annualRevenueLost)}</strong></td></tr>
+        </table>
+        <table class="math-table" role="presentation" style="margin-top: var(--space-5);">
+          <tr><td colspan="2" style="font-weight:600;color:var(--color-heading);padding-top:0;">Deposit math</td></tr>
+          <tr><td>Deposit per cover</td><td class="num">${fmtUSDFull(deposit)}</td></tr>
+          <tr><td>÷ Average ticket</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
+          <tr class="math-table__step"><td>= Break-even no-show rate</td><td class="num">${breakEvenRate.toFixed(1)}%</td></tr>
+          <tr><td>Annual deposit revenue (current rate)</td><td class="num">${fmtUSD(depositRevenueAnnual)}</td></tr>
+          <tr class="math-table__final"><td>Net annual recovery (forecast ${forecastRate}%)</td><td class="num"><strong>${fmtUSD(netRecoveryAnnual)}</strong></td></tr>
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (calcDebounce !== null) clearTimeout(calcDebounce); calc(); });
+
+    function loadExample() {
+      (document.querySelector('#ticket') as HTMLInputElement).value = '35';
+      (document.querySelector('#noshow') as HTMLInputElement).value = '8';
+      (document.querySelector('#reservations') as HTMLInputElement).value = '280';
+      (document.querySelector('#party') as HTMLInputElement).value = '3';
+      (document.querySelector('#deposit') as HTMLInputElement).value = '25';
+      (document.querySelector('#forecast') as HTMLInputElement).value = '5';
+      calc();
+    }
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .input-shell input[type="range"] { padding: 14px 16px; accent-color: var(--color-saffron); }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
+  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
+  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--color-cream); color: var(--color-muted); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
+  .status-pill[data-status="lean"] { background: rgba(74, 88, 38, 0.10); color: #4a5826; }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
+  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .result-num--pulse { transform: scale(1.025); }
+  .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__bar { margin-bottom: var(--space-5); }
+  .bar-track { position: relative; height: 12px; border-radius: 999px; overflow: hidden; background: var(--color-cream); display: flex; }
+  .bar-zone { height: 100%; }
+  .bar-zone--lean { flex: 25; background: linear-gradient(90deg, rgba(74, 88, 38, 0.20), rgba(74, 88, 38, 0.30)); }
+  .bar-zone--good { flex: 15; background: linear-gradient(90deg, rgba(74, 88, 38, 0.40), rgba(74, 88, 38, 0.55)); }
+  .bar-zone--watch { flex: 20; background: linear-gradient(90deg, rgba(200, 117, 0, 0.35), rgba(200, 117, 0, 0.55)); }
+  .bar-zone--bad { flex: 40; background: linear-gradient(90deg, rgba(192, 57, 43, 0.30), rgba(192, 57, 43, 0.55)); }
+  .bar-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--color-heading); border-radius: 2px; transition: left 320ms cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(-50%); }
+  .bar-labels { display: flex; justify-content: space-between; margin-top: 6px; color: var(--color-muted); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .benchmarks { margin-bottom: var(--space-16); }
+  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .benchmarks__headline em { font-style: italic; color: var(--color-saffron-text); }
+  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .benchmarks__chart { display: flex; flex-direction: column; gap: var(--space-3); max-width: 720px; }
+  .bench-bar { display: grid; grid-template-columns: 140px 1fr 90px; gap: var(--space-4); align-items: center; }
+  @media (max-width: 540px) { .bench-bar { grid-template-columns: 100px 1fr 80px; gap: var(--space-3); } }
+  .bench-bar__name { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-heading); }
+  .bench-bar__track { position: relative; height: 10px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 999px; overflow: hidden; }
+  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-cta)); border-radius: 999px; }
+  .bench-bar__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-heading); }
+  .bench-bar__range { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-saffron-text); text-align: right; }
+  .bench-axis { padding-top: 6px; }
+  .bench-axis__track { position: relative; height: 14px; }
+  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.6875rem; color: var(--color-muted); }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .cited-sources { margin-bottom: var(--space-12); }
+  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  .cited-sources a { color: var(--color-saffron-text); }
+  .cited-sources a:hover { color: var(--color-saffron-hover); }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

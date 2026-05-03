@@ -1,0 +1,244 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Restaurant Operator Blog — Real Stories from a 5-Year Bar GM';
+const description = 'Real operator stories, original case studies, and evidence-based ops analysis from independent restaurant managers and owners. Cited sources, lived experience.';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featured = allPosts[0];
+const more = allPosts.slice(1);
+
+// Surface unique tags for filter pills
+const allTags = Array.from(new Set(allPosts.flatMap((p) => p.data.tags))).slice(0, 8);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': 'https://restaurantcalcs.com/blog/#webpage',
+    url: 'https://restaurantcalcs.com/blog/',
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+    inLanguage: 'en-US',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://restaurantcalcs.com/blog/' },
+    ],
+  },
+];
+
+const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const fmtDateISO = (d: Date) => d.toISOString();
+
+function readingMin(post: any): number {
+  const wc = post.body?.split(/\s+/).length || 0;
+  return Math.max(1, Math.ceil(wc / 220));
+}
+---
+
+<Layout {title} {description} {schema} hideRails={true}>
+  <article class="blog-index">
+    <section class="blog-hero">
+      <div class="blog-hero__inner">
+        <nav class="breadcrumb breadcrumb--dark" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <span>Blog</span>
+        </nav>
+        <p class="t-micro blog-hero__eyebrow">Field notes from the line</p>
+        <h1 class="blog-hero__title">Real operator stories. <em>Real numbers.</em> No listicles.</h1>
+        <p class="blog-hero__lede">
+          First-person analysis from independent restaurant managers, GMs, and owners. Specific incidents. What worked, what backfired. Cited industry sources. Written by a 5-year bar GM, not a content farm.
+        </p>
+        <div class="blog-hero__byline">
+          <span class="blog-hero__avatar" aria-hidden="true">B</span>
+          <div class="blog-hero__byline-meta">
+            <span class="blog-hero__byline-name">Brock Markarian</span>
+            <span class="blog-hero__byline-role">Founder · 5 yrs Cosmos Taverna (Bartender → GM)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {featured && (
+      <section class="blog-featured">
+        <div class="blog-featured__rail">
+          <p class="t-micro blog-featured__rail-eyebrow">Latest</p>
+          <span class="blog-featured__rail-line" aria-hidden="true"></span>
+          <span class="blog-featured__rail-num num">01</span>
+        </div>
+        <a href={`/blog/${featured.id}/`} class="blog-featured__card">
+          {featured.data.heroImage && (
+            <div class="blog-featured__media">
+              <img src={featured.data.heroImage} alt={`Editorial illustration for ${featured.data.title}`} width="1264" height="848" loading="eager" />
+            </div>
+          )}
+          <div class="blog-featured__copy">
+            <div class="blog-featured__top">
+              <span class="t-micro blog-featured__date"><time datetime={fmtDateISO(featured.data.pubDate)}>{fmtDate(featured.data.pubDate)}</time></span>
+              <span class="blog-featured__read">{readingMin(featured)} min read</span>
+            </div>
+            {featured.data.tags && featured.data.tags.length > 0 && (
+              <p class="t-micro t-micro--saffron blog-featured__tags">
+                {featured.data.tags.slice(0, 3).join(' · ')}
+              </p>
+            )}
+            <h2 class="blog-featured__title">{featured.data.title}</h2>
+            <p class="blog-featured__desc">{featured.data.description}</p>
+            <span class="blog-featured__cta">Read the full piece <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+      </section>
+    )}
+
+    {allTags.length > 0 && (
+      <div class="blog-tags">
+        <span class="t-micro blog-tags__label">Topics</span>
+        {allTags.map((tag) => (
+          <span class="blog-tags__pill">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    {more.length > 0 && (
+      <section class="blog-more">
+        <h2 class="blog-more__heading">More posts</h2>
+        <div class="blog-more__grid">
+          {more.map((post, i) => (
+            <a href={`/blog/${post.id}/`} class="post-card">
+              {post.data.heroImage && (
+                <div class="post-card__media">
+                  <img src={post.data.heroImage} alt={`Editorial illustration for ${post.data.title}`} width="1264" height="848" loading="lazy" />
+                  <span class="post-card__num num">{String(i + 2).padStart(2, '0')}</span>
+                </div>
+              )}
+              <div class="post-card__body">
+                <div class="post-card__top">
+                  <time class="t-micro" datetime={fmtDateISO(post.data.pubDate)}>{fmtDate(post.data.pubDate)}</time>
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <span class="post-card__tag">{post.data.tags[0]}</span>
+                  )}
+                </div>
+                <h3 class="post-card__title">{post.data.title}</h3>
+                <p class="post-card__desc">{post.data.description}</p>
+                <span class="post-card__cta">Read the piece <span class="post-card__arrow" aria-hidden="true">→</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {allPosts.length === 0 && (
+      <p class="blog-index__empty">First posts publishing soon. Check back this week.</p>
+    )}
+
+    <section class="blog-closer">
+      <div class="blog-closer__inner">
+        <p class="t-micro t-micro--saffron">Why this exists</p>
+        <p class="blog-closer__copy">
+          Most restaurant content online is either a paywalled SaaS pitch or AI-generated padding. This isn't. Every post here is written by a real operator about real operations — with citations, failure modes, and numbers you can verify. If something looks wrong, <a href="/contact/">email me</a>.
+        </p>
+        <p class="blog-closer__sources">
+          Industry data points cross-referenced with the <a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener nofollow">National Restaurant Association</a>, <a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener nofollow">BLS NAICS 722</a>, and <a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener nofollow">DOL FLSA tip-pool guidance</a>.
+        </p>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .blog-index { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-6) var(--space-24); }
+
+  /* Dark editorial hero block */
+  .blog-hero { position: relative; margin: 0 calc(-1 * var(--space-6)) var(--space-16); padding: var(--space-16) var(--space-6) var(--space-20); background: var(--bg-alt-deep); background-image: linear-gradient(180deg, rgba(26, 24, 20, 0.85), rgba(26, 24, 20, 0.92)), url('/textures/dark-bar-wood.webp'); background-size: cover; background-position: center; color: var(--color-cream); overflow: hidden; }
+  .blog-hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200, 117, 0, 0.25) 0%, transparent 70%); pointer-events: none; }
+  .blog-hero::after { content: ''; position: absolute; inset: 0; background-image: url('/noise.svg'); background-size: 200px 200px; opacity: 0.18; mix-blend-mode: overlay; pointer-events: none; }
+  .blog-hero__inner { position: relative; max-width: 1180px; margin: 0 auto; z-index: 1; }
+  .breadcrumb--dark { color: rgba(244, 241, 234, 0.55); margin-bottom: var(--space-8); }
+  .breadcrumb--dark a { color: rgba(244, 241, 234, 0.55); }
+  .breadcrumb--dark a:hover { color: var(--color-saffron); }
+  .blog-hero__eyebrow { color: var(--color-saffron); margin-bottom: var(--space-4); font-weight: 600; letter-spacing: 0.06em; }
+  .blog-hero__title { font-family: var(--font-display); font-variation-settings: "opsz" 144, "wdth" 92; font-size: clamp(2.75rem, 6vw + 0.5rem, 5rem); font-weight: 500; line-height: 1.02; letter-spacing: -0.025em; color: var(--color-white); margin-bottom: var(--space-6); max-width: 18ch; }
+  .blog-hero__title em { font-style: italic; color: var(--color-saffron); letter-spacing: 0.05em; padding-right: 0.12em; }
+  .blog-hero__lede { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: rgba(244, 241, 234, 0.78); max-width: 60ch; margin-bottom: var(--space-8); }
+  .blog-hero__byline { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(244, 241, 234, 0.12); border-radius: var(--radius-md); }
+  .blog-hero__avatar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-saffron-cta), var(--color-saffron-text)); color: var(--color-white); font-family: var(--font-display); font-size: 1.375rem; font-weight: 700; border-radius: 50%; flex-shrink: 0; }
+  .blog-hero__byline-meta { display: flex; flex-direction: column; gap: 2px; }
+  .blog-hero__byline-name { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-white); }
+  .blog-hero__byline-role { font-family: var(--font-body); font-size: 0.75rem; color: rgba(244, 241, 234, 0.6); }
+
+  /* Featured spotlight */
+  .blog-featured { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-8); margin-bottom: var(--space-16); align-items: stretch; }
+  @media (max-width: 720px) { .blog-featured { grid-template-columns: 1fr; gap: var(--space-4); } }
+  .blog-featured__rail { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding-top: var(--space-4); }
+  @media (max-width: 720px) { .blog-featured__rail { flex-direction: row; padding: 0; } }
+  .blog-featured__rail-eyebrow { color: var(--color-saffron-text); font-weight: 600; letter-spacing: 0.06em; transform: rotate(-90deg); transform-origin: center; white-space: nowrap; padding-top: var(--space-3); }
+  @media (max-width: 720px) { .blog-featured__rail-eyebrow { transform: none; padding: 0; } }
+  .blog-featured__rail-line { flex: 1; width: 1px; background: linear-gradient(180deg, var(--color-saffron), transparent); min-height: 80px; }
+  @media (max-width: 720px) { .blog-featured__rail-line { width: 40px; height: 1px; min-height: 0; background: linear-gradient(90deg, var(--color-saffron), transparent); } }
+  .blog-featured__rail-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.75rem; color: var(--color-saffron-text); font-weight: 600; }
+
+  .blog-featured__card { display: grid; grid-template-columns: 5fr 6fr; background: var(--gradient-card-warm); border: 1px solid var(--color-saffron); border-radius: var(--radius-xl); position: relative; overflow: hidden; box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); transition: all var(--transition-fast); color: inherit; align-items: stretch; }
+  .blog-featured__card:hover { transform: translateY(-2px); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 16px 40px var(--alpha-shadow-2), 0 50px 100px -40px var(--alpha-saffron-glow-strong); }
+  @media (max-width: 880px) { .blog-featured__card { grid-template-columns: 1fr; } }
+  .blog-featured__media { position: relative; min-height: 320px; overflow: hidden; background: var(--color-cream); }
+  .blog-featured__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 480ms var(--ease-out); }
+  .blog-featured__card:hover .blog-featured__media img { transform: scale(1.04); }
+  .blog-featured__copy { padding: var(--space-10); display: flex; flex-direction: column; justify-content: center; }
+  .blog-featured__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); pointer-events: none; }
+  .blog-featured__card::after { content: ''; position: absolute; top: -200px; right: -200px; width: 400px; height: 400px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; }
+  .blog-featured__card > * { position: relative; z-index: 1; }
+  .blog-featured__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); color: var(--color-muted); }
+  .blog-featured__date { letter-spacing: 0.04em; }
+  .blog-featured__read { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--color-saffron-text); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .blog-featured__tags { margin-bottom: var(--space-3); }
+  .blog-featured__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.875rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-4); }
+  .blog-featured__desc { font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-6); max-width: 64ch; }
+  .blog-featured__cta { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-saffron-text); letter-spacing: 0.02em; }
+  .blog-featured__card:hover .blog-featured__cta { color: var(--color-saffron-hover); }
+
+  /* Tag pills */
+  .blog-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: var(--space-4) 0; margin-bottom: var(--space-12); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+  .blog-tags__label { color: var(--color-muted); margin-right: var(--space-3); }
+  .blog-tags__pill { padding: 4px 10px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 999px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); }
+
+  /* More posts */
+  .blog-more { margin-bottom: var(--space-16); }
+  .blog-more__heading { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 95; font-size: clamp(1.625rem, 2.5vw + 0.4rem, 2rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border); }
+  .blog-more__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  @media (max-width: 720px) { .blog-more__grid { grid-template-columns: 1fr; } }
+
+  .post-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; transition: all var(--transition-fast); color: inherit; position: relative; box-shadow: var(--shadow-warm); }
+  .post-card:hover { border-color: var(--color-saffron); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 16px 40px var(--alpha-shadow-2), 0 40px 80px -40px var(--alpha-saffron-glow); transform: translateY(-3px); }
+  .post-card__media { position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--color-cream); border-bottom: 1px solid var(--color-border); }
+  .post-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 480ms var(--ease-out); }
+  .post-card:hover .post-card__media img { transform: scale(1.04); }
+  .post-card__num { position: absolute; top: var(--space-3); left: var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.6875rem; font-weight: 700; color: var(--color-white); letter-spacing: 0.08em; padding: 4px 10px; background: rgba(26, 24, 20, 0.65); backdrop-filter: blur(8px); border-radius: 999px; }
+  .post-card__body { display: flex; flex-direction: column; padding: var(--space-6) var(--space-6) var(--space-7); flex: 1; }
+  .post-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); color: var(--color-muted); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .post-card__tag { color: var(--color-saffron-text); font-weight: 700; padding: 3px 9px; background: var(--color-saffron-light); border-radius: 999px; font-size: 0.6875rem; letter-spacing: 0.06em; }
+  .post-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 95; font-size: 1.625rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; color: var(--color-heading); margin-bottom: var(--space-3); transition: color var(--transition-fast); }
+  .post-card:hover .post-card__title { color: var(--color-saffron-text); }
+  .post-card__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .post-card__cta { font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); display: flex; justify-content: space-between; align-items: center; width: 100%; }
+  .post-card__arrow { display: inline-block; transition: transform var(--transition-fast); }
+  .post-card:hover .post-card__arrow { transform: translateX(4px); }
+
+  .blog-index__empty { font-family: var(--font-body); font-size: 1rem; color: var(--color-muted); padding: var(--space-12) 0; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-lg); background: var(--color-cream); }
+
+  /* Closer */
+  .blog-closer { margin: var(--space-16) auto 0; max-width: 720px; padding: var(--space-8) var(--space-8); background: var(--color-cream); border-left: 4px solid var(--color-saffron); border-radius: var(--radius-md); }
+  .blog-closer__inner p:first-child { margin-bottom: var(--space-3); font-weight: 600; }
+  .blog-closer__copy { font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); }
+  .blog-closer__copy a { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; }
+  .blog-closer__copy a:hover { color: var(--color-saffron-hover); }
+</style>

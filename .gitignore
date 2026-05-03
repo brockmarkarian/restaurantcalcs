@@ -33,3 +33,24 @@ Thumbs.db
 # misc
 .cache/
 .screenshots/
+screenshots/
+
+# working docs (AI agent outputs, not part of codebase)
+AUDIT-*.md
+REVOICE-NOTES-*.md
+CALC-RESEARCH-*.md
+
+# test screenshots dropped at repo root by chrome-devtools / playwright
+/cards-*.png
+/nav-*.png
+/menu-eng-*.png
+/labor-*.png
+/blog-*.png
+/founder-*.png
+/drawer-*.png
+/me-*.png
+/mobile-*.png
+/prime-cost.png
+
+# lighthouse local cache
+.lighthouse/

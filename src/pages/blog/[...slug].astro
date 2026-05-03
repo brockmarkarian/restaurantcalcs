@@ -1,0 +1,312 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const title = post.data.title;
+const description = post.data.description;
+
+const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const fmtDateISO = (d: Date) => d.toISOString();
+
+// Reading time — 220 wpm
+const wordCount = post.body?.split(/\s+/).length || 0;
+const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
+
+// ToC: H2 only, drop the rehype-autolink hash markers
+const tocHeadings = (headings || []).filter((h: any) => h.depth === 2);
+
+// Read next: 2 most-recent other posts
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((p) => p.id !== post.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `https://restaurantcalcs.com/blog/${post.id}/#article`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://restaurantcalcs.com/blog/${post.id}/` },
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: fmtDateISO(post.data.pubDate),
+    dateModified: fmtDateISO(post.data.updatedDate || post.data.pubDate),
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    publisher: { '@id': 'https://restaurantcalcs.com/#organization' },
+    keywords: post.data.tags.join(', '),
+    wordCount,
+    timeRequired: `PT${readingMinutes}M`,
+    inLanguage: 'en-US',
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://restaurantcalcs.com/blog/' },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: `https://restaurantcalcs.com/blog/${post.id}/` },
+    ],
+  },
+];
+
+const calcLabels: Record<string, string> = {
+  'food-cost': 'Food Cost',
+  'recipe-cost': 'Recipe Cost',
+  'labor-cost': 'Labor Cost',
+  'tip-pool': 'Tip Pool',
+  'menu-pricing': 'Menu Pricing',
+  'liquor-pour-cost': 'Liquor Pour Cost',
+  'break-even': 'Break-Even',
+  'inventory-variance': 'Inventory Variance',
+};
+const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCalc] : null;
+---
+
+<Layout {title} {description} {schema} hideRails={true}>
+  <article class="post-page">
+    <header class="post-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/blog/">Blog</a>
+        <span aria-hidden="true">/</span>
+        <span>{post.data.title}</span>
+      </nav>
+      {post.data.tags && post.data.tags.length > 0 && (
+        <p class="t-micro t-micro--saffron post-page__tags">
+          {post.data.tags.join(' · ')}
+        </p>
+      )}
+      <h1 class="post-page__title">{post.data.title}</h1>
+
+      {post.data.heroImage && (
+        <img src={post.data.heroImage} alt={`Editorial illustration for ${post.data.title}`} class="post-page__hero-image" width="1264" height="848" loading="eager" />
+      )}
+
+      <div class="byline-chip">
+        <span class="byline-chip__avatar" aria-hidden="true">B</span>
+        <div class="byline-chip__meta">
+          <span class="byline-chip__name">{post.data.author} Markarian</span>
+          <span class="byline-chip__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+        </div>
+        <span class="byline-chip__divider" aria-hidden="true"></span>
+        <div class="byline-chip__time">
+          <time datetime={fmtDateISO(post.data.pubDate)}>{fmtDate(post.data.pubDate)}</time>
+          <span class="byline-chip__read">{readingMinutes} min read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-layout">
+      {tocHeadings.length > 0 && (
+        <aside class="post-toc" aria-label="Table of contents">
+          <p class="t-micro post-toc__label">In this article</p>
+          <ol class="post-toc__list">
+            {tocHeadings.map((h: any) => (
+              <li><a href={`#${h.slug}`} data-toc-link>{h.text}</a></li>
+            ))}
+          </ol>
+        </aside>
+      )}
+
+      <div class="post-page__body">
+        <Content />
+      </div>
+
+      <aside class="post-rail" aria-hidden="true">
+        <div class="post-rail__inner">
+          <span class="post-rail__label">Advertisement</span>
+          <div class="post-rail__placeholder">
+            <span>▢</span>
+            <span class="num">160 × 600</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {post.data.relatedCalc && relatedCalcLabel && (
+      <aside class="post-page__cta">
+        <p class="t-micro t-micro--saffron">Run the math yourself</p>
+        <h3 class="post-page__cta-title">{relatedCalcLabel} Calculator</h3>
+        <p class="post-page__cta-desc">Free, no signup. Math shown on every result. Built for indie operators.</p>
+        <a href={`/calculators/${post.data.relatedCalc}/`} class="btn btn-primary btn-large">
+          Open the {relatedCalcLabel.toLowerCase()} calc →
+        </a>
+      </aside>
+    )}
+
+    <div class="post-page__ornament" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+
+    {allPosts.length > 0 && (
+      <section class="read-next">
+        <p class="t-micro t-micro--saffron read-next__label">Read next</p>
+        <div class="read-next__grid">
+          {allPosts.map((p) => (
+            <a href={`/blog/${p.id}/`} class="read-next__card">
+              <div class="read-next__top">
+                <time class="t-micro" datetime={fmtDateISO(p.data.pubDate)}>{fmtDate(p.data.pubDate)}</time>
+                {p.data.tags && p.data.tags.length > 0 && (
+                  <span class="t-micro read-next__tag">{p.data.tags[0]}</span>
+                )}
+              </div>
+              <h3 class="read-next__title">{p.data.title}</h3>
+              <p class="read-next__desc">{p.data.description}</p>
+              <span class="read-next__arrow" aria-hidden="true">Read →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</Layout>
+
+<script>
+  // Highlight active ToC entry as user scrolls
+  const links = document.querySelectorAll('[data-toc-link]') as NodeListOf<HTMLAnchorElement>;
+  const headings = Array.from(links).map((l) => document.querySelector(l.getAttribute('href') || '')).filter(Boolean) as HTMLElement[];
+
+  if (links.length && headings.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            links.forEach((link) => {
+              link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+            });
+          }
+        });
+      },
+      { rootMargin: '-100px 0px -70% 0px' }
+    );
+    headings.forEach((h) => observer.observe(h));
+  }
+</script>
+
+<style>
+  .post-page { max-width: 1320px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .post-page__header { max-width: 820px; margin: 0 auto var(--space-12); }
+  .post-page__tags { margin-bottom: var(--space-3); }
+  .post-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.02em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-6); }
+
+  /* Hero image */
+  .post-page__hero-image { display: block; width: 100%; max-width: 820px; height: auto; aspect-ratio: 3 / 2; margin: 0 auto var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1); object-fit: cover; }
+
+  /* Byline chip — author avatar + role + read time */
+  .byline-chip { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+  .byline-chip__avatar { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, var(--color-saffron-cta), var(--color-saffron-text)); color: var(--color-white); font-family: var(--font-display); font-style: italic; font-size: 1.5rem; font-weight: 600; border-radius: 50%; flex-shrink: 0; box-shadow: 0 2px 8px var(--alpha-saffron-glow); }
+  .byline-chip__meta { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .byline-chip__name { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); }
+  .byline-chip__role { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); }
+  .byline-chip__divider { width: 1px; height: 32px; background: var(--color-border); }
+  .byline-chip__time { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); }
+  .byline-chip__read { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--color-saffron-text); font-weight: 500; }
+  @media (max-width: 540px) {
+    .byline-chip__divider, .byline-chip__time { display: none; }
+  }
+
+  /* Post layout: ToC sidebar + body + right ad rail */
+  .post-layout { display: grid; grid-template-columns: 200px minmax(0, 820px) 180px; gap: var(--space-10); justify-content: center; align-items: start; }
+  @media (max-width: 1280px) {
+    .post-layout { grid-template-columns: 200px minmax(0, 820px); }
+    .post-rail { display: none; }
+  }
+  @media (max-width: 1080px) {
+    .post-layout { grid-template-columns: minmax(0, 760px); margin: 0 auto; }
+    .post-toc { display: none; }
+  }
+
+  /* Sticky ToC */
+  .post-toc { position: sticky; top: 120px; padding: var(--space-4) 0; max-width: 200px; }
+  .post-toc__label { color: var(--color-saffron-text); margin-bottom: var(--space-3); font-weight: 600; }
+  .post-toc__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); border-left: 1px solid var(--color-border); }
+  .post-toc__list li { padding: 0; }
+  .post-toc__list a { display: block; padding: 6px 0 6px var(--space-4); margin-left: -1px; border-left: 2px solid transparent; font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.40; color: var(--color-muted); transition: all var(--transition-fast); }
+  .post-toc__list a:hover { color: var(--color-heading); border-left-color: var(--color-border); }
+  .post-toc__list a.is-active { color: var(--color-saffron-text); border-left-color: var(--color-saffron); font-weight: 500; }
+
+  /* Right-side in-article ad rail (only on wide blog viewports) */
+  .post-rail { position: sticky; top: 120px; max-width: 180px; }
+  .post-rail__inner { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; height: 600px; }
+  .post-rail__label { padding: 6px 10px; font-family: var(--font-body); font-size: 0.625rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); text-align: center; }
+  .post-rail__placeholder { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--color-muted); }
+  .post-rail__placeholder .num { font-size: 0.75rem; font-family: var(--font-mono); }
+
+  .post-page__body { font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.75; color: var(--color-body); position: relative; }
+  .post-page__body :global(p:first-of-type::first-letter) { font-family: var(--font-display); font-variation-settings: "opsz" 144, "wdth" 95; font-size: 5.5rem; font-weight: 600; line-height: 0.85; float: left; margin: 10px 22px 0 0; padding: 0; color: var(--color-saffron-text); letter-spacing: -0.04em; }
+  .post-page__body :global(h2) { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 95; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.25rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.018em; color: var(--color-heading); margin: var(--space-12) 0 var(--space-5); padding-top: var(--space-4); scroll-margin-top: 100px; }
+  .post-page__body :global(h2::before) { content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 2px; background: var(--color-saffron); }
+  .post-page__body :global(h2 .anchor-link) { font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-saffron); margin-left: var(--space-2); opacity: 0; transition: opacity 150ms ease; text-decoration: none; }
+  .post-page__body :global(h2:hover .anchor-link) { opacity: 0.7; }
+  .post-page__body :global(h2 .anchor-link:hover) { opacity: 1; }
+  .post-page__body :global(h3) { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.375rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin: var(--space-8) 0 var(--space-3); scroll-margin-top: 100px; }
+  .post-page__body :global(p) { margin-bottom: var(--space-5); }
+  .post-page__body :global(strong) { color: var(--color-heading); font-weight: 600; }
+  .post-page__body :global(em) { font-style: italic; letter-spacing: 0.03em; padding-right: 0.08em; }
+  .post-page__body :global(a) { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: color 150ms ease; }
+  .post-page__body :global(a:hover) { color: var(--color-saffron-hover); text-decoration-thickness: 2px; }
+  .post-page__body :global(ul), .post-page__body :global(ol) { margin: 0 0 var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); }
+  .post-page__body :global(li) { line-height: 1.65; }
+  .post-page__body :global(li::marker) { color: var(--color-saffron); }
+
+  /* Breakout pull-quote — wider than body column on desktop */
+  .post-page__body :global(blockquote) { position: relative; padding: var(--space-8) var(--space-6) var(--space-8) var(--space-12); margin: var(--space-10) -80px; border-left: 4px solid var(--color-saffron); font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.5rem, 2.4vw + 0.4rem, 1.875rem); line-height: 1.25; letter-spacing: -0.012em; color: var(--color-heading); font-weight: 500; background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  .post-page__body :global(blockquote::before) { content: '\201C'; position: absolute; left: 16px; top: -10px; font-family: var(--font-display); font-size: 5.5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
+  @media (max-width: 1024px) {
+    .post-page__body :global(blockquote) { margin: var(--space-8) 0; }
+  }
+  @media (max-width: 540px) {
+    .post-page__body :global(blockquote) { padding: var(--space-6) var(--space-4) var(--space-6) var(--space-7); font-size: 1.25rem; }
+    .post-page__body :global(blockquote::before) { font-size: 3rem; left: 6px; top: 4px; opacity: 0.30; }
+  }
+
+  .post-page__body :global(code) { font-family: var(--font-mono); font-size: 0.9375rem; background: var(--color-cream); padding: 2px 6px; border-radius: 4px; color: var(--color-saffron-text); }
+  .post-page__body :global(hr) { border: none; height: 24px; margin: var(--space-12) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .post-page__body :global(table) { width: 100%; border-collapse: collapse; margin: var(--space-6) 0; font-size: 0.9375rem; }
+  .post-page__body :global(th) { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); text-align: left; padding: 10px 8px; border-bottom: 1.5px solid var(--color-heading); }
+  .post-page__body :global(td) { padding: 10px 8px; border-bottom: 1px dashed var(--color-border); vertical-align: top; }
+
+  .post-page__ornament { display: flex; justify-content: center; align-items: center; gap: 12px; padding: var(--space-12) 0 var(--space-8); max-width: 820px; margin: 0 auto; }
+  .post-page__ornament span { display: block; width: 5px; height: 5px; background: var(--color-saffron); border-radius: 50%; opacity: 0.7; }
+  .post-page__ornament span:nth-child(2) { width: 8px; height: 8px; opacity: 1; }
+
+  /* Mid-/end-article CTA — upgraded card */
+  .post-page__cta { max-width: 820px; margin: var(--space-12) auto 0; padding: var(--space-8) var(--space-8); background: var(--gradient-card-warm); border: 1px solid var(--color-saffron); border-radius: var(--radius-lg); position: relative; overflow: hidden; box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); }
+  .post-page__cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); pointer-events: none; }
+  .post-page__cta::after { content: ''; position: absolute; top: -120px; right: -120px; width: 240px; height: 240px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; }
+  .post-page__cta > * { position: relative; z-index: 1; }
+  .post-page__cta p:first-child { margin-bottom: var(--space-2); }
+  .post-page__cta-title { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 95; font-size: clamp(1.5rem, 3vw + 0.4rem, 2rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .post-page__cta-desc { font-family: var(--font-body); font-size: 1rem; color: var(--color-body); margin-bottom: var(--space-5); }
+
+  /* Read next */
+  .read-next { max-width: 1080px; margin: var(--space-12) auto 0; padding-top: var(--space-8); border-top: 1px solid var(--color-border); }
+  .read-next__label { color: var(--color-saffron-text); margin-bottom: var(--space-5); font-weight: 600; }
+  .read-next__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .read-next__grid { grid-template-columns: 1fr; } }
+  .read-next__card { display: flex; flex-direction: column; padding: var(--space-6); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); transition: all var(--transition-fast); color: inherit; min-height: 200px; }
+  .read-next__card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .read-next__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); color: var(--color-muted); }
+  .read-next__tag { color: var(--color-saffron-text); text-transform: uppercase; letter-spacing: 0.06em; }
+  .read-next__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .read-next__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-4); flex: 1; }
+  .read-next__arrow { font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); align-self: flex-start; }
+  .read-next__card:hover .read-next__arrow { color: var(--color-saffron-hover); }
+</style>

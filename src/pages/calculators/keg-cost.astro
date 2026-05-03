@@ -1,0 +1,729 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Draft Beer / Keg Cost Calculator — Free | RestaurantCalcs';
+const description = 'Free draft beer keg cost calculator. Pours per keg, cost per pour, pour cost %. 1/2 BBL, 1/6 BBL, 1/4 BBL, Cornelius. Industry benchmarks 18–22%. Math shown.';
+
+const faq = [
+  {
+    q: 'What is pour cost?',
+    a: 'Cost of the liquid divided by the menu price. Cost per pour ÷ menu price × 100. For draft beer, healthy is 18–22% (Toast, BinWise). Below that, you can raise prices. Above it, something is leaking — over-pour, foam waste, dirty lines, or a menu that has not caught up to the distributor.',
+  },
+  {
+    q: 'How do I calculate it on draft?',
+    a: 'Three steps. Usable oz = keg size × (1 − waste %). Pours per keg = usable oz ÷ pour size. Cost per pour = keg price ÷ pours per keg. Then cost per pour ÷ menu price = pour cost %. Most operators skip the waste step and undercount real cost by 5–10 points.',
+  },
+  {
+    q: 'What is a healthy draft pour cost?',
+    a: '18–22% for draft (Toast, BinWise, BevSpot). Domestic lagers lean (18–20%), craft ales mid (20–25%), imports and IPAs higher (22–28%). Above 28% means oversize pours, foam, theft, or a menu price that has not kept up.',
+  },
+  {
+    q: 'What sizes do kegs come in?',
+    a: 'Four common. 1/2 BBL is 1,984 oz, the standard bar keg. 1/6 BBL ("sixtel") is 661 oz, common for craft rotators. 1/4 BBL ("pony") is 992 oz. Cornelius is 640 oz, 5-gallon homebrew style. A 1/2 BBL gets you about 124 sixteen-ounce pints at 0% waste, 117 at 5%.',
+  },
+  {
+    q: 'What is a Sankey coupler?',
+    a: 'The fitting that connects keg to draft system. Sankey D is the US standard for domestic and most craft. European imports use S, U, A, G, or M depending on country. Wrong coupler, no pour. The math here is the same regardless — only volume matters.',
+  },
+  {
+    q: 'How much does foam actually cost?',
+    a: 'More than operators think. Industry default is 5% waste. Real-world numbers on unmaintained systems run 8–15%. CO2 too high, dirty lines, warm glassware, or a tap pulled wrong all add foam. A 1% waste drop on a 1/2 BBL kicked weekly is roughly 1.2 extra pints sold. Across 12 taps that is real money on a Tuesday.',
+  },
+  {
+    q: 'Does line cleaning count as waste?',
+    a: 'Yes. Biweekly cleaning pulls 8–16 oz off each tap. Across 12 taps that is 100+ oz of cost-of-doing-business you cannot sell. Bake it into your waste percentage. If you skip cleaning, the off-flavor problem and the foam erosion cost more than the saved pints.',
+  },
+  {
+    q: 'What if pour size drifts?',
+    a: 'Cost per pour scales linearly. 16 oz pint costs twice what an 8 oz costs. Pour cost % stays flat as long as menu price scales the same way. The trap is bartenders pouring 18 oz in a 16 oz glass: cost goes up 12.5%, menu price stays flat, pour cost % jumps the same. Lined glassware fixes this in one shift. I know because I caused it the first month I was on the bar.',
+  },
+  {
+    q: "Cost per oz vs cost per pour — which do I use?",
+    a: 'Cost per oz is raw input (keg price ÷ usable oz). Use it for cocktail recipe costing where everything is in ounces. Cost per pour is keg price ÷ pours per keg, accounting for waste and pour size. That is the operational number for draft.',
+  },
+  {
+    q: 'Does this calculator save my data?',
+    a: 'No. Nothing is stored, transmitted, or tracked. Math runs in your browser and disappears the moment you close the tab. No signup, no email, no account.',
+  },
+];
+
+const benchmarks = [
+  { name: 'Domestic lager', low: 18, high: 22 },
+  { name: 'Craft ale', low: 20, high: 25 },
+  { name: 'Imports', low: 22, high: 28 },
+  { name: 'IPA / specialty', low: 22, high: 26 },
+  { name: 'Seasonal / limited', low: 24, high: 30 },
+];
+
+const scenarios = [
+  {
+    title: 'The 17.5oz pint that nobody knew was 17.5oz',
+    setup: 'Neighborhood bar, 14 taps, pour cost running 26% on what should have been 21% (Toast). Owner blamed the distributor.',
+    diagnosis: 'Pulled three random pints with a graduated cylinder mid-shift. All three measured 17.5–18 oz in a "16 oz" glass. The bar had switched glassware six months earlier and the new glass had a wider lip. The bartenders were trained to fill to the rim of the old shaker. They had been pouring 12% over on every tap for half a year and nobody had measured.',
+    fix: 'Lined pint glasses with a fill mark at 16 oz. Two shifts of recalibration. Single laminated card at the well: "fill to the line, foam above."',
+    outcome: 'Pour cost dropped from 26% to 20% in three weeks. Roughly $1,800/month back on draft alone. No menu change. No vendor switch. The bartenders were not the problem — the glass was. I have caused this exact mistake myself, on the well, in my first month.',
+  },
+  {
+    title: 'The hazy IPA the owner refused to reprice',
+    setup: 'Taproom with a rotating IPA program. Distributor moved a flagship hazy 18% on the keg price. Owner held menu price at $7 to "keep regulars happy."',
+    diagnosis: 'Pour cost on that tap moved 22% to 28% (over the high end of the IPA band per BinWise). Nine kegs a week. Roughly $54 of contribution per keg left on the floor. The "regulars happy" framing cost about $25K/year on one tap.',
+    fix: 'Menu price $7 to $8. Repositioned under a "limited release" header tied to seasonal scarcity. Staff training: "this one is the small-batch hazy, eight bucks."',
+    outcome: 'Volume held flat. Pour cost back to 22%. The reframe did the work the price hike could not. Distributor increases need a menu response. Absorbing them is just slower bleeding with a smile.',
+  },
+  {
+    title: 'The waste audit the bartenders had been waiting for',
+    setup: 'Sports bar, 24 taps, target pour cost 24%, tracking 28%. Variance reports blamed the bartenders every month for two years.',
+    diagnosis: 'Real waste audit: weigh every keg at change-out for four weeks. Average waste was 11%, not the assumed 5%. Lines were dirty (CO2 cranked up to compensate, classic). Glasses came out of the under-counter washer warm. Three taps had bad seals nobody had pulled.',
+    fix: 'Nitrogen-blended CO2 at proper PSI per beer style. Pour technique retrained: 45-degree angle, straighten at 2/3 full. Replaced three tap seals. Glass-frosting unit installed.',
+    outcome: 'Real waste dropped 11% to 6% in 30 days. Pour cost fell to 23%. Two years of accusing bartenders of theft, and the leak was a glass washer running too hot. The variance flagged the gap. It did not flag which kind of wrong it was.',
+  },
+];
+
+const relatedCalcs = [
+  { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Bar revenue drives food cost ratio down.' },
+  { slug: 'liquor-pour-cost', title: 'Liquor Pour Cost', desc: 'Companion calc for spirits and cocktails.' },
+  { slug: 'inventory-variance', title: 'Inventory Variance', desc: 'Catches keg theft and over-pours.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/keg-cost/#webpage', url: 'https://restaurantcalcs.com/calculators/keg-cost/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/keg-cost/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/keg-cost/#breadcrumb', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    { '@type': 'ListItem', position: 3, name: 'Draft Beer / Keg Cost', item: 'https://restaurantcalcs.com/calculators/keg-cost/' },
+  ] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': 'https://restaurantcalcs.com/calculators/keg-cost/#tool',
+    name: 'Draft Beer / Keg Cost Calculator',
+    description: 'Free web-based draft beer keg cost calculator. Pours per keg, cost per pour, pour cost %. Industry benchmarks 18–22% for draft beer.',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Restaurant Management',
+    operatingSystem: 'Web',
+    browserRequirements: 'Requires JavaScript',
+    url: 'https://restaurantcalcs.com/calculators/keg-cost/',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    creator: { '@id': 'https://restaurantcalcs.com/#organization' },
+    author: { '@id': 'https://restaurantcalcs.com/#founder' },
+    isAccessibleForFree: true,
+  },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'How to calculate draft beer pour cost', totalTime: 'PT2M', supply: [
+    { '@type': 'HowToSupply', name: 'Keg size in ounces (1/2 BBL = 1984 oz)' },
+    { '@type': 'HowToSupply', name: 'Keg purchase price (in dollars)' },
+    { '@type': 'HowToSupply', name: 'Pour size in ounces (typically 16 oz pint)' },
+    { '@type': 'HowToSupply', name: 'Estimated waste percentage (default 5%)' },
+    { '@type': 'HowToSupply', name: 'Menu price per pour (in dollars)' },
+  ], step: [
+    { '@type': 'HowToStep', position: 1, name: 'Calculate usable ounces', text: 'Multiply keg size by (1 - waste percentage). 1984 oz × 0.95 = 1884.8 usable oz at 5% waste.' },
+    { '@type': 'HowToStep', position: 2, name: 'Calculate pours per keg', text: 'Divide usable ounces by pour size. 1884.8 ÷ 16 = 117 pints per 1/2 BBL at 5% waste.' },
+    { '@type': 'HowToStep', position: 3, name: 'Calculate cost per pour', text: 'Divide keg price by pours per keg. $180 keg ÷ 117 pours = $1.54 cost per pour.' },
+    { '@type': 'HowToStep', position: 4, name: 'Calculate pour cost percentage', text: 'Cost per pour ÷ menu price × 100. $1.54 ÷ $7 = 22% pour cost.' },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-page">
+    <header class="calc-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Keg Cost</span></nav>
+      <p class="t-micro t-micro--saffron calc-page__eyebrow">Draft beer calculator · <strong>100% free · no signup</strong></p>
+      <h1 class="calc-page__title">Draft Beer / Keg Cost Calculator</h1>
+      <p class="calc-page__intro">
+        Pours per keg, cost per pour, pour cost percentage. Run the numbers on every tap before the menu price gets set. Healthy draft pour cost is <strong>18–22%</strong> (Toast, BinWise). Most bars run 5+ points higher than they think — usually because nobody measured the glass.
+      </p>
+    </header>
+
+    <section class="calc-grid">
+      <form class="calc-form" data-form>
+        <div class="form-intro">
+          <p class="form-intro__what"><strong>What this does:</strong> Calculates pours per keg, cost per pour, and pour cost percentage. Adjusts for foam, line cleaning, and spillage waste. Returns benchmark vs draft beer industry standard.</p>
+          <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="keg-size">Keg size</label>
+          <select id="keg-size" name="keg-size">
+            <option value="1984" selected>1/2 BBL — 1,984 oz (standard half barrel)</option>
+            <option value="661">1/6 BBL — 661 oz (sixtel)</option>
+            <option value="992">1/4 BBL — 992 oz (pony / quarter barrel)</option>
+            <option value="640">Cornelius — 640 oz (5-gallon homebrew style)</option>
+          </select>
+          <p class="form-row__hint">Sets the total volume the keg holds before waste.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="keg-price">Keg purchase price</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="keg-price" name="keg-price" type="number" inputmode="decimal" min="0" step="5" placeholder="180" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">What you pay the distributor delivered. Exclude deposit, include any keg fees baked into invoice.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="pour-size">Pour size</label>
+          <select id="pour-size" name="pour-size">
+            <option value="16" selected>16 oz pint (standard)</option>
+            <option value="14">14 oz</option>
+            <option value="12">12 oz</option>
+            <option value="10">10 oz</option>
+            <option value="5">5 oz taster</option>
+            <option value="custom">Custom size</option>
+          </select>
+          <p class="form-row__hint">Use lined glassware to enforce pour size. Unlined "16 oz" glasses commonly hold 18+ oz.</p>
+        </div>
+
+        <div class="form-row" id="custom-pour-row" style="display:none">
+          <label class="form-row__label" for="pour-size-custom">Custom pour size (oz)</label>
+          <div class="input-shell">
+            <input id="pour-size-custom" name="pour-size-custom" type="number" inputmode="decimal" min="1" step="0.5" placeholder="20" autocomplete="off" />
+            <span class="input-shell__suffix">oz</span>
+          </div>
+          <p class="form-row__hint">Enter pour size in ounces.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="waste">Waste percentage</label>
+          <div class="input-shell">
+            <input id="waste" name="waste" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="5" autocomplete="off" />
+            <span class="input-shell__suffix">%</span>
+          </div>
+          <p class="form-row__hint">Foam, line cleaning, spillage, sampling. Industry default 5%. Real-world unmaintained systems run 8–15%.</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="menu-price">Menu price per pour</label>
+          <div class="input-shell">
+            <span class="input-shell__prefix">$</span>
+            <input id="menu-price" name="menu-price" type="number" inputmode="decimal" min="0" step="0.25" placeholder="7" autocomplete="off" required />
+          </div>
+          <p class="form-row__hint">What the customer pays for one pour at this size. Pre-tax.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
+          Calculate pour cost
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+      </form>
+
+      <aside class="calc-result">
+        <div class="calc-result__card" aria-live="polite" aria-atomic="true">
+          <div class="calc-result__head">
+            <span class="t-micro calc-result__label">Your pour cost</span>
+            <span class="status-pill" data-status="empty">
+              <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
+            </span>
+          </div>
+
+          <div class="calc-result__big">
+            <span class="result-num" data-counter>0.0</span>
+            <span class="result-num__pct" aria-hidden="true">%</span>
+            <span class="visually-hidden">percent pour cost</span>
+          </div>
+
+          <div class="calc-result__benchmark">
+            <span class="t-caption">Industry healthy range</span>
+            <span class="t-caption num" data-bench>18–22%</span>
+          </div>
+
+          <div class="calc-result__bar">
+            <div class="bar-track">
+              <div class="bar-zone bar-zone--lean"></div>
+              <div class="bar-zone bar-zone--good"></div>
+              <div class="bar-zone bar-zone--watch"></div>
+              <div class="bar-zone bar-zone--bad"></div>
+              <div class="bar-marker" data-marker style="left: 0%"></div>
+            </div>
+            <div class="bar-labels">
+              <span class="t-caption num">0%</span>
+              <span class="t-caption num">25%</span>
+              <span class="t-caption num">50%</span>
+            </div>
+          </div>
+
+          <div class="calc-result__extras">
+            <div class="extras-row">
+              <span class="extras-row__label">Pours per keg</span>
+              <span class="extras-row__value num" data-pours>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Cost per oz</span>
+              <span class="extras-row__value num" data-cost-oz>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Cost per pour</span>
+              <span class="extras-row__value num" data-cost-pour>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Profit per pour</span>
+              <span class="extras-row__value num" data-profit-pour>—</span>
+            </div>
+            <div class="extras-row">
+              <span class="extras-row__label">Profit per keg</span>
+              <span class="extras-row__value num" data-profit-keg>—</span>
+            </div>
+          </div>
+        </div>
+
+        <details class="show-math" data-math-wrap>
+          <summary class="show-math__trigger">
+            <span class="show-math__icon" aria-hidden="true">+</span>
+            Show your math
+          </summary>
+          <div class="show-math__body" data-math>
+            <p class="t-caption">Enter values above to see the calculation.</p>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="essay">
+      <img src="/illustrations/keg-cost.webp" alt="Editorial illustration of a stainless half-barrel beer keg on a worn wooden bar with brass tap handle, etched pint glass with foam, copper tubing behind, and a small chalkboard with hand-drawn tally marks." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+      <h2 class="essay__headline">Draft is the cleanest margin on the bar. <em>When you run it right.</em></h2>
+      <div class="essay__body">
+        <p>
+          I started behind the bar at Cosmos Taverna in California and worked my way up to GM over five years. The draft program ran the full range — busy, slow, profitable, leaking, every kind of leaking. A 1/2 BBL of domestic at $130 sells for $819 at $7 a pint. That is the kind of margin that pays rent twice over. If you actually capture every ounce. Most bars do not.
+        </p>
+        <p>
+          The leaks are everywhere and almost none of them are theft. Foam waste is 8% on a healthy system, 15% on a dirty one (BevSpot). Bartenders pour 17.5 oz in a 16 oz glass without thinking about it. Biweekly line cleaning pulls 8 to 16 ounces per tap. Comp pours. Employee samples. "The keg kicked but I think there is half a pour left." By empty, the operator who thought they sold 124 pints actually sold 105 and gave away 19. Nobody is stealing. The bar program just bleeds.
+        </p>
+        <p class="essay__pull">
+          Pour cost is what you charge for the liquid. Pour discipline is whether you keep what you charged. The first is on the menu. The second is on the floor.
+        </p>
+        <p>
+          I poured 1.7 oz when I started. I called it 1.5. The number didn't catch me — the senior bartender did. That is the mechanism almost every new hire goes through, and the fix is not a stern conversation. It is a jigger and a lined pint glass. Pour spouts and lined glassware fixed it for the well at Cosmos in two weeks. I have never had to "talk to the team about pour size" since.
+        </p>
+        <p>
+          The calculator does not lie about waste. Tell it 5% when your real number is 11% and your pour cost reads five points too low — and you will spend a year wondering why a profitable-on-paper bar can't make rent. Run the actual audit: weigh kegs in and out for 30 days. Most operators discover their waste is double what they assumed. That is not a bartender problem. It is not a distributor problem. It is a system problem. Cleaner lines, calibrated CO2, lined glassware, frosted glasses. Two weekends of work, pays for itself in a month, and the team stops getting blamed for what was never their fault.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <div class="container ad-wrap">
+      <aside class="ad-inline" aria-hidden="true">
+        <span class="ad-inline__label">Advertisement</span>
+        <div class="ad-inline__inner">
+          <span class="num">336 × 280</span>
+          <span class="t-caption">In-content ad slot</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="benchmarks">
+      <h2 class="benchmarks__headline">Pour cost benchmarks <em>by beer category</em></h2>
+      <p class="t-body-large benchmarks__intro">
+        Pour cost varies by beer category. Domestic lagers run leanest because keg cost is low and menu price still commands $5–7. Specialty IPAs, imports, and seasonals run higher because keg cost climbs faster than customers will pay. Use these as starting targets, not hard rules.
+      </p>
+      <div class="benchmarks__chart">
+        {benchmarks.map((b) => (
+          <div class="bench-bar">
+            <div class="bench-bar__name">{b.name}</div>
+            <div class="bench-bar__track">
+              <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.low * 2}%`}></div>
+              <div class="bench-bar__tick" style={`left: ${b.high * 2}%`}></div>
+            </div>
+            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
+          </div>
+        ))}
+        <div class="bench-axis">
+          <div class="bench-axis__track">
+            <span class="bench-axis__tick num" style="left: 0%">0%</span>
+            <span class="bench-axis__tick num" style="left: 25%">12.5%</span>
+            <span class="bench-axis__tick num" style="left: 50%">25%</span>
+            <span class="bench-axis__tick num" style="left: 75%">37.5%</span>
+            <span class="bench-axis__tick num" style="left: 100%">50%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three operators, three different draft cost stories</h2>
+      <p class="t-body-large scenarios__intro">
+        Same calculator, three different leaks. The fix depends on which one you actually have.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="calc-faq">
+      <p class="t-micro t-micro--saffron">FAQ</p>
+      <h2 class="calc-faq__headline">Common questions</h2>
+      {faq.map((f, i) => (
+        <details class="calc-faq__item">
+          <summary class="calc-faq__q">
+            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="calc-faq__qtext">{f.q}</span>
+            <span class="calc-faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="calc-faq__a">{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="cited-sources">
+      <p class="t-micro t-micro--saffron">Cited sources</p>
+      <ul>
+        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise — Draft Beer Cost Analysis</a></li>
+        <li><a href="https://bevspot.com/blog/" target="_blank" rel="noopener">BevSpot — Beverage Cost Management</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast — Bar Profitability Guide</a></li>
+      </ul>
+    </section>
+
+    <section class="related">
+      <h2 class="related__headline">Related calculators</h2>
+      <div class="related__grid">
+        {relatedCalcs.map((c, i) => (
+          <a href={`/calculators/${c.slug}/`} class="related-card">
+            <div class="related-card__top">
+              <span class="related-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="t-micro"><strong style="color:var(--color-saffron-text)">Free</strong> · 2 min</span>
+            </div>
+            <h3 class="related-card__title">{c.title}</h3>
+            <p class="t-body related-card__desc">{c.desc}</p>
+            <span class="related-card__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const form = document.querySelector('[data-form]') as HTMLFormElement | null;
+  const counter = document.querySelector('[data-counter]') as HTMLElement | null;
+  const marker = document.querySelector('[data-marker]') as HTMLElement | null;
+  const statusPill = document.querySelector('.status-pill') as HTMLElement | null;
+  const statusLabel = document.querySelector('[data-status-label]') as HTMLElement | null;
+  const benchEl = document.querySelector('[data-bench]') as HTMLElement | null;
+  const poursEl = document.querySelector('[data-pours]') as HTMLElement | null;
+  const costOzEl = document.querySelector('[data-cost-oz]') as HTMLElement | null;
+  const costPourEl = document.querySelector('[data-cost-pour]') as HTMLElement | null;
+  const profitPourEl = document.querySelector('[data-profit-pour]') as HTMLElement | null;
+  const profitKegEl = document.querySelector('[data-profit-keg]') as HTMLElement | null;
+  const mathBody = document.querySelector('[data-math]') as HTMLElement | null;
+  const mathWrap = document.querySelector('[data-math-wrap]') as HTMLDetailsElement | null;
+  const pourSizeSel = document.querySelector('#pour-size') as HTMLSelectElement | null;
+  const customPourRow = document.querySelector('#custom-pour-row') as HTMLElement | null;
+
+  if (form && counter && marker && statusPill && statusLabel && mathBody) {
+    let lastValue = 0;
+    let calcDebounce: number | null = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const BENCH = { low: 18, high: 22 };
+
+    function fmtUSD(n: number) { return '$' + Math.round(n).toLocaleString('en-US'); }
+    function fmtUSDFull(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtUSDCents(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }); }
+
+    function animateCounter(el: HTMLElement, from: number, to: number, duration = 800) {
+      if (reduced) { el.textContent = to.toFixed(1); return; }
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      function frame(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const v = from + (to - from) * ease(t);
+        el.textContent = v.toFixed(1);
+        if (t < 1) requestAnimationFrame(frame);
+        else { el.classList.add('result-num--pulse'); setTimeout(() => el.classList.remove('result-num--pulse'), 320); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function statusFor(pct: number) {
+      if (pct < 15) return { key: 'lean', label: 'Lean' };
+      if (pct <= 22) return { key: 'healthy', label: 'Healthy' };
+      if (pct <= 28) return { key: 'watch', label: 'Watch' };
+      return { key: 'critical', label: 'Critical' };
+    }
+
+    function getPourSize(): number {
+      const sel = pourSizeSel?.value || '16';
+      if (sel === 'custom') {
+        const c = parseFloat((document.querySelector('#pour-size-custom') as HTMLInputElement)?.value || '0');
+        return c > 0 ? c : 0;
+      }
+      return parseFloat(sel) || 0;
+    }
+
+    function reset() {
+      statusPill!.dataset.status = 'empty';
+      statusLabel!.textContent = 'Enter values';
+      marker!.style.left = '0%';
+      animateCounter(counter!, lastValue, 0, 400);
+      lastValue = 0;
+      mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
+      [poursEl, costOzEl, costPourEl, profitPourEl, profitKegEl].forEach(e => { if (e) e.textContent = '—'; });
+    }
+
+    function calc() {
+      const data = new FormData(form!);
+      const kegSize = parseFloat(String(data.get('keg-size') || '0')) || 0;
+      const kegPrice = parseFloat(String(data.get('keg-price') || '0')) || 0;
+      const pourSize = getPourSize();
+      const wasteRaw = parseFloat(String(data.get('waste') || '5'));
+      const waste = isNaN(wasteRaw) ? 5 : wasteRaw;
+      const menuPrice = parseFloat(String(data.get('menu-price') || '0')) || 0;
+
+      if (kegSize <= 0 || kegPrice <= 0 || pourSize <= 0 || menuPrice <= 0) { reset(); return; }
+
+      const usableOz = kegSize * (1 - waste / 100);
+      const poursPerKeg = Math.floor(usableOz / pourSize);
+      const costPerOz = kegPrice / kegSize;
+      const costPerPour = poursPerKeg > 0 ? kegPrice / poursPerKeg : 0;
+      const pourCostPct = (costPerPour / menuPrice) * 100;
+      const profitPerPour = menuPrice - costPerPour;
+      const profitPerKeg = profitPerPour * poursPerKeg;
+
+      if (benchEl) benchEl.textContent = `${BENCH.low}–${BENCH.high}%`;
+
+      // Bar scale: 0–50% range, so multiply pct by 2 for marker position
+      const clamped = Math.min(100, Math.max(0, pourCostPct * 2));
+      animateCounter(counter!, lastValue, pourCostPct, 800);
+      lastValue = pourCostPct;
+      const s = statusFor(pourCostPct);
+      statusPill!.dataset.status = s.key;
+      statusLabel!.textContent = s.label;
+      marker!.style.left = `${clamped}%`;
+
+      if (poursEl) poursEl.textContent = poursPerKeg.toLocaleString('en-US');
+      if (costOzEl) costOzEl.textContent = fmtUSDCents(costPerOz);
+      if (costPourEl) costPourEl.textContent = fmtUSDFull(costPerPour);
+      if (profitPourEl) profitPourEl.textContent = fmtUSDFull(profitPerPour);
+      if (profitKegEl) profitKegEl.textContent = fmtUSD(profitPerKeg);
+
+      let note = '';
+      if (s.label === 'Healthy') note = `Within healthy 18–22% draft band. Profit per keg: ${fmtUSD(profitPerKeg)}. Maintain weekly waste audits — most leaks happen at the tap, not the spreadsheet.`;
+      if (s.label === 'Lean') note = `Below typical draft pour cost. You probably have headroom to raise prices. Or the waste figure is too low — verify with a real keg-weight audit before patting yourself on the back.`;
+      if (s.label === 'Watch') note = `Above 22% healthy band. Common causes: oversize pours (lined glasses fix this), high foam waste (line cleaning + CO2 calibration), or distributor cost increase that menu price did not absorb. Audit the tap before the spreadsheet.`;
+      if (s.label === 'Critical') note = `Above 28%. Something is structurally broken. Run a weighed-keg waste audit for 30 days. Most "critical" pour cost numbers turn out to be 10%+ real waste, not the assumed 5%, plus oversize pours stacked on top.`;
+
+      const pourSizeStr = pourSize % 1 === 0 ? pourSize.toString() : pourSize.toFixed(1);
+
+      mathBody!.innerHTML = `
+        <table class="math-table" role="presentation">
+          <tr><td>Keg size</td><td class="num">${kegSize.toLocaleString('en-US')} oz</td></tr>
+          <tr><td>× (1 − waste ${waste}%)</td><td class="num">× ${(1 - waste / 100).toFixed(3)}</td></tr>
+          <tr class="math-table__step"><td>= Usable ounces</td><td class="num">${usableOz.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
+          <tr><td>÷ Pour size</td><td class="num">${pourSizeStr} oz</td></tr>
+          <tr class="math-table__step"><td>= Pours per keg</td><td class="num"><strong>${poursPerKeg.toLocaleString('en-US')}</strong></td></tr>
+          <tr><td>Keg price</td><td class="num">${fmtUSDFull(kegPrice)}</td></tr>
+          <tr><td>÷ Pours per keg</td><td class="num">${poursPerKeg.toLocaleString('en-US')}</td></tr>
+          <tr class="math-table__step"><td>= Cost per pour</td><td class="num"><strong>${fmtUSDFull(costPerPour)}</strong></td></tr>
+          <tr><td>÷ Menu price</td><td class="num">${fmtUSDFull(menuPrice)}</td></tr>
+          <tr class="math-table__final"><td>Pour cost percentage</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
+        </table>
+        ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
+      `;
+
+      if (mathWrap && !mathWrap.open) mathWrap.open = true;
+    }
+
+    function debouncedCalc() {
+      if (calcDebounce !== null) clearTimeout(calcDebounce);
+      calcDebounce = window.setTimeout(calc, 250);
+    }
+
+    function togglePourCustom() {
+      if (!pourSizeSel || !customPourRow) return;
+      customPourRow.style.display = pourSizeSel.value === 'custom' ? '' : 'none';
+    }
+
+    pourSizeSel?.addEventListener('change', () => { togglePourCustom(); debouncedCalc(); });
+    form.addEventListener('input', debouncedCalc);
+    form.addEventListener('change', debouncedCalc);
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (calcDebounce !== null) clearTimeout(calcDebounce); calc(); });
+
+    function loadExample() {
+      (document.querySelector('#keg-size') as HTMLSelectElement).value = '1984';
+      (document.querySelector('#keg-price') as HTMLInputElement).value = '180';
+      (document.querySelector('#pour-size') as HTMLSelectElement).value = '16';
+      (document.querySelector('#waste') as HTMLInputElement).value = '5';
+      (document.querySelector('#menu-price') as HTMLInputElement).value = '7';
+      togglePourCustom();
+      calc();
+    }
+    const loadExBtn = document.querySelector('[data-load-example]');
+    if (loadExBtn) loadExBtn.addEventListener('click', loadExample);
+    togglePourCustom();
+    loadExample();
+  }
+</script>
+
+<style>
+  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
+  .calc-page__eyebrow { margin-bottom: var(--space-4); }
+  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
+  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
+  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
+  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
+  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
+  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
+  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
+  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
+  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
+  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
+  .calc-form__privacy { text-align: center; color: var(--color-muted); }
+
+  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
+  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
+  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
+
+  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
+  @media (max-width: 880px) { .calc-result { position: static; } }
+  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
+  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
+  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  .calc-result__card > * { position: relative; z-index: 1; }
+  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--color-cream); color: var(--color-muted); }
+  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
+  .status-pill[data-status="lean"] { background: rgba(74, 88, 38, 0.10); color: #4a5826; }
+  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
+  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
+  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .result-num--pulse { transform: scale(1.025); }
+  .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
+  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
+  .calc-result__bar { margin-bottom: var(--space-5); }
+  .bar-track { position: relative; height: 12px; border-radius: 999px; overflow: hidden; background: var(--color-cream); display: flex; }
+  .bar-zone { height: 100%; }
+  .bar-zone--lean { flex: 30; background: linear-gradient(90deg, rgba(74, 88, 38, 0.20), rgba(74, 88, 38, 0.30)); }
+  .bar-zone--good { flex: 14; background: linear-gradient(90deg, rgba(74, 88, 38, 0.40), rgba(74, 88, 38, 0.55)); }
+  .bar-zone--watch { flex: 12; background: linear-gradient(90deg, rgba(200, 117, 0, 0.35), rgba(200, 117, 0, 0.55)); }
+  .bar-zone--bad { flex: 44; background: linear-gradient(90deg, rgba(192, 57, 43, 0.30), rgba(192, 57, 43, 0.55)); }
+  .bar-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--color-heading); border-radius: 2px; transition: left 320ms cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(-50%); }
+  .bar-labels { display: flex; justify-content: space-between; margin-top: 6px; color: var(--color-muted); }
+  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
+  .extras-row__label { color: var(--color-body); }
+  .extras-row__value { font-weight: 500; color: var(--color-heading); }
+
+  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
+  .show-math__trigger::-webkit-details-marker { display: none; }
+  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
+  .show-math[open] .show-math__icon { transform: rotate(45deg); }
+  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
+  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
+  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
+  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  .math-table__final td:last-child { font-size: 1.0625rem; }
+  .math-table__final td strong { color: var(--color-saffron-text); }
+  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .essay { margin: var(--space-16) auto; max-width: 720px; }
+  .essay__eyebrow { margin-bottom: var(--space-4); }
+  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
+  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
+  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
+  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
+
+  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
+  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
+  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
+  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
+  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
+
+  .benchmarks { margin-bottom: var(--space-16); }
+  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .benchmarks__headline em { font-style: italic; color: var(--color-saffron-text); }
+  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .benchmarks__chart { display: flex; flex-direction: column; gap: var(--space-3); max-width: 720px; }
+  .bench-bar { display: grid; grid-template-columns: 140px 1fr 90px; gap: var(--space-4); align-items: center; }
+  @media (max-width: 540px) { .bench-bar { grid-template-columns: 100px 1fr 80px; gap: var(--space-3); } }
+  .bench-bar__name { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-heading); }
+  .bench-bar__track { position: relative; height: 10px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: 999px; overflow: hidden; }
+  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-cta)); border-radius: 999px; }
+  .bench-bar__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-heading); }
+  .bench-bar__range { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-saffron-text); text-align: right; }
+  .bench-axis { padding-top: 6px; }
+  .bench-axis__track { position: relative; height: 14px; }
+  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.6875rem; color: var(--color-muted); }
+
+  .scenarios { margin-bottom: var(--space-16); }
+  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
+  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
+  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
+  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
+  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
+  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
+  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
+  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
+  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
+  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
+  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
+
+  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
+  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
+  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
+  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
+  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
+  .calc-faq__q::-webkit-details-marker { display: none; }
+  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
+  .calc-faq__qtext { flex: 1; }
+  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
+  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
+  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
+
+  .cited-sources { margin-bottom: var(--space-12); }
+  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
+  .cited-sources a { color: var(--color-saffron-text); }
+  .cited-sources a:hover { color: var(--color-saffron-hover); }
+
+  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
+  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
+  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
+  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
+  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
+  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
+  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>

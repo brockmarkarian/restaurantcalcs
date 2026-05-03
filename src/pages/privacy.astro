@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Privacy Policy — RestaurantCalcs';
+const description = 'Privacy policy for RestaurantCalcs. We do not collect calculator inputs. Google Analytics 4, AdSense, and third-party cookies disclosed. Updated May 1, 2026.';
+
+const lastUpdated = '2026-05-01';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': 'https://restaurantcalcs.com/privacy/#webpage',
+  url: 'https://restaurantcalcs.com/privacy',
+  name: title,
+  description,
+  isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+  inLanguage: 'en-US',
+};
+---
+
+<Layout {title} {description} {schema}>
+  <article class="legal-page">
+    <header class="legal-page__header">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Privacy Policy</span>
+      </nav>
+      <h1 class="legal-page__title">Privacy Policy</h1>
+      <p class="legal-page__updated">Last updated: {lastUpdated}</p>
+    </header>
+
+    <section class="legal-page__body">
+      <h2>What we collect</h2>
+      <p>
+        <strong>Calculator inputs are never sent to our servers.</strong> All math runs in your browser using JavaScript. When you close the tab, your inputs disappear. We do not store, transmit, or persist any business data you enter into the calculators.
+      </p>
+
+      <h2>Cookies and analytics</h2>
+      <p>
+        We use <strong>Google Analytics 4</strong> (measurement ID G-2N6BDLH40Y) to track aggregate page visits — page URL, referrer, country (not precise location), browser, device type, and session duration. Google Analytics sets first-party cookies (<code>_ga</code>, <code>_ga_*</code>) to distinguish unique sessions. IP addresses are anonymized before processing per Google's defaults.
+      </p>
+      <p>
+        We do not use Google Analytics audiences, demographics, remarketing, or signal-based ad personalization. You can opt out of Google Analytics tracking site-wide by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>, or by using browser tracker-blocking extensions (uBlock Origin, Privacy Badger).
+      </p>
+      <p>
+        Local storage is used only for site preferences (e.g., remembering whether you've expanded "Show your math"). No personally identifiable information.
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        We display advertisements served by Google AdSense to fund this free site. Google may use cookies to serve ads based on your prior visits to this site or other sites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.
+      </p>
+      <p>
+        Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to this site and other sites on the internet. For more information, see <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">How Google uses information from sites that use its services</a>.
+      </p>
+
+      <h2>Third-party services</h2>
+      <p>
+        Our site loads fonts from Google Fonts and ad scripts from Google AdSense. These third parties may collect IP address and basic browser information when you load our pages, governed by their respective privacy policies.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        RestaurantCalcs is intended for restaurant operators and is not directed at children under 13. We do not knowingly collect any data from children.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Since we don't collect personal data, there's nothing to delete or export. If you have questions, email <a href="mailto:hello@restaurantcalcs.com">hello@restaurantcalcs.com</a>.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        If this policy changes materially, the "Last updated" date above will reflect the change.
+      </p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .legal-page { max-width: 760px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
+  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
+  .breadcrumb a:hover { color: var(--color-saffron-text); }
+  .legal-page__header { margin-bottom: var(--space-12); }
+  .legal-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .legal-page__updated { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-muted); }
+  .legal-page__body h2 { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.5rem; font-weight: 500; color: var(--color-heading); margin-top: var(--space-10); margin-bottom: var(--space-4); }
+  .legal-page__body h2:first-child { margin-top: 0; }
+  .legal-page__body p { font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-4); }
+  .legal-page__body a { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; }
+  .legal-page__body a:hover { color: var(--color-saffron-hover); }
+</style>

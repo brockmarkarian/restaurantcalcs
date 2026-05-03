@@ -1,0 +1,270 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Free Restaurant Calculators — RestaurantCalcs';
+const description = 'Free ops calculators: food cost, recipe, labor + shift, tip pool, pricing, pour cost, break-even, prime cost, keg, no-show, menu engineering. Math shown.';
+
+const featured = { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Compare food cost to revenue. Industry healthy range 28–32% full-service. Quick mode + Detailed COGS w/ adjustments.', time: '2 min', tag: 'Most used', stat: '28–32%', statLabel: 'Healthy range' };
+
+const groups = [
+  {
+    name: 'Cost calculators',
+    eyebrow: '01',
+    calcs: [
+      { slug: 'recipe-cost', title: 'Recipe & Plate Cost', desc: 'Build plate cost from ingredients. Add unlimited rows.', time: '5 min' },
+      { slug: 'liquor-pour-cost', title: 'Liquor Pour Cost', desc: 'Aggregate or per-drink. Bottle math + spillage.', time: '3 min' },
+      { slug: 'keg-cost', title: 'Draft Beer / Keg Cost', desc: 'Cost per pour, pour cost %, profit per keg.', time: '2 min' },
+      { slug: 'fountain-cost', title: 'Fountain Drink / BIB Cost', desc: 'BIB yield + ice + free refills + cup. Real fountain pour cost.', time: '3 min' },
+    ],
+  },
+  {
+    name: 'Pricing calculators',
+    eyebrow: '02',
+    calcs: [
+      { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Price from plate cost + target. Charm rounding + prime cost.', time: '2 min' },
+      { slug: 'break-even', title: 'Break-Even Revenue', desc: 'Fixed + variable. Margin of Safety + capacity check.', time: '5 min' },
+      { slug: 'prime-cost', title: 'Prime Cost', desc: 'Food + bev + labor as % of revenue. The single ops metric.', time: '2 min' },
+      { slug: 'menu-engineering', title: 'Menu Engineering', desc: 'Star / Plowhorse / Puzzle / Dog matrix. Per-item classification.', time: '5 min' },
+      { slug: 'delivery-profit', title: 'Delivery True-Profit', desc: 'DoorDash, UberEats, GrubHub net per order + reverse-solve price.', time: '4 min' },
+      { slug: 'catering-pricing', title: 'Catering Pricing', desc: 'Per-head + labor + rentals + service charge legal split.', time: '5 min' },
+    ],
+  },
+  {
+    name: 'Labor + tip calculators',
+    eyebrow: '03',
+    calcs: [
+      { slug: 'labor-cost', title: 'Labor Cost Percentage', desc: 'Concept-aware thresholds + SPLH benchmarks.', time: '2 min' },
+      { slug: 'tip-pool', title: 'Tip Pool & Tip Out', desc: 'Hours, points, equal, or tip-out %. FLSA flags.', time: '3 min' },
+    ],
+  },
+  {
+    name: 'Inventory calculators',
+    eyebrow: '04',
+    calcs: [
+      { slug: 'inventory-variance', title: 'Inventory Variance', desc: 'Theoretical vs actual. Spot waste, theft, over-portioning.', time: '4 min' },
+    ],
+  },
+  {
+    name: 'Reservation & operations',
+    eyebrow: '05',
+    calcs: [
+      { slug: 'no-show-deposit', title: 'No-Show & Deposit', desc: 'Cost of empty reservations. Deposit math + recovery.', time: '3 min' },
+      { slug: 'turnover-cost', title: 'Employee Turnover Cost', desc: 'Annual cost of replacement hires. Hourly + salaried.', time: '3 min' },
+    ],
+  },
+];
+
+const allCalcs = [featured, ...groups.flatMap((g) => g.calcs)];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': 'https://restaurantcalcs.com/calculators/#webpage',
+    url: 'https://restaurantcalcs.com/calculators/',
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
+    inLanguage: 'en-US',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/calculators/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'RestaurantCalcs — All calculators',
+    numberOfItems: allCalcs.length,
+    itemListElement: allCalcs.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://restaurantcalcs.com/calculators/${c.slug}/`,
+      name: c.title,
+      description: c.desc,
+    })),
+  },
+];
+---
+
+<Layout {title} {description} {schema}>
+  <article class="calc-index">
+    <section class="calc-hero">
+      <div class="calc-hero__inner">
+        <nav class="breadcrumb breadcrumb--dark" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <span>Calculators</span>
+        </nav>
+        <p class="t-micro calc-hero__eyebrow">{allCalcs.length} restaurant ops tools</p>
+        <h1 class="calc-hero__title">Restaurant math, <em>solved.</em></h1>
+        <p class="calc-hero__lede">
+          Free calculators for the operations math every independent restaurant runs every week. No accounts. No paywalls. The formula is shown underneath every result so you can trust it — and teach it to your sous in thirty seconds.
+        </p>
+        <div class="calc-hero__stats">
+          <div class="calc-hero__stat">
+            <span class="calc-hero__stat-num num">{allCalcs.length}</span>
+            <span class="calc-hero__stat-label">Free calculators</span>
+          </div>
+          <div class="calc-hero__stat-divider" aria-hidden="true"></div>
+          <div class="calc-hero__stat">
+            <span class="calc-hero__stat-num num">30+</span>
+            <span class="calc-hero__stat-label">Industry sources cited</span>
+          </div>
+          <div class="calc-hero__stat-divider" aria-hidden="true"></div>
+          <div class="calc-hero__stat">
+            <span class="calc-hero__stat-num num">0</span>
+            <span class="calc-hero__stat-label">Signups required</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="calc-featured">
+      <div class="calc-featured__rail">
+        <p class="t-micro calc-featured__rail-eyebrow">Most used</p>
+        <span class="calc-featured__rail-line" aria-hidden="true"></span>
+      </div>
+      <a href={`/calculators/${featured.slug}/`} class="calc-featured__card">
+        <div class="calc-featured__top">
+          <span class="t-micro calc-featured__pill">{featured.tag}</span>
+          <span class="calc-featured__time">{featured.time} · Free</span>
+        </div>
+        <h2 class="calc-featured__title">{featured.title}</h2>
+        <p class="calc-featured__desc">{featured.desc}</p>
+        <div class="calc-featured__split">
+          <div class="calc-featured__numeric">
+            <span class="calc-featured__numeric-big numeric-art">{featured.stat}</span>
+            <span class="calc-featured__numeric-label">{featured.statLabel}</span>
+          </div>
+          <span class="calc-featured__cta">Open the calculator <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </section>
+
+    {groups.map((g) => (
+      <section class="calc-group">
+        <div class="calc-group__head">
+          <span class="calc-group__num num">{g.eyebrow}</span>
+          <h2 class="calc-group__name">{g.name}</h2>
+          <span class="calc-group__rule" aria-hidden="true"></span>
+        </div>
+        <div class={`calc-grid calc-grid--${g.calcs.length}`}>
+          {g.calcs.map((c) => (
+            <a href={`/calculators/${c.slug}/`} class="calc-card">
+              <div class="calc-card__top">
+                <span class="t-micro calc-card__time">{c.time}</span>
+                <span class="t-micro"><strong>Free</strong></span>
+              </div>
+              <h3 class="calc-card__title">{c.title}</h3>
+              <p class="calc-card__desc">{c.desc}</p>
+              <span class="calc-card__arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="calc-closer">
+      <p class="t-micro t-micro--saffron calc-closer__eyebrow">No SaaS pitch. Just math.</p>
+      <p class="calc-closer__copy">
+        <a href="https://pos.toasttab.com/resources" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://www.marginedge.com/blog" target="_blank" rel="noopener nofollow">MarginEdge</a> — every one of them has a free calculator behind an email gate. Independent operators don't need another sales funnel. They need a number, fast, on a phone, between rushes. That's all this is.
+      </p>
+      <p class="t-caption calc-closer__sources">
+        Industry benchmarks cross-checked against the <a href="https://restaurant.org/research-and-media/research/economists-notebook/economic-indicators/" target="_blank" rel="noopener nofollow">National Restaurant Association</a> and <a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener nofollow">BLS NAICS 722 industry tables</a>.
+      </p>
+      <a href="/about/" class="calc-closer__link">Read the manifesto <span aria-hidden="true">→</span></a>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .calc-index { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-6) var(--space-24); }
+
+  /* Dark editorial hero */
+  .calc-hero { position: relative; margin: 0 calc(-1 * var(--space-6)) var(--space-16); padding: var(--space-16) var(--space-6) var(--space-20); background: var(--bg-alt-deep); background-image: linear-gradient(180deg, rgba(26, 24, 20, 0.85), rgba(26, 24, 20, 0.92)), url('/textures/dark-bar-wood.webp'); background-size: cover; background-position: center; color: var(--color-cream); overflow: hidden; }
+  .calc-hero::before { content: ''; position: absolute; top: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200, 117, 0, 0.25) 0%, transparent 70%); pointer-events: none; }
+  .calc-hero::after { content: ''; position: absolute; inset: 0; background-image: url('/noise.svg'); background-size: 200px 200px; opacity: 0.18; mix-blend-mode: overlay; pointer-events: none; }
+  .calc-hero__inner { position: relative; max-width: 1180px; margin: 0 auto; z-index: 1; }
+  .breadcrumb--dark { color: rgba(244, 241, 234, 0.55); margin-bottom: var(--space-8); }
+  .breadcrumb--dark a { color: rgba(244, 241, 234, 0.55); }
+  .breadcrumb--dark a:hover { color: var(--color-saffron); }
+  .calc-hero__eyebrow { color: var(--color-saffron); margin-bottom: var(--space-4); font-weight: 600; letter-spacing: 0.06em; }
+  .calc-hero__title { font-family: var(--font-display); font-variation-settings: "opsz" 144, "wdth" 92; font-size: clamp(2.75rem, 6vw + 0.5rem, 5.5rem); font-weight: 500; line-height: 1.02; letter-spacing: -0.025em; color: var(--color-white); margin-bottom: var(--space-6); }
+  .calc-hero__title em { font-style: italic; color: var(--color-saffron); letter-spacing: 0.05em; padding-right: 0.12em; }
+  .calc-hero__lede { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: rgba(244, 241, 234, 0.78); max-width: 64ch; margin-bottom: var(--space-10); }
+
+  /* Stat row */
+  .calc-hero__stats { display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap; padding-top: var(--space-6); border-top: 1px solid rgba(244, 241, 234, 0.12); }
+  .calc-hero__stat { display: flex; flex-direction: column; gap: 4px; }
+  .calc-hero__stat-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: clamp(2rem, 3.5vw + 0.4rem, 3rem); font-weight: 400; line-height: 0.95; letter-spacing: -0.03em; color: var(--color-saffron); }
+  .calc-hero__stat-label { font-family: var(--font-body); font-size: 0.75rem; color: rgba(244, 241, 234, 0.65); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .calc-hero__stat-divider { width: 1px; height: 48px; background: rgba(244, 241, 234, 0.15); }
+  @media (max-width: 540px) {
+    .calc-hero__stat-divider { display: none; }
+    .calc-hero__stats { gap: var(--space-5); }
+  }
+
+  /* Featured spotlight calc */
+  .calc-featured { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-8); margin-bottom: var(--space-16); align-items: stretch; }
+  @media (max-width: 720px) { .calc-featured { grid-template-columns: 1fr; gap: var(--space-4); } }
+  .calc-featured__rail { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding-top: var(--space-4); }
+  @media (max-width: 720px) { .calc-featured__rail { flex-direction: row; padding: 0; } }
+  .calc-featured__rail-eyebrow { color: var(--color-saffron-text); font-weight: 600; letter-spacing: 0.06em; transform: rotate(-90deg); transform-origin: center; white-space: nowrap; padding-top: var(--space-3); }
+  @media (max-width: 720px) { .calc-featured__rail-eyebrow { transform: none; padding: 0; } }
+  .calc-featured__rail-line { flex: 1; width: 1px; background: linear-gradient(180deg, var(--color-saffron), transparent); min-height: 80px; }
+  @media (max-width: 720px) { .calc-featured__rail-line { width: 40px; height: 1px; min-height: 0; background: linear-gradient(90deg, var(--color-saffron), transparent); } }
+
+  .calc-featured__card { display: flex; flex-direction: column; padding: var(--space-10); background: var(--gradient-card-warm); border: 1px solid var(--color-saffron); border-radius: var(--radius-xl); position: relative; overflow: hidden; box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); transition: all var(--transition-fast); color: inherit; }
+  .calc-featured__card:hover { transform: translateY(-2px); }
+  .calc-featured__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); pointer-events: none; }
+  .calc-featured__card::after { content: ''; position: absolute; top: -200px; right: -200px; width: 400px; height: 400px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; }
+  .calc-featured__card > * { position: relative; z-index: 1; }
+  .calc-featured__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); }
+  .calc-featured__pill { padding: 4px 10px; background: var(--color-saffron-cta); color: var(--color-white); border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; font-size: 0.6875rem; }
+  .calc-featured__time { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .calc-featured__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.875rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-4); }
+  .calc-featured__desc { font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-8); max-width: 56ch; }
+  .calc-featured__split { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-6); flex-wrap: wrap; padding-top: var(--space-5); border-top: 1px dashed var(--color-border); }
+  .calc-featured__numeric { display: flex; flex-direction: column; gap: 4px; }
+  .calc-featured__numeric-big { font-size: clamp(3rem, 7vw + 0.5rem, 5rem); }
+  .calc-featured__numeric-label { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .calc-featured__cta { font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--color-saffron-text); padding-bottom: var(--space-2); }
+  .calc-featured__card:hover .calc-featured__cta { color: var(--color-saffron-hover); }
+
+  /* Groups */
+  .calc-group { margin-bottom: var(--space-12); }
+  .calc-group__head { display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-6); }
+  .calc-group__num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; color: var(--color-saffron); font-weight: 600; letter-spacing: 0.04em; }
+  .calc-group__name { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 95; font-size: clamp(1.5rem, 2.5vw + 0.4rem, 2rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); }
+  .calc-group__rule { flex: 1; height: 1px; background: var(--color-border); }
+
+  /* Asymmetric grids — 1, 2 calcs per group */
+  .calc-grid { display: grid; gap: var(--space-5); }
+  .calc-grid--1 { grid-template-columns: 1fr; }
+  .calc-grid--2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 720px) { .calc-grid--2 { grid-template-columns: 1fr; } }
+
+  .calc-card { display: flex; flex-direction: column; padding: var(--space-8); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); transition: all var(--transition-fast); color: inherit; min-height: 220px; position: relative; overflow: hidden; }
+  .calc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--color-saffron); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--ease-out); }
+  .calc-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+  .calc-card:hover::before { transform: scaleX(1); }
+  .calc-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); color: var(--color-muted); }
+  .calc-card__top strong { color: var(--color-saffron-text); font-weight: 700; letter-spacing: 0.05em; }
+  .calc-card__time { color: var(--color-muted); font-weight: 500; letter-spacing: 0.04em; }
+  .calc-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.375rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-3); }
+  .calc-card__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
+  .calc-card__arrow { font-family: var(--font-mono); font-size: 1.25rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
+  .calc-card:hover .calc-card__arrow { transform: translateX(4px); }
+
+  /* Closer */
+  .calc-closer { margin: var(--space-16) auto 0; max-width: 720px; padding: var(--space-10) var(--space-8); background: var(--color-cream); border-left: 4px solid var(--color-saffron); border-radius: var(--radius-md); position: relative; }
+  .calc-closer__eyebrow { margin-bottom: var(--space-3); }
+  .calc-closer__copy { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: clamp(1.125rem, 1.5vw + 0.4rem, 1.375rem); line-height: 1.40; color: var(--color-heading); margin-bottom: var(--space-5); font-weight: 500; }
+  .calc-closer__link { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-saffron-text); }
+  .calc-closer__link:hover { color: var(--color-saffron-hover); }
+</style>
