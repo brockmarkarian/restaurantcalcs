@@ -11,7 +11,7 @@ interface Props {
 
 const {
   title = 'RestaurantCalcs — Free Restaurant Operations Calculators',
-  description = 'Eight free calculators for restaurant ops math: food cost, labor, tip pool, pricing, pour cost, break-even, variance. Built by a 5-year GM. Math shown.',
+  description = '16 free calculators for restaurant ops math: food cost, labor, tip pool, pricing, pour cost, break-even, variance, and more. Built by a 5-year GM. Math shown.',
   ogImage = '/og-default.png',
   schema,
   hideRails = false,
@@ -19,6 +19,11 @@ const {
 
 const SITE_URL = 'https://restaurantcalcs.com';
 const canonical = new URL(Astro.url.pathname, SITE_URL).toString();
+
+// Ad slots active for AdSense review (pre-approval uses data-adtest="on" placeholders).
+// After approval lands: swap data-ad-slot placeholders for real slot IDs + drop data-adtest.
+const ADS_ENABLED = true;
+const ADSENSE_CLIENT = 'ca-pub-6332696231897305';
 
 // Auto-resolve per-page OG image based on URL pathname.
 // Generator outputs /og/index.png, /og/blog_food-cost-discipline-flacos.png, etc.
@@ -134,6 +139,26 @@ const allSchema = schema
 
     <!-- JSON-LD: Organization + WebSite + page-specific schema -->
     <script type="application/ld+json" set:html={JSON.stringify(allSchema)}></script>
+
+    {!ADS_ENABLED && (
+      <style is:inline set:html={`
+        .ad-inline, .post-rail, .rail, .ad-slot { display: none !important; }
+      `}></style>
+    )}
+
+    <!-- Embed mode detection: must run BEFORE paint to avoid FOUC -->
+    <script is:inline>
+      (function () {
+        try {
+          var p = new URLSearchParams(location.search);
+          var embedQ = p.get('embed') === '1';
+          var inFrame = window.self !== window.top;
+          if (embedQ || inFrame) {
+            document.documentElement.classList.add('embed');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
@@ -290,25 +315,29 @@ const allSchema = schema
       </aside>
     </div>
 
-    <!-- Margin ad rails — visible on wide viewports only -->
-    {!hideRails && (
+    <!-- Margin ad rails (wide screens only — 1480px+) -->
+    {ADS_ENABLED && !hideRails && (
       <>
-        <aside class="rail rail--left" aria-hidden="true">
+        <aside class="rail rail--left">
           <div class="rail__inner">
             <span class="rail__label">Advertisement</span>
-            <div class="rail__placeholder">
-              <span>▢</span>
-              <span class="num">160 × 600</span>
-            </div>
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client={ADSENSE_CLIENT}
+                 data-ad-slot="0000000000"
+                 data-adtest="on"></ins>
+            <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           </div>
         </aside>
-        <aside class="rail rail--right" aria-hidden="true">
+        <aside class="rail rail--right">
           <div class="rail__inner">
             <span class="rail__label">Advertisement</span>
-            <div class="rail__placeholder">
-              <span>▢</span>
-              <span class="num">160 × 600</span>
-            </div>
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client={ADSENSE_CLIENT}
+                 data-ad-slot="0000000000"
+                 data-adtest="on"></ins>
+            <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           </div>
         </aside>
       </>
@@ -316,7 +345,33 @@ const allSchema = schema
 
     <main id="main">
       <slot />
+      <div class="embed-credit" aria-hidden="true">
+        <span>Powered by <a href={`${SITE_URL}${Astro.url.pathname}`} target="_blank" rel="noopener">RestaurantCalcs</a> — free restaurant operations calculators</span>
+        <a href={`${SITE_URL}${Astro.url.pathname}`} target="_blank" rel="noopener">Open full version →</a>
+      </div>
     </main>
+
+    <!-- Embed CTA (calc pages only, non-embed mode) -->
+    {Astro.url.pathname.startsWith('/calculators/') && Astro.url.pathname !== '/calculators/' && (
+      <>
+        <button type="button" class="embed-cta" data-embed-open aria-haspopup="dialog">
+          <span class="embed-cta__icon" aria-hidden="true">⧉</span>
+          <span><span class="embed-cta__label-long">Embed this </span>calculator</span>
+        </button>
+        <div class="embed-modal" data-embed-modal hidden role="dialog" aria-modal="true" aria-labelledby="embed-modal-title">
+          <div class="embed-modal__scrim" data-embed-close></div>
+          <div class="embed-modal__panel">
+            <h2 class="embed-modal__title" id="embed-modal-title">Embed this calculator</h2>
+            <p class="embed-modal__sub">Paste this on your blog or restaurant resource page. Free, no attribution required (but appreciated).</p>
+            <textarea class="embed-modal__code" data-embed-code readonly></textarea>
+            <div class="embed-modal__actions">
+              <button type="button" class="embed-modal__btn" data-embed-close>Close</button>
+              <button type="button" class="embed-modal__btn embed-modal__btn--primary" data-embed-copy>Copy code</button>
+            </div>
+          </div>
+        </div>
+      </>
+    )}
 
     <script is:inline>
       // Close calculator dropdown on outside click + Escape
@@ -357,6 +412,43 @@ const allSchema = schema
             var pick = pool[Math.floor(Math.random() * pool.length)];
             location.href = '/calculators/' + pick + '/';
           });
+        });
+      })();
+
+      // Embed modal: build iframe code + copy to clipboard
+      (function () {
+        var open = document.querySelector('[data-embed-open]');
+        var modal = document.querySelector('[data-embed-modal]');
+        if (!open || !modal) return;
+        var code = modal.querySelector('[data-embed-code]');
+        var copy = modal.querySelector('[data-embed-copy]');
+        var closes = modal.querySelectorAll('[data-embed-close]');
+        function buildCode() {
+          var url = location.origin + location.pathname + '?embed=1';
+          return '<iframe src="' + url + '" width="100%" height="900" style="border:0;border-radius:12px;max-width:720px" loading="lazy" title="Restaurant calculator"></iframe>';
+        }
+        open.addEventListener('click', function () {
+          code.value = buildCode();
+          modal.hidden = false;
+          setTimeout(function () { code.focus(); code.select(); }, 50);
+        });
+        closes.forEach(function (el) { el.addEventListener('click', function () { modal.hidden = true; }); });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !modal.hidden) modal.hidden = true;
+        });
+        copy.addEventListener('click', function () {
+          code.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) {}
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(code.value).then(function () {
+              copy.textContent = 'Copied ✓';
+              setTimeout(function () { copy.textContent = 'Copy code'; }, 1800);
+            });
+          } else if (ok) {
+            copy.textContent = 'Copied ✓';
+            setTimeout(function () { copy.textContent = 'Copy code'; }, 1800);
+          }
         });
       })();
 
@@ -431,7 +523,7 @@ const allSchema = schema
           </p>
         </div>
         <div class="site-footer__legal">
-          <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators.</span>
+          <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators. Built by <a href="https://marketing760.com" rel="noopener" class="site-footer__credit">Marketing 760</a>.</span>
           <span class="t-caption site-footer__updated">Last reviewed <time datetime="2026-05-01">May 1, 2026</time></span>
         </div>
       </div>
@@ -759,6 +851,8 @@ const allSchema = schema
         gap: var(--space-4);
       }
       .site-footer__updated { color: var(--color-muted); }
+      .site-footer__credit { color: var(--color-saffron-text); font-weight: 500; text-decoration: none; transition: color var(--transition-fast); }
+      .site-footer__credit:hover { color: var(--color-heading); text-decoration: underline; }
 
       /* Margin ad rails — only on wide screens (above 1480px) */
       .rail {
@@ -813,6 +907,130 @@ const allSchema = schema
       .rail__placeholder .num {
         font-size: 0.75rem;
       }
+
+      /* ---------- Embed mode: strip chrome + non-essential sections ---------- */
+      html.embed body {
+        background: transparent !important;
+      }
+      html.embed .site-header,
+      html.embed .site-footer,
+      html.embed .rail,
+      html.embed .drawer,
+      html.embed .skip-link,
+      html.embed .calc-page__header,
+      html.embed .essay,
+      html.embed .operator-story,
+      html.embed .benchmarks,
+      html.embed .scenarios,
+      html.embed .calc-faq,
+      html.embed .cited-sources,
+      html.embed .related-calcs,
+      html.embed .ad-slot,
+      html.embed .embed-cta { display: none !important; }
+      html.embed main { min-height: 0 !important; }
+      html.embed .calc-page,
+      html.embed .calc-grid {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 16px !important;
+      }
+      .embed-credit { display: none; }
+      html.embed .embed-credit {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 16px;
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        color: var(--color-muted);
+        border-top: 1px solid var(--color-border);
+        background: var(--color-cream);
+      }
+      .embed-credit a {
+        color: var(--color-saffron-text);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .embed-credit a:hover { text-decoration: underline; }
+
+      /* ---------- "Get embed code" button (calc pages, non-embed only) ---------- */
+      .embed-cta {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 70;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 20px;
+        background: var(--color-saffron-text, #b8651a);
+        color: #fff;
+        font-family: var(--font-body);
+        font-size: 0.9375rem;
+        font-weight: 700;
+        letter-spacing: 0.005em;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15);
+        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+        animation: embed-cta-pulse 2.4s ease-in-out 1.5s 2;
+      }
+      .embed-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(184, 101, 26, 0.45); }
+      .embed-cta__icon { font-size: 1.05rem; line-height: 1; }
+      @keyframes embed-cta-pulse {
+        0%, 100% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15); }
+        50% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 0 0 12px rgba(184, 101, 26, 0); }
+      }
+      @media (max-width: 720px) {
+        .embed-cta {
+          right: 12px;
+          bottom: 12px;
+          padding: 11px 16px;
+          font-size: 0.8125rem;
+        }
+        .embed-cta__label-long { display: none; }
+      }
+
+      .embed-modal[hidden] { display: none; }
+      .embed-modal {
+        position: fixed; inset: 0; z-index: 200;
+        display: flex; align-items: center; justify-content: center;
+        padding: 16px;
+      }
+      .embed-modal__scrim { position: absolute; inset: 0; background: rgba(26,24,20,0.55); }
+      .embed-modal__panel {
+        position: relative;
+        background: var(--color-white);
+        border-radius: var(--radius-lg);
+        max-width: 560px;
+        width: 100%;
+        padding: 24px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      }
+      .embed-modal__title { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 4px; color: var(--color-heading); }
+      .embed-modal__sub { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-muted); margin: 0 0 14px; }
+      .embed-modal__code {
+        width: 100%;
+        min-height: 110px;
+        font-family: var(--font-mono, monospace);
+        font-size: 0.8125rem;
+        padding: 12px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-cream);
+        color: var(--color-heading);
+        resize: vertical;
+      }
+      .embed-modal__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+      .embed-modal__btn {
+        padding: 8px 14px; border-radius: var(--radius-md);
+        font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
+        cursor: pointer; border: 1px solid var(--color-border);
+        background: var(--color-white); color: var(--color-heading);
+      }
+      .embed-modal__btn--primary { background: var(--color-heading); color: var(--color-white); border-color: var(--color-heading); }
     </style>
   </body>
 </html>

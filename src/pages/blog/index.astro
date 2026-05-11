@@ -5,7 +5,8 @@ import Layout from '../../layouts/Layout.astro';
 const title = 'Restaurant Operator Blog — Real Stories from a 5-Year Bar GM';
 const description = 'Real operator stories, original case studies, and evidence-based ops analysis from independent restaurant managers and owners. Cited sources, lived experience.';
 
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+const now = new Date();
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= now))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const featured = allPosts[0];

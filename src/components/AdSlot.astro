@@ -1,41 +1,29 @@
 ---
-// AdSlot — Google AdSense container w/ design-system styling
-// TODO: replace data-ad-client + data-ad-slot when AdSense account approved.
-// Renders as bordered card placeholder until production AdSense fires.
+// AdSlot — Google AdSense container w/ design-system styling.
+// Pre-approval: uses data-adtest="on" + placeholder slot ID. After approval,
+// replace data-ad-slot per variant with real slot IDs from AdSense dashboard.
 
 interface Props {
   variant: 'leaderboard' | 'in-content' | 'sidebar' | 'sticky';
-  slot?: string; // AdSense slot ID, optional until live
+  slot?: string; // AdSense slot ID, defaults to placeholder
   label?: string;
 }
 
-const { variant, slot, label = 'Advertisement' } = Astro.props;
-
-const sizes: Record<string, string> = {
-  leaderboard: '728px / 90px',
-  'in-content': '100% / 280px',
-  sidebar: '300px / 600px',
-  sticky: '300px / 250px',
-};
+const ADSENSE_CLIENT = 'ca-pub-6332696231897305';
+const { variant, slot = '0000000000', label = 'Advertisement' } = Astro.props;
 ---
 
 <aside class={`ad-slot ad-slot--${variant}`} data-variant={variant}>
   <span class="ad-slot__label">{label}</span>
   <div class="ad-slot__inner">
-    <!-- AdSense unit (commented out until publisher ID configured) -->
-    <!--
     <ins class="adsbygoogle"
          style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-client={ADSENSE_CLIENT}
          data-ad-slot={slot}
          data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    -->
-    <span class="ad-slot__placeholder">
-      <span class="ad-slot__icon">▢</span>
-      <span class="ad-slot__size">{sizes[variant]}</span>
-      <span class="ad-slot__hint">Ad slot ({variant})</span>
-    </span>
+         data-full-width-responsive="true"
+         data-adtest="on"></ins>
+    <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </aside>
 

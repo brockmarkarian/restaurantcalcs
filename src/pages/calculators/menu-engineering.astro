@@ -139,14 +139,7 @@ const schema = [
             <p class="menu__hint">One row per item. Pull units sold from your POS sales mix report for a meaningful window (30 days minimum, 90 days ideal).</p>
           </div>
 
-          <div class="menu__table" role="table" aria-label="Menu items">
-            <div class="menu__thead" role="row">
-              <span role="columnheader">Item</span>
-              <span role="columnheader">Food cost</span>
-              <span role="columnheader">Menu price</span>
-              <span role="columnheader">Units sold</span>
-              <span role="columnheader" aria-label="Remove"></span>
-            </div>
+          <div class="menu__table" aria-label="Menu items">
             <div class="menu__rows" data-menu-rows>
               <!-- Rows injected by JS -->
             </div>
@@ -209,10 +202,10 @@ const schema = [
           </div>
 
           <div class="matrix" data-matrix aria-label="Menu engineering 2x2 matrix: contribution margin vs popularity">
+            <span class="matrix__axis-y" aria-hidden="true">
+              <span class="matrix__axis-label">Contribution margin →</span>
+            </span>
             <div class="matrix__plot">
-              <span class="matrix__axis-y" aria-hidden="true">
-                <span class="matrix__axis-label">Contribution margin →</span>
-              </span>
               <span class="matrix__axis-x" aria-hidden="true">
                 <span class="matrix__axis-label">Popularity →</span>
               </span>
@@ -322,11 +315,17 @@ const schema = [
     <hr class="rule" aria-hidden="true" />
 
     <div class="container ad-wrap">
-      <aside class="ad-inline" aria-hidden="true">
+      <aside class="ad-inline">
         <span class="ad-inline__label">Advertisement</span>
         <div class="ad-inline__inner">
-          <span class="num">336 × 280</span>
-          <span class="t-caption">In-content ad slot</span>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6332696231897305"
+               data-ad-slot="0000000000"
+               data-ad-format="auto"
+               data-full-width-responsive="true"
+               data-adtest="on"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
       </aside>
     </div>
@@ -526,19 +525,31 @@ const schema = [
     function renderMenuRows() {
       const wrap = document.querySelector('[data-menu-rows]') as HTMLElement | null;
       if (!wrap) return;
-      wrap.innerHTML = items.map(it => {
+      wrap.innerHTML = items.map((it, idx) => {
         return `<div class="menu-row" data-row-id="${it.id}">
-          <input type="text" class="menu-row__name" placeholder="Item name" value="${it.name.replace(/"/g, '&quot;')}" data-field="name" aria-label="Item name" />
-          <div class="menu-row__money">
-            <span class="menu-row__prefix">$</span>
-            <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.foodCost || ''}" data-field="foodCost" aria-label="Food cost" />
+          <div class="menu-row__cell menu-row__cell--name">
+            <span class="menu-row__minilabel">Item name</span>
+            <input type="text" class="menu-row__name" placeholder="e.g., Truffle Pasta" value="${it.name.replace(/"/g, '&quot;')}" data-field="name" aria-label="Item name" />
           </div>
-          <div class="menu-row__money">
-            <span class="menu-row__prefix">$</span>
-            <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.price || ''}" data-field="price" aria-label="Menu price" />
+          <div class="menu-row__cell menu-row__cell--cost">
+            <span class="menu-row__minilabel">Food cost</span>
+            <div class="menu-row__money">
+              <span class="menu-row__prefix">$</span>
+              <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.foodCost || ''}" data-field="foodCost" aria-label="Food cost" />
+            </div>
           </div>
-          <input type="number" inputmode="decimal" min="0" step="1" placeholder="units" value="${it.units || ''}" data-field="units" aria-label="Units sold" />
-          <button type="button" class="menu-row__remove" data-row-remove aria-label="Remove ${it.name || 'row'}">×</button>
+          <div class="menu-row__cell menu-row__cell--price">
+            <span class="menu-row__minilabel">Menu price</span>
+            <div class="menu-row__money">
+              <span class="menu-row__prefix">$</span>
+              <input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" value="${it.price || ''}" data-field="price" aria-label="Menu price" />
+            </div>
+          </div>
+          <div class="menu-row__cell menu-row__cell--units">
+            <span class="menu-row__minilabel">Units sold</span>
+            <input type="number" inputmode="decimal" min="0" step="1" placeholder="0" value="${it.units || ''}" data-field="units" aria-label="Units sold" />
+          </div>
+          <button type="button" class="menu-row__remove" data-row-remove aria-label="Remove ${it.name || 'row'}" title="Remove item">×</button>
         </div>`;
       }).join('');
     }
@@ -834,38 +845,26 @@ const schema = [
   .menu__title { font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.0625rem; font-weight: 600; color: var(--color-heading); margin: 0; }
   .menu__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45; margin: 0; }
 
-  .menu__table { display: flex; flex-direction: column; gap: var(--space-2); }
-  .menu__thead { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.7fr) 32px; gap: 6px; padding: 0 8px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted); }
-  @media (max-width: 720px) { .menu__thead { display: none; } }
+  .menu__table { display: flex; flex-direction: column; }
 
-  .menu__rows { display: flex; flex-direction: column; gap: var(--space-2); }
-  .menu__rows:empty::before { content: 'No items yet. Click "Load example menu" or "+ Add item" to start.'; display: block; padding: var(--space-5) var(--space-4); text-align: center; font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); border: 1.5px dashed var(--color-border); border-radius: var(--radius-md); }
+  .menu__rows { display: flex; flex-direction: column; gap: 10px; }
+  .menu__rows:empty::before { content: 'No items yet. Click "Load example menu" or "+ Add item" to start.'; display: block; padding: var(--space-6) var(--space-4); text-align: center; font-family: var(--font-body); font-size: 0.8125rem; font-style: italic; color: var(--color-muted); border: 1.5px dashed var(--color-border); border-radius: 12px; background: var(--color-white); }
 
-  .menu-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.7fr) 32px; gap: 6px; align-items: center; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; padding: 6px 6px 6px 8px; transition: border-color var(--transition-fast); }
-  .menu-row:focus-within { border-color: var(--color-saffron); }
-  @media (max-width: 720px) { .menu-row { grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; } .menu-row__name { grid-column: 1 / -1; } .menu-row > input, .menu-row > .menu-row__money { font-size: 0.875rem !important; } .menu-row .menu-row__remove { grid-column: 2; justify-self: end; } }
-
-  .menu-row input { background: transparent; border: none; padding: 6px 8px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: var(--color-heading); outline: none; min-width: 0; width: 100%; border-radius: 4px; }
-  .menu-row input:focus { background: var(--color-cream); }
-  .menu-row__name { font-family: var(--font-body) !important; }
-  .menu-row__money { display: flex; align-items: center; gap: 0; background: transparent; border-radius: 4px; min-width: 0; }
-  .menu-row__money input { padding-left: 2px; }
-  .menu-row__prefix { font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-muted); padding-left: 6px; flex-shrink: 0; }
-  .menu-row__remove { background: transparent; border: none; color: var(--color-muted); cursor: pointer; padding: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; transition: all var(--transition-fast); }
-  .menu-row__remove:hover { background: rgba(192, 57, 43, 0.1); color: #c0392b; }
+  /* .menu-row + descendants moved to global style block below (JS-injected, can't use scoped) */
 
   .menu__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
   .menu__example, .menu__clear { background: transparent; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-body); cursor: pointer; transition: all var(--transition-fast); }
   .menu__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
   .menu__clear:hover { border-color: #c0392b; color: #c0392b; }
 
-  .menu__totals { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) 0 0; border-top: 1px dashed var(--color-border); }
-  .menu__total-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-family: var(--font-body); font-size: 0.8125rem; }
-  .menu__total-label { color: var(--color-body); }
-  .menu__total-value { font-weight: 600; color: var(--color-heading); }
-  .menu__total-row--final { padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--color-heading); }
-  .menu__total-row--final .menu__total-label { font-weight: 600; }
-  .menu__total-row--final .menu__total-value { font-size: 1rem; color: var(--color-saffron-text); }
+  .menu__totals { display: flex; flex-direction: column; margin-top: var(--space-3); background: var(--color-heading); color: var(--color-white); border-radius: 10px; overflow: hidden; }
+  .menu__total-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-family: var(--font-body); font-size: 0.875rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .menu__total-row:last-child { border-bottom: none; }
+  .menu__total-label { color: rgba(255,255,255,0.72); font-weight: 500; }
+  .menu__total-value { font-weight: 600; color: var(--color-white); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .menu__total-row--final { background: rgba(200, 117, 0, 0.18); padding-top: 12px; padding-bottom: 12px; }
+  .menu__total-row--final .menu__total-label { font-weight: 600; color: var(--color-white); letter-spacing: 0.005em; }
+  .menu__total-row--final .menu__total-value { font-size: 1.125rem; color: #f5d19a; letter-spacing: -0.01em; }
 
   /* Result card */
   .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
@@ -883,7 +882,7 @@ const schema = [
   .calc-result__benchmark { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); gap: var(--space-3); }
 
   /* Scatter matrix in result card */
-  .matrix { margin-bottom: var(--space-5); padding-left: 28px; padding-bottom: 24px; position: relative; }
+  .matrix { margin-bottom: var(--space-5); padding-left: 36px; padding-bottom: 24px; position: relative; }
   .matrix__plot { position: relative; aspect-ratio: 1; width: 100%; background:
     linear-gradient(135deg, rgba(40, 80, 130, 0.08) 0%, rgba(40, 80, 130, 0.08) 50%, transparent 50%),
     linear-gradient(225deg, rgba(74, 88, 38, 0.10) 0%, rgba(74, 88, 38, 0.10) 50%, transparent 50%),
@@ -894,9 +893,9 @@ const schema = [
   .matrix__hline, .matrix__vline { position: absolute; background: var(--color-border); }
   .matrix__hline { left: 0; right: 0; top: 50%; height: 1px; }
   .matrix__vline { top: 0; bottom: 0; left: 50%; width: 1px; }
-  .matrix__axis-y, .matrix__axis-x { position: absolute; font-family: var(--font-body); font-size: 0.6875rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
-  .matrix__axis-y { left: -28px; top: 50%; transform: rotate(-90deg) translateX(50%); transform-origin: right center; }
-  .matrix__axis-x { left: 50%; bottom: -22px; transform: translateX(-50%); white-space: nowrap; }
+  .matrix__axis-y, .matrix__axis-x { position: absolute; font-family: var(--font-body); font-size: 0.6875rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; white-space: nowrap; }
+  .matrix__axis-y { left: 8px; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); transform-origin: center; }
+  .matrix__axis-x { left: 50%; bottom: -22px; transform: translateX(-50%); }
   .matrix__corner { position: absolute; display: flex; flex-direction: column; gap: 2px; padding: 6px 8px; pointer-events: none; }
   .matrix__corner-label { font-family: var(--font-body); font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .matrix__corner-count { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 500; line-height: 1; }
@@ -959,11 +958,16 @@ const schema = [
   .results-table__intro { max-width: 64ch; margin-bottom: var(--space-6); }
   .results-table__wrap { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow-x: auto; box-shadow: var(--shadow-warm); }
   .results-table__table { width: 100%; border-collapse: collapse; min-width: 720px; }
-  .results-table__table thead th { padding: var(--space-3) var(--space-4); text-align: left; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted); border-bottom: 1px solid var(--color-border); background: var(--color-cream); white-space: nowrap; }
+  .results-table__table thead th { padding: 14px var(--space-4); text-align: left; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); background: var(--color-cream); border-bottom: 2px solid var(--color-heading); white-space: nowrap; position: sticky; top: 0; z-index: 1; }
   .results-table__table thead th.num { text-align: right; }
-  .results-table__table tbody td { padding: var(--space-3) var(--space-4); border-bottom: 1px dashed var(--color-border); font-family: var(--font-body); font-size: 0.9375rem; color: var(--color-heading); vertical-align: middle; }
+  .results-table__table tbody td { padding: 12px var(--space-4); border-bottom: 1px solid var(--color-border); font-family: var(--font-body); font-size: 0.9375rem; color: var(--color-heading); vertical-align: middle; }
+  .results-table__table tbody td:first-child { font-weight: 600; }
   .results-table__table tbody td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  .results-table__table tbody tr { transition: background var(--transition-fast); }
+  .results-table__table tbody tr:nth-child(even) { background: rgba(232, 224, 209, 0.18); }
+  .results-table__table tbody tr:hover { background: var(--color-cream); }
   .results-table__table tbody tr:last-child td { border-bottom: none; }
+  .results-table__table tbody td:nth-last-child(2) { color: var(--color-saffron-text); font-weight: 600; }
 
   .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
   .badge--star { background: rgba(74, 88, 38, 0.14); color: #4a5826; }
@@ -1050,6 +1054,94 @@ const schema = [
 </style>
 
 <style is:global>
+  /* JS-injected menu rows (can't use Astro scoped styles) */
+  .menu-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .menu-row:hover { border-color: var(--color-saffron); }
+  .menu-row:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+
+  .menu-row__cell { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .menu-row__cell--name { flex: 1 1 100%; }
+  .menu-row__cell--cost, .menu-row__cell--price, .menu-row__cell--units { flex: 1 1 0; min-width: 0; }
+
+  .menu-row__minilabel {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    line-height: 1;
+  }
+
+  .menu-row input,
+  .menu-row__money {
+    height: 40px;
+    box-sizing: border-box;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-heading);
+    transition: all var(--transition-fast);
+    width: 100%;
+    min-width: 0;
+  }
+  .menu-row input { padding: 0 12px; outline: none; }
+  .menu-row input:focus {
+    background: #ffffff;
+    border-color: var(--color-saffron);
+    box-shadow: 0 0 0 2px var(--alpha-saffron-focus);
+  }
+  .menu-row__name { font-family: var(--font-body) !important; font-weight: 600 !important; }
+  .menu-row__money { display: flex; align-items: center; gap: 0; padding: 0; }
+  .menu-row__money:focus-within { background: #ffffff; border-color: var(--color-saffron); box-shadow: 0 0 0 2px var(--alpha-saffron-focus); }
+  .menu-row__money input { height: 38px; background: transparent; border: none; padding: 0 10px 0 4px; text-align: right; box-shadow: none !important; }
+  .menu-row__money input:focus { box-shadow: none !important; background: transparent; border: none; }
+  .menu-row__prefix { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); padding-left: 10px; flex-shrink: 0; }
+  .menu-row__cell input[data-field="units"] { text-align: right; }
+
+  .menu-row__remove {
+    flex: 0 0 40px;
+    align-self: flex-end;
+    height: 40px;
+    width: 40px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: all var(--transition-fast);
+  }
+  .menu-row__remove:hover {
+    background: rgba(192, 57, 43, 0.08);
+    color: #c0392b;
+    border-color: rgba(192, 57, 43, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .menu-row__cell--cost, .menu-row__cell--price, .menu-row__cell--units { flex: 1 1 calc(33.33% - 7px); }
+    .menu-row__remove { flex: 0 0 38px; height: 38px; width: 38px; }
+  }
+
   /* Dynamically rendered dots need global styles since they bypass Astro scoping */
   .matrix__dots { position: absolute; inset: 0; pointer-events: none; }
   .matrix__dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.18); transition: transform 180ms ease-out; cursor: help; pointer-events: auto; display: block; }

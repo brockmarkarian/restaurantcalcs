@@ -21,7 +21,8 @@ const calcs = [
   { slug: 'fountain-cost', title: 'Fountain Drink / BIB Cost', desc: 'BIB yield + ice + free refills + cup cost. Real pour cost on soda.', time: '3 min', tag: 'New', viz: 'fountain' },
 ];
 
-const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
+const nowHome = new Date();
+const recentPosts = (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= nowHome))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
@@ -120,7 +121,7 @@ const homepageSchema = [
           <span class="hero__line"><em class="hero__em">done right.</em></span>
         </h1>
         <p class="hero__subhead">
-          A dozen free calculators for everyday restaurant math. No accounts. No paywalls. The formula shown underneath every result so you can trust it &mdash; and teach it.
+          16 free calculators for everyday restaurant math. No accounts. No paywalls. The formula shown underneath every result so you can trust it &mdash; and teach it.
         </p>
         <div class="hero__ctas">
           <a href="/calculators/food-cost/" class="btn btn-primary btn-large">
@@ -223,11 +224,17 @@ const homepageSchema = [
   </section>
 
   <div class="container ad-wrap">
-    <aside class="ad-inline" aria-hidden="true">
+    <aside class="ad-inline">
       <span class="ad-inline__label">Advertisement</span>
       <div class="ad-inline__inner">
-        <span class="num">728 × 90</span>
-        <span class="t-caption">Leaderboard ad slot</span>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6332696231897305"
+               data-ad-slot="0000000000"
+               data-ad-format="auto"
+               data-full-width-responsive="true"
+               data-adtest="on"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
     </aside>
   </div>
@@ -429,11 +436,17 @@ const homepageSchema = [
   </section>
 
   <div class="container ad-wrap">
-    <aside class="ad-inline" aria-hidden="true">
+    <aside class="ad-inline">
       <span class="ad-inline__label">Advertisement</span>
       <div class="ad-inline__inner ad-inline__inner--rect">
-        <span class="num">336 × 280</span>
-        <span class="t-caption">In-content ad slot</span>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6332696231897305"
+               data-ad-slot="0000000000"
+               data-ad-format="auto"
+               data-full-width-responsive="true"
+               data-adtest="on"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
     </aside>
   </div>

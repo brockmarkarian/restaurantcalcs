@@ -155,7 +155,7 @@ const schema = [
         <div class="line-items">
           <div class="line-items__head">
             <h3 class="line-items__title">Additional line items</h3>
-            <p class="line-items__hint">Add a row per extra: bar package, dessert station, cake-cutting fee, kid meals, dietary upcharges. Markup defaults to 30% (NRA off-premise norm).</p>
+            <p class="line-items__hint">Add a row per extra: bar package, dessert station, cake-cutting fee, kid meals, dietary upcharges. <strong>Markup %</strong> = the percentage you add on top of cost. 30% on a $100 item bills the customer $130. Defaults to 30% (NRA off-premise norm).</p>
           </div>
 
           <div class="line-items__rows" data-line-rows>
@@ -366,11 +366,17 @@ const schema = [
     <hr class="rule" aria-hidden="true" />
 
     <div class="container ad-wrap">
-      <aside class="ad-inline" aria-hidden="true">
+      <aside class="ad-inline">
         <span class="ad-inline__label">Advertisement</span>
         <div class="ad-inline__inner">
-          <span class="num">336 &times; 280</span>
-          <span class="t-caption">In-content ad slot</span>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6332696231897305"
+               data-ad-slot="0000000000"
+               data-ad-format="auto"
+               data-full-width-responsive="true"
+               data-adtest="on"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
       </aside>
     </div>
@@ -506,16 +512,25 @@ const schema = [
       }
       wrap.innerHTML = lineItems.map(li => {
         return `<div class="line-row" data-row-id="${li.id}">
-          <input type="text" class="line-row__desc" placeholder="Description (e.g., bar package)" value="${li.desc.replace(/"/g, '&quot;')}" data-field="desc" aria-label="Line item description" />
-          <div class="line-row__cost">
-            <span class="line-row__prefix">$</span>
-            <input type="number" inputmode="decimal" min="0" step="0.25" placeholder="cost" value="${li.cost || ''}" data-field="cost" aria-label="Cost in dollars" />
+          <div class="line-row__cell line-row__cell--desc">
+            <span class="line-row__minilabel">Description</span>
+            <input type="text" class="line-row__desc" placeholder="e.g., Bar package, dessert station" value="${li.desc.replace(/"/g, '&quot;')}" data-field="desc" aria-label="Line item description" />
           </div>
-          <div class="line-row__markup">
-            <input type="number" inputmode="decimal" min="0" max="500" step="1" placeholder="markup" value="${li.markup || ''}" data-field="markup" aria-label="Markup percentage" />
-            <span class="line-row__suffix">%</span>
+          <div class="line-row__cell line-row__cell--cost">
+            <span class="line-row__minilabel">Cost</span>
+            <div class="line-row__cost">
+              <span class="line-row__prefix">$</span>
+              <input type="number" inputmode="decimal" min="0" step="0.25" placeholder="0.00" value="${li.cost || ''}" data-field="cost" aria-label="Cost in dollars" />
+            </div>
           </div>
-          <button type="button" class="line-row__remove" data-row-remove aria-label="Remove ${li.desc || 'row'}">&times;</button>
+          <div class="line-row__cell line-row__cell--markup">
+            <span class="line-row__minilabel" title="Percentage markup applied on top of cost. 30% on $100 = $130 billed.">Markup %</span>
+            <div class="line-row__markup">
+              <input type="number" inputmode="decimal" min="0" max="500" step="1" placeholder="30" value="${li.markup || ''}" data-field="markup" aria-label="Markup percentage applied on top of cost" />
+              <span class="line-row__suffix">%</span>
+            </div>
+          </div>
+          <button type="button" class="line-row__remove" data-row-remove aria-label="Remove ${li.desc || 'row'}" title="Remove">&times;</button>
         </div>`;
       }).join('');
     }
@@ -769,26 +784,17 @@ const schema = [
   .line-items__head { display: flex; flex-direction: column; gap: 4px; }
   .line-items__title { font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); margin: 0; }
   .line-items__hint { font-family: var(--font-body); font-size: 0.75rem; line-height: 1.45; color: var(--color-muted); margin: 0; }
-  .line-items__rows { display: flex; flex-direction: column; gap: 6px; }
-  .line-items__empty { color: var(--color-muted); padding: var(--space-2) 0; }
-  .line-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(0, 0.7fr) 32px; gap: 6px; align-items: center; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; padding: 6px 6px 6px 8px; transition: border-color var(--transition-fast); }
-  .line-row:focus-within { border-color: var(--color-saffron); }
-  @media (max-width: 720px) { .line-row { grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; } .line-row > input, .line-row > .line-row__cost, .line-row > .line-row__markup { font-size: 0.875rem !important; } .line-row .line-row__remove { grid-column: 2; justify-self: end; } }
-  .line-row input { background: transparent; border: none; padding: 6px 8px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: var(--color-heading); outline: none; min-width: 0; width: 100%; border-radius: 4px; }
-  .line-row input:focus { background: var(--color-cream); }
-  .line-row__desc { font-family: var(--font-body) !important; }
-  .line-row__cost, .line-row__markup { display: flex; align-items: center; min-width: 0; }
-  .line-row__prefix, .line-row__suffix { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-muted); padding: 0 4px; flex-shrink: 0; }
-  .line-row__remove { background: transparent; border: none; color: var(--color-muted); cursor: pointer; padding: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; transition: all var(--transition-fast); }
-  .line-row__remove:hover { background: rgba(192, 57, 43, 0.1); color: #c0392b; }
+  .line-items__rows { display: flex; flex-direction: column; gap: 10px; }
+  .line-items__empty { color: var(--color-muted); padding: var(--space-6) var(--space-4); text-align: center; font-style: italic; border: 1.5px dashed var(--color-border); border-radius: 12px; background: var(--color-white); }
+  /* .line-row + descendants moved to global style block (JS-injected, can't use scoped) */
   .line-items__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
   .line-items__example, .line-items__clear { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 10px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-muted); cursor: pointer; transition: all var(--transition-fast); }
   .line-items__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
   .line-items__clear:hover { border-color: #c0392b; color: #c0392b; }
-  .line-items__totals { padding-top: var(--space-2); border-top: 1px dashed var(--color-border); }
-  .line-items__total-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-family: var(--font-body); font-size: 0.8125rem; }
-  .line-items__total-label { color: var(--color-body); }
-  .line-items__total-value { font-weight: 500; color: var(--color-heading); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .line-items__totals { margin-top: var(--space-3); padding: 12px 14px; background: var(--color-heading); color: var(--color-white); border-radius: 10px; }
+  .line-items__total-row { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-body); font-size: 0.9375rem; }
+  .line-items__total-label { color: rgba(255,255,255,0.78); font-weight: 500; letter-spacing: 0.005em; }
+  .line-items__total-value { font-weight: 600; color: var(--color-white); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; letter-spacing: -0.01em; }
 
   .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
   @media (max-width: 880px) { .calc-result { position: static; } }
@@ -902,4 +908,95 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+</style>
+
+<style is:global>
+  /* JS-injected line rows (can't use Astro scoped styles) */
+  .line-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .line-row:hover { border-color: var(--color-saffron); }
+  .line-row:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+
+  .line-row__cell { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .line-row__cell--desc { flex: 1 1 100%; }
+  .line-row__cell--cost, .line-row__cell--markup { flex: 1 1 0; min-width: 0; }
+
+  .line-row__minilabel {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    line-height: 1;
+  }
+
+  .line-row input,
+  .line-row__cost,
+  .line-row__markup {
+    height: 40px;
+    box-sizing: border-box;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-heading);
+    transition: all var(--transition-fast);
+    width: 100%;
+    min-width: 0;
+  }
+  .line-row input { padding: 0 12px; outline: none; }
+  .line-row input:focus {
+    background: #ffffff;
+    border-color: var(--color-saffron);
+    box-shadow: 0 0 0 2px var(--alpha-saffron-focus);
+  }
+  .line-row__desc { font-family: var(--font-body) !important; font-weight: 600 !important; }
+  .line-row__cost, .line-row__markup { display: flex; align-items: center; gap: 0; padding: 0; }
+  .line-row__cost:focus-within, .line-row__markup:focus-within { background: #ffffff; border-color: var(--color-saffron); box-shadow: 0 0 0 2px var(--alpha-saffron-focus); }
+  .line-row__cost input, .line-row__markup input { height: 38px; background: transparent; border: none; padding: 0 10px 0 4px; text-align: right; box-shadow: none !important; }
+  .line-row__cost input:focus, .line-row__markup input:focus { box-shadow: none !important; background: transparent; border: none; }
+  .line-row__prefix { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); padding-left: 10px; flex-shrink: 0; order: -1; }
+  .line-row__suffix { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); padding-right: 10px; flex-shrink: 0; }
+
+  .line-row__remove {
+    flex: 0 0 40px;
+    align-self: flex-end;
+    height: 40px;
+    width: 40px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: all var(--transition-fast);
+  }
+  .line-row__remove:hover {
+    background: rgba(192, 57, 43, 0.08);
+    color: #c0392b;
+    border-color: rgba(192, 57, 43, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .line-row__cell--cost, .line-row__cell--markup { flex: 1 1 calc(50% - 5px); }
+    .line-row__remove { flex: 0 0 38px; height: 38px; width: 38px; }
+  }
 </style>

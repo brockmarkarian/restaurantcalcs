@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const now = new Date();
+  const posts = await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= now);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -26,8 +27,9 @@ const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
 // ToC: H2 only, drop the rehype-autolink hash markers
 const tocHeadings = (headings || []).filter((h: any) => h.depth === 2);
 
-// Read next: 2 most-recent other posts
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+// Read next: 2 most-recent other posts (only past-dated)
+const nowPast = new Date();
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= nowPast))
   .filter((p) => p.id !== post.id)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 2);

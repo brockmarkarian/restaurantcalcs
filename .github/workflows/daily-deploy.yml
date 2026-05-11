@@ -1,0 +1,47 @@
+name: Daily blog deploy
+
+# Rebuilds + deploys site daily so scheduled posts (pubDate <= now)
+# become visible on their target date.
+#
+# Required repo secrets:
+#   CLOUDFLARE_API_TOKEN  — token with Workers Scripts:Edit + Account:Read
+#   CLOUDFLARE_ACCOUNT_ID — Cloudflare account ID
+#   INDEXNOW_KEY          — optional, for IndexNow ping (read by scripts/indexnow.mjs)
+
+on:
+  schedule:
+    # 15:00 UTC daily = 8am PT (DST-aware on GHA runners → ~8am most of year)
+    - cron: '0 15 * * *'
+  workflow_dispatch: {}  # manual trigger from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: IndexNow ping
+        run: npm run indexnow
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
