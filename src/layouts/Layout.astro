@@ -43,7 +43,7 @@ const baseSchema = [
     '@id': `${SITE_URL}/#founder`,
     name: 'Brock Markarian',
     jobTitle: 'Founder, RestaurantCalcs',
-    description: 'Restaurant operator and digital strategist. Builds tools used by independent restaurant owners, GMs, sous chefs, and bar managers. Co-owner at Cosmos Taverna and 395 Bar & Grill.',
+    description: 'Restaurant operator and digital strategist. Builds tools used by independent restaurant owners, GMs, sous chefs, and bar managers. Former General Manager at Cosmos Taverna (5 years).',
     knowsAbout: [
       'Restaurant operations',
       'Food cost percentage',
@@ -160,16 +160,42 @@ const allSchema = schema
       })();
     </script>
 
+    <!-- Consent Mode v2: defaults set BEFORE any tag loads -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
+      // Apply persisted consent on return visits
+      try {
+        var stored = localStorage.getItem('rc_consent_v1');
+        if (stored) {
+          var c = JSON.parse(stored);
+          gtag('consent', 'update', {
+            ad_storage: c.ads ? 'granted' : 'denied',
+            ad_user_data: c.ads ? 'granted' : 'denied',
+            ad_personalization: c.ads ? 'granted' : 'denied',
+            analytics_storage: c.analytics ? 'granted' : 'denied'
+          });
+        }
+      } catch (e) {}
+    </script>
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
 
     <!-- Google Analytics 4 (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y"></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-2N6BDLH40Y');
+      gtag('config', 'G-2N6BDLH40Y', { anonymize_ip: true });
     </script>
   </head>
   <body>
@@ -513,6 +539,7 @@ const allSchema = schema
             <h3 class="t-micro">Legal</h3>
             <a href="/privacy/" class="t-caption">Privacy</a>
             <a href="/terms/" class="t-caption">Terms</a>
+            <a href="#" class="t-caption" data-manage-cookies>Manage cookies</a>
           </div>
         </div>
       </div>
@@ -528,6 +555,106 @@ const allSchema = schema
         </div>
       </div>
     </footer>
+
+    <!-- Cookie consent (CMP) -->
+    <div class="cmp" id="cmp" hidden role="dialog" aria-modal="false" aria-labelledby="cmp-title">
+      <div class="cmp__inner">
+        <div class="cmp__copy">
+          <h2 class="cmp__title" id="cmp-title">We use cookies</h2>
+          <p class="cmp__text">
+            We use cookies for analytics and ads to keep this site free. Essential cookies always run. You can accept all, reject non-essential, or manage by category. See our <a href="/privacy/">privacy policy</a>.
+          </p>
+        </div>
+        <div class="cmp__panel" id="cmp-panel" hidden>
+          <label class="cmp__toggle">
+            <input type="checkbox" id="cmp-analytics" checked />
+            <span><strong>Analytics.</strong> Google Analytics tracks page views and traffic source.</span>
+          </label>
+          <label class="cmp__toggle">
+            <input type="checkbox" id="cmp-ads" checked />
+            <span><strong>Advertising.</strong> Google AdSense serves personalized ads.</span>
+          </label>
+        </div>
+        <div class="cmp__actions">
+          <button type="button" class="cmp__btn cmp__btn--ghost" data-cmp-manage>Manage</button>
+          <button type="button" class="cmp__btn cmp__btn--ghost" data-cmp-reject>Reject non-essential</button>
+          <button type="button" class="cmp__btn cmp__btn--primary" data-cmp-accept>Accept all</button>
+          <button type="button" class="cmp__btn cmp__btn--primary" data-cmp-save hidden>Save preferences</button>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var banner = document.getElementById('cmp');
+        if (!banner) return;
+        var panel = document.getElementById('cmp-panel');
+        var analyticsBox = document.getElementById('cmp-analytics');
+        var adsBox = document.getElementById('cmp-ads');
+        var manageBtn = banner.querySelector('[data-cmp-manage]');
+        var rejectBtn = banner.querySelector('[data-cmp-reject]');
+        var acceptBtn = banner.querySelector('[data-cmp-accept]');
+        var saveBtn = banner.querySelector('[data-cmp-save]');
+
+        function show() { banner.hidden = false; }
+        function hide() { banner.hidden = true; }
+        function resetActions() {
+          panel.hidden = true;
+          saveBtn.hidden = true;
+          acceptBtn.hidden = false;
+          rejectBtn.hidden = false;
+          manageBtn.hidden = false;
+        }
+        function persist(analytics, ads) {
+          try {
+            localStorage.setItem('rc_consent_v1', JSON.stringify({
+              analytics: analytics, ads: ads, ts: Date.now(), v: 1
+            }));
+          } catch (e) {}
+          if (window.gtag) {
+            window.gtag('consent', 'update', {
+              ad_storage: ads ? 'granted' : 'denied',
+              ad_user_data: ads ? 'granted' : 'denied',
+              ad_personalization: ads ? 'granted' : 'denied',
+              analytics_storage: analytics ? 'granted' : 'denied'
+            });
+          }
+        }
+
+        // First visit: show banner if no stored consent
+        try {
+          if (!localStorage.getItem('rc_consent_v1')) show();
+        } catch (e) { show(); }
+
+        acceptBtn.addEventListener('click', function () { persist(true, true); hide(); });
+        rejectBtn.addEventListener('click', function () { persist(false, false); hide(); });
+        manageBtn.addEventListener('click', function () {
+          panel.hidden = false;
+          saveBtn.hidden = false;
+          acceptBtn.hidden = true;
+          rejectBtn.hidden = true;
+          manageBtn.hidden = true;
+          try {
+            var stored = JSON.parse(localStorage.getItem('rc_consent_v1') || '{}');
+            if (typeof stored.analytics === 'boolean') analyticsBox.checked = stored.analytics;
+            if (typeof stored.ads === 'boolean') adsBox.checked = stored.ads;
+          } catch (e) {}
+        });
+        saveBtn.addEventListener('click', function () {
+          persist(analyticsBox.checked, adsBox.checked);
+          hide();
+        });
+
+        // Footer / privacy "Manage cookies" link reopens banner
+        document.querySelectorAll('[data-manage-cookies]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            resetActions();
+            show();
+          });
+        });
+      })();
+    </script>
 
     <style>
       .site-header {
@@ -1031,6 +1158,93 @@ const allSchema = schema
         background: var(--color-white); color: var(--color-heading);
       }
       .embed-modal__btn--primary { background: var(--color-heading); color: var(--color-white); border-color: var(--color-heading); }
+
+      /* Cookie consent (CMP) */
+      .cmp {
+        position: fixed;
+        inset: auto 0 0 0;
+        z-index: 1000;
+        background: var(--color-white);
+        border-top: 1px solid var(--color-border);
+        box-shadow: 0 -8px 32px rgba(0,0,0,0.08);
+        padding: 20px 24px;
+      }
+      .cmp__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        gap: 14px;
+      }
+      @media (min-width: 760px) {
+        .cmp__inner {
+          grid-template-columns: 1fr auto;
+          align-items: center;
+        }
+        .cmp__panel { grid-column: 1 / -1; }
+      }
+      .cmp__title {
+        font-size: 1rem;
+        margin: 0 0 4px;
+        font-weight: 600;
+        color: var(--color-heading);
+      }
+      .cmp__text {
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--color-text-soft, var(--color-text));
+        max-width: 60ch;
+      }
+      .cmp__text a { color: var(--color-heading); text-decoration: underline; }
+      .cmp__panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid var(--color-border);
+      }
+      .cmp__toggle {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.875rem;
+        line-height: 1.45;
+        color: var(--color-text);
+        cursor: pointer;
+      }
+      .cmp__toggle input { margin-top: 3px; flex: none; }
+      .cmp__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+      .cmp__btn {
+        padding: 10px 16px;
+        border-radius: var(--radius-md);
+        font-family: var(--font-body);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+      .cmp__btn--primary {
+        background: var(--color-heading);
+        color: var(--color-white);
+        border-color: var(--color-heading);
+      }
+      .cmp__btn--primary:hover { opacity: 0.92; }
+      .cmp__btn--ghost {
+        background: transparent;
+        color: var(--color-heading);
+        border-color: var(--color-border);
+      }
+      .cmp__btn--ghost:hover { background: var(--color-bg, #f0f0eb); }
+      @media (max-width: 540px) {
+        .cmp { padding: 16px; }
+        .cmp__actions { justify-content: stretch; }
+        .cmp__btn { flex: 1 1 auto; }
+      }
     </style>
   </body>
 </html>
