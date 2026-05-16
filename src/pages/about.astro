@@ -14,6 +14,74 @@ const schema = [
     description,
     isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
     inLanguage: 'en-US',
+    mainEntity: { '@id': 'https://restaurantcalcs.com/#founder' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': 'https://restaurantcalcs.com/about/#profile',
+    url: 'https://restaurantcalcs.com/about/',
+    mainEntity: {
+      '@type': 'Person',
+      '@id': 'https://restaurantcalcs.com/#founder',
+      name: 'Brock Markarian',
+      givenName: 'Brock',
+      familyName: 'Markarian',
+      jobTitle: 'Founder, RestaurantCalcs; Owner, Marketing 760',
+      description: 'Restaurant operator and digital strategist. Five years as General Manager at Cosmos Taverna. Builds free tools for independent restaurant operators and runs Marketing 760, a small agency for local trades in the High Desert and Inland Empire.',
+      url: 'https://restaurantcalcs.com/about/',
+      email: 'mailto:hello@restaurantcalcs.com',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'San Bernardino County',
+        addressRegion: 'CA',
+        addressCountry: 'US',
+      },
+      sameAs: [
+        'https://x.com/brockmarkarian',
+        'https://github.com/brockmarkarian',
+        'https://www.linkedin.com/in/brock-markarian-b7418595/',
+        'https://www.indiehackers.com/brockmarkarian',
+        'https://www.producthunt.com/@brockmarkarian',
+        'https://dev.to/brockmarkarian',
+        'https://www.reddit.com/user/brockmarkarian',
+        'https://www.youtube.com/@brockmarkarian',
+        'https://www.instagram.com/brockmarkarian',
+        'https://www.facebook.com/brockmarkarian',
+        'https://www.quora.com/profile/Brock-Markarian',
+        'https://marketing760.com/',
+      ],
+      knowsAbout: [
+        'Restaurant operations',
+        'Food cost percentage',
+        'Recipe costing',
+        'Labor cost analysis',
+        'Tip pool compliance (FLSA)',
+        'Menu pricing strategy',
+        'Beverage cost management',
+        'Inventory variance analysis',
+        'Break-even analysis',
+        'Local SEO',
+        'AI search optimization',
+      ],
+      worksFor: [
+        {
+          '@type': 'Organization',
+          name: 'RestaurantCalcs',
+          url: 'https://restaurantcalcs.com/',
+        },
+        {
+          '@type': 'Organization',
+          name: 'Marketing 760',
+          url: 'https://marketing760.com/',
+        },
+      ],
+      alumniOf: {
+        '@type': 'Organization',
+        name: 'Cosmos Taverna',
+        url: 'https://cosmostaverna.com/',
+      },
+    },
   },
   {
     '@context': 'https://schema.org',
@@ -26,7 +94,7 @@ const schema = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<Layout {title} {description} {schema} hideRails={true}>
   <article class="about-page">
     <header class="about-page__header">
       <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -42,6 +110,25 @@ const schema = [
     </header>
 
     <section class="about-page__body">
+      <aside class="byline-card" itemscope itemtype="https://schema.org/Person">
+        <img
+          src="/brock-markarian.webp"
+          alt="Brock Markarian, founder of RestaurantCalcs"
+          class="byline-card__photo"
+          width="120"
+          height="120"
+          loading="eager"
+          itemprop="image"
+        />
+        <div class="byline-card__body">
+          <p class="byline-card__name" itemprop="name">Brock Markarian</p>
+          <p class="byline-card__title"><span itemprop="jobTitle">Founder, RestaurantCalcs</span> · Former GM, <a href="https://cosmostaverna.com/" target="_blank" rel="noopener" itemprop="alumniOf">Cosmos Taverna</a></p>
+          <p class="byline-card__bio" itemprop="description">
+            Five years on the floor as General Manager at Cosmos Taverna — writing schedules, pulling inventory, costing recipes, training bartenders on pour cost, running tip pools, and watching the prime cost number every Monday morning. I built RestaurantCalcs because every "free" calculator I tried wanted my email before it would show me the math.
+          </p>
+        </div>
+      </aside>
+
       <h2>Why this site exists</h2>
       <p>
         <a href="https://pos.toasttab.com/resources" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://www.marginedge.com/blog" target="_blank" rel="noopener nofollow">MarginEdge</a>, <a href="https://home.binwise.com/" target="_blank" rel="noopener nofollow">BinWise</a> — every one of them has a free calculator behind an email gate. You sign up, get added to a marketing list, and three days later a sales rep emails you about their $400/month POS package. Or the calculator is buried inside a paid product you'd need to switch your whole back-office to use.
@@ -50,7 +137,7 @@ const schema = [
         Independent operators don't need another sales funnel. They need a number, fast, on a phone, between rushes — with the formula visible underneath so the math can be trusted, taught to staff, and verified.
       </p>
 
-      <h2>What we built</h2>
+      <h2>What I built</h2>
       <p>
         Every formula audited against authoritative sources (<a href="https://pos.toasttab.com/resources" target="_blank" rel="noopener nofollow">Toast</a>, <a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener nofollow">Restaurant365</a>, <a href="https://www.marginedge.com/blog" target="_blank" rel="noopener nofollow">MarginEdge</a>, <a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener nofollow">National Restaurant Association</a>, <a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener nofollow">U.S. DOL Wage &amp; Hour</a>, <a href="https://www.ciachef.edu/" target="_blank" rel="noopener nofollow">CIA</a>, <a href="https://home.binwise.com/" target="_blank" rel="noopener nofollow">BinWise</a>, <a href="https://bevspot.com/blog/" target="_blank" rel="noopener nofollow">BevSpot</a>). Every result shows the math step-by-step. Every calculator runs entirely in your browser — nothing is stored, transmitted, or sent to a server. Close the tab and your data is gone.
       </p>
@@ -78,19 +165,24 @@ const schema = [
 
       <h2>Privacy</h2>
       <p>
-        Every calculator runs in your browser using JavaScript. We never store, transmit, or persist your inputs. There's no account, no signup, no email capture. The only data we collect is aggregate visit counts (page URL, country, browser) for AdSense-funded operations. See <a href="/privacy/">Privacy Policy</a>.
+        Every calculator runs in your browser using JavaScript. I never store, transmit, or persist your inputs. There's no account, no signup, no email capture. The only data collected is aggregate visit counts (page URL, country, browser) for AdSense-funded operations. See <a href="/privacy/">Privacy Policy</a>.
       </p>
 
       <h2>Contact</h2>
       <p>
-        Questions, feedback, calculator suggestions, formula corrections — email <a href="mailto:hello@restaurantcalcs.com">hello@restaurantcalcs.com</a>.
+        Questions, feedback, calculator suggestions, formula corrections — email me at <a href="mailto:hello@restaurantcalcs.com">hello@restaurantcalcs.com</a>. I read every message.
+      </p>
+      <p class="about-page__signoff">
+        — Brock
       </p>
     </section>
   </article>
 </Layout>
 
 <style>
-  .about-page { max-width: 760px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .about-page { max-width: 1320px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+  .about-page__header,
+  .about-page__body { max-width: 820px; margin-left: auto; margin-right: auto; }
   .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
   .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
   .breadcrumb a:hover { color: var(--color-saffron-text); }
@@ -106,4 +198,58 @@ const schema = [
   .about-page__body a { color: var(--color-saffron-text); text-decoration: underline; text-underline-offset: 2px; }
   .about-page__body a:hover { color: var(--color-saffron-hover); }
   .about-page__body strong { color: var(--color-heading); font-weight: 600; }
+  .about-page__signoff { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-style: italic; font-size: 1.125rem; color: var(--color-saffron-text); margin-top: var(--space-6); }
+
+  .byline-card {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+    padding: var(--space-5) var(--space-6);
+    margin: 0 0 var(--space-10) 0;
+    background: var(--color-surface, #fbf7f0);
+    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+    border-left: 3px solid var(--color-saffron, #d4a017);
+    border-radius: 4px;
+  }
+  .byline-card__photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--color-saffron, #d4a017);
+  }
+  .byline-card__body { flex: 1; min-width: 0; }
+  .byline-card__name {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36, "wdth" 100;
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--color-heading);
+    margin: 0 0 var(--space-1) 0;
+    line-height: 1.2;
+  }
+  .byline-card__title {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    margin: 0 0 var(--space-3) 0;
+    line-height: 1.4;
+  }
+  .byline-card__title a {
+    color: var(--color-saffron-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .byline-card__bio {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-body);
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    .byline-card { flex-direction: column; align-items: center; text-align: center; padding: var(--space-6) var(--space-5); }
+    .byline-card__photo { width: 96px; height: 96px; }
+  }
 </style>
