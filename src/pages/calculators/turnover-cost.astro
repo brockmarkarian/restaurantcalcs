@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Employee Turnover Cost Calculator — Free | RestaurantCalcs';
+const title = 'Employee Turnover Cost Calculator, Free | RestaurantCalcs';
 const description = 'Restaurant employee turnover cost calculator. Annual replacement cost across hourly + salaried headcount. Industry benchmarks (NRA, Cornell SHA). Math shown.';
 
 const faq = [
@@ -27,7 +27,7 @@ const faq = [
   },
   {
     q: 'Does paying more reduce turnover?',
-    a: 'Yes, but compounding matters more than the single raise. An 8% wage bump funded by saving on turnover cost is the play. The TouchBistro 2026 State of Restaurants Report has 96% of operators reporting higher labor costs YoY — meaning competitors are also raising. Standing still on wages is going backwards on retention.',
+    a: 'Yes, but compounding matters more than the single raise. An 8% wage bump funded by saving on turnover cost is the play. The TouchBistro 2026 State of Restaurants Report has 96% of operators reporting higher labor costs YoY, meaning competitors are also raising. Standing still on wages is going backwards on retention.',
   },
   {
     q: 'What about salaried manager turnover?',
@@ -466,7 +466,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [eventsEl, hourlyCostEl, salariedCostEl, monthlyEl, weeklyEl, revPctEl].forEach(e => { if (e) e.textContent = '—'; });
+      [eventsEl, hourlyCostEl, salariedCostEl, monthlyEl, weeklyEl, revPctEl].forEach(e => { if (e) e.textContent = ', '; });
       if (salariedRow) salariedRow.hidden = true;
     }
 

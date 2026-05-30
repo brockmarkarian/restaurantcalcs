@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Menu Engineering Matrix Calculator — Free | RestaurantCalcs';
+const title = 'Menu Engineering Matrix Calculator, Free | RestaurantCalcs';
 const description = 'Free menu engineering calculator. Classifies every menu item as Star, Plowhorse, Puzzle, or Dog using contribution margin and popularity. Math shown.';
 
 const faq = [
@@ -10,7 +10,7 @@ const faq = [
     a: 'Plot every menu item on two axes: contribution margin (menu price minus food cost in dollars) and popularity (units sold). The result is a 2×2 matrix that tells you which items pay rent and which ones are eating it. The framework comes from Donald Smith at Cornell in 1982 (Cornell SHA). Forty-plus years later it is still the standard, because the math has not changed.',
   },
   {
-    q: 'Stars, plowhorses, puzzles, dogs — what are they?',
+    q: 'Stars, plowhorses, puzzles, dogs, what are they?',
     a: 'Star: high CM, high popularity. Hero on the menu, protect price, train upsells. Plowhorse: low CM, high popularity. Volume drivers that bleed profit. Reprice or rebuild the recipe. Puzzle: high CM, low popularity. Money makers nobody orders. Reposition, photograph, train servers to suggest. Dog: low CM, low popularity. Remove or rework.',
   },
   {
@@ -19,7 +19,7 @@ const faq = [
   },
   {
     q: 'What is a healthy contribution margin?',
-    a: 'Full-service: 65–75% CM (food cost 25–35% of menu price, per Toast). QSR/fast-casual 70–80%. Fine dining 70%+ floor. Beverages run higher: beer 75–80%, wine 65–75%, cocktails 80–85%. The matrix uses your menu average as the threshold, not an industry number — comparison stays apples to apples inside your own concept.',
+    a: 'Full-service: 65–75% CM (food cost 25–35% of menu price, per Toast). QSR/fast-casual 70–80%. Fine dining 70%+ floor. Beverages run higher: beer 75–80%, wine 65–75%, cocktails 80–85%. The matrix uses your menu average as the threshold, not an industry number, comparison stays apples to apples inside your own concept.',
   },
   {
     q: 'How do I fix a plowhorse?',
@@ -35,10 +35,10 @@ const faq = [
   },
   {
     q: 'I have 200 items. Where do I start?',
-    a: 'Two approaches. Run the matrix by category — apps, entrees, desserts separately. Within-category averages are more useful than aggregate. Then focus the analysis on the top 80% of revenue. Pareto holds in restaurants: roughly 20% of items drive 80% of contribution. Engineering the long tail is rarely worth the work.',
+    a: 'Two approaches. Run the matrix by category, apps, entrees, desserts separately. Within-category averages are more useful than aggregate. Then focus the analysis on the top 80% of revenue. Pareto holds in restaurants: roughly 20% of items drive 80% of contribution. Engineering the long tail is rarely worth the work.',
   },
   {
-    q: 'Volume or margin — which matters more?',
+    q: 'Volume or margin, which matters more?',
     a: 'Neither alone. The matrix exists because operators kept making the wrong call from one variable. A 280-unit/month plowhorse at 58% CM contributes more dollars than a 40-unit puzzle at 72% CM. But the puzzle has higher margin per cover and is under-promoted. Most operators undervalue puzzles because they read the popularity column first. The matrix forces both reads at once.',
   },
   {
@@ -234,19 +234,19 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Avg contribution margin</span>
-              <span class="extras-row__value num" data-avg-cm>—</span>
+              <span class="extras-row__value num" data-avg-cm></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Avg units per item</span>
-              <span class="extras-row__value num" data-avg-pop>—</span>
+              <span class="extras-row__value num" data-avg-pop></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Top star</span>
-              <span class="extras-row__value num" data-top-star>—</span>
+              <span class="extras-row__value num" data-top-star></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Worst dog</span>
-              <span class="extras-row__value num" data-worst-dog>—</span>
+              <span class="extras-row__value num" data-worst-dog></span>
             </div>
           </div>
         </div>
@@ -295,7 +295,7 @@ const schema = [
       <h2 class="essay__headline">Menu engineering is the <em>second</em> biggest move an operator makes.</h2>
       <div class="essay__body">
         <p>
-          Schedule discipline is the first. After that, nothing moves the P&amp;L like a properly engineered menu. Same revenue, same labor, same rent — and two or three points of margin between a menu built on data and a menu built on what the chef likes.
+          Schedule discipline is the first. After that, nothing moves the P&amp;L like a properly engineered menu. Same revenue, same labor, same rent, and two or three points of margin between a menu built on data and a menu built on what the chef likes.
         </p>
         <p>
           Most operators run menu engineering by gut. They know the wings sell. They know the lamb does not. They have a vague sense the burger is profitable and the salad is not. What they do not have is a quadrant. Without a quadrant, you cannot tell a plowhorse from a star. Both sell. Only one pays rent. Confusing them is how a restaurant stays open while the bank account never grows.
@@ -425,10 +425,10 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://scholarship.sha.cornell.edu/" target="_blank" rel="noopener">Donald Smith — Menu Engineering: A Practical Guide (Cornell, 1982)</a></li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/menu-engineering" target="_blank" rel="noopener">Toast — Menu Engineering Worksheet</a></li>
-        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Menu Profitability Analysis</a></li>
-        <li><a href="https://www.posist.com/restaurant-times/restro-gyaan/menu-engineering-restaurant.html" target="_blank" rel="noopener">POSist — Menu Engineering Matrix Explained</a></li>
+        <li><a href="https://scholarship.sha.cornell.edu/" target="_blank" rel="noopener">Donald Smith, Menu Engineering: A Practical Guide (Cornell, 1982)</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/menu-engineering" target="_blank" rel="noopener">Toast, Menu Engineering Worksheet</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365, Menu Profitability Analysis</a></li>
+        <li><a href="https://www.posist.com/restaurant-times/restro-gyaan/menu-engineering-restaurant.html" target="_blank" rel="noopener">POSist, Menu Engineering Matrix Explained</a></li>
       </ul>
     </section>
 
@@ -614,7 +614,7 @@ const schema = [
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Add items above to see the calculation.</p>';
       [qStarEl, qPlowEl, qPuzzleEl, qDogEl].forEach(e => { if (e) e.textContent = '0'; });
-      [avgCmEl, avgPopEl, topStarEl, worstDogEl].forEach(e => { if (e) e.textContent = '—'; });
+      [avgCmEl, avgPopEl, topStarEl, worstDogEl].forEach(e => { if (e) e.textContent = ', '; });
       if (menuCountEl) menuCountEl.textContent = '0';
       if (menuUnitsEl) menuUnitsEl.textContent = '0';
       if (menuContribEl) menuContribEl.textContent = '$0';
@@ -711,8 +711,8 @@ const schema = [
 
       if (avgCmEl) avgCmEl.textContent = fmtUSD(avgCM);
       if (avgPopEl) avgPopEl.textContent = avgPop.toFixed(1) + ' units';
-      if (topStarEl) topStarEl.textContent = topStar ? `${topStar.name || 'Unnamed'} (${fmtUSDInt(topStar.itemContribution)})` : '—';
-      if (worstDogEl) worstDogEl.textContent = worstDog ? `${worstDog.name || 'Unnamed'} (${fmtUSDInt(worstDog.itemContribution)})` : '—';
+      if (topStarEl) topStarEl.textContent = topStar ? `${topStar.name || 'Unnamed'} (${fmtUSDInt(topStar.itemContribution)})` : ', ';
+      if (worstDogEl) worstDogEl.textContent = worstDog ? `${worstDog.name || 'Unnamed'} (${fmtUSDInt(worstDog.itemContribution)})` : ', ';
 
       // Results table
       if (resultsSection && resultsBody) {

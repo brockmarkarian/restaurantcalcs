@@ -1,13 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Menu Pricing Calculator — Free | RestaurantCalcs';
+const title = 'Menu Pricing Calculator, Free | RestaurantCalcs';
 const description = 'Menu price from plate cost + target food cost %. Charm rounding, contribution margin %, optional prime cost output. Built for indie operators.';
 
 const faq = [
   {
     q: 'How do you price a menu item?',
-    a: 'The standard formula: Menu Price = Item Cost ÷ Target Food Cost %. If a plate costs $5 to produce and you target a 30% food cost, the menu price should be $5 ÷ 0.30 = $16.67. Round up to a price point ($16.95 or $17.00). This is the reverse of food cost percentage — instead of measuring after the fact, you set the price before the fact.',
+    a: 'The standard formula: Menu Price = Item Cost ÷ Target Food Cost %. If a plate costs $5 to produce and you target a 30% food cost, the menu price should be $5 ÷ 0.30 = $16.67. Round up to a price point ($16.95 or $17.00). This is the reverse of food cost percentage, instead of measuring after the fact, you set the price before the fact.',
   },
   {
     q: 'What target food cost percentage should I use?',
@@ -15,27 +15,27 @@ const faq = [
   },
   {
     q: 'What is a pricing factor / multiplier?',
-    a: 'Pricing factor is just 1 ÷ target food cost %. A 3.0x factor = 33% target. 4.0x factor = 25% target. 3.33x factor = 30% target. Operators using factors find it intuitive: "this plate cost $4, multiply by 3.33, charge $13.32 — round to $12.95 or $13.95." Same math, different framing.',
+    a: 'Pricing factor is just 1 ÷ target food cost %. A 3.0x factor = 33% target. 4.0x factor = 25% target. 3.33x factor = 30% target. Operators using factors find it intuitive: "this plate cost $4, multiply by 3.33, charge $13.32, round to $12.95 or $13.95." Same math, different framing.',
   },
   {
     q: 'Should I price by gross profit or food cost?',
-    a: 'Most operators price by food cost % because that\'s what their P&L tracks and what suppliers benchmark. But some price by gross profit dollars per item — especially in fine dining where a 35% food cost item making $24 profit is better than a 25% food cost item making $11 profit. Use gross profit dollars for high-volume comparison, food cost % for category targets.',
+    a: 'Most operators price by food cost % because that\'s what their P&L tracks and what suppliers benchmark. But some price by gross profit dollars per item, especially in fine dining where a 35% food cost item making $24 profit is better than a 25% food cost item making $11 profit. Use gross profit dollars for high-volume comparison, food cost % for category targets.',
   },
   {
     q: 'How do I price an item with high food cost?',
-    a: 'Three options: (1) raise the price to hit your target % (risk: priced above market), (2) accept higher food cost % on this item if gross profit dollars are strong (typical for steaks, lobster), (3) re-engineer the recipe — smaller portion, cheaper protein cut, additional starch. The wrong move is to price below cost target without consciously choosing why.',
+    a: 'Three options: (1) raise the price to hit your target % (risk: priced above market), (2) accept higher food cost % on this item if gross profit dollars are strong (typical for steaks, lobster), (3) re-engineer the recipe, smaller portion, cheaper protein cut, additional starch. The wrong move is to price below cost target without consciously choosing why.',
   },
   {
     q: 'Should taxes and tip be included?',
-    a: 'No. Menu price is before tax and tip — those are pass-through. Calculate menu price using item cost only. The customer pays tax on top of menu price; tips are separate revenue (and labor cost). Including either inflates your perceived price without adding margin.',
+    a: 'No. Menu price is before tax and tip, those are pass-through. Calculate menu price using item cost only. The customer pays tax on top of menu price; tips are separate revenue (and labor cost). Including either inflates your perceived price without adding margin.',
   },
   {
     q: 'How often should I reprice the menu?',
-    a: 'Run a full repricing exercise every 6 months at minimum, more often during inflation. Many operators do quarterly reviews on the top 20 highest-volume items (the ones moving most cost dollars). One-off price changes are easier to justify — surprise full menu repricings make customers notice.',
+    a: 'Run a full repricing exercise every 6 months at minimum, more often during inflation. Many operators do quarterly reviews on the top 20 highest-volume items (the ones moving most cost dollars). One-off price changes are easier to justify, surprise full menu repricings make customers notice.',
   },
   {
     q: 'What is psychological pricing?',
-    a: 'Pricing items at $X.95 or $X.99 instead of round numbers — based on research that left-digit numbers anchor perception. $14.95 reads "fourteen-something" not "fifteen." Most casual concepts use .95 endings. Fine dining often uses round numbers ($24, $36) because precision pricing reads down-market. Pick a convention and apply consistently.',
+    a: 'Pricing items at $X.95 or $X.99 instead of round numbers, based on research that left-digit numbers anchor perception. $14.95 reads "fourteen-something" not "fifteen." Most casual concepts use .95 endings. Fine dining often uses round numbers ($24, $36) because precision pricing reads down-market. Pick a convention and apply consistently.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -89,7 +89,7 @@ const benchmarks = [
 const scenarios = [
   {
     title: 'The under-priced burger',
-    setup: 'Casual dining concept, signature burger priced at $14. Cost $5.50 to plate. Food cost 39% — eating margin every plate.',
+    setup: 'Casual dining concept, signature burger priced at $14. Cost $5.50 to plate. Food cost 39%, eating margin every plate.',
     diagnosis: 'Menu price set 4 years ago. Beef cost up 28% since. Cheese up 22%. Brioche bun up 18%. Same price, much higher cost.',
     fix: 'Repriced to $16.95 (28% food cost). Tested with promo. No measurable drop in covers.',
     outcome: 'Margin per burger: $11.45 vs prior $8.50. At 1,800 burgers/month: $5,300/month margin recovery.',
@@ -97,14 +97,14 @@ const scenarios = [
   {
     title: 'The over-priced salad',
     setup: 'New chef-driven concept opened with $18 salads to match the rest of the menu. Cost $3.20 to plate. Food cost 18%.',
-    diagnosis: 'Salads way under-priced for the value perception, but actually over-priced for the market — they were sitting on the menu without selling.',
+    diagnosis: 'Salads way under-priced for the value perception, but actually over-priced for the market, they were sitting on the menu without selling.',
     fix: 'Cut to $14.95. Boosted portion 15%. Repositioned as "lunch entree."',
     outcome: 'Salad volume up 220% in 8 weeks. Lower price + bigger portion = same gross profit dollars at 4x volume.',
   },
   {
     title: 'The high-cost steak',
-    setup: 'Steakhouse, ribeye priced at $42. Cost $15 to plate. Food cost 36% — above 30% target.',
-    diagnosis: 'Steak prices will always run higher than category target — that\'s normal. Real question: gross profit dollars vs alternatives. Ribeye made $27 profit per plate vs salmon at $19 profit. Gross dollars beat category alignment.',
+    setup: 'Steakhouse, ribeye priced at $42. Cost $15 to plate. Food cost 36%, above 30% target.',
+    diagnosis: 'Steak prices will always run higher than category target, that\'s normal. Real question: gross profit dollars vs alternatives. Ribeye made $27 profit per plate vs salmon at $19 profit. Gross dollars beat category alignment.',
     fix: 'Kept the price. Documented decision. Ran category-weighted target instead of flat target.',
     outcome: 'Steak food cost % stayed 36% but ribeye became #2 highest-margin item in dollars. Lesson: % isn\'t everything.',
   },
@@ -124,7 +124,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Menu pricing calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Menu Pricing Calculator</h1>
       <p class="calc-page__intro">
-        Reverse-engineer menu price from item cost and target food cost percentage. Get the price you should charge before you build the menu — not after you discover the margin’s gone.
+        Reverse-engineer menu price from item cost and target food cost percentage. Get the price you should charge before you build the menu, not after you discover the margin’s gone.
       </p>
     </header>
 
@@ -154,7 +154,7 @@ const relatedCalcs = [
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="labor">Labor cost % (optional — for prime cost)</label>
+          <label class="form-row__label" for="labor">Labor cost % (optional, for prime cost)</label>
           <div class="input-shell">
             <input id="labor" name="labor" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
@@ -194,7 +194,7 @@ const relatedCalcs = [
 
           <div class="calc-result__benchmark">
             <span class="t-caption">Pricing factor</span>
-            <span class="t-caption num" data-factor>—</span>
+            <span class="t-caption num" data-factor></span>
           </div>
 
           <div class="calc-result__extras">
@@ -204,15 +204,15 @@ const relatedCalcs = [
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Contribution margin %</span>
-              <span class="extras-row__value num" data-cm-pct>—</span>
+              <span class="extras-row__value num" data-cm-pct></span>
             </div>
             <div class="extras-row" data-prime-row hidden>
               <span class="extras-row__label">Prime cost % (food + labor)</span>
-              <span class="extras-row__value num" data-prime>—</span>
+              <span class="extras-row__value num" data-prime></span>
             </div>
             <div class="extras-row" data-rounded-row hidden>
               <span class="extras-row__label">Rounded price</span>
-              <span class="extras-row__value num" data-rounded>—</span>
+              <span class="extras-row__value num" data-rounded></span>
             </div>
           </div>
         </div>
@@ -235,10 +235,10 @@ const relatedCalcs = [
       <h2 class="essay__headline">Pricing is the only lever that <em>doesn't cost you money</em>.</h2>
       <div class="essay__body">
         <p>
-          Cutting cost takes vendor renegotiation, recipe re-engineering, or staff conversations. Each costs you something — time, supplier relationship, or service quality. Pricing costs nothing to change. You print a new menu Tuesday.
+          Cutting cost takes vendor renegotiation, recipe re-engineering, or staff conversations. Each costs you something, time, supplier relationship, or service quality. Pricing costs nothing to change. You print a new menu Tuesday.
         </p>
         <p>
-          Yet pricing is the lever most operators move last. They negotiate vendors first, audit portions second, cut prep hours third — and only after all that gets uncomfortable do they raise prices. By then they've left a year of margin on the table.
+          Yet pricing is the lever most operators move last. They negotiate vendors first, audit portions second, cut prep hours third, and only after all that gets uncomfortable do they raise prices. By then they've left a year of margin on the table.
         </p>
         <p class="essay__pull">
           The reason: pricing feels like a gamble. Cost-side moves feel safe (you know the saving). Price moves feel risky (will customers leave?). Most don't. Most don't notice. Most price increases under 8% have zero measurable impact on covers.
@@ -301,7 +301,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron">Real scenarios</p>
       <h2 class="scenarios__headline">Three pricing decisions, three different outcomes</h2>
       <p class="t-body-large scenarios__intro">
-        Same calculator, different judgment. The math gives you a number — the call is yours.
+        Same calculator, different judgment. The math gives you a number, the call is yours.
       </p>
       <div class="scenarios__grid">
         {scenarios.map((s, i) => (
@@ -337,9 +337,9 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/menu-pricing-strategies" target="_blank" rel="noopener">Toast — Menu Pricing Strategies</a></li>
-        <li><a href="https://www.restaurant365.com/blog/menu-engineering/" target="_blank" rel="noopener">Restaurant365 — Menu Engineering & Pricing</a></li>
-        <li><a href="https://restaurant.org/" target="_blank" rel="noopener">National Restaurant Association — Industry Pricing Research</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/menu-pricing-strategies" target="_blank" rel="noopener">Toast, Menu Pricing Strategies</a></li>
+        <li><a href="https://www.restaurant365.com/blog/menu-engineering/" target="_blank" rel="noopener">Restaurant365, Menu Engineering & Pricing</a></li>
+        <li><a href="https://restaurant.org/" target="_blank" rel="noopener">National Restaurant Association, Industry Pricing Research</a></li>
       </ul>
     </section>
 
@@ -424,9 +424,9 @@ const relatedCalcs = [
       if (cost <= 0 || target <= 0 || target >= 100) {
         animateCounter(counter!, lastValue, 0, 400, 2);
         lastValue = 0;
-        if (factorEl) factorEl.textContent = '—';
+        if (factorEl) factorEl.textContent = ', ';
         if (profitEl) profitEl.textContent = '$0.00';
-        if (cmPctEl) cmPctEl.textContent = '—';
+        if (cmPctEl) cmPctEl.textContent = ', ';
         if (roundedRow) roundedRow.hidden = true;
         mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
         return;

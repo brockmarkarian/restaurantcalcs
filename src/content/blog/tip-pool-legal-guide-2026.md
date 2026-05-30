@@ -30,9 +30,9 @@ Strip everything else away. There are two FLSA rules that govern every tip pool 
 
 Full stop. This was added to the Fair Labor Standards Act in March 2018 as part of the Consolidated Appropriations Act ([FLSA §3(m)(2)(B)](https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa)). It applies regardless of whether the employer takes a tip credit, regardless of whether the manager performed tipped work during the shift, regardless of how the pool is structured, regardless of whether the manager's mom is in town and they really wanted to buy her dinner. (I am told that's not a defense.)
 
-If a person directs other employees, hires, fires, sets schedules, or otherwise functions as a supervisor — they cannot share in pooled tips. Even if they pour drinks for two hours during a Saturday rush. The DOL's test is functional, not titular. "Bartender slash floor lead slash kind-of-helps-with-the-schedule" is a manager. Treat them as one.
+If a person directs other employees, hires, fires, sets schedules, or otherwise functions as a supervisor, they cannot share in pooled tips. Even if they pour drinks for two hours during a Saturday rush. The DOL's test is functional, not titular. "Bartender slash floor lead slash kind-of-helps-with-the-schedule" is a manager. Treat them as one.
 
-DOL enforcement on this is not subtle. The Wage and Hour Division publishes settlements regularly. Recent ones have included a Las Vegas restaurant group that paid $1.6M in back wages after managers shared in the tip pool, a Massachusetts steakhouse chain that paid $750K when shift supervisors received pool distributions, and a Florida resort restaurant that lost a class action because the assistant general manager — who occasionally bartended — received tips from the pool.
+DOL enforcement on this is not subtle. The Wage and Hour Division publishes settlements regularly. Recent ones have included a Las Vegas restaurant group that paid $1.6M in back wages after managers shared in the tip pool, a Massachusetts steakhouse chain that paid $750K when shift supervisors received pool distributions, and a Florida resort restaurant that lost a class action because the assistant general manager, who occasionally bartended, received tips from the pool.
 
 I won't name them because the cases are public on dol.gov and they're easy to find. The pattern is identical every time. An owner or manager thinks "I helped on the floor tonight, I should get a cut." Two years later, the DOL cites three years of back wages, doubled as liquidated damages, plus the employer's attorney's fees, plus the employee's attorney's fees, plus a small but real chance of personal liability for the manager who took the cut. None of that math goes in your favor.
 
@@ -46,13 +46,13 @@ A "tip credit" means the employer pays tipped staff less than the full minimum w
 - Bartenders ✓
 - Bussers ✓
 - Runners ✓
-- Hosts (if they regularly receive tips, which they often don't) — gray area, talk to a lawyer
+- Hosts (if they regularly receive tips, which they often don't), gray area, talk to a lawyer
 - Cooks ✗
 - Dishwashers ✗
 - Prep cooks ✗
 - Managers ✗ (this one's already covered by Rule 1)
 
-If you don't take a tip credit (you pay everyone full minimum wage or higher), the [2021 DOL final rule](https://www.dol.gov/agencies/whd/flsa/tips) says you *can* include BOH staff in the tip pool. Cooks and dishwashers can be in the pool — but managers and supervisors still can't, ever.
+If you don't take a tip credit (you pay everyone full minimum wage or higher), the [2021 DOL final rule](https://www.dol.gov/agencies/whd/flsa/tips) says you *can* include BOH staff in the tip pool. Cooks and dishwashers can be in the pool, but managers and supervisors still can't, ever.
 
 This is where most operators get tripped up. They hear "you can include BOH" and they hear it the way a bartender hears "open bar." Selectively. They forget the part about needing to pay full minimum wage to everyone. Three years later they've got a class action they didn't see coming, and the cooks they thought were getting a nice bonus are now also collecting back wages.
 
@@ -60,19 +60,19 @@ This is where most operators get tripped up. They hear "you can include BOH" and
 
 Some states have eliminated the tip credit entirely. Tipped employees in these states must be paid the full state minimum wage, in cash, before tips:
 
-- **California** — no tip credit. Minimum wage is the floor. (Labor Code §351)
-- **Washington** — no tip credit
-- **Oregon** — no tip credit
-- **Nevada** — no tip credit
-- **Montana** — no tip credit
-- **Minnesota** — no tip credit
-- **Alaska** — no tip credit
+- **California**, no tip credit. Minimum wage is the floor. (Labor Code §351)
+- **Washington**, no tip credit
+- **Oregon**, no tip credit
+- **Nevada**, no tip credit
+- **Montana**, no tip credit
+- **Minnesota**, no tip credit
+- **Alaska**, no tip credit
 
 I ran the bar at Cosmos in California, which is why my picture of the rules is cleaner than most operators' is. We never had to do the tip-credit math. Every tipped employee was paid full state minimum wage in cash before tips. The pool eligibility rules collapsed into "is this person a manager? No? They're in." Which is a much easier conversation to have than the federal version.
 
 If you operate in any of the states above and you've been paying tipped staff less than the state minimum, you have a problem the size of three years of back wages times every employee. Get a labor attorney involved immediately. Yesterday, ideally.
 
-A handful of other states have a state-specific tipped minimum that's higher than the federal $2.13 (Hawaii, Connecticut, New York have versions of this — check your state's labor department directly). And some cities and counties have their own minimum wage rules that override state law. New York City, San Francisco, Seattle, Portland, and Denver are the big ones.
+A handful of other states have a state-specific tipped minimum that's higher than the federal $2.13 (Hawaii, Connecticut, New York have versions of this, check your state's labor department directly). And some cities and counties have their own minimum wage rules that override state law. New York City, San Francisco, Seattle, Portland, and Denver are the big ones.
 
 The federal $2.13 floor only applies in states that haven't superseded it. As of 2026, about 16 states still allow the federal tipped minimum. The rest have either banned the tip credit outright or set a higher tipped minimum.
 
@@ -100,7 +100,7 @@ In five years running a bar program, I watched a few patterns repeat. Here's wha
 
 **Cooks in the pool with tip credit on.** The owner heard about the 2021 rule allowing BOH inclusion and didn't catch the part about needing to pay full minimum wage. Three years later, every cook who passed through is owed back tips, plus liquidated damages, plus interest. The owner did not save money on labor. The owner has now lost considerably more.
 
-**Tip-out percentages that don't add up.** The server tips out 5% of sales to bartenders, 3% to bussers, 1% to food runners, 2% to support staff. On a slow night, sales are down but tips are flat-ish — the percentages now add up to more than the server actually made. That gap comes out of the server's wages. That's a separate FLSA violation. Run the math weekly. Make sure tip-outs come from actual tips, not from the server's hourly.
+**Tip-out percentages that don't add up.** The server tips out 5% of sales to bartenders, 3% to bussers, 1% to food runners, 2% to support staff. On a slow night, sales are down but tips are flat-ish, the percentages now add up to more than the server actually made. That gap comes out of the server's wages. That's a separate FLSA violation. Run the math weekly. Make sure tip-outs come from actual tips, not from the server's hourly.
 
 **No documentation.** Even when the pool is run correctly, an operator without records loses the audit. The burden of proof is on the employer, not the employee. If you can't show how tips were distributed and to whom, you're presumed to have done it wrong. Save the sheets. I keep saying this and I'm going to keep saying this.
 
@@ -116,26 +116,26 @@ This is what I built at Cosmos. I'd tell any operator setting up a pool to do ro
 
 4. **Never include managers.** I cannot stress this enough. If you're not sure whether someone is a manager, treat them as one and exclude them. The cost of excluding a borderline person is zero. The cost of including them is six figures.
 
-5. **Run weekly.** Tip pool drift is real. A 3% accidental tip-out becomes 8% if nobody recalculates. Your servers notice the difference long before you do — and they don't have to file a wage claim to fix the relationship damage. They just stop trusting you, which is the slower, more expensive version of a wage claim.
+5. **Run weekly.** Tip pool drift is real. A 3% accidental tip-out becomes 8% if nobody recalculates. Your servers notice the difference long before you do, and they don't have to file a wage claim to fix the relationship damage. They just stop trusting you, which is the slower, more expensive version of a wage claim.
 
 6. **Document, document, document.** Save every distribution sheet. Save every employee acknowledgment. If a former employee files a wage claim two years later, your records are your defense. Your memory is not your defense. Mine wasn't, and I had a fairly good memory.
 
-7. **Talk to a labor attorney annually.** State law changes. Federal interpretation changes. The 80/20/30 rule was finalized in November 2021 and vacated in August 2024 — that's three years of operators rebuilding policies twice. An annual review is roughly one percent of the cost of getting it wrong. (Same math as before. Still in favor of the consult.)
+7. **Talk to a labor attorney annually.** State law changes. Federal interpretation changes. The 80/20/30 rule was finalized in November 2021 and vacated in August 2024, that's three years of operators rebuilding policies twice. An annual review is roughly one percent of the cost of getting it wrong. (Same math as before. Still in favor of the consult.)
 
 ## The math part
 
 The tip pool calculator on this site supports four distribution methods (hours-weighted, points-weighted, equal split, and tip-out by role %), and it has built-in compliance flags for the manager prohibition and the tip-credit gate. Use it for the math. Use a labor attorney for the legal coverage.
 
-The math is the easy part. It always was. The discipline of running the math weekly, documenting it, and refusing the "just this once" exception when an owner asks for a cut — that's the entire game.
+The math is the easy part. It always was. The discipline of running the math weekly, documenting it, and refusing the "just this once" exception when an owner asks for a cut, that's the entire game.
 
-That's the conversation I had to have more than once. It got smoother every time, in the way that delivering bad news gets smoother — which is to say, not very. It's the conversation that kept the bar I worked at out of trouble. And it's the conversation I wish more operators were having with their teams before they end up reading about themselves in a DOL enforcement bulletin.
+That's the conversation I had to have more than once. It got smoother every time, in the way that delivering bad news gets smoother, which is to say, not very. It's the conversation that kept the bar I worked at out of trouble. And it's the conversation I wish more operators were having with their teams before they end up reading about themselves in a DOL enforcement bulletin.
 
 ## Sources cited
 
 - [DOL Fact Sheet #15: Tipped Employees Under the FLSA](https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa)
 - [DOL Final Rule on Tip Regulations (86 FR 60114, September 2021)](https://www.dol.gov/agencies/whd/flsa/tips)
-- [29 U.S. Code § 203(m) — Tip pooling statute (Cornell Legal Information Institute)](https://www.law.cornell.edu/uscode/text/29/203)
-- [National Restaurant Association — Tip pooling overview](https://restaurant.org/education-and-resources/resource-library/tip-pooling/)
-- *Restaurant Law Center v. U.S. Department of Labor*, 5th Cir. (Aug 2024) — 80/20/30 vacatur
-- FLSA §3(m)(2)(B) — Consolidated Appropriations Act, 2018
-- California Labor Code §351 — no tip credit allowed
+- [29 U.S. Code § 203(m), Tip pooling statute (Cornell Legal Information Institute)](https://www.law.cornell.edu/uscode/text/29/203)
+- [National Restaurant Association, Tip pooling overview](https://restaurant.org/education-and-resources/resource-library/tip-pooling/)
+- *Restaurant Law Center v. U.S. Department of Labor*, 5th Cir. (Aug 2024), 80/20/30 vacatur
+- FLSA §3(m)(2)(B), Consolidated Appropriations Act, 2018
+- California Labor Code §351, no tip credit allowed

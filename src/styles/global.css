@@ -1,10 +1,10 @@
-/* RestaurantCalcs design system — tokens from DESIGN.md */
+/* RestaurantCalcs design system - tokens from DESIGN.md */
 
 :root {
   /* Color */
-  --color-saffron: #c87500;            /* visual brand — accents, decorative use only (3.49:1 white) */
-  --color-saffron-cta: #a86200;        /* CTA button BG — white text passes AA (4.8:1) */
-  --color-saffron-text: #8d5200;       /* text on light bg — passes AA on canvas + cream (~6:1) */
+  --color-saffron: #c87500;            /* visual brand - accents, decorative use only (3.49:1 white) */
+  --color-saffron-cta: #a86200;        /* CTA button BG - white text passes AA (4.8:1) */
+  --color-saffron-text: #8d5200;       /* text on light bg - passes AA on canvas + cream (~6:1) */
   --color-saffron-hover: #6e3e00;      /* darker hover state */
   --color-saffron-light: #fbe9cf;
 
@@ -23,7 +23,7 @@
   --color-border-active: #c87500;
   --color-border-soft: #f0ece4;
 
-  /* Alpha tokens — use these instead of inline rgba() */
+  /* Alpha tokens - use these instead of inline rgba() */
   --alpha-shadow-1: rgba(60, 50, 40, 0.06);
   --alpha-shadow-2: rgba(60, 50, 40, 0.08);
   --alpha-shadow-3: rgba(60, 50, 40, 0.10);
@@ -80,7 +80,7 @@
   --transition-fast: 180ms var(--ease-out);
   --transition-med: 220ms var(--ease-out);
 
-  /* Section bg alternation — visual rhythm */
+  /* Section bg alternation - visual rhythm */
   --bg-alt-cream: #f4f1ea;
   --bg-alt-saffron: #fbf4e8;       /* subtle saffron-tinted cream */
   --bg-alt-warm: #f8f4ec;          /* between cream + saffron */
@@ -127,7 +127,7 @@ body::before {
   mix-blend-mode: multiply;
 }
 
-/* Decorative section divider — saffron tick marks */
+/* Decorative section divider - saffron tick marks */
 .divider-tick {
   position: relative;
   height: 32px;
@@ -153,7 +153,7 @@ body::before {
   font-weight: 600;
 }
 
-/* Editorial pull-quote — bigger, italic, displayed */
+/* Editorial pull-quote - bigger, italic, displayed */
 .editorial-quote {
   display: block;
   font-family: var(--font-display);
@@ -183,7 +183,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Numeric-as-art — big saffron number visual anchors */
+/* Numeric-as-art - big saffron number visual anchors */
 .numeric-art {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -203,14 +203,14 @@ body::before {
 .bg-deep { background: var(--bg-alt-deep); color: var(--color-cream); }
 .bg-deep h2, .bg-deep h3 { color: var(--color-white); }
 
-/* Editorial grid backdrop — subtle dot pattern on accent sections */
+/* Editorial grid backdrop - subtle dot pattern on accent sections */
 .bg-dotted {
   background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: 0 0;
 }
 
-/* Cited sources block — appended to each calc page after FAQ for E-E-A-T + SEO external links */
+/* Cited sources block - appended to each calc page after FAQ for E-E-A-T + SEO external links */
 .cited-sources {
   max-width: 880px;
   margin: 0 auto var(--space-16);
@@ -271,7 +271,7 @@ body::before {
   }
 }
 
-/* Italic em fix — add breathing room so capital I doesn't merge into next char (/-look) */
+/* Italic em fix - add breathing room so capital I doesn't merge into next char (/-look) */
 em {
   letter-spacing: 0.03em;
 }
@@ -295,7 +295,7 @@ h1 em, h2 em, h3 em, .post-page__title em, .essay__headline em, .calc-page__titl
   object-fit: cover;
 }
 
-/* Operator-story byline — signed signoff at end */
+/* Operator-story byline - signed signoff at end */
 .operator-byline {
   display: flex;
   align-items: center;
@@ -330,7 +330,7 @@ h1 em, h2 em, h3 em, .post-page__title em, .essay__headline em, .calc-page__titl
   color: var(--color-muted);
 }
 
-/* Operator-story headline em — saffron + underline, no italic ambiguity */
+/* Operator-story headline em - saffron + underline, no italic ambiguity */
 .operator-story .essay__headline em {
   font-style: normal;
   color: var(--color-saffron-text);
@@ -340,7 +340,7 @@ h1 em, h2 em, h3 em, .post-page__title em, .essay__headline em, .calc-page__titl
   text-underline-offset: 6px;
 }
 
-/* Drop cap on operator-story first paragraph — editorial signal */
+/* Drop cap on operator-story first paragraph - editorial signal */
 .operator-story .essay__body > p:first-of-type::first-letter {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 144, "wdth" 95;
@@ -354,7 +354,7 @@ h1 em, h2 em, h3 em, .post-page__title em, .essay__headline em, .calc-page__titl
   letter-spacing: -0.04em;
 }
 
-/* Full-bleed bg behind operator-story sections — paper grain + saffron radial */
+/* Full-bleed bg behind operator-story sections - paper grain + saffron radial */
 .operator-story {
   position: relative;
   z-index: 1;
@@ -518,7 +518,7 @@ img { max-width: 100%; height: auto; display: block; }
   min-height: 44px;
 }
 
-/* Universal focus-visible ring — keyboard accessibility */
+/* Universal focus-visible ring - keyboard accessibility */
 .btn:focus-visible,
 a:focus-visible,
 button:focus-visible {
@@ -527,7 +527,7 @@ button:focus-visible {
   border-radius: var(--radius-md);
 }
 
-/* Skip link — appears only on focus, jumps to main content */
+/* Skip link - appears only on focus, jumps to main content */
 .skip-link {
   position: absolute;
   top: -40px;
@@ -547,10 +547,10 @@ button:focus-visible {
   top: 8px;
 }
 
-/* Saffron text utility — WCAG-safe variant */
+/* Saffron text utility - WCAG-safe variant */
 .t-micro--saffron { color: var(--color-saffron-text); }
 
-/* Visually hidden — accessible to screen readers, hidden from sighted users */
+/* Visually hidden - accessible to screen readers, hidden from sighted users */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -563,7 +563,7 @@ button:focus-visible {
   border: 0;
 }
 
-/* Form intro card — shared across calculators */
+/* Form intro card - shared across calculators */
 .form-intro {
   display: flex;
   flex-direction: column;

@@ -10,25 +10,25 @@ heroImage: "/illustrations/blog-flacos.webp"
 
 A friend of mine ran a cafe in Florida called Flaco's. His name was Felix.
 
-His parents came straight from Cuba and cooked the menu themselves — paella on weekends, traditional Cuban plates Monday through Friday. The kind of food you eat at a Sunday family party at someone's tía's house. The room was warm. Regulars walked in and got hugged. Service was the kind you can't fake, the kind a corporate hospitality consultant could run a six-day workshop on and still not capture.
+His parents came straight from Cuba and cooked the menu themselves, paella on weekends, traditional Cuban plates Monday through Friday. The kind of food you eat at a Sunday family party at someone's tía's house. The room was warm. Regulars walked in and got hugged. Service was the kind you can't fake, the kind a corporate hospitality consultant could run a six-day workshop on and still not capture.
 
 Flaco's closed.
 
-Not because the food was bad. The food was great. Not because the service was bad. The service was excellent. Not because the rent was crushing or the location was wrong or the menu was confused. Flaco's closed because the family ran out of money — and they ran out of money because nobody was running the math on the generosity.
+Not because the food was bad. The food was great. Not because the service was bad. The service was excellent. Not because the rent was crushing or the location was wrong or the menu was confused. Flaco's closed because the family ran out of money, and they ran out of money because nobody was running the math on the generosity.
 
-Free meals to staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the AC tech, the priest, anyone who walked in hungry. The food itself didn't cost a lot to make — proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, Flaco's should have worked. In reality, the math nobody was running ate the business one comped plate at a time.
+Free meals to staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the AC tech, the priest, anyone who walked in hungry. The food itself didn't cost a lot to make, proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, Flaco's should have worked. In reality, the math nobody was running ate the business one comped plate at a time.
 
 This is the story I want every operator to read before they open their doors. Because Flaco's isn't an outlier. Flaco's is the modal indie restaurant closure: love-driven, generosity-fueled, math-blind.
 
 > Permission note: Felix has consented to me telling his story here. The lessons are universal. The names are real because his family's craft deserves to be remembered, not erased.
 
-## Food cost percentage — what it actually measures
+## Food cost percentage, what it actually measures
 
 Most operators learn food cost percentage as a math definition: cost of food sold divided by food revenue, times 100. That's correct. That's also the part that doesn't matter.
 
-What food cost percentage *actually* measures is your **discipline density** — how many times per week you're forced to look at what's going out the back door versus what's coming in the front. An operator running food cost weekly catches drift in week three and fixes it in week four. An operator running it monthly catches drift in month two and fixes it in month three. An operator running it quarterly catches drift after the lease renewal and after the loan call.
+What food cost percentage *actually* measures is your **discipline density**, how many times per week you're forced to look at what's going out the back door versus what's coming in the front. An operator running food cost weekly catches drift in week three and fixes it in week four. An operator running it monthly catches drift in month two and fixes it in month three. An operator running it quarterly catches drift after the lease renewal and after the loan call.
 
-Flaco's wasn't running food cost at all. Not weekly. Not monthly. The closest they had was the bank balance at the end of the month — and the bank balance is a lagging indicator of a problem that started six months earlier. (I have, regrettably, met operators who think the bank balance *is* the food cost calculation. They are also operators with closures in their futures, and I tried to tell them.)
+Flaco's wasn't running food cost at all. Not weekly. Not monthly. The closest they had was the bank balance at the end of the month, and the bank balance is a lagging indicator of a problem that started six months earlier. (I have, regrettably, met operators who think the bank balance *is* the food cost calculation. They are also operators with closures in their futures, and I tried to tell them.)
 
 ## The four buckets of "free food" that close restaurants
 
@@ -56,7 +56,7 @@ But not counting them is also not an option. The fix is the same: a family-and-f
 
 The loaf that didn't sell. The fish that came in slightly off and got cooked for staff. The mistake plate the cook ate at 2pm because it was already plated when the order got recalled. **Food waste consumed by staff is the most invisible cost line in the entire restaurant.** It's already in inventory, already in COGS, but it's not generating revenue. It just disappears.
 
-The Toast operations playbooks recommend a daily waste log for exactly this reason ([Toast: Restaurant Waste Management Guide](https://pos.toasttab.com/blog/on-the-line/restaurant-food-waste)). MarginEdge does the same in its inventory module. The point isn't that staff shouldn't eat the mistake plates — they should, that food was paid for. The point is that the cost should be visible so you can manage it.
+The Toast operations playbooks recommend a daily waste log for exactly this reason ([Toast: Restaurant Waste Management Guide](https://pos.toasttab.com/blog/on-the-line/restaurant-food-waste)). MarginEdge does the same in its inventory module. The point isn't that staff shouldn't eat the mistake plates, they should, that food was paid for. The point is that the cost should be visible so you can manage it.
 
 ## The "love doesn't have a price tag" problem
 
@@ -94,8 +94,8 @@ Run your numbers. The [food cost calculator](/calculators/food-cost/) on this si
 
 ## Sources cited
 
-- National Restaurant Association — *Uniform System of Accounts for Restaurants*, 10th ed.
+- National Restaurant Association, *Uniform System of Accounts for Restaurants*, 10th ed.
 - [Toast: Restaurant Food Cost Calculator + Operations Playbook](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage)
 - [Restaurant365: Calculating Restaurant COGS](https://www.restaurant365.com/blog/calculate-restaurant-cogs/)
-- MarginEdge — Plate & Menu Costing 101
+- MarginEdge, Plate & Menu Costing 101
 - Industry comp budget benchmarks cross-referenced with [Toast](https://pos.toasttab.com/blog/on-the-line/restaurant-food-waste) and Lightspeed publications

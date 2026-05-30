@@ -31,11 +31,11 @@ const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', mo
 const faq = [
   {
     q: 'Are these calculators really free? What\'s the catch?',
-    a: 'Free, no signup, no email gate, no upsell. The site runs on display advertising — you scroll past an ad placeholder. Every calculator runs in your browser; nothing is sent to a server. Close the tab and your inputs disappear.',
+    a: 'Free, no signup, no email gate, no upsell. The site runs on display advertising, you scroll past an ad placeholder. Every calculator runs in your browser; nothing is sent to a server. Close the tab and your inputs disappear.',
   },
   {
     q: 'Who built RestaurantCalcs and why should I trust the math?',
-    a: 'Built by Brock Markarian, a 5-year bartender-to-GM at Cosmos Taverna in California. Every formula was audited against authoritative industry sources — <a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast</a>, Restaurant365, MarginEdge, the <a href="https://restaurant.org/" target="_blank" rel="noopener">National Restaurant Association</a>, the <a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">Department of Labor</a>, BinWise, BevSpot, the Culinary Institute of America. Sources are cited inline on each calculator page.',
+    a: 'Built by Brock Markarian, a 5-year bartender-to-GM at Cosmos Taverna in California. Every formula was audited against authoritative industry sources, <a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast</a>, Restaurant365, MarginEdge, the <a href="https://restaurant.org/" target="_blank" rel="noopener">National Restaurant Association</a>, the <a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">Department of Labor</a>, BinWise, BevSpot, the Culinary Institute of America. Sources are cited inline on each calculator page.',
   },
   {
     q: 'Why these calculators specifically? What\'s missing?',
@@ -43,7 +43,7 @@ const faq = [
   },
   {
     q: 'Can I use these for my restaurant\'s actual books?',
-    a: 'Use them for sanity checks, weekly tracking, and quick decisions. They are educational tools — not a replacement for accounting software, payroll providers, or a labor attorney. The disclaimer on every page is real. Consult qualified professionals before making business decisions.',
+    a: 'Use them for sanity checks, weekly tracking, and quick decisions. They are educational tools, not a replacement for accounting software, payroll providers, or a labor attorney. The disclaimer on every page is real. Consult qualified professionals before making business decisions.',
   },
   {
     q: 'How accurate are the industry benchmark thresholds?',
@@ -61,7 +61,7 @@ const homepageSchema = [
     '@type': 'WebPage',
     '@id': 'https://restaurantcalcs.com/#webpage',
     url: 'https://restaurantcalcs.com/',
-    name: 'RestaurantCalcs — Restaurant math, done right.',
+    name: 'RestaurantCalcs, Restaurant math, done right.',
     description: 'Free calculators for restaurant ops math. Built by a 5-year GM. Math shown on every result.',
     isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
     primaryImageOfPage: { '@type': 'ImageObject', url: 'https://restaurantcalcs.com/og/index.png' },
@@ -72,7 +72,7 @@ const homepageSchema = [
   {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'RestaurantCalcs — All calculators',
+    name: 'RestaurantCalcs, All calculators',
     description: 'Free calculators for everyday restaurant operations math.',
     numberOfItems: calcs.length,
     itemListElement: calcs.map((c, i) => ({
@@ -169,7 +169,7 @@ const homepageSchema = [
             </div>
           </article>
 
-          <!-- Foreground card — live result -->
+          <!-- Foreground card, live result -->
           <article class="stack-card stack-card--c1">
             <div class="stack-card__head">
               <span class="t-micro stack-card__label">Food cost percentage</span>
@@ -232,7 +232,7 @@ const homepageSchema = [
           <em class="tools__em">Nothing it doesn't.</em>
         </h2>
         <p class="t-body-large tools__subhead">
-          Pick a tool. Plug the numbers in. The math is shown underneath every result so you can trust it — and teach it to your sous in thirty seconds.
+          Pick a tool. Plug the numbers in. The math is shown underneath every result so you can trust it, and teach it to your sous in thirty seconds.
         </p>
       </div>
 
@@ -449,13 +449,13 @@ const homepageSchema = [
     <div class="container">
       <div class="founder__grid">
         <div class="founder__media">
-          <img src="/textures/bar-tools-flatlay.webp" alt="Editorial flat-lay illustration of bar tools and kitchen utensils — measuring jigger, chef's knife, wooden spoon, whisk, scale, notepad, fountain pen — in saffron and cream tones." width="1264" height="848" loading="lazy" />
+          <img src="/textures/bar-tools-flatlay.webp" alt="Editorial flat-lay illustration of bar tools and kitchen utensils, measuring jigger, chef's knife, wooden spoon, whisk, scale, notepad, fountain pen, in saffron and cream tones." width="1264" height="848" loading="lazy" />
         </div>
         <div class="founder__copy">
           <p class="t-micro t-micro--saffron">Built by an operator</p>
           <h2 class="founder__headline">Five years behind the bar. <em>Same site that serves you.</em></h2>
           <p class="founder__lede">
-            I started as a bartender at Cosmos Taverna in California and worked my way up to general manager. Ran the bar program and the nightclub for five years solid. Every calculator on this site was built around math I was running every week with a spreadsheet that crashed on phones — and every operator-story section is grounded in something I actually watched happen on the floor.
+            I started as a bartender at Cosmos Taverna in California and worked my way up to general manager. Ran the bar program and the nightclub for five years solid. Every calculator on this site was built around math I was running every week with a spreadsheet that crashed on phones, and every operator-story section is grounded in something I actually watched happen on the floor.
           </p>
           <div class="founder__byline">
             <span class="founder__avatar" aria-hidden="true">B</span>
@@ -549,7 +549,7 @@ const homepageSchema = [
 </Layout>
 
 <script>
-  // Mouse parallax on hero stack — rAF-throttled
+  // Mouse parallax on hero stack, rAF-throttled
   const parallax = document.querySelector('[data-parallax]');
   const stack = document.querySelector('[data-stack]');
 
@@ -582,7 +582,7 @@ const homepageSchema = [
     });
   }
 
-  // Counter animation — runs on load, loops every 7s, pauses when tab hidden
+  // Counter animation, runs on load, loops every 7s, pauses when tab hidden
   const counter = document.querySelector('[data-counter]') as HTMLElement | null;
   if (counter) {
     const target = parseFloat(counter.dataset.counter || '0');
@@ -803,7 +803,7 @@ const homepageSchema = [
   }
 
   .stack-card--c1 {
-    /* Foreground — live result */
+    /* Foreground, live result */
     top: 60px;
     left: 30px;
     width: 360px;
@@ -813,7 +813,7 @@ const homepageSchema = [
   }
 
   .stack-card--c2 {
-    /* Recipe cost — middle */
+    /* Recipe cost, middle */
     top: 240px;
     left: 100px;
     width: 320px;
@@ -823,7 +823,7 @@ const homepageSchema = [
   }
 
   .stack-card--c3 {
-    /* Tip pool — back */
+    /* Tip pool, back */
     top: 0;
     left: 140px;
     width: 280px;
@@ -1033,7 +1033,7 @@ const homepageSchema = [
   }
 
   @media (max-width: 540px) {
-    /* Mobile fallback — hide background cards + glyphs, show only foreground result */
+    /* Mobile fallback, hide background cards + glyphs, show only foreground result */
     .hero__viz { min-height: auto; perspective: none; padding: 0; }
     .stack {
       width: 100%;
@@ -1153,7 +1153,7 @@ const homepageSchema = [
     gap: var(--space-5);
   }
 
-  /* CALCULATOR CHASSIS — modern Braun/HP DNA, restaurant operator feel */
+  /* CALCULATOR CHASSIS, modern Braun/HP DNA, restaurant operator feel */
   .tool-card {
     display: flex;
     flex-direction: column;
@@ -1320,7 +1320,7 @@ const homepageSchema = [
   .tool-card:hover .tool-card__arrow { transform: translateX(5px); }
 
   /* ============================
-     TOOL CARD MINI VIZ — recessed LCD screen
+     TOOL CARD MINI VIZ, recessed LCD screen
      ============================ */
   .tool-viz {
     background:
@@ -1544,7 +1544,7 @@ const homepageSchema = [
      WHY
      ============================ */
   /* ============================
-     PROOF — stat strip
+     PROOF, stat strip
      ============================ */
   .proof { padding: var(--space-12) 0; background: var(--bg-alt-deep); background-image: linear-gradient(180deg, rgba(26, 24, 20, 0.90), rgba(26, 24, 20, 0.94)), url('/textures/dark-bar-wood.webp'); background-size: cover; background-position: center; color: var(--color-cream); position: relative; overflow: hidden; }
   .proof::before { content: ''; position: absolute; inset: 0; background-image: url('/noise.svg'); background-size: 200px 200px; opacity: 0.18; mix-blend-mode: overlay; pointer-events: none; }
@@ -1559,7 +1559,7 @@ const homepageSchema = [
   }
 
   /* ============================
-     FOUNDER — illustration + bio
+     FOUNDER, illustration + bio
      ============================ */
   .founder { padding: var(--space-20) 0; background-color: var(--bg-alt-saffron); background-image: radial-gradient(ellipse 1000px 400px at 50% 0%, rgba(200, 117, 0, 0.08), transparent 60%), url('/patterns/halftone-dots.webp'), url('/textures/paper-grain.webp'); background-size: auto, cover, cover; background-position: center, center, center; background-repeat: no-repeat, no-repeat, no-repeat; background-blend-mode: normal, multiply, normal; position: relative; }
   .founder::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(251, 244, 232, 0.78) 0%, rgba(251, 244, 232, 0.92) 60%, var(--bg-alt-saffron) 100%); pointer-events: none; z-index: 0; }
@@ -1580,7 +1580,7 @@ const homepageSchema = [
   .founder__link:hover { color: var(--color-saffron-hover); }
 
   /* ============================
-     HOME BLOG — recent posts
+     HOME BLOG, recent posts
      ============================ */
   .home-blog { padding: var(--space-20) 0; background-color: var(--color-cream); background-image: url('/patterns/tally-marks.webp'); background-size: 900px auto; background-position: top right; background-repeat: no-repeat; position: relative; }
   .home-blog::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(244, 241, 234, 0.85) 0%, rgba(244, 241, 234, 0.92) 100%); pointer-events: none; z-index: 0; }
@@ -1609,7 +1609,7 @@ const homepageSchema = [
   .home-blog__card:hover .home-blog__arrow { transform: translateX(4px); }
 
   /* ============================
-     HOME FAQ — accordion
+     HOME FAQ, accordion
      ============================ */
   .home-faq { padding: var(--space-20) 0; background-color: var(--color-canvas); background-image: url('/patterns/topo-lines.webp'); background-size: 1200px auto; background-position: center; background-repeat: no-repeat; border-top: 1px solid var(--color-border); position: relative; }
   .home-faq::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--color-canvas) 0%, rgba(250, 250, 247, 0.78) 50%, var(--color-canvas) 100%); pointer-events: none; z-index: 0; }

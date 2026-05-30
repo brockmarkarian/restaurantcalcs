@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Liquor Pour Cost Calculator — Free | RestaurantCalcs';
+const title = 'Liquor Pour Cost Calculator, Free | RestaurantCalcs';
 const description = 'Pour cost calculator with aggregate + per-drink modes. Bottle math, spillage, suggested price, healthy benchmarks per category. Built by a former bar manager.';
 
 const faq = [
@@ -11,7 +11,7 @@ const faq = [
   },
   {
     q: 'How do you calculate pour cost?',
-    a: 'Pour Cost % = (Beverage Cost ÷ Beverage Revenue) × 100. Beverage cost is what you paid suppliers for the period. Beverage revenue is what you sold for the same period. The discipline is matching periods cleanly — don\'t mix this week\'s revenue with last month\'s purchases.',
+    a: 'Pour Cost % = (Beverage Cost ÷ Beverage Revenue) × 100. Beverage cost is what you paid suppliers for the period. Beverage revenue is what you sold for the same period. The discipline is matching periods cleanly, don\'t mix this week\'s revenue with last month\'s purchases.',
   },
   {
     q: 'Should I track liquor, beer, and wine separately?',
@@ -19,11 +19,11 @@ const faq = [
   },
   {
     q: 'Why is my pour cost too high?',
-    a: 'Ranked by frequency: (1) free pours — bartenders not using jiggers or measured spouts, (2) comping comp comping — too many "manager comps" or shift drinks not tracked, (3) outdated cocktail recipes — costs went up, prices didn\'t, (4) theft — common in high-volume bars without inventory discipline, (5) breakage and spillage uncounted, (6) inventory miscount on month-end.',
+    a: 'Ranked by frequency: (1) free pours, bartenders not using jiggers or measured spouts, (2) comping comp comping, too many "manager comps" or shift drinks not tracked, (3) outdated cocktail recipes, costs went up, prices didn\'t, (4) theft, common in high-volume bars without inventory discipline, (5) breakage and spillage uncounted, (6) inventory miscount on month-end.',
   },
   {
     q: 'How do I lower pour cost without losing customers?',
-    a: 'Switch to measured pour spouts or jiggers (immediate 2–4pp drop typical). Reprice cocktails to match current liquor cost (most menus haven\'t kept up with inflation). Eliminate comp shift drinks or cap them. Audit your most-poured bottles — that\'s usually where the leak is.',
+    a: 'Switch to measured pour spouts or jiggers (immediate 2–4pp drop typical). Reprice cocktails to match current liquor cost (most menus haven\'t kept up with inflation). Eliminate comp shift drinks or cap them. Audit your most-poured bottles, that\'s usually where the leak is.',
   },
   {
     q: 'How often should I run pour cost?',
@@ -35,7 +35,7 @@ const faq = [
   },
   {
     q: 'Should comp drinks be included?',
-    a: 'In your cost number — yes (you paid for the liquor). In your revenue — no (you didn\'t collect on it). That asymmetry is what makes excessive comping crush pour cost. A 4-ounce $9 cocktail that gets comped costs you the liquor PLUS the lost margin. Track comps separately as a percentage of total pours.',
+    a: 'In your cost number, yes (you paid for the liquor). In your revenue, no (you didn\'t collect on it). That asymmetry is what makes excessive comping crush pour cost. A 4-ounce $9 cocktail that gets comped costs you the liquor PLUS the lost margin. Track comps separately as a percentage of total pours.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -90,21 +90,21 @@ const scenarios = [
   {
     title: 'The 32% liquor program',
     setup: 'Cocktail bar, liquor pour cost stuck at 32% for 6 months. Owner blamed inflation.',
-    diagnosis: 'Free-pouring on the well — bartenders not using measured spouts. Audit found average pour 1.7oz vs spec 1.5oz. That 13% over-pour at scale = 4pp pour cost.',
+    diagnosis: 'Free-pouring on the well, bartenders not using measured spouts. Audit found average pour 1.7oz vs spec 1.5oz. That 13% over-pour at scale = 4pp pour cost.',
     fix: 'Installed measured pour spouts on all wells, retrained bartenders, set weekly variance check on top 10 bottles.',
-    outcome: 'Down to 21% in 4 weeks. $3,800/month margin recovered. Guest complaints zero — they couldn\'t tell.',
+    outcome: 'Down to 21% in 4 weeks. $3,800/month margin recovered. Guest complaints zero, they couldn\'t tell.',
   },
   {
     title: 'The 18% beer program (suspicious)',
-    setup: 'Sports bar, beer at 18% — looked great. Owner noticed kegs running out faster than POS sales suggested.',
+    setup: 'Sports bar, beer at 18%, looked great. Owner noticed kegs running out faster than POS sales suggested.',
     diagnosis: 'Theft. Bartender comping pints to friends, ringing them as voids. Variance vs theoretical was 11pp (real pour cost was 29%).',
     fix: 'POS lockdown on voids, inventory audit per shift, terminated bartender, replaced 2 measured-pour kegs.',
     outcome: 'Real pour cost 24%. Caught $1,200/month theft. Sets variance baseline for new hires.',
   },
   {
     title: 'The 38% wine program',
-    setup: 'Italian concept, wine pour cost at 38% — well above 32% target. Wine list was strong, sommelier was certified.',
-    diagnosis: 'By-the-glass pricing not updated in 18 months. Wholesale costs up 22% across two distributors. Menu prices unchanged. By-the-bottle was fine — by-the-glass was the leak.',
+    setup: 'Italian concept, wine pour cost at 38%, well above 32% target. Wine list was strong, sommelier was certified.',
+    diagnosis: 'By-the-glass pricing not updated in 18 months. Wholesale costs up 22% across two distributors. Menu prices unchanged. By-the-bottle was fine, by-the-glass was the leak.',
     fix: 'Repriced 8 BTG selections by $2–4. Added 3 new accessible BTG options at lower cost. Capped pours at 5oz with measured glass.',
     outcome: 'Wine pour cost 31% within 60 days. Guest complaints minimal. Sommelier kept the job.',
   },
@@ -128,7 +128,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Liquor pour cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Liquor Pour Cost Calculator</h1>
       <p class="calc-page__intro">
-        Bar margin moves faster than food cost. A 1-oz over-pour at scale is the difference between a profitable program and a leaky one. This calculator runs pour cost by category — <strong>liquor, beer, wine, or blended</strong> — with category-specific benchmarks.
+        Bar margin moves faster than food cost. A 1-oz over-pour at scale is the difference between a profitable program and a leaky one. This calculator runs pour cost by category, <strong>liquor, beer, wine, or blended</strong>with category-specific benchmarks.
       </p>
     </header>
 
@@ -149,8 +149,8 @@ const relatedCalcs = [
           <label class="form-row__label" for="category">Beverage category</label>
           <select id="category" name="category">
             <option value="liquor" selected>Liquor / spirits (target 18–24%)</option>
-            <option value="beer-draft">Beer — draft (target 18–24%)</option>
-            <option value="beer-bottle">Beer — bottled (target 25–30%)</option>
+            <option value="beer-draft">Beer, draft (target 18–24%)</option>
+            <option value="beer-bottle">Beer, bottled (target 25–30%)</option>
             <option value="wine-glass">Wine by glass (target 28–32%)</option>
             <option value="wine-bottle">Wine by bottle (target 30–40%)</option>
             <option value="blended">Blended beverage program (target 20–25%)</option>
@@ -188,7 +188,7 @@ const relatedCalcs = [
                 <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="22" autocomplete="off" />
                 <span class="input-shell__suffix">%</span>
               </div>
-              <p class="form-row__hint">Your goal — calculator shows variance from target.</p>
+              <p class="form-row__hint">Your goal, calculator shows variance from target.</p>
             </div>
 
             <div class="form-row">
@@ -197,7 +197,7 @@ const relatedCalcs = [
                 <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="20" autocomplete="off" />
                 <span class="input-shell__suffix">%</span>
               </div>
-              <p class="form-row__hint">From recipe costing — variance flags over-pouring or theft.</p>
+              <p class="form-row__hint">From recipe costing, variance flags over-pouring or theft.</p>
             </div>
           </div>
         </details>
@@ -230,10 +230,10 @@ const relatedCalcs = [
           <div class="form-row">
             <label class="form-row__label" for="bottle-size">Bottle size</label>
             <select id="bottle-size" name="bottle-size">
-              <option value="750">750ml (standard fifth — 25.36 fl oz)</option>
+              <option value="750">750ml (standard fifth, 25.36 fl oz)</option>
               <option value="1000">1L (33.81 fl oz)</option>
-              <option value="1750">1.75L (handle — 59.17 fl oz)</option>
-              <option value="375">375ml (half bottle — 12.68 fl oz)</option>
+              <option value="1750">1.75L (handle, 59.17 fl oz)</option>
+              <option value="375">375ml (half bottle, 12.68 fl oz)</option>
               <option value="custom">Custom (ml)</option>
             </select>
           </div>
@@ -339,15 +339,15 @@ const relatedCalcs = [
           <div class="calc-result__extras" data-extras hidden>
             <div class="extras-row" data-target-row hidden>
               <span class="extras-row__label">Vs. target</span>
-              <span class="extras-row__value num" data-target-variance>—</span>
+              <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
               <span class="extras-row__label">Cost impact at target</span>
-              <span class="extras-row__value num" data-target-money>—</span>
+              <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
               <span class="extras-row__label">Vs. theoretical</span>
-              <span class="extras-row__value num" data-theoretical-variance>—</span>
+              <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
         </div>
@@ -369,7 +369,7 @@ const relatedCalcs = [
       <h2 class="essay__headline">Liquor cost is <em>velocity-driven</em>.</h2>
       <div class="essay__body">
         <p>
-          Food cost moves on inventory cycles — weeks, sometimes months. Liquor cost moves on pours, in real time. Every drink poured is a small inventory transaction. A 0.2-oz over-pour times 800 cocktails a week is 160 ounces of liquor walking out the door uncharged.
+          Food cost moves on inventory cycles, weeks, sometimes months. Liquor cost moves on pours, in real time. Every drink poured is a small inventory transaction. A 0.2-oz over-pour times 800 cocktails a week is 160 ounces of liquor walking out the door uncharged.
         </p>
         <p>
           The math is unforgiving. A bottle of well vodka costs ~$15 wholesale. At 1.5oz spec, that's ~$0.59 per pour. At 1.7oz actual, it's $0.67. Eight cents, eight hundred times = $64/week, $3,300/year per bartender. Most bars have three.
@@ -378,7 +378,7 @@ const relatedCalcs = [
           The operators who control liquor cost don't run smarter calculators. They use measured pour spouts, jiggers on every well, and weekly variance checks on the top 10 bottles. Those three habits beat any software stack.
         </p>
         <p>
-          Track each category separately. A blended pour cost number hides which category is leaking. Wine and beer behave differently from spirits — different supplier dynamics, different markup conventions, different theft profiles.
+          Track each category separately. A blended pour cost number hides which category is leaking. Wine and beer behave differently from spirits, different supplier dynamics, different markup conventions, different theft profiles.
         </p>
       </div>
     </section>
@@ -392,25 +392,25 @@ const relatedCalcs = [
       <h2 class="essay__headline">Five years on the bar taught me <em>where the money actually leaks</em>.</h2>
       <div class="essay__body">
         <p>
-          I started at Cosmos as a bartender and worked my way up to GM. I ran the bar and the nightclub for five years solid. In that time I've watched every kind of pour cost leak you can imagine, and most of them aren't theft — they're habits nobody flagged.
+          I started at Cosmos as a bartender and worked my way up to GM. I ran the bar and the nightclub for five years solid. In that time I've watched every kind of pour cost leak you can imagine, and most of them aren't theft, they're habits nobody flagged.
         </p>
         <p>
           The biggest one was free pours on the well. New bartenders don't trust jiggers. They eyeball it because that's what they saw on YouTube. Two ounces becomes two-and-a-half before anyone notices. Multiply by three hundred drinks on a Saturday night and you've quietly given away more product than a comp tab would have flagged. Nobody's stealing. Nobody's malicious. It just bleeds.
         </p>
         <p>
-          The second one was buyback culture. Regulars walked in, the bartender bought their first round, the second round was on the house "for being cool." On a slow Tuesday it built loyalty. On a busy Saturday it cost real money — and nobody was tracking it as a cost line, just as goodwill.
+          The second one was buyback culture. Regulars walked in, the bartender bought their first round, the second round was on the house "for being cool." On a slow Tuesday it built loyalty. On a busy Saturday it cost real money, and nobody was tracking it as a cost line, just as goodwill.
         </p>
         <p class="essay__pull">
-          The bartender who pours by feel, the bartender who buys back too generously, the bartender skimming a bottle a week — to the pour cost percentage, they look identical. The number tells you something is wrong. It doesn't tell you which kind of wrong.
+          The bartender who pours by feel, the bartender who buys back too generously, the bartender skimming a bottle a week, to the pour cost percentage, they look identical. The number tells you something is wrong. It doesn't tell you which kind of wrong.
         </p>
         <p>
-          The third one was the one I had to learn the hard way: when the owner's not engaged in the bar program, the bar program drifts. I was running variance reports myself for three of those five years because nobody else was. The math is simple. The discipline of doing the math weekly — counting the bottles, comparing to POS, finding the gap — is the entire game.
+          The third one was the one I had to learn the hard way: when the owner's not engaged in the bar program, the bar program drifts. I was running variance reports myself for three of those five years because nobody else was. The math is simple. The discipline of doing the math weekly, counting the bottles, comparing to POS, finding the gap, is the entire game.
         </p>
         <p>
           That's what this calculator is for. Per-drink mode tells you what each pour <em>should</em> cost. Aggregate mode tells you whether your program is in the healthy band. The gap between those two numbers is where the leaks live. Find them every week, fix them in the same week, and you stay open. Skip a quarter and you're suddenly down four points and don't know why.
         </p>
         <div class="operator-byline">
-          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__dash">Signed</span>
           <span class="operator-byline__name">Brock Markarian</span>
           <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
         </div>
@@ -469,7 +469,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron">Real scenarios</p>
       <h2 class="scenarios__headline">Three programs, three different leaks</h2>
       <p class="t-body-large scenarios__intro">
-        High pour cost is a symptom. The cause is usually one of three things — or a combination.
+        High pour cost is a symptom. The cause is usually one of three things, or a combination.
       </p>
       <div class="scenarios__grid">
         {scenarios.map((s, i) => (
@@ -514,10 +514,10 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-pour-cost" target="_blank" rel="noopener">Toast — How to Calculate Pour Cost</a></li>
-        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise — Pour Cost Guide</a></li>
-        <li><a href="https://bevspot.com/" target="_blank" rel="noopener">BevSpot — Bar Inventory & Pour Cost Benchmarks</a></li>
-        <li><a href="https://www.usbg.org/" target="_blank" rel="noopener">USBG — United States Bartenders' Guild Standards</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-pour-cost" target="_blank" rel="noopener">Toast, How to Calculate Pour Cost</a></li>
+        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise, Pour Cost Guide</a></li>
+        <li><a href="https://bevspot.com/" target="_blank" rel="noopener">BevSpot, Bar Inventory & Pour Cost Benchmarks</a></li>
+        <li><a href="https://www.usbg.org/" target="_blank" rel="noopener">USBG, United States Bartenders' Guild Standards</a></li>
       </ul>
     </section>
 
@@ -784,7 +784,7 @@ const relatedCalcs = [
 
       let note = '';
       if (s.label === 'Healthy') note = `Within ${cat.label.toLowerCase()} healthy range. Maintain weekly tracking on top 10 SKUs.`;
-      if (s.label === 'Lean') note = `Below typical range — verify the numbers. Could indicate under-pouring (guest dissatisfaction risk) or under-counting cost.`;
+      if (s.label === 'Lean') note = `Below typical range, verify the numbers. Could indicate under-pouring (guest dissatisfaction risk) or under-counting cost.`;
       if (s.label === 'Watch') note = `Slightly elevated. Common causes: free pours on the well, comping creep, outdated cocktail pricing.`;
       if (s.label === 'Critical') note = `Above healthy range. Audit: measured pour spouts in use? Comp tracking in POS? Inventory variance on top 5 SKUs?`;
 

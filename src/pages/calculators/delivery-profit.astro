@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Third-Party Delivery Profit Calculator — Free | RestaurantCalcs';
+const title = 'Third-Party Delivery Profit Calculator, Free | RestaurantCalcs';
 const description = 'Third-party delivery profit calculator. DoorDash, UberEats, GrubHub commission stack vs food, labor, packaging. Net margin per order. Math shown.';
 
 const faq = [
@@ -163,7 +163,7 @@ const schema = [
             <option value="doordash-30" selected>DoorDash standard (30%)</option>
             <option value="doordash-25">DoorDash Marketplace (25%)</option>
             <option value="ubereats-30">UberEats standard (30%)</option>
-            <option value="ubereats-15">UberEats Lite — operator delivers (15%)</option>
+            <option value="ubereats-15">UberEats Lite, operator delivers (15%)</option>
             <option value="grubhub-30">GrubHub standard (30%)</option>
             <option value="grubhub-20">GrubHub partnership (20%)</option>
             <option value="ezcater-18">ezCater (18%)</option>
@@ -178,7 +178,7 @@ const schema = [
             <input id="commission" name="commission" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Whatever your platform contract says. Read the small print — bundle promotions can shift this number.</p>
+          <p class="form-row__hint">Whatever your platform contract says. Read the small print, bundle promotions can shift this number.</p>
         </div>
 
         <div class="form-row">
@@ -304,23 +304,23 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Order subtotal</span>
-              <span class="extras-row__value num" data-subtotal>—</span>
+              <span class="extras-row__value num" data-subtotal></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Total platform take</span>
-              <span class="extras-row__value num" data-platform-take>—</span>
+              <span class="extras-row__value num" data-platform-take></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Total cost (all in)</span>
-              <span class="extras-row__value num" data-total-cost>—</span>
+              <span class="extras-row__value num" data-total-cost></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Net margin %</span>
-              <span class="extras-row__value num" data-margin-pct>—</span>
+              <span class="extras-row__value num" data-margin-pct></span>
             </div>
             <div class="extras-row extras-row--highlight">
               <span class="extras-row__label">Suggested platform price for target margin</span>
-              <span class="extras-row__value num" data-suggested>—</span>
+              <span class="extras-row__value num" data-suggested></span>
             </div>
           </div>
         </div>
@@ -378,7 +378,7 @@ const schema = [
     <section class="benchmarks">
       <h2 class="benchmarks__headline">Commission rates <em>by platform tier</em></h2>
       <p class="t-body-large benchmarks__intro">
-        Standard tiers cluster at 30%. Reduced tiers exist but trade off visibility (Marketplace), require operator-provided delivery (UberEats Lite), or are partnership-specific (GrubHub partnership, ezCater corporate). Always read your contract — bundle promotions and growth-tier opt-ins can shift the number.
+        Standard tiers cluster at 30%. Reduced tiers exist but trade off visibility (Marketplace), require operator-provided delivery (UberEats Lite), or are partnership-specific (GrubHub partnership, ezCater corporate). Always read your contract, bundle promotions and growth-tier opt-ins can shift the number.
       </p>
       <div class="benchmarks__chart">
         {benchmarks.map((b) => (
@@ -445,10 +445,10 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/third-party-delivery" target="_blank" rel="noopener">Toast — Third-Party Delivery Commission Analysis</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Off-Premise Sales Trends</a></li>
-        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Delivery Profitability Guide</a></li>
-        <li><a href="https://www.usfoods.com/our-services/business-trends.html" target="_blank" rel="noopener">US Foods — Delivery P&L Whitepaper</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/third-party-delivery" target="_blank" rel="noopener">Toast, Third-Party Delivery Commission Analysis</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Off-Premise Sales Trends</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365, Delivery Profitability Guide</a></li>
+        <li><a href="https://www.usfoods.com/our-services/business-trends.html" target="_blank" rel="noopener">US Foods, Delivery P&L Whitepaper</a></li>
       </ul>
     </section>
 
@@ -548,7 +548,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [subtotalEl, platformTakeEl, totalCostEl, marginPctEl, suggestedEl].forEach(e => { if (e) e.textContent = '—'; });
+      [subtotalEl, platformTakeEl, totalCostEl, marginPctEl, suggestedEl].forEach(e => { if (e) e.textContent = ', '; });
     }
 
     function calc() {
@@ -607,16 +607,16 @@ const schema = [
       if (platformTakeEl) platformTakeEl.textContent = `${fmtUSDPlain(platformTake)} (${platformTakePct.toFixed(1)}%)`;
       if (totalCostEl) totalCostEl.textContent = fmtUSDPlain(totalCosts);
       if (marginPctEl) marginPctEl.textContent = `${netMarginPct.toFixed(1)}%`;
-      if (suggestedEl) suggestedEl.textContent = (denom > 0 && targetMarginPct > 0) ? fmtUSDPlain(suggestedPrice) : '—';
+      if (suggestedEl) suggestedEl.textContent = (denom > 0 && targetMarginPct > 0) ? fmtUSDPlain(suggestedPrice) : ', ';
 
       const platformLabel = PLATFORM_RATES[platformSelect?.value || 'doordash-30']?.label || 'Platform';
 
       let note = '';
-      if (s.label === 'Bleeding') note = `Negative net on platform orders. You are subsidizing the platform with dining-room margin. Standard fix is dual pricing — set platform menu 15–20% above dine-in (Toast, R365). The reverse-solve above shows the platform price for your target margin.`;
+      if (s.label === 'Bleeding') note = `Negative net on platform orders. You are subsidizing the platform with dining-room margin. Standard fix is dual pricing, set platform menu 15–20% above dine-in (Toast, R365). The reverse-solve above shows the platform price for your target margin.`;
       if (s.label === 'Critical') note = `Below 3% net margin. One bad week of food cost or labor drift puts this negative. Healthy band on delivery is 10–20%. Look at promo participation and platform menu pricing first.`;
-      if (s.label === 'Watch') note = `Below the 10% healthy floor. Either platform menu prices are too low or promo stacking is eating margin. Promo discount is commission with a different name — model it that way.`;
+      if (s.label === 'Watch') note = `Below the 10% healthy floor. Either platform menu prices are too low or promo stacking is eating margin. Promo discount is commission with a different name, model it that way.`;
       if (s.label === 'Healthy') note = `Inside the 10–20% healthy band for ${platformLabel}. Maintain weekly tracking. Watch for commission-tier changes and promo opt-ins that quietly push you back to Watch.`;
-      if (s.label === 'Strong') note = `Above 20% net on platform orders. Strong. Verify the food cost and labor cost inputs are realistic for delivery — under-allocating either is the most common reason this number reads high.`;
+      if (s.label === 'Strong') note = `Above 20% net on platform orders. Strong. Verify the food cost and labor cost inputs are realistic for delivery, under-allocating either is the most common reason this number reads high.`;
 
       const suggestedRow = (denom > 0 && targetMarginPct > 0)
         ? `<tr class="math-table__step"><td>Suggested platform price for ${targetMarginPct.toFixed(1)}% net margin</td><td class="num"><strong>${fmtUSDPlain(suggestedPrice)}</strong></td></tr>`

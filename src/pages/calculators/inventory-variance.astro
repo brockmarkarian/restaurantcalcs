@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Inventory Variance Calculator — Free | RestaurantCalcs';
+const title = 'Inventory Variance Calculator, Free | RestaurantCalcs';
 const description = 'Spot the gap between theoretical and actual food cost. Catch waste, over-portions, theft, counting errors. Sign-aware status + annualized leak.';
 
 const faq = [
@@ -19,7 +19,7 @@ const faq = [
   },
   {
     q: 'What causes high variance?',
-    a: 'Ranked by frequency: (1) over-portioning — line cooks plating heavy, (2) waste — spoilage, trim, prep errors not tracked, (3) employee meals not rung in, (4) comps not tracked in POS, (5) theft — bartender pouring extra, line cook taking food home, (6) inventory counting errors, (7) outdated recipe costs in POS, (8) supplier short-shipping without invoice adjustment.',
+    a: 'Ranked by frequency: (1) over-portioning, line cooks plating heavy, (2) waste, spoilage, trim, prep errors not tracked, (3) employee meals not rung in, (4) comps not tracked in POS, (5) theft, bartender pouring extra, line cook taking food home, (6) inventory counting errors, (7) outdated recipe costs in POS, (8) supplier short-shipping without invoice adjustment.',
   },
   {
     q: 'How do I lower variance?',
@@ -31,11 +31,11 @@ const faq = [
   },
   {
     q: 'Should I track variance by category?',
-    a: 'Yes — at minimum split protein, produce, dairy, and dry goods. Protein is usually the largest variance contributor (highest cost per unit, easiest to over-portion or steal). Tracking by category tells you where to focus. A 3% blended variance might be 1% on dry goods and 6% on protein.',
+    a: 'Yes, at minimum split protein, produce, dairy, and dry goods. Protein is usually the largest variance contributor (highest cost per unit, easiest to over-portion or steal). Tracking by category tells you where to focus. A 3% blended variance might be 1% on dry goods and 6% on protein.',
   },
   {
     q: 'How often should I run variance?',
-    a: 'Weekly. Monthly hides too much, daily is too noisy. Weekly catches drift early enough to fix the next week. The discipline of physical inventory every Sunday at close is the foundation — without that, theoretical numbers don\'t mean anything.',
+    a: 'Weekly. Monthly hides too much, daily is too noisy. Weekly catches drift early enough to fix the next week. The discipline of physical inventory every Sunday at close is the foundation, without that, theoretical numbers don\'t mean anything.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -97,7 +97,7 @@ const scenarios = [
   {
     title: 'The 0.4% star',
     setup: 'Family-owned casual diner, 30 years operating. Owner ran weekly variance. Average 0.4%.',
-    diagnosis: 'Not luck — habit. Sunday close: physical count. Monday morning: theoretical from POS. Tuesday: variance review with kitchen team. Every week, every year, three decades.',
+    diagnosis: 'Not luck, habit. Sunday close: physical count. Monday morning: theoretical from POS. Tuesday: variance review with kitchen team. Every week, every year, three decades.',
     fix: 'No fix needed. Documented the practice as case study for newer operators.',
     outcome: 'Restaurant operates at 26% food cost where competitors run 32%. Six points of margin = ~$120K/year on their volume. Pure discipline, zero technology.',
   },
@@ -208,19 +208,19 @@ const relatedCalcs = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Theoretical cost %</span>
-              <span class="extras-row__value num" data-theoretical-pct>—</span>
+              <span class="extras-row__value num" data-theoretical-pct></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Actual cost %</span>
-              <span class="extras-row__value num" data-actual-pct>—</span>
+              <span class="extras-row__value num" data-actual-pct></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Dollar leak</span>
-              <span class="extras-row__value num" data-leak>—</span>
+              <span class="extras-row__value num" data-leak></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Annual impact</span>
-              <span class="extras-row__value num" data-annual>—</span>
+              <span class="extras-row__value num" data-annual></span>
             </div>
           </div>
         </div>
@@ -242,7 +242,7 @@ const relatedCalcs = [
       <h2 class="essay__headline">Variance is where the <em>actual money</em> is.</h2>
       <div class="essay__body">
         <p>
-          Food cost percentage tells you the symptom. Variance tells you the cause. Two operators can have identical 32% food cost — one through perfect execution at a 32% theoretical target, the other through 28% theoretical plus 4% leak.
+          Food cost percentage tells you the symptom. Variance tells you the cause. Two operators can have identical 32% food cost, one through perfect execution at a 32% theoretical target, the other through 28% theoretical plus 4% leak.
         </p>
         <p>
           Same number, completely different businesses. The first is operating at design efficiency. The second is bleeding $X,XXX a month and doesn't know it.
@@ -268,31 +268,31 @@ const relatedCalcs = [
           Bar inventory variance is the metric most operators learn the hard way. I learned it the hard way at Cosmos. We were running a healthy beverage program on paper. Sales were strong. Margins looked fine. Then I did a real bottle count for the first time in months, lined it up against the POS report, and found a gap I couldn't explain.
         </p>
         <p>
-          Variance isn't theft. Sometimes it's theft. More often it's three or four things at once — over-pours, comps not rung in, broken bottles nobody logged, a vendor short-shipping a case and the back-of-house signing for it without checking. Each one alone is small. Together they look exactly like a bartender skimming.
+          Variance isn't theft. Sometimes it's theft. More often it's three or four things at once, over-pours, comps not rung in, broken bottles nobody logged, a vendor short-shipping a case and the back-of-house signing for it without checking. Each one alone is small. Together they look exactly like a bartender skimming.
         </p>
         <p>
-          The first count was the worst. The second was easier. By the third weekly count, we'd built the discipline of <em>looking for the gap</em> instead of being shocked by it. That's the only thing that matters with variance — not finding zero gap, finding the gap before it gets big.
+          The first count was the worst. The second was easier. By the third weekly count, we'd built the discipline of <em>looking for the gap</em> instead of being shocked by it. That's the only thing that matters with variance, not finding zero gap, finding the gap before it gets big.
         </p>
         <p class="essay__pull">
           Best-in-class bar programs run under 1% variance. Most indie bars I've seen don't measure it at all. The gap between those two numbers is the entire moat.
         </p>
         <p>
-          The lesson I'd give my younger bartender self: count weekly, not monthly. Count by category — spirits, beer, wine — separately, not as a blob. And when the number jumps, don't assume theft first. Walk through the operational stuff in order: comp records, broken-glass log, recipe specs, inventory miscount. Theft is real, but it's the last suspect, not the first. Treating every variance spike as theft poisons team trust faster than the variance itself ever costs you.
+          The lesson I'd give my younger bartender self: count weekly, not monthly. Count by category, spirits, beer, wine, separately, not as a blob. And when the number jumps, don't assume theft first. Walk through the operational stuff in order: comp records, broken-glass log, recipe specs, inventory miscount. Theft is real, but it's the last suspect, not the first. Treating every variance spike as theft poisons team trust faster than the variance itself ever costs you.
         </p>
         <p>
-          I knew an operator in Florida — Joe, who runs Manolos, a hundred-year-old building that's somehow still standing through every recession. Joe was the opposite of every operator I'd seen up to that point. Nothing got wasted. Nothing got eaten by staff. No leftover plates went out as comps. If a server broke a dish, it came out of their tip-out that night. Every ounce was tracked. Every portion was weighed. Every comp was rung. The math was airtight.
+          I knew an operator in Florida, Joe, who runs Manolos, a hundred-year-old building that's somehow still standing through every recession. Joe was the opposite of every operator I'd seen up to that point. Nothing got wasted. Nothing got eaten by staff. No leftover plates went out as comps. If a server broke a dish, it came out of their tip-out that night. Every ounce was tracked. Every portion was weighed. Every comp was rung. The math was airtight.
         </p>
         <p>
           Manolos is still open. Joe was right about every line item. And the staff hated working there. Servers turned over every six months. The cooks called him names behind his back. Customers loved the food but felt the tension in the room. The math was clean, and the team was bleeding the whole time. That's the other half of the discipline conversation that nobody puts on paper: variance discipline without team trust is its own slow leak. Different category. Same closure if it goes on long enough.
         </p>
         <p class="essay__pull">
-          Felix at Flaco's gave the business away and closed. Joe at Manolos counted every grain of rice and burned out his team. The middle path — count weekly, treat your people like adults, run the investigation in the right order — is the only one that lasts.
+          Felix at Flaco's gave the business away and closed. Joe at Manolos counted every grain of rice and burned out his team. The middle path, count weekly, treat your people like adults, run the investigation in the right order, is the only one that lasts.
         </p>
         <p>
           This calculator gives you the variance number plus the dollar leak annualized. The number is your starting line. The investigation is yours. Run it weekly, and the calculator becomes a habit instead of an emergency. Run it without the human side, and the math will be perfect right up until your last server quits.
         </p>
         <div class="operator-byline">
-          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__dash">Signed</span>
           <span class="operator-byline__name">Brock Markarian</span>
           <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
         </div>
@@ -357,10 +357,10 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://www.marginedge.com/" target="_blank" rel="noopener">MarginEdge — Theoretical vs Actual Food Cost</a></li>
-        <li><a href="https://home.binwise.com/blog/inventory-variance" target="_blank" rel="noopener">BinWise — Inventory Variance Guide</a></li>
-        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Inventory & Variance Best Practices</a></li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-inventory-management" target="_blank" rel="noopener">Toast — Restaurant Inventory Management</a></li>
+        <li><a href="https://www.marginedge.com/" target="_blank" rel="noopener">MarginEdge, Theoretical vs Actual Food Cost</a></li>
+        <li><a href="https://home.binwise.com/blog/inventory-variance" target="_blank" rel="noopener">BinWise, Inventory Variance Guide</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365, Inventory & Variance Best Practices</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-inventory-management" target="_blank" rel="noopener">Toast, Restaurant Inventory Management</a></li>
       </ul>
     </section>
 
@@ -429,7 +429,7 @@ const relatedCalcs = [
 
     function statusFor(variance: number, sign: number): { key: string; label: string } {
       const abs = Math.abs(variance);
-      // Negative variance (actual < theoretical) is a different problem — under-portioning, recipe overstated, miscount.
+      // Negative variance (actual < theoretical) is a different problem, under-portioning, recipe overstated, miscount.
       // Same threshold magnitudes apply but labels differ.
       if (sign < 0) {
         if (abs < 1) return { key: 'healthy', label: 'Excellent' };
@@ -456,10 +456,10 @@ const relatedCalcs = [
         marker!.style.left = '0%';
         animateCounter(counter!, lastValue, 0, 400, 1);
         lastValue = 0;
-        if (theoreticalPctEl) theoreticalPctEl.textContent = '—';
-        if (actualPctEl) actualPctEl.textContent = '—';
-        if (leakEl) leakEl.textContent = '—';
-        if (annualEl) annualEl.textContent = '—';
+        if (theoreticalPctEl) theoreticalPctEl.textContent = ', ';
+        if (actualPctEl) actualPctEl.textContent = ', ';
+        if (leakEl) leakEl.textContent = ', ';
+        if (annualEl) annualEl.textContent = ', ';
         mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
         return;
       }
@@ -496,11 +496,11 @@ const relatedCalcs = [
       if (s.label === 'Investigate') note = 'Above acceptable. Investigate top variance categories: usually protein, dairy, or beverages. Audit comps and waste logs.';
       if (s.label === 'Audit now') note = 'Significant leak. Audit immediately for theft, severe over-portioning, or systematic comping. Lock walk-ins, install scales, review POS comps.';
       // Negative variance (actual < theoretical) = under-portion / recipe overstated / miscount direction
-      if (s.label === 'Under-using') note = 'Using less than recipes predict — usually under-portioning (guest dissatisfaction risk) or recipe costs slightly overstated. Less urgent than positive variance but worth checking.';
+      if (s.label === 'Under-using') note = 'Using less than recipes predict, usually under-portioning (guest dissatisfaction risk) or recipe costs slightly overstated. Less urgent than positive variance but worth checking.';
       if (s.label === 'Recipe / count check') note = 'Significant under-usage. Likely cause: stale recipe costs (ingredient prices outdated downward), inventory miscount, or systematic under-portioning. Recount and re-cost top SKUs.';
       if (s.label === 'Recipe likely off') note = 'Large negative variance is rare and almost always a data problem: recipe cost stale by 12+ months, inventory count error, or theoretical sales mix not matching POS. Audit data sources before changing operations.';
 
-      const denominatorNote = `Variance % shown as (Actual − Theoretical) ÷ Sales = ${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)}pp. Some controllers use ÷ Theoretical instead — that\'d report ${theoretical > 0 ? `${(((actual - theoretical) / theoretical) * 100).toFixed(2)}%` : '—'} on the same gap. We use sales because operators read from POS sales reports.`;
+      const denominatorNote = `Variance % shown as (Actual − Theoretical) ÷ Sales = ${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)}pp. Some controllers use ÷ Theoretical instead, that\'d report ${theoretical > 0 ? `${(((actual - theoretical) / theoretical) * 100).toFixed(2)}%` : ', '} on the same gap. We use sales because operators read from POS sales reports.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">

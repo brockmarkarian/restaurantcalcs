@@ -20,7 +20,7 @@ const description = post.data.description;
 const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 const fmtDateISO = (d: Date) => d.toISOString();
 
-// Reading time — 220 wpm
+// Reading time, 220 wpm
 const wordCount = post.body?.split(/\s+/).length || 0;
 const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
 
@@ -221,10 +221,10 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
   .post-page__tags { margin-bottom: var(--space-3); }
   .post-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.02em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-6); }
 
-  /* Hero image — spans full container width */
+  /* Hero image, spans full container width */
   .post-page__hero-image { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 3 / 2; margin: 0 auto var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1); object-fit: cover; }
 
-  /* Byline chip — author photo + role + read time */
+  /* Byline chip, author photo + role + read time */
   .byline-chip { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
   .byline-chip__photo-link { flex-shrink: 0; display: inline-block; line-height: 0; border-radius: 50%; transition: transform var(--transition-fast); }
   .byline-chip__photo-link:hover { transform: scale(1.05); }
@@ -284,7 +284,7 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
   .post-page__body :global(li) { line-height: 1.65; }
   .post-page__body :global(li::marker) { color: var(--color-saffron); }
 
-  /* Pull-quote — visually distinct, stays inside body column */
+  /* Pull-quote, visually distinct, stays inside body column */
   .post-page__body :global(blockquote) { position: relative; padding: var(--space-8) var(--space-6) var(--space-8) var(--space-12); margin: var(--space-10) 0; border-left: 4px solid var(--color-saffron); font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.5rem, 2.4vw + 0.4rem, 1.875rem); line-height: 1.25; letter-spacing: -0.012em; color: var(--color-heading); font-weight: 500; background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
   .post-page__body :global(blockquote::before) { content: '\201C'; position: absolute; left: 16px; top: -10px; font-family: var(--font-display); font-size: 5.5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
   @media (max-width: 1024px) {
@@ -305,7 +305,7 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
   .post-page__ornament span { display: block; width: 5px; height: 5px; background: var(--color-saffron); border-radius: 50%; opacity: 0.7; }
   .post-page__ornament span:nth-child(2) { width: 8px; height: 8px; opacity: 1; }
 
-  /* Mid-/end-article CTA — upgraded card */
+  /* Mid-/end-article CTA, upgraded card */
   .post-page__cta { max-width: 820px; margin: var(--space-12) auto 0; padding: var(--space-8) var(--space-8); background: var(--gradient-card-warm); border: 1px solid var(--color-saffron); border-radius: var(--radius-lg); position: relative; overflow: hidden; box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); }
   .post-page__cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); pointer-events: none; }
   .post-page__cta::after { content: ''; position: absolute; top: -120px; right: -120px; width: 240px; height: 240px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; }

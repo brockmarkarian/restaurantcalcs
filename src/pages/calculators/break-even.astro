@@ -1,13 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Restaurant Break-Even Calculator — Free | RestaurantCalcs';
+const title = 'Restaurant Break-Even Calculator, Free | RestaurantCalcs';
 const description = 'Restaurant break-even calculator. Fixed + variable costs, contribution margin, Margin of Safety + capacity check. Covers per day output.';
 
 const faq = [
   {
     q: 'What is break-even revenue for a restaurant?',
-    a: 'Break-even revenue is the amount of sales you need to cover all costs — both fixed (rent, salaries, insurance, utilities) and variable (food cost, variable labor, paper goods). At break-even revenue, profit equals zero. Anything above is profit; anything below is loss.',
+    a: 'Break-even revenue is the amount of sales you need to cover all costs, both fixed (rent, salaries, insurance, utilities) and variable (food cost, variable labor, paper goods). At break-even revenue, profit equals zero. Anything above is profit; anything below is loss.',
   },
   {
     q: 'What is the break-even formula?',
@@ -15,7 +15,7 @@ const faq = [
   },
   {
     q: 'What counts as a fixed cost?',
-    a: 'Fixed costs do not change with sales volume. Rent, manager salaries, insurance, base utilities, internet, accounting, software subscriptions, loan payments, and depreciation. Hourly labor is variable, not fixed — staff scales with hours scheduled.',
+    a: 'Fixed costs do not change with sales volume. Rent, manager salaries, insurance, base utilities, internet, accounting, software subscriptions, loan payments, and depreciation. Hourly labor is variable, not fixed, staff scales with hours scheduled.',
   },
   {
     q: 'What counts as a variable cost?',
@@ -26,12 +26,12 @@ const faq = [
     a: 'Break-Even Covers = Break-Even Revenue ÷ Average Ticket. If you need $100,000/month in revenue and your average ticket is $35, you need 2,857 covers per month, or about 95 covers per day on a 30-day month. Use this to sanity-check whether your concept can support its rent.',
   },
   {
-    q: 'My break-even covers seem impossible — what now?',
-    a: 'Three levers, in order of speed: (1) raise average ticket through pricing, upsells, or beverage program, (2) cut variable cost % through portion control or vendor renegotiation, (3) cut fixed cost — usually means renegotiating rent or trimming a salaried position. The fastest is almost always raising average ticket; the hardest is cutting fixed cost.',
+    q: 'My break-even covers seem impossible, what now?',
+    a: 'Three levers, in order of speed: (1) raise average ticket through pricing, upsells, or beverage program, (2) cut variable cost % through portion control or vendor renegotiation, (3) cut fixed cost, usually means renegotiating rent or trimming a salaried position. The fastest is almost always raising average ticket; the hardest is cutting fixed cost.',
   },
   {
     q: 'How does break-even change with seasonality?',
-    a: 'Break-even is the same every month, but achievable revenue isn\'t. Concepts with strong seasons (beach restaurants, ski-town bars) need to bank profit during peak months to cover off-season losses. Calculate annual break-even rather than monthly — and make sure peak-season margin is high enough to subsidize the slow months.',
+    a: 'Break-even is the same every month, but achievable revenue isn\'t. Concepts with strong seasons (beach restaurants, ski-town bars) need to bank profit during peak months to cover off-season losses. Calculate annual break-even rather than monthly, and make sure peak-season margin is high enough to subsidize the slow months.',
   },
   {
     q: 'What is contribution margin?',
@@ -90,14 +90,14 @@ const scenarios = [
   {
     title: 'The 5-pp cost cut',
     setup: 'Established casual diner, hitting break-even but not profit. Owner debated $30K kitchen renovation to attract more covers.',
-    diagnosis: 'Math showed cutting variable cost from 64% to 59% (achievable through portion control + vendor switch) would lower break-even by $24K/month. Renovation was the wrong move — variable cost was the lever.',
+    diagnosis: 'Math showed cutting variable cost from 64% to 59% (achievable through portion control + vendor switch) would lower break-even by $24K/month. Renovation was the wrong move, variable cost was the lever.',
     fix: 'Skipped renovation. Implemented weekly food cost variance, switched 2 produce suppliers, retrained on portion scales.',
     outcome: 'Variable cost down to 60% in 8 weeks. $19K/month margin recovery without spending capital. Renovation moved to year 3.',
   },
   {
     title: 'The seasonal banker',
     setup: 'Beach concept, 4 peak months at $250K/month, 8 off-season months at $80K/month. Annual revenue $1.64M. Owner stressed every November.',
-    diagnosis: 'Break-even at $130K/month required peak season to over-deliver enough to cover off-season shortfall. Calculated annual break-even $1.56M — they cleared it but barely.',
+    diagnosis: 'Break-even at $130K/month required peak season to over-deliver enough to cover off-season shortfall. Calculated annual break-even $1.56M, they cleared it but barely.',
     fix: 'Raised peak season prices 8% (no measurable resistance). Added off-season catering. Built cash reserve in peak months specifically tagged for off-season.',
     outcome: 'Same business, much lower stress. Break-even cushion grew from 5% to 14% over two years.',
   },
@@ -134,7 +134,7 @@ const relatedCalcs = [
             <span class="input-shell__prefix">$</span>
             <input id="fixed" name="fixed" type="number" inputmode="decimal" min="0" step="100" placeholder="40000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Rent, salaries, insurance, utilities, software, loan payments — everything that doesn’t scale with sales.</p>
+          <p class="form-row__hint">Rent, salaries, insurance, utilities, software, loan payments, everything that doesn’t scale with sales.</p>
         </div>
 
         <div class="form-row">
@@ -152,7 +152,7 @@ const relatedCalcs = [
             <span class="input-shell__prefix">$</span>
             <input id="avgticket" name="avgticket" type="number" inputmode="decimal" min="0" step="0.5" placeholder="35" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Optional — used to calculate break-even covers and daily target.</p>
+          <p class="form-row__hint">Optional, used to calculate break-even covers and daily target.</p>
         </div>
 
         <div class="form-row">
@@ -218,29 +218,29 @@ const relatedCalcs = [
 
           <div class="calc-result__benchmark">
             <span class="t-caption">Contribution margin</span>
-            <span class="t-caption num" data-margin>—</span>
+            <span class="t-caption num" data-margin></span>
           </div>
 
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Break-even covers / month</span>
-              <span class="extras-row__value num" data-covers-month>—</span>
+              <span class="extras-row__value num" data-covers-month></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Break-even covers / day</span>
-              <span class="extras-row__value num" data-covers-day>—</span>
+              <span class="extras-row__value num" data-covers-day></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Daily revenue target</span>
-              <span class="extras-row__value num" data-rev-day>—</span>
+              <span class="extras-row__value num" data-rev-day></span>
             </div>
             <div class="extras-row" data-mos-row hidden>
               <span class="extras-row__label">Margin of Safety</span>
-              <span class="extras-row__value num" data-mos>—</span>
+              <span class="extras-row__value num" data-mos></span>
             </div>
             <div class="extras-row" data-capacity-row hidden>
               <span class="extras-row__label">Capacity utilization at BE</span>
-              <span class="extras-row__value num" data-capacity>—</span>
+              <span class="extras-row__value num" data-capacity></span>
             </div>
           </div>
         </div>
@@ -263,7 +263,7 @@ const relatedCalcs = [
       <h2 class="essay__headline">Break-even tells you if the <em>concept works at all</em>.</h2>
       <div class="essay__body">
         <p>
-          Most restaurants fail because the math never worked from day one. Owner falls in love with a space, signs a lease, builds out, opens — and only afterward calculates that they need 180 covers a day in a 60-seat dining room with 1.2 turns to break even.
+          Most restaurants fail because the math never worked from day one. Owner falls in love with a space, signs a lease, builds out, opens, and only afterward calculates that they need 180 covers a day in a 60-seat dining room with 1.2 turns to break even.
         </p>
         <p>
           Break-even is the cheapest insurance in the industry. Five minutes of math in a spreadsheet before signing the lease can save five years of grinding through a concept that was mathematically broken from the start.
@@ -272,7 +272,7 @@ const relatedCalcs = [
           Run break-even three ways: realistic (mid-case sales projection), optimistic (top-quartile covers), pessimistic (bottom-quartile covers). If pessimistic break-even isn't survivable, the concept is too fragile to launch.
         </p>
         <p>
-          After opening, break-even becomes the floor. Every month above is profit. Every month below means digging into reserves or owner cash. Track actual revenue against break-even weekly, not monthly — small adjustments to staffing or pricing in week 2 are easier than emergency cuts in month 6.
+          After opening, break-even becomes the floor. Every month above is profit. Every month below means digging into reserves or owner cash. Track actual revenue against break-even weekly, not monthly, small adjustments to staffing or pricing in week 2 are easier than emergency cuts in month 6.
         </p>
       </div>
     </section>
@@ -335,9 +335,9 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-break-even-analysis" target="_blank" rel="noopener">Toast — Restaurant Break-Even Analysis</a></li>
-        <li><a href="https://www.sba.gov/business-guide/manage-your-business/manage-your-finances" target="_blank" rel="noopener">SBA — Manage Your Finances</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Industry Margin Research</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-break-even-analysis" target="_blank" rel="noopener">Toast, Restaurant Break-Even Analysis</a></li>
+        <li><a href="https://www.sba.gov/business-guide/manage-your-business/manage-your-finances" target="_blank" rel="noopener">SBA, Manage Your Finances</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Industry Margin Research</a></li>
       </ul>
     </section>
 
@@ -406,10 +406,10 @@ const relatedCalcs = [
       if (fixed <= 0 || variable <= 0 || variable >= 100) {
         animateCounter(counter!, lastValue, 0, 400);
         lastValue = 0;
-        if (marginEl) marginEl.textContent = '—';
-        if (coversMonthEl) coversMonthEl.textContent = '—';
-        if (coversDayEl) coversDayEl.textContent = '—';
-        if (revDayEl) revDayEl.textContent = '—';
+        if (marginEl) marginEl.textContent = ', ';
+        if (coversMonthEl) coversMonthEl.textContent = ', ';
+        if (coversDayEl) coversDayEl.textContent = ', ';
+        if (revDayEl) revDayEl.textContent = ', ';
         mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
         return;
       }

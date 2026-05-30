@@ -1,13 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Draft Beer / Keg Cost Calculator — Free | RestaurantCalcs';
+const title = 'Draft Beer / Keg Cost Calculator, Free | RestaurantCalcs';
 const description = 'Free draft beer keg cost calculator. Pours per keg, cost per pour, pour cost %. 1/2 BBL, 1/6 BBL, 1/4 BBL, Cornelius. Industry benchmarks 18–22%. Math shown.';
 
 const faq = [
   {
     q: 'What is pour cost?',
-    a: 'Cost of the liquid divided by the menu price. Cost per pour ÷ menu price × 100. For draft beer, healthy is 18–22% (Toast, BinWise). Below that, you can raise prices. Above it, something is leaking — over-pour, foam waste, dirty lines, or a menu that has not caught up to the distributor.',
+    a: 'Cost of the liquid divided by the menu price. Cost per pour ÷ menu price × 100. For draft beer, healthy is 18–22% (Toast, BinWise). Below that, you can raise prices. Above it, something is leaking, over-pour, foam waste, dirty lines, or a menu that has not caught up to the distributor.',
   },
   {
     q: 'How do I calculate it on draft?',
@@ -23,7 +23,7 @@ const faq = [
   },
   {
     q: 'What is a Sankey coupler?',
-    a: 'The fitting that connects keg to draft system. Sankey D is the US standard for domestic and most craft. European imports use S, U, A, G, or M depending on country. Wrong coupler, no pour. The math here is the same regardless — only volume matters.',
+    a: 'The fitting that connects keg to draft system. Sankey D is the US standard for domestic and most craft. European imports use S, U, A, G, or M depending on country. Wrong coupler, no pour. The math here is the same regardless, only volume matters.',
   },
   {
     q: 'How much does foam actually cost?',
@@ -38,7 +38,7 @@ const faq = [
     a: 'Cost per pour scales linearly. 16 oz pint costs twice what an 8 oz costs. Pour cost % stays flat as long as menu price scales the same way. The trap is bartenders pouring 18 oz in a 16 oz glass: cost goes up 12.5%, menu price stays flat, pour cost % jumps the same. Lined glassware fixes this in one shift. I know because I caused it the first month I was on the bar.',
   },
   {
-    q: "Cost per oz vs cost per pour — which do I use?",
+    q: "Cost per oz vs cost per pour, which do I use?",
     a: 'Cost per oz is raw input (keg price ÷ usable oz). Use it for cocktail recipe costing where everything is in ounces. Cost per pour is keg price ÷ pours per keg, accounting for waste and pour size. That is the operational number for draft.',
   },
   {
@@ -61,7 +61,7 @@ const scenarios = [
     setup: 'Neighborhood bar, 14 taps, pour cost running 26% on what should have been 21% (Toast). Owner blamed the distributor.',
     diagnosis: 'Pulled three random pints with a graduated cylinder mid-shift. All three measured 17.5–18 oz in a "16 oz" glass. The bar had switched glassware six months earlier and the new glass had a wider lip. The bartenders were trained to fill to the rim of the old shaker. They had been pouring 12% over on every tap for half a year and nobody had measured.',
     fix: 'Lined pint glasses with a fill mark at 16 oz. Two shifts of recalibration. Single laminated card at the well: "fill to the line, foam above."',
-    outcome: 'Pour cost dropped from 26% to 20% in three weeks. Roughly $1,800/month back on draft alone. No menu change. No vendor switch. The bartenders were not the problem — the glass was. I have caused this exact mistake myself, on the well, in my first month.',
+    outcome: 'Pour cost dropped from 26% to 20% in three weeks. Roughly $1,800/month back on draft alone. No menu change. No vendor switch. The bartenders were not the problem, the glass was. I have caused this exact mistake myself, on the well, in my first month.',
   },
   {
     title: 'The hazy IPA the owner refused to reprice',
@@ -131,7 +131,7 @@ const schema = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Draft beer calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Draft Beer / Keg Cost Calculator</h1>
       <p class="calc-page__intro">
-        Pours per keg, cost per pour, pour cost percentage. Run the numbers on every tap before the menu price gets set. Healthy draft pour cost is <strong>18–22%</strong> (Toast, BinWise). Most bars run 5+ points higher than they think — usually because nobody measured the glass.
+        Pours per keg, cost per pour, pour cost percentage. Run the numbers on every tap before the menu price gets set. Healthy draft pour cost is <strong>18–22%</strong> (Toast, BinWise). Most bars run 5+ points higher than they think, usually because nobody measured the glass.
       </p>
     </header>
 
@@ -145,10 +145,10 @@ const schema = [
         <div class="form-row">
           <label class="form-row__label" for="keg-size">Keg size</label>
           <select id="keg-size" name="keg-size">
-            <option value="1984" selected>1/2 BBL — 1,984 oz (standard half barrel)</option>
-            <option value="661">1/6 BBL — 661 oz (sixtel)</option>
-            <option value="992">1/4 BBL — 992 oz (pony / quarter barrel)</option>
-            <option value="640">Cornelius — 640 oz (5-gallon homebrew style)</option>
+            <option value="1984" selected>1/2 BBL, 1,984 oz (standard half barrel)</option>
+            <option value="661">1/6 BBL, 661 oz (sixtel)</option>
+            <option value="992">1/4 BBL, 992 oz (pony / quarter barrel)</option>
+            <option value="640">Cornelius, 640 oz (5-gallon homebrew style)</option>
           </select>
           <p class="form-row__hint">Sets the total volume the keg holds before waste.</p>
         </div>
@@ -248,23 +248,23 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Pours per keg</span>
-              <span class="extras-row__value num" data-pours>—</span>
+              <span class="extras-row__value num" data-pours></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Cost per oz</span>
-              <span class="extras-row__value num" data-cost-oz>—</span>
+              <span class="extras-row__value num" data-cost-oz></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Cost per pour</span>
-              <span class="extras-row__value num" data-cost-pour>—</span>
+              <span class="extras-row__value num" data-cost-pour></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Profit per pour</span>
-              <span class="extras-row__value num" data-profit-pour>—</span>
+              <span class="extras-row__value num" data-profit-pour></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Profit per keg</span>
-              <span class="extras-row__value num" data-profit-keg>—</span>
+              <span class="extras-row__value num" data-profit-keg></span>
             </div>
           </div>
         </div>
@@ -287,7 +287,7 @@ const schema = [
       <h2 class="essay__headline">Draft is the cleanest margin on the bar. <em>When you run it right.</em></h2>
       <div class="essay__body">
         <p>
-          I started behind the bar at Cosmos Taverna in California and worked my way up to GM over five years. The draft program ran the full range — busy, slow, profitable, leaking, every kind of leaking. A 1/2 BBL of domestic at $130 sells for $819 at $7 a pint. That is the kind of margin that pays rent twice over. If you actually capture every ounce. Most bars do not.
+          I started behind the bar at Cosmos Taverna in California and worked my way up to GM over five years. The draft program ran the full range, busy, slow, profitable, leaking, every kind of leaking. A 1/2 BBL of domestic at $130 sells for $819 at $7 a pint. That is the kind of margin that pays rent twice over. If you actually capture every ounce. Most bars do not.
         </p>
         <p>
           The leaks are everywhere and almost none of them are theft. Foam waste is 8% on a healthy system, 15% on a dirty one (BevSpot). Bartenders pour 17.5 oz in a 16 oz glass without thinking about it. Biweekly line cleaning pulls 8 to 16 ounces per tap. Comp pours. Employee samples. "The keg kicked but I think there is half a pour left." By empty, the operator who thought they sold 124 pints actually sold 105 and gave away 19. Nobody is stealing. The bar program just bleeds.
@@ -296,10 +296,10 @@ const schema = [
           Pour cost is what you charge for the liquid. Pour discipline is whether you keep what you charged. The first is on the menu. The second is on the floor.
         </p>
         <p>
-          I poured 1.7 oz when I started. I called it 1.5. The number didn't catch me — the senior bartender did. That is the mechanism almost every new hire goes through, and the fix is not a stern conversation. It is a jigger and a lined pint glass. Pour spouts and lined glassware fixed it for the well at Cosmos in two weeks. I have never had to "talk to the team about pour size" since.
+          I poured 1.7 oz when I started. I called it 1.5. The number didn't catch me, the senior bartender did. That is the mechanism almost every new hire goes through, and the fix is not a stern conversation. It is a jigger and a lined pint glass. Pour spouts and lined glassware fixed it for the well at Cosmos in two weeks. I have never had to "talk to the team about pour size" since.
         </p>
         <p>
-          The calculator does not lie about waste. Tell it 5% when your real number is 11% and your pour cost reads five points too low — and you will spend a year wondering why a profitable-on-paper bar can't make rent. Run the actual audit: weigh kegs in and out for 30 days. Most operators discover their waste is double what they assumed. That is not a bartender problem. It is not a distributor problem. It is a system problem. Cleaner lines, calibrated CO2, lined glassware, frosted glasses. Two weekends of work, pays for itself in a month, and the team stops getting blamed for what was never their fault.
+          The calculator does not lie about waste. Tell it 5% when your real number is 11% and your pour cost reads five points too low, and you will spend a year wondering why a profitable-on-paper bar can't make rent. Run the actual audit: weigh kegs in and out for 30 days. Most operators discover their waste is double what they assumed. That is not a bartender problem. It is not a distributor problem. It is a system problem. Cleaner lines, calibrated CO2, lined glassware, frosted glasses. Two weekends of work, pays for itself in a month, and the team stops getting blamed for what was never their fault.
         </p>
       </div>
     </section>
@@ -393,9 +393,9 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise — Draft Beer Cost Analysis</a></li>
-        <li><a href="https://bevspot.com/blog/" target="_blank" rel="noopener">BevSpot — Beverage Cost Management</a></li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast — Bar Profitability Guide</a></li>
+        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise, Draft Beer Cost Analysis</a></li>
+        <li><a href="https://bevspot.com/blog/" target="_blank" rel="noopener">BevSpot, Beverage Cost Management</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast, Bar Profitability Guide</a></li>
       </ul>
     </section>
 
@@ -483,7 +483,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [poursEl, costOzEl, costPourEl, profitPourEl, profitKegEl].forEach(e => { if (e) e.textContent = '—'; });
+      [poursEl, costOzEl, costPourEl, profitPourEl, profitKegEl].forEach(e => { if (e) e.textContent = ', '; });
     }
 
     function calc() {
@@ -523,8 +523,8 @@ const schema = [
       if (profitKegEl) profitKegEl.textContent = fmtUSD(profitPerKeg);
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy 18–22% draft band. Profit per keg: ${fmtUSD(profitPerKeg)}. Maintain weekly waste audits — most leaks happen at the tap, not the spreadsheet.`;
-      if (s.label === 'Lean') note = `Below typical draft pour cost. You probably have headroom to raise prices. Or the waste figure is too low — verify with a real keg-weight audit before patting yourself on the back.`;
+      if (s.label === 'Healthy') note = `Within healthy 18–22% draft band. Profit per keg: ${fmtUSD(profitPerKeg)}. Maintain weekly waste audits, most leaks happen at the tap, not the spreadsheet.`;
+      if (s.label === 'Lean') note = `Below typical draft pour cost. You probably have headroom to raise prices. Or the waste figure is too low, verify with a real keg-weight audit before patting yourself on the back.`;
       if (s.label === 'Watch') note = `Above 22% healthy band. Common causes: oversize pours (lined glasses fix this), high foam waste (line cleaning + CO2 calibration), or distributor cost increase that menu price did not absorb. Audit the tap before the spreadsheet.`;
       if (s.label === 'Critical') note = `Above 28%. Something is structurally broken. Run a weighed-keg waste audit for 30 days. Most "critical" pour cost numbers turn out to be 10%+ real waste, not the assumed 5%, plus oversize pours stacked on top.`;
 

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Catering Quote & Event Pricing Calculator — Free | RestaurantCalcs';
+const title = 'Catering Quote & Event Pricing Calculator, Free | RestaurantCalcs';
 const description = 'Catering pricing calculator. Builds an operator-margin price plus a customer-facing quote. Service charge vs gratuity handled correctly (DOL Fact Sheet #15).';
 
 const faq = [
@@ -630,7 +630,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400, 2);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [invoiceEl, marginPctEl, profitEl, svcChargeEl, gratvEl, custTotalEl].forEach(e => { if (e) e.textContent = '—'; });
+      [invoiceEl, marginPctEl, profitEl, svcChargeEl, gratvEl, custTotalEl].forEach(e => { if (e) e.textContent = ', '; });
       if (quoteCard) quoteCard.hidden = true;
     }
 

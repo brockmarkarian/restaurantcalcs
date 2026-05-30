@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Restaurant Operator Blog — Real Stories from a 5-Year Bar GM';
+const title = 'Restaurant Operator Blog, Real Stories from a 5-Year Bar GM';
 const description = 'Real operator stories, original case studies, and evidence-based ops analysis from independent restaurant managers and owners. Cited sources, lived experience.';
 
 const now = new Date();
@@ -146,7 +146,7 @@ function readingMin(post: any): number {
       <div class="blog-closer__inner">
         <p class="t-micro t-micro--saffron">Why this exists</p>
         <p class="blog-closer__copy">
-          Most restaurant content online is either a paywalled SaaS pitch or AI-generated padding. This isn't. Every post here is written by a real operator about real operations — with citations, failure modes, and numbers you can verify. If something looks wrong, <a href="/contact/">email me</a>.
+          Most restaurant content online is either a paywalled SaaS pitch or AI-generated padding. This isn't. Every post here is written by a real operator about real operations, with citations, failure modes, and numbers you can verify. If something looks wrong, <a href="/contact/">email me</a>.
         </p>
         <p class="blog-closer__sources">
           Industry data points cross-referenced with the <a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener nofollow">National Restaurant Association</a>, <a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener nofollow">BLS NAICS 722</a>, and <a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener nofollow">DOL FLSA tip-pool guidance</a>.
@@ -159,7 +159,7 @@ function readingMin(post: any): number {
 <style>
   .blog-index { max-width: 1320px; margin: 0 auto; padding: 0 var(--space-6) var(--space-24); }
 
-  /* Dark editorial hero block — full-bleed */
+  /* Dark editorial hero block, full-bleed */
   .blog-hero { position: relative; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 0; margin-bottom: var(--space-16); padding: var(--space-16) var(--space-6) var(--space-20); background: var(--bg-alt-deep); background-image: linear-gradient(180deg, rgba(26, 24, 20, 0.85), rgba(26, 24, 20, 0.92)), url('/textures/dark-bar-wood.webp'); background-size: cover; background-position: center; color: var(--color-cream); overflow: hidden; }
   .blog-hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200, 117, 0, 0.25) 0%, transparent 70%); pointer-events: none; }
   .blog-hero::after { content: ''; position: absolute; inset: 0; background-image: url('/noise.svg'); background-size: 200px 200px; opacity: 0.18; mix-blend-mode: overlay; pointer-events: none; }

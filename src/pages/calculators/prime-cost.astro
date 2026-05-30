@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Restaurant Prime Cost Calculator — Free | RestaurantCalcs';
+const title = 'Restaurant Prime Cost Calculator, Free | RestaurantCalcs';
 const description = 'Restaurant prime cost calculator. Food, beverage, and labor as % of revenue. Concept-aware benchmarks (QSR 55–60%, full-service 60–65%). Math shown.';
 
 const faq = [
@@ -15,7 +15,7 @@ const faq = [
   },
   {
     q: 'What is a healthy prime cost?',
-    a: 'It depends on concept (Toast, R365, NRA). QSR and fast-casual: 55–60%. Casual full-service: 60–65%. Fine dining: 60–70% — higher labor against higher menu prices. Pizza and cafe: 55–60%. Sustained above 65% for full-service is structural: pricing, food cost discipline, or schedule design.',
+    a: 'It depends on concept (Toast, R365, NRA). QSR and fast-casual: 55–60%. Casual full-service: 60–65%. Fine dining: 60–70%, higher labor against higher menu prices. Pizza and cafe: 55–60%. Sustained above 65% for full-service is structural: pricing, food cost discipline, or schedule design.',
   },
   {
     q: 'Why is prime cost the metric?',
@@ -27,11 +27,11 @@ const faq = [
   },
   {
     q: 'How often should I track it?',
-    a: 'Weekly. Monthly is too late to fix anything (R365). Top operators track daily prime cost off POS reports. The variance between scheduled and actual is where the money lives — not the absolute number.',
+    a: 'Weekly. Monthly is too late to fix anything (R365). Top operators track daily prime cost off POS reports. The variance between scheduled and actual is where the money lives, not the absolute number.',
   },
   {
     q: 'My prime cost is over 65%. Where do I cut first?',
-    a: 'Labor. Almost always labor. Slow-shift overstaffing, schedule built for old volume, mid-shift overlap nobody pruned. Food cost moves with portion control, vendor renegotiation, recipe re-cost — those are 2–4 week fixes. Labor moves tonight at 9pm.',
+    a: 'Labor. Almost always labor. Slow-shift overstaffing, schedule built for old volume, mid-shift overlap nobody pruned. Food cost moves with portion control, vendor renegotiation, recipe re-cost, those are 2–4 week fixes. Labor moves tonight at 9pm.',
   },
   {
     q: 'Do I include my own salary?',
@@ -60,7 +60,7 @@ const scenarios = [
   {
     title: 'The 72% casual that blamed food inflation',
     setup: 'Casual dining, 72% prime cost for two months running. Owner had already raised prices twice and was talking about a third. Convinced it was beef and chicken.',
-    diagnosis: 'Food cost was 31%. Healthy band for the concept (Toast). Labor was 41% — schedule still sized for pre-2023 covers that never came back. Three FOH overlapped on Tuesday lunch for a 12-table service.',
+    diagnosis: 'Food cost was 31%. Healthy band for the concept (Toast). Labor was 41%, schedule still sized for pre-2023 covers that never came back. Three FOH overlapped on Tuesday lunch for a 12-table service.',
     fix: 'Cut Tuesday lunch staff from 4 to 2. Eliminated the overlapping mid-shift. Set an SPLH target by daypart and held the GM to it.',
     outcome: 'Prime cost dropped to 63% in five weeks. About $11K/month recovered. No vendor switch. No third price increase. The food was never the problem.',
   },
@@ -170,7 +170,7 @@ const schema = [
             <span class="input-shell__prefix">$</span>
             <input id="beverage" name="beverage" type="number" inputmode="decimal" min="0" step="50" placeholder="2000" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Beer, wine, spirits, NA cost. Optional — leave blank if not separated.</p>
+          <p class="form-row__hint">Beer, wine, spirits, NA cost. Optional, leave blank if not separated.</p>
         </div>
 
         <div class="form-row">
@@ -196,7 +196,7 @@ const schema = [
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="100" placeholder="30000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">All sales revenue for the period — food + beverage + retail.</p>
+          <p class="form-row__hint">All sales revenue for the period, food + beverage + retail.</p>
         </div>
 
         <div class="form-row">
@@ -254,23 +254,23 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Food + beverage</span>
-              <span class="extras-row__value num" data-cogs>—</span>
+              <span class="extras-row__value num" data-cogs></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Labor (fully burdened)</span>
-              <span class="extras-row__value num" data-laborv>—</span>
+              <span class="extras-row__value num" data-laborv></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Total prime cost $</span>
-              <span class="extras-row__value num" data-prime>—</span>
+              <span class="extras-row__value num" data-prime></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Food cost % of revenue</span>
-              <span class="extras-row__value num" data-foodpct>—</span>
+              <span class="extras-row__value num" data-foodpct></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Labor cost % of revenue</span>
-              <span class="extras-row__value num" data-laborpct>—</span>
+              <span class="extras-row__value num" data-laborpct></span>
             </div>
           </div>
         </div>
@@ -302,7 +302,7 @@ const schema = [
           Prime cost tells you something is broken. Food cost % and labor cost % tell you which one. You need all three. But you only need prime cost to know if you should be looking at all.
         </p>
         <p>
-          Weekly tracking catches problems in week two. Monthly tracking catches them in month two. The difference is real money. Six weeks of unfixed labor drift on a 60-cover restaurant is roughly $9,000 of margin (Toast). I have watched operators run the report monthly because that is what their accountant set up — and miss a four-point gap that started on a single mid-shift schedule mistake in week one. The accountant is not the problem. The cadence is the problem.
+          Weekly tracking catches problems in week two. Monthly tracking catches them in month two. The difference is real money. Six weeks of unfixed labor drift on a 60-cover restaurant is roughly $9,000 of margin (Toast). I have watched operators run the report monthly because that is what their accountant set up, and miss a four-point gap that started on a single mid-shift schedule mistake in week one. The accountant is not the problem. The cadence is the problem.
         </p>
         <p>
           One more thing. If the owner is not pulling this number weekly, the GM is. If neither is, the number drifts and nobody finds out until tax season. That is the recurring cause of bar and kitchen drift I have watched at multiple operations: nobody owning the weekly read. The math is the easy part. Owning Monday morning is the entire game.
@@ -363,7 +363,7 @@ const schema = [
       <p class="t-micro t-micro--saffron">Real scenarios</p>
       <h2 class="scenarios__headline">Three operators, three different prime cost stories</h2>
       <p class="t-body-large scenarios__intro">
-        Same metric, different fixes. The lever depends on which component is broken — or hidden.
+        Same metric, different fixes. The lever depends on which component is broken, or hidden.
       </p>
       <div class="scenarios__grid">
         {scenarios.map((s, i) => (
@@ -399,10 +399,10 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-prime-cost" target="_blank" rel="noopener">Toast — Restaurant Prime Cost Explained</a></li>
-        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365 — Prime Cost Tracking Best Practices</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Industry Margin Research</a></li>
-        <li><a href="https://www.7shifts.com/blog/labor-cost-percentage/" target="_blank" rel="noopener">7shifts — Labor Cost Component Benchmarks</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-prime-cost" target="_blank" rel="noopener">Toast, Restaurant Prime Cost Explained</a></li>
+        <li><a href="https://www.restaurant365.com/blog/" target="_blank" rel="noopener">Restaurant365, Prime Cost Tracking Best Practices</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Industry Margin Research</a></li>
+        <li><a href="https://www.7shifts.com/blog/labor-cost-percentage/" target="_blank" rel="noopener">7shifts, Labor Cost Component Benchmarks</a></li>
       </ul>
     </section>
 
@@ -491,7 +491,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [cogsEl, laborvEl, primeEl, foodPctEl, laborPctEl].forEach(e => { if (e) e.textContent = '—'; });
+      [cogsEl, laborvEl, primeEl, foodPctEl, laborPctEl].forEach(e => { if (e) e.textContent = ', '; });
     }
 
     function calc() {
@@ -531,7 +531,7 @@ const schema = [
       if (laborPctEl) laborPctEl.textContent = `${laborPct.toFixed(1)}%`;
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch the components — food and labor can drift in opposite directions and net to no change.`;
+      if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch the components, food and labor can drift in opposite directions and net to no change.`;
       if (s.label === 'Lean') note = `Below typical ${concept.label} range. Verify labor figure includes burden (taxes + benefits + WC). Owner working unpaid hours? Add a market manager wage on paper before comparing.`;
       if (s.label === 'Watch') note = `Slightly above ${concept.label} healthy range. Look at component split: ${cogsPct.toFixed(1)}% food/bev vs ${laborPct.toFixed(1)}% labor. Whichever is further from concept norm is the lever.`;
       if (s.label === 'Critical') note = `Above ${concept.label} healthy range. Drill into both components weekly. Fastest 1–2pp usually come from labor: slow-shift overstaffing, overtime creep, schedule built for old volume.`;

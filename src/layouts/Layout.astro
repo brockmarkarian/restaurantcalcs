@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  title = 'RestaurantCalcs — Free Restaurant Operations Calculators',
+  title = 'RestaurantCalcs, Free Restaurant Operations Calculators',
   description = '16 free calculators for restaurant ops math: food cost, labor, tip pool, pricing, pour cost, break-even, variance, and more. Built by a 5-year GM. Math shown.',
   ogImage = '/og-default.png',
   schema,
@@ -35,7 +35,7 @@ const autoOgPath = `/og/${pathToOgSlug(Astro.url.pathname)}.png`;
 const resolvedOgPath = ogImage === '/og-default.png' ? autoOgPath : ogImage;
 const ogImageUrl = new URL(resolvedOgPath, SITE_URL).toString();
 
-// Site-wide schema — Person + Organization + WebSite
+// Site-wide schema, Person + Organization + WebSite
 const baseSchema = [
   {
     '@context': 'https://schema.org',
@@ -197,15 +197,15 @@ const allSchema = schema
       (function () {
         if (!window.__RC_HOUSE_ADS__) return;
         var CALCS = [
-          { slug: 'food-cost', label: 'Food Cost %', blurb: 'COGS / sales — with the full inventory-and-transfers breakdown.' },
+          { slug: 'food-cost', label: 'Food Cost %', blurb: 'COGS / sales, with the full inventory-and-transfers breakdown.' },
           { slug: 'recipe-cost', label: 'Recipe Cost', blurb: 'Plate cost line-by-line with optional Q-factor.' },
           { slug: 'labor-cost', label: 'Labor Cost %', blurb: 'Schedule mode, OT detection, concept-aware thresholds.' },
-          { slug: 'tip-pool', label: 'Tip Pool', blurb: 'Hours, points, role tip-out — with FLSA flags.' },
+          { slug: 'tip-pool', label: 'Tip Pool', blurb: 'Hours, points, role tip-out, with FLSA flags.' },
           { slug: 'menu-pricing', label: 'Menu Pricing', blurb: 'Cost-plus pricing with charm rounding.' },
           { slug: 'liquor-pour-cost', label: 'Liquor Pour Cost', blurb: 'Aggregate or per-drink with spillage adjustment.' },
           { slug: 'keg-cost', label: 'Keg / Draft Cost', blurb: 'Half-barrel pour cost with foam loss math.' },
           { slug: 'break-even', label: 'Break-Even', blurb: 'Fixed costs / contribution margin + safety margin.' },
-          { slug: 'inventory-variance', label: 'Inventory Variance', blurb: 'Actual vs theoretical — sign-aware diagnosis.' },
+          { slug: 'inventory-variance', label: 'Inventory Variance', blurb: 'Actual vs theoretical, sign-aware diagnosis.' },
           { slug: 'prime-cost', label: 'Prime Cost', blurb: 'Food + labor as a share of sales.' },
           { slug: 'no-show-deposit', label: 'No-Show Deposit', blurb: 'Reservation hold sizing for high-cover nights.' },
           { slug: 'menu-engineering', label: 'Menu Engineering', blurb: 'Stars / plowhorses / puzzles / dogs matrix.' },
@@ -449,7 +449,7 @@ const allSchema = schema
     <main id="main">
       <slot />
       <div class="embed-credit" aria-hidden="true">
-        <span>Powered by <a href={`${SITE_URL}${Astro.url.pathname}`} target="_blank" rel="noopener">RestaurantCalcs</a> — free restaurant operations calculators</span>
+        <span>Powered by <a href={`${SITE_URL}${Astro.url.pathname}`} target="_blank" rel="noopener">RestaurantCalcs</a>free restaurant operations calculators</span>
         <a href={`${SITE_URL}${Astro.url.pathname}`} target="_blank" rel="noopener">Open full version →</a>
       </div>
     </main>
@@ -601,7 +601,7 @@ const allSchema = schema
               <img src="/producthunt-badge.svg" alt="RestaurantCalcs - 16 free restaurant ops calculators. No signup. No tracking. | Product Hunt" width="250" height="54" loading="lazy" />
             </a>
             <a href="https://sourceforge.net/projects/restaurantcalcs/" target="_blank" rel="noopener" class="site-footer__badge" aria-label="RestaurantCalcs on SourceForge">
-              <img src="/sourceforge-badge.svg" alt="RestaurantCalcs reviews — SourceForge" width="80" height="80" loading="lazy" />
+              <img src="/sourceforge-badge.svg" alt="RestaurantCalcs reviews, SourceForge" width="80" height="80" loading="lazy" />
             </a>
           </div>
         </div>
@@ -631,7 +631,7 @@ const allSchema = schema
       <div class="container">
         <div class="site-footer__disclaimer">
           <p>
-            <strong>Disclaimer:</strong> All calculators are provided for educational and informational purposes only. Results depend on the accuracy of your inputs and should not be considered financial, accounting, tax, or legal advice. Consult a qualified professional before making business decisions based on these results. Tip pool calculations in particular are subject to federal (FLSA) and state labor laws — consult a labor attorney before implementing any tip pool or tip-out policy. RestaurantCalcs makes no warranty of accuracy or fitness for a particular purpose, and is not liable for any decisions made based on these tools.
+            <strong>Disclaimer:</strong> All calculators are provided for educational and informational purposes only. Results depend on the accuracy of your inputs and should not be considered financial, accounting, tax, or legal advice. Consult a qualified professional before making business decisions based on these results. Tip pool calculations in particular are subject to federal (FLSA) and state labor laws, consult a labor attorney before implementing any tip pool or tip-out policy. RestaurantCalcs makes no warranty of accuracy or fitness for a particular purpose, and is not liable for any decisions made based on these tools.
           </p>
           <ul class="site-footer__social" aria-label="Brock on the web">
             <li><a href="https://x.com/brockmarkarian" rel="noopener me" aria-label="Brock on X" class="site-footer__social-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></li>
@@ -1142,7 +1142,7 @@ const allSchema = schema
       .site-footer__credit { color: var(--color-saffron-text); font-weight: 500; text-decoration: none; transition: color var(--transition-fast); }
       .site-footer__credit:hover { color: var(--color-heading); text-decoration: underline; }
 
-      /* Margin ad rails — only on wide screens (above 1480px) */
+      /* Margin ad rails, only on wide screens (above 1480px) */
       .rail {
         display: none;
       }
@@ -1409,7 +1409,7 @@ const allSchema = schema
 
     </style>
 
-    <!-- House Ads global styles — JS-injected DOM needs global scope to bypass Astro CSS hashing -->
+    <!-- House Ads global styles, JS-injected DOM needs global scope to bypass Astro CSS hashing -->
     <style is:global>
       .house-ad {
         position: relative;

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Labor Cost Percentage Calculator — Free | RestaurantCalcs';
+const title = 'Labor Cost Percentage Calculator, Free | RestaurantCalcs';
 const description = 'Labor cost % with fully-loaded burden + concept-aware thresholds (QSR, fast casual, casual, fine, pizza, cafe). SPLH benchmarks included.';
 
 const faq = [
@@ -11,7 +11,7 @@ const faq = [
   },
   {
     q: 'How do you calculate labor cost percentage?',
-    a: 'Labor cost percentage equals total labor cost divided by total revenue, multiplied by 100. The formula is: (Total Labor Cost ÷ Total Revenue) × 100 = Labor Cost %. The critical part is what you include in "total labor cost" — most operators undercount.',
+    a: 'Labor cost percentage equals total labor cost divided by total revenue, multiplied by 100. The formula is: (Total Labor Cost ÷ Total Revenue) × 100 = Labor Cost %. The critical part is what you include in "total labor cost", most operators undercount.',
   },
   {
     q: 'What should be included in total labor cost?',
@@ -19,15 +19,15 @@ const faq = [
   },
   {
     q: 'What is prime cost and how does labor fit in?',
-    a: 'Prime cost is food cost plus labor cost as a percentage of total revenue. A healthy prime cost is 60–65% for full-service, 55–60% for fast casual. Labor and food cost are negatively correlated — cutting one usually shifts cost to the other. Both must be controlled together to avoid moving money around.',
+    a: 'Prime cost is food cost plus labor cost as a percentage of total revenue. A healthy prime cost is 60–65% for full-service, 55–60% for fast casual. Labor and food cost are negatively correlated, cutting one usually shifts cost to the other. Both must be controlled together to avoid moving money around.',
   },
   {
     q: 'How do I lower my labor cost percentage?',
-    a: 'Ranked by impact: (1) match scheduling to actual demand by daypart — most operators over-staff slow shifts, (2) cross-train so fewer people cover more positions, (3) reduce overtime by capping shifts at 40 hours per pay period, (4) revisit menu engineering to shed labor-heavy items, (5) automate prep and ordering where possible. Most operators find 2–4pp without reducing service quality.',
+    a: 'Ranked by impact: (1) match scheduling to actual demand by daypart, most operators over-staff slow shifts, (2) cross-train so fewer people cover more positions, (3) reduce overtime by capping shifts at 40 hours per pay period, (4) revisit menu engineering to shed labor-heavy items, (5) automate prep and ordering where possible. Most operators find 2–4pp without reducing service quality.',
   },
   {
     q: 'How often should I run labor cost?',
-    a: 'Daily for any operator running on tight margins. Weekly is the minimum standard. Many high-performing operators track real-time labor cost as a percentage of running sales each shift via their POS — so they can flex labor down within a slow shift instead of finding out at month-end.',
+    a: 'Daily for any operator running on tight margins. Weekly is the minimum standard. Many high-performing operators track real-time labor cost as a percentage of running sales each shift via their POS, so they can flex labor down within a slow shift instead of finding out at month-end.',
   },
   {
     q: 'What is a "scheduled labor" vs "actual labor" report?',
@@ -35,7 +35,7 @@ const faq = [
   },
   {
     q: 'Should tipped employees be in the labor cost number?',
-    a: 'Yes — but use the tip credit base if your jurisdiction allows it. Otherwise the math overstates your true labor cost since tips are pass-through revenue. Federal minimum tipped wage is $2.13/hr but many states require higher or full minimum. Consult your state labor authority and use the actual cash you pay (not the gross tipped wage).',
+    a: 'Yes, but use the tip credit base if your jurisdiction allows it. Otherwise the math overstates your true labor cost since tips are pass-through revenue. Federal minimum tipped wage is $2.13/hr but many states require higher or full minimum. Consult your state labor authority and use the actual cash you pay (not the gross tipped wage).',
   },
   {
     q: 'How does sales volume affect labor cost percentage?',
@@ -100,8 +100,8 @@ const schema = [
     step: [
       { '@type': 'HowToStep', position: 1, name: 'Sum all wages', text: 'Add hourly wages plus salaried compensation paid during the period.' },
       { '@type': 'HowToStep', position: 2, name: 'Add full burden', text: 'Add payroll taxes (FICA 7.65% + state SUTA), workers compensation insurance, health benefits, paid time off, and meal benefits.' },
-      { '@type': 'HowToStep', position: 3, name: 'Calculate total labor cost', text: 'Total Labor Cost = Hourly + Salaried + Burden. This is the true cost of your labor — not just wages.' },
-      { '@type': 'HowToStep', position: 4, name: 'Calculate labor cost %', text: 'Labor Cost % = (Total Labor Cost ÷ Total Revenue) × 100. Compare to your concept benchmark — full-service is typically 28–35%, QSR 20–25%.' },
+      { '@type': 'HowToStep', position: 3, name: 'Calculate total labor cost', text: 'Total Labor Cost = Hourly + Salaried + Burden. This is the true cost of your labor, not just wages.' },
+      { '@type': 'HowToStep', position: 4, name: 'Calculate labor cost %', text: 'Labor Cost % = (Total Labor Cost ÷ Total Revenue) × 100. Compare to your concept benchmark, full-service is typically 28–35%, QSR 20–25%.' },
     ],
   },
   {
@@ -137,11 +137,11 @@ const scenarios = [
     setup: 'Owner-operated pizza concept, 22% labor cost. Owner thought he was crushing it.',
     diagnosis: 'Owner was working 70 hours/week unpaid. True labor cost (paying himself a market wage) would be 31%. He was subsidizing the business with his time.',
     fix: 'Paid himself a manager salary, hired one additional shift lead, freed up 25 hours/week.',
-    outcome: 'Real labor cost is 30%. Sustainable. Owner stopped burning out — and has time to grow the business.',
+    outcome: 'Real labor cost is 30%. Sustainable. Owner stopped burning out, and has time to grow the business.',
   },
   {
     title: 'The 28% cafe with overtime creep',
-    setup: 'Specialty cafe, labor at 28% — looks healthy. But variance vs scheduled labor was running 6%.',
+    setup: 'Specialty cafe, labor at 28%, looks healthy. But variance vs scheduled labor was running 6%.',
     diagnosis: 'Two key staff each working 47 hours/week, triggering overtime. Schedule listed 38 hours but punch-outs ran late. Overtime alone added $600/week in unbudgeted labor.',
     fix: 'Capped shifts at 40 hours by adding one part-time hire, enforced punch-out discipline at close.',
     outcome: 'Labor down to 26%, variance under 1%. $2,400/month back. No service degradation.',
@@ -173,7 +173,7 @@ const relatedCalcs = [
     <section class="calc-grid">
       <form class="calc-form" data-form data-mode="quick">
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Compares labor cost to revenue. Detailed mode adds full burden (taxes + benefits + workers comp) — most operators undercount labor by 15–25% by tracking only wages.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Compares labor cost to revenue. Detailed mode adds full burden (taxes + benefits + workers comp), most operators undercount labor by 15–25% by tracking only wages.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -260,7 +260,7 @@ const relatedCalcs = [
           <div class="sched">
             <div class="sched__head">
               <h3 class="sched__title">Weekly schedule</h3>
-              <p class="sched__hint">Add one row per employee. Hours over 40/week trigger overtime (federal: 1.5× rate). California, Alaska, Nevada, Colorado also have daily OT thresholds — consult your state labor board.</p>
+              <p class="sched__hint">Add one row per employee. Hours over 40/week trigger overtime (federal: 1.5× rate). California, Alaska, Nevada, Colorado also have daily OT thresholds, consult your state labor board.</p>
             </div>
 
             <div class="sched__rows" data-sched-rows>
@@ -329,7 +329,7 @@ const relatedCalcs = [
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="30000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">All sales revenue for the period — food + beverage + retail.</p>
+          <p class="form-row__hint">All sales revenue for the period, food + beverage + retail.</p>
         </div>
 
         <div class="form-row">
@@ -338,7 +338,7 @@ const relatedCalcs = [
             <input id="hours" name="hours" type="number" inputmode="decimal" min="0" step="0.5" placeholder="450" autocomplete="off" />
             <span class="input-shell__suffix">hrs</span>
           </div>
-          <p class="form-row__hint">Sum of all hours worked. Returns sales-per-labor-hour (SPLH) — industry-standard scheduling metric.</p>
+          <p class="form-row__hint">Sum of all hours worked. Returns sales-per-labor-hour (SPLH), industry-standard scheduling metric.</p>
         </div>
 
         <!-- Optional advanced fields -->
@@ -355,7 +355,7 @@ const relatedCalcs = [
                   <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="30" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">Your goal — calculator shows variance from target in dollars.</p>
+                <p class="form-row__hint">Your goal, calculator shows variance from target in dollars.</p>
               </div>
 
               <div class="form-row">
@@ -432,19 +432,19 @@ const relatedCalcs = [
             </div>
             <div class="extras-row" data-splh-row hidden>
               <span class="extras-row__label">Sales per labor hour</span>
-              <span class="extras-row__value num" data-splh>—</span>
+              <span class="extras-row__value num" data-splh></span>
             </div>
             <div class="extras-row" data-target-row hidden>
               <span class="extras-row__label">Vs. target</span>
-              <span class="extras-row__value num" data-target-variance>—</span>
+              <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
               <span class="extras-row__label">Cost impact at target</span>
-              <span class="extras-row__value num" data-target-money>—</span>
+              <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
               <span class="extras-row__label">Vs. scheduled</span>
-              <span class="extras-row__value num" data-theoretical-variance>—</span>
+              <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
         </div>
@@ -466,16 +466,16 @@ const relatedCalcs = [
       <h2 class="essay__headline">Labor is the only cost you can <em>fix in 24 hours</em>.</h2>
       <div class="essay__body">
         <p>
-          You can't reprice your menu by Friday. You can't renegotiate produce vendors mid-week. You can't change your lease. Almost every line on the P&amp;L moves on quarterly or annual cycles — except labor.
+          You can't reprice your menu by Friday. You can't renegotiate produce vendors mid-week. You can't change your lease. Almost every line on the P&amp;L moves on quarterly or annual cycles, except labor.
         </p>
         <p>
           Labor is the lever you can move tonight. A bartender who didn't need to come in until 5pm instead of 4pm. A prep cook who can leave 90 minutes early because catering pre-built the order. Two servers cut from a slow Tuesday lunch. Each individual decision is small. Across 30 weekly shifts, those decisions are 4–6 percentage points of margin.
         </p>
         <p class="essay__pull">
-          Operators who track labor weekly are doing the bare minimum. Operators who track sales-per-labor-hour by daypart in real time during the shift — those are the ones whose competitors can't figure out why they're profitable.
+          Operators who track labor weekly are doing the bare minimum. Operators who track sales-per-labor-hour by daypart in real time during the shift, those are the ones whose competitors can't figure out why they're profitable.
         </p>
         <p>
-          The trap is undercounting. Wages alone is not labor cost. Add 15–25% for taxes, benefits, and workers comp before you compare to any benchmark. Then track variance from your scheduled budget every week. The variance — not the absolute number — is where the money lives.
+          The trap is undercounting. Wages alone is not labor cost. Add 15–25% for taxes, benefits, and workers comp before you compare to any benchmark. Then track variance from your scheduled budget every week. The variance, not the absolute number, is where the money lives.
         </p>
       </div>
     </section>
@@ -489,13 +489,13 @@ const relatedCalcs = [
       <h2 class="essay__headline">Late-night labor is where <em>good schedules go to die</em>.</h2>
       <div class="essay__body">
         <p>
-          As GM at Cosmos, the hardest schedule decisions weren't the ones for the dinner crowd. Dinner is patterned. You know within an hour when the rush hits, when it tapers, who you need at the door. The decisions that hurt are the late-night ones — the bar's still going at 1am, the nightclub doesn't close until 2am, and you have eight people on the clock who haven't sold a drink in twenty minutes.
+          As GM at Cosmos, the hardest schedule decisions weren't the ones for the dinner crowd. Dinner is patterned. You know within an hour when the rush hits, when it tapers, who you need at the door. The decisions that hurt are the late-night ones, the bar's still going at 1am, the nightclub doesn't close until 2am, and you have eight people on the clock who haven't sold a drink in twenty minutes.
         </p>
         <p>
-          Cutting a bartender at the wrong moment costs you the next rush. Keeping them ten minutes too long costs you forty bucks of labor on a slow night. Multiply by five nights a week, fifty weeks a year, and you're talking real money — silently, without any single decision feeling wrong in the moment.
+          Cutting a bartender at the wrong moment costs you the next rush. Keeping them ten minutes too long costs you forty bucks of labor on a slow night. Multiply by five nights a week, fifty weeks a year, and you're talking real money, silently, without any single decision feeling wrong in the moment.
         </p>
         <p>
-          The thing nobody teaches you when you go from bartender to GM is that the schedule isn't a list of names and times. It's a forecast — every shift is a bet on what the night will do. Some nights you bet wrong. The job is making sure you bet right more often than not, and that you have the data to know when you're consistently betting wrong.
+          The thing nobody teaches you when you go from bartender to GM is that the schedule isn't a list of names and times. It's a forecast, every shift is a bet on what the night will do. Some nights you bet wrong. The job is making sure you bet right more often than not, and that you have the data to know when you're consistently betting wrong.
         </p>
         <p class="essay__pull">
           Your labor cost percentage doesn't tell you who to cut. It tells you whether your schedule is built for the sales you actually have, or the sales you wish you had.
@@ -504,10 +504,10 @@ const relatedCalcs = [
           And there's the part nobody warns you about: when the owner's not engaged in the schedule, the schedule fights for itself. Senior staff lock in their preferred shifts regardless of where they're needed. New hires get scattered into the worst slots because nobody's protecting them. Overtime creeps up on the people who can't say no. As GM I was running interference on all of that for three of the five years I was there. The math kept me honest. The math is what tells you whether a "tough but fair" schedule actually pencils.
         </p>
         <p>
-          That's what this calculator does. It tells you the truth about your labor program in two numbers — labor cost % against your concept benchmark, and SPLH against the band for your service model. Both numbers in the green = you're scheduling right. One in the red = something to investigate. Both in the red = you've got a structural problem that scheduling alone won't fix.
+          That's what this calculator does. It tells you the truth about your labor program in two numbers, labor cost % against your concept benchmark, and SPLH against the band for your service model. Both numbers in the green = you're scheduling right. One in the red = something to investigate. Both in the red = you've got a structural problem that scheduling alone won't fix.
         </p>
         <div class="operator-byline">
-          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__dash">Signed</span>
           <span class="operator-byline__name">Brock Markarian</span>
           <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
         </div>
@@ -519,7 +519,7 @@ const relatedCalcs = [
     <section class="benchmarks">
       <h2 class="benchmarks__headline">Benchmarks <em>by concept type</em></h2>
       <p class="t-body-large benchmarks__intro">
-        Healthy labor cost varies by service model. Full-service runs higher than quick-service because of more staff per cover. Use these as a sanity check — your actual target depends on your menu complexity, market wages, and prep model.
+        Healthy labor cost varies by service model. Full-service runs higher than quick-service because of more staff per cover. Use these as a sanity check, your actual target depends on your menu complexity, market wages, and prep model.
       </p>
       <div class="benchmarks__chart">
         {benchmarks.map((b) => (
@@ -566,7 +566,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron">Real scenarios</p>
       <h2 class="scenarios__headline">Three operators, three different labor problems</h2>
       <p class="t-body-large scenarios__intro">
-        Same percentage tells different stories. Labor cost % alone is the smoke alarm — the cause is always more specific.
+        Same percentage tells different stories. Labor cost % alone is the smoke alarm, the cause is always more specific.
       </p>
       <div class="scenarios__grid">
         {scenarios.map((s, i) => (
@@ -611,10 +611,10 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost" target="_blank" rel="noopener">Toast — Restaurant Labor Cost Benchmarks</a></li>
-        <li><a href="https://www.7shifts.com/blog/labor-cost-percentage/" target="_blank" rel="noopener">7shifts — Labor Cost Percentage by Concept</a></li>
-        <li><a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener">BLS — Food Services & Drinking Places Industry</a></li>
-        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15 — Tipped Employees Under the FLSA</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost" target="_blank" rel="noopener">Toast, Restaurant Labor Cost Benchmarks</a></li>
+        <li><a href="https://www.7shifts.com/blog/labor-cost-percentage/" target="_blank" rel="noopener">7shifts, Labor Cost Percentage by Concept</a></li>
+        <li><a href="https://www.bls.gov/iag/tgs/iag722.htm" target="_blank" rel="noopener">BLS, Food Services & Drinking Places Industry</a></li>
+        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15, Tipped Employees Under the FLSA</a></li>
       </ul>
     </section>
 
@@ -869,7 +869,7 @@ const relatedCalcs = [
       statusLabel!.textContent = s.label;
       marker!.style.left = `${markerPos}%`;
 
-      // SPLH calculation — works in all modes if hours provided
+      // SPLH calculation, works in all modes if hours provided
       const formHours = parseFloat(String(data.get('hours') || '0')) || 0;
       const hoursWorked = mode === 'schedule' ? scheduleHours : formHours;
       const splhRow = document.querySelector('[data-splh-row]') as HTMLElement | null;
@@ -931,7 +931,7 @@ const relatedCalcs = [
 
       let note = '';
       if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch overtime creep.`;
-      if (s.label === 'Lean') note = `Below typical ${concept.label} range (${concept.low}–${concept.high}%). Verify burden — wages alone undercounts by 15–25%. Or you may be over-relying on owner labor.`;
+      if (s.label === 'Lean') note = `Below typical ${concept.label} range (${concept.low}–${concept.high}%). Verify burden, wages alone undercounts by 15–25%. Or you may be over-relying on owner labor.`;
       if (s.label === 'Watch') note = `Slightly above ${concept.label} healthy range (${concept.low}–${concept.high}%). Common causes: overtime creep, schedule built for old sales volume, slow-shift overstaffing.`;
       if (s.label === 'Critical') note = `Above ${concept.label} healthy range (${concept.low}–${concept.high}%). Investigate: overtime, scheduling vs daypart sales, productivity per labor hour, prep-vs-line ratio.`;
 

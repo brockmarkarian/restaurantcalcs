@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Recipe & Plate Cost Calculator — Free | RestaurantCalcs';
+const title = 'Recipe & Plate Cost Calculator, Free | RestaurantCalcs';
 const description = 'Build plate cost from ingredients. Unlimited rows, unit-aware costing, optional Q-factor. Get per-portion cost and suggested menu price. Math shown.';
 
 const faq = [
@@ -15,15 +15,15 @@ const faq = [
   },
   {
     q: 'How accurate does ingredient cost need to be?',
-    a: 'As accurate as the latest invoice. Most operators update ingredient costs quarterly at minimum, monthly during inflation. Outdated unit costs are the #1 reason theoretical food cost diverges from actual — and why variance reports lie.',
+    a: 'As accurate as the latest invoice. Most operators update ingredient costs quarterly at minimum, monthly during inflation. Outdated unit costs are the #1 reason theoretical food cost diverges from actual, and why variance reports lie.',
   },
   {
     q: 'How do I handle yield loss / trim?',
-    a: 'Bake it into the unit cost. A 10-pound case of beef tenderloin at $180 ($18/lb as-purchased) yields ~7 pounds trimmed — so your real cost per usable pound is $180 ÷ 7 = $25.71/lb. Use that number as your $ per unit in the recipe row. This is more accurate than guessing a waste % per ingredient (most operators don\'t track that anyway).',
+    a: 'Bake it into the unit cost. A 10-pound case of beef tenderloin at $180 ($18/lb as-purchased) yields ~7 pounds trimmed, so your real cost per usable pound is $180 ÷ 7 = $25.71/lb. Use that number as your $ per unit in the recipe row. This is more accurate than guessing a waste % per ingredient (most operators don\'t track that anyway).',
   },
   {
     q: 'What about overhead, labor, and packaging?',
-    a: 'Recipe cost typically captures food only — direct ingredient cost. Labor and overhead are tracked separately as labor cost % and operating expenses. Packaging (takeout containers, paper) is sometimes added to recipe cost for delivery items and sometimes pulled to a separate "supplies" line. Pick a convention and apply consistently.',
+    a: 'Recipe cost typically captures food only, direct ingredient cost. Labor and overhead are tracked separately as labor cost % and operating expenses. Packaging (takeout containers, paper) is sometimes added to recipe cost for delivery items and sometimes pulled to a separate "supplies" line. Pick a convention and apply consistently.',
   },
   {
     q: 'How do I price a dish from recipe cost?',
@@ -31,7 +31,7 @@ const faq = [
   },
   {
     q: 'How often should I re-cost recipes?',
-    a: 'Quarterly minimum. Monthly during cost spikes. The discipline beats the precision — a "good enough" cost updated regularly beats a precise cost from 18 months ago. Most POS recipe modules support bulk price updates from invoice imports.',
+    a: 'Quarterly minimum. Monthly during cost spikes. The discipline beats the precision, a "good enough" cost updated regularly beats a precise cost from 18 months ago. Most POS recipe modules support bulk price updates from invoice imports.',
   },
   {
     q: 'Should I include modifiers and add-ons?',
@@ -148,7 +148,7 @@ const relatedCalcs = [
             </button>
           </p>
           <div class="unit-notice" role="note">
-            <strong>Important:</strong> the <em>$ per unit</em> column must match the unit you pick. If your invoice prices per <strong>lb</strong> but your recipe uses <strong>oz</strong>, divide the pack price by 16 to get $/oz — or pick <strong>lb</strong> here and enter qty in lb.
+            <strong>Important:</strong> the <em>$ per unit</em> column must match the unit you pick. If your invoice prices per <strong>lb</strong> but your recipe uses <strong>oz</strong>, divide the pack price by 16 to get $/oz, or pick <strong>lb</strong> here and enter qty in lb.
           </div>
           <div class="recipe-table">
             <div class="recipe-table__head">
@@ -231,15 +231,15 @@ const relatedCalcs = [
             </div>
             <div class="extras-row" data-yield-row hidden>
               <span class="extras-row__label">Yield</span>
-              <span class="extras-row__value num" data-yield-display>—</span>
+              <span class="extras-row__value num" data-yield-display></span>
             </div>
             <div class="extras-row" data-suggested-row hidden>
               <span class="extras-row__label">Suggested menu price</span>
-              <span class="extras-row__value num" data-suggested>—</span>
+              <span class="extras-row__value num" data-suggested></span>
             </div>
             <div class="extras-row" data-markup-row hidden>
               <span class="extras-row__label">Markup multiplier</span>
-              <span class="extras-row__value num" data-markup>—</span>
+              <span class="extras-row__value num" data-markup></span>
             </div>
           </div>
         </div>
@@ -265,13 +265,13 @@ const relatedCalcs = [
           Every menu price is a hypothesis about plate cost. Operators who guess at plate cost are pricing on vibes. Operators who measure plate cost are pricing on data.
         </p>
         <p>
-          The difference shows up two years later. Operator A raised prices reactively, only when food cost % drifted into trouble. Operator B repriced quarterly based on updated plate cost — and stayed two steps ahead of inflation.
+          The difference shows up two years later. Operator A raised prices reactively, only when food cost % drifted into trouble. Operator B repriced quarterly based on updated plate cost, and stayed two steps ahead of inflation.
         </p>
         <p class="essay__pull">
           A recipe costed once, never updated, is worse than no recipe cost at all. It gives false confidence that the math works while the underlying numbers are 18 months stale.
         </p>
         <p>
-          Recipe cost is the input to almost every other operations metric: theoretical food cost, variance analysis, menu engineering, plate cost benchmarking. Get it right and re-cost regularly — everything else compounds from there.
+          Recipe cost is the input to almost every other operations metric: theoretical food cost, variance analysis, menu engineering, plate cost benchmarking. Get it right and re-cost regularly, everything else compounds from there.
         </p>
       </div>
     </section>
@@ -312,9 +312,9 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/recipe-costing" target="_blank" rel="noopener">Toast — Recipe Costing Guide</a></li>
-        <li><a href="https://www.restaurant365.com/blog/recipe-costing-restaurants/" target="_blank" rel="noopener">Restaurant365 — Recipe Costing Best Practices</a></li>
-        <li><a href="https://www.ciachef.edu/" target="_blank" rel="noopener">Culinary Institute of America — Yield & Costing Methodology</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/recipe-costing" target="_blank" rel="noopener">Toast, Recipe Costing Guide</a></li>
+        <li><a href="https://www.restaurant365.com/blog/recipe-costing-restaurants/" target="_blank" rel="noopener">Restaurant365, Recipe Costing Best Practices</a></li>
+        <li><a href="https://www.ciachef.edu/" target="_blank" rel="noopener">Culinary Institute of America, Yield & Costing Methodology</a></li>
       </ul>
     </section>
 
@@ -563,7 +563,7 @@ const relatedCalcs = [
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
   .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
-  /* Recipe header — name + yield side-by-side */
+  /* Recipe header, name + yield side-by-side */
   .recipe-header-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -596,7 +596,7 @@ const relatedCalcs = [
   .unit-notice { padding: var(--space-3) var(--space-4); background: var(--color-saffron-light); border-left: 3px solid var(--color-saffron); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-heading); }
   .unit-notice em { font-style: normal; font-family: var(--font-mono); font-size: 0.75rem; padding: 1px 6px; background: var(--color-white); border-radius: 4px; }
 
-  /* Cost-per-unit shell — shows $/oz, $/lb etc. (JS-injected, must use :global) */
+  /* Cost-per-unit shell, shows $/oz, $/lb etc. (JS-injected, must use :global) */
   :global(.recipe-row__cost-shell) { display: flex; align-items: stretch; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; transition: all 200ms ease; }
   :global(.recipe-row__cost-shell:focus-within) { border-color: #c87500; box-shadow: 0 0 0 2px rgba(200, 117, 0, 0.18); }
   :global(.recipe-row__cost-prefix) { display: inline-flex; align-items: center; padding: 0 10px; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 600; color: #a86200; background: #faf6ee; border-right: 1px dashed var(--color-border); flex-shrink: 0; min-width: 50px; justify-content: center; }

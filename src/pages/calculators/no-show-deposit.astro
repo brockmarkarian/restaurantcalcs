@@ -1,13 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'No-Show Cost & Deposit Calculator — Free | RestaurantCalcs';
+const title = 'No-Show Cost & Deposit Calculator, Free | RestaurantCalcs';
 const description = 'Restaurant no-show cost calculator. Models lost revenue, deposit recapture, and break-even no-show rate. Benchmarks by concept (casual 5–10%, fine 3–7%).';
 
 const faq = [
   {
     q: 'What is a no-show?',
-    a: 'A booked reservation that never arrives and never cancels. The table sat reserved. The kitchen prepped for it. FOH was scheduled around it. Nobody came. Late cancels under 24 hours are the same problem operationally — the table cannot be re-sold in time.',
+    a: 'A booked reservation that never arrives and never cancels. The table sat reserved. The kitchen prepped for it. FOH was scheduled around it. Nobody came. Late cancels under 24 hours are the same problem operationally, the table cannot be re-sold in time.',
   },
   {
     q: 'What is a typical no-show rate?',
@@ -15,7 +15,7 @@ const faq = [
   },
   {
     q: 'How do I calculate the cost?',
-    a: 'Reservations × party size × no-show rate × average ticket = revenue lost. A 200-cover restaurant booking 280 reservations weekly, 3-top average, 8% no-show, $35 ticket loses about $2,350/week — roughly $122,000 a year. Most operators see the empty seat. They never run the annualized math.',
+    a: 'Reservations × party size × no-show rate × average ticket = revenue lost. A 200-cover restaurant booking 280 reservations weekly, 3-top average, 8% no-show, $35 ticket loses about $2,350/week, roughly $122,000 a year. Most operators see the empty seat. They never run the annualized math.',
   },
   {
     q: 'Should I charge a deposit?',
@@ -39,7 +39,7 @@ const faq = [
   },
   {
     q: 'What is the break-even no-show rate?',
-    a: 'The rate at which forfeited deposits cover lost ticket revenue. Deposit ÷ average ticket × 100. A $25 deposit on a $35 ticket breaks even at 71%. A $25 deposit on a $90 ticket breaks even at 28%. Lower ratio means the deposit needs to be more aggressive — or the policy is doing risk-control work, not revenue-replacement work.',
+    a: 'The rate at which forfeited deposits cover lost ticket revenue. Deposit ÷ average ticket × 100. A $25 deposit on a $35 ticket breaks even at 71%. A $25 deposit on a $90 ticket breaks even at 28%. Lower ratio means the deposit needs to be more aggressive, or the policy is doing risk-control work, not revenue-replacement work.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -62,7 +62,7 @@ const scenarios = [
     setup: '280 weekend reservations, 14% no-show, $42 average ticket. Bottomless mimosa concept. The waitlist on Saturday at noon was 40 parties deep.',
     diagnosis: 'Annualized loss came to roughly $58K. The owner had been calling it "cost of doing business" for 18 months. The math is unforgiving once you write it down: 14% of a 280-rez week at $42 a cover, multiplied by 52, is a number nobody wants to read.',
     fix: '$20 per cover deposit through Tock for weekend bookings only. 24-hour cancellation window. Weekday and walk-in untouched.',
-    outcome: 'No-show rate dropped to 5% in 90 days. About $39K/year recovered. Booking volume held flat. The friction filtered out the casual reservations — which was always the point.',
+    outcome: 'No-show rate dropped to 5% in 90 days. About $39K/year recovered. Booking volume held flat. The friction filtered out the casual reservations, which was always the point.',
   },
   {
     title: 'The fine dining 4-tops blocking the waitlist',
@@ -73,7 +73,7 @@ const scenarios = [
   },
   {
     title: 'The $3.33-per-cover deposit that did nothing',
-    setup: '6-tops no-showing at 22%. Standard policy was $20 deposit per booking — not per cover. $35 average ticket. $4,200 in lost tickets per month on group bookings alone.',
+    setup: '6-tops no-showing at 22%. Standard policy was $20 deposit per booking, not per cover. $35 average ticket. $4,200 in lost tickets per month on group bookings alone.',
     diagnosis: '$20 deposit on a 6-top is $3.33 a head. Forfeiting twenty bucks to skip a $210 reservation is rational behavior, not bad behavior. The deposit was not material at scale. The policy looked active and was operationally invisible.',
     fix: '$20 per cover deposit on parties of 6+. A 6-top now has $120 on the line. Standard 24-hour cancellation. Smaller parties kept the no-deposit policy.',
     outcome: 'No-show on large parties fell from 22% to 8% in 60 days. About $2,800/month recaptured. The lesson was not that deposits work. It was that per-cover scaling matters more than the dollar amount.',
@@ -241,27 +241,27 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Weekly no-shows (covers)</span>
-              <span class="extras-row__value num" data-weekly-covers>—</span>
+              <span class="extras-row__value num" data-weekly-covers></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Weekly revenue lost</span>
-              <span class="extras-row__value num" data-weekly-lost>—</span>
+              <span class="extras-row__value num" data-weekly-lost></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Annual revenue lost</span>
-              <span class="extras-row__value num" data-annual-lost>—</span>
+              <span class="extras-row__value num" data-annual-lost></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Deposit revenue at current rate</span>
-              <span class="extras-row__value num" data-deposit-rev>—</span>
+              <span class="extras-row__value num" data-deposit-rev></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Break-even no-show rate</span>
-              <span class="extras-row__value num" data-breakeven>—</span>
+              <span class="extras-row__value num" data-breakeven></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Net annual recovery w/ deposit</span>
-              <span class="extras-row__value num" data-net-recovery>—</span>
+              <span class="extras-row__value num" data-net-recovery></span>
             </div>
           </div>
         </div>
@@ -296,7 +296,7 @@ const schema = [
           Operators worry about pushback. The pushback is real and it filters in the right direction. The guest who refuses a $20 hold for a Saturday night is, statistically, the same guest most likely to no-show. Losing them is not a cost. It is the policy working. I know an operator who spent two years calling no-shows "the cost of doing business" while losing roughly $58K a year on a 14% rate. He runs $20-per-cover deposits on weekends now. The first month his no-show rate came back at 5%, he sat with the report for ten minutes before he believed it.
         </p>
         <p>
-          Every fine dining concept in every major market runs deposits in 2026. Guests adapted. The market adapted. The operators still eating the no-show cost are the ones who have not run the annualized math — usually because the empty seat in front of them does not look like $58,000 yet.
+          Every fine dining concept in every major market runs deposits in 2026. Guests adapted. The market adapted. The operators still eating the no-show cost are the ones who have not run the annualized math, usually because the empty seat in front of them does not look like $58,000 yet.
         </p>
       </div>
     </section>
@@ -390,10 +390,10 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://www.opentable.com/restaurant-solutions/resources/" target="_blank" rel="noopener">OpenTable — No-Show Reservation Reports</a></li>
-        <li><a href="https://blog.resy.com/" target="_blank" rel="noopener">Resy — Restaurant Reservation Best Practices</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/economic-indicators/" target="_blank" rel="noopener">National Restaurant Association — Industry Economic Indicators</a></li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/" target="_blank" rel="noopener">Toast — Reservation Management Guide</a></li>
+        <li><a href="https://www.opentable.com/restaurant-solutions/resources/" target="_blank" rel="noopener">OpenTable, No-Show Reservation Reports</a></li>
+        <li><a href="https://blog.resy.com/" target="_blank" rel="noopener">Resy, Restaurant Reservation Best Practices</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/economic-indicators/" target="_blank" rel="noopener">National Restaurant Association, Industry Economic Indicators</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/" target="_blank" rel="noopener">Toast, Reservation Management Guide</a></li>
       </ul>
     </section>
 
@@ -469,7 +469,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [weeklyCoversEl, weeklyLostEl, annualLostEl, depositRevEl, breakevenEl, netRecoveryEl].forEach(e => { if (e) e.textContent = '—'; });
+      [weeklyCoversEl, weeklyLostEl, annualLostEl, depositRevEl, breakevenEl, netRecoveryEl].forEach(e => { if (e) e.textContent = ', '; });
     }
 
     function calc() {

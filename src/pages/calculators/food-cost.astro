@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Food Cost Percentage Calculator — Free | RestaurantCalcs';
+const title = 'Food Cost Percentage Calculator, Free | RestaurantCalcs';
 const description = 'Food cost % calculator with inventory-based COGS, target variance, and theoretical vs actual gap analysis. Built by a 5-year restaurant GM. Math shown.';
 
 const faq = [
@@ -11,7 +11,7 @@ const faq = [
   },
   {
     q: 'How do you calculate food cost percentage with inventory?',
-    a: 'The accurate formula uses inventory: Food Cost % = (Opening Inventory + Purchases − Closing Inventory) ÷ Food Sales × 100. The numerator is your true Cost of Goods Sold (COGS). Without inventory tracking, you only get the cost of what you bought — not what you actually used. The inventory adjustment is what catches waste, theft, and over-purchasing.',
+    a: 'The accurate formula uses inventory: Food Cost % = (Opening Inventory + Purchases − Closing Inventory) ÷ Food Sales × 100. The numerator is your true Cost of Goods Sold (COGS). Without inventory tracking, you only get the cost of what you bought, not what you actually used. The inventory adjustment is what catches waste, theft, and over-purchasing.',
   },
   {
     q: 'What is the difference between actual and theoretical food cost?',
@@ -23,7 +23,7 @@ const faq = [
   },
   {
     q: 'Why is my food cost percentage too high?',
-    a: 'Common causes ranked by frequency: (1) menu prices set below true cost or never updated for inflation, (2) portion creep — line cooks plating heavy, (3) waste from over-prep, spoilage, or trim that should be tracked, (4) supplier price increases without menu price adjustments, (5) employee meals not tracked, (6) comping too many tables, (7) inventory variance from miscounting, (8) theft. Run weekly to catch drift early.',
+    a: 'Common causes ranked by frequency: (1) menu prices set below true cost or never updated for inflation, (2) portion creep, line cooks plating heavy, (3) waste from over-prep, spoilage, or trim that should be tracked, (4) supplier price increases without menu price adjustments, (5) employee meals not tracked, (6) comping too many tables, (7) inventory variance from miscounting, (8) theft. Run weekly to catch drift early.',
   },
   {
     q: 'How often should I run this calculation?',
@@ -31,11 +31,11 @@ const faq = [
   },
   {
     q: 'What is prime cost and how does food cost fit in?',
-    a: 'Prime cost is food cost plus labor cost as a percentage of total revenue. A healthy prime cost is 60–65% for full-service, 55–60% for fast casual. Food cost % alone is half the picture — labor is the other half. Both need to be controlled together because cutting one usually shifts cost to the other.',
+    a: 'Prime cost is food cost plus labor cost as a percentage of total revenue. A healthy prime cost is 60–65% for full-service, 55–60% for fast casual. Food cost % alone is half the picture, labor is the other half. Both need to be controlled together because cutting one usually shifts cost to the other.',
   },
   {
     q: 'How do I set a target food cost percentage?',
-    a: 'Start with your concept benchmark (use the table below). Subtract 2 percentage points to set a stretch goal — that gives margin for the inevitable bad weeks. Track weekly variance from target. If you consistently beat target, you may have under-portioning eroding guest experience. If you consistently miss, the menu needs repricing.',
+    a: 'Start with your concept benchmark (use the table below). Subtract 2 percentage points to set a stretch goal, that gives margin for the inevitable bad weeks. Track weekly variance from target. If you consistently beat target, you may have under-portioning eroding guest experience. If you consistently miss, the menu needs repricing.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -95,7 +95,7 @@ const schema = [
     ],
     step: [
       { '@type': 'HowToStep', position: 1, name: 'Count opening inventory', text: 'Take a physical inventory at the start of the period. Count and value all food on hand: walk-ins, dry storage, prep coolers, line.' },
-      { '@type': 'HowToStep', position: 2, name: 'Track purchases', text: 'Sum all food invoices paid during the period. Include only food — exclude beverages, paper goods, and chemicals.' },
+      { '@type': 'HowToStep', position: 2, name: 'Track purchases', text: 'Sum all food invoices paid during the period. Include only food, exclude beverages, paper goods, and chemicals.' },
       { '@type': 'HowToStep', position: 3, name: 'Count closing inventory', text: 'Take a second physical inventory at the end of the period using the same valuation method.' },
       { '@type': 'HowToStep', position: 4, name: 'Calculate COGS', text: 'COGS = Opening Inventory + Purchases − Closing Inventory. This is your true cost of food used.' },
       { '@type': 'HowToStep', position: 5, name: 'Calculate food cost %', text: 'Food Cost % = (COGS ÷ Food Sales) × 100. Compare to your target and to industry benchmarks (28–32% is healthy for most full-service).' },
@@ -130,16 +130,16 @@ const scenarios = [
     outcome: 'Down to 26% in 5 weeks. $4,200/month margin recovered.',
   },
   {
-    title: 'The 28% cafe — too low',
+    title: 'The 28% cafe, too low',
     setup: 'Specialty cafe with food cost at 28%. Owner thought she was winning.',
-    diagnosis: 'Theoretical was 24%. Actual at 28% meant 4pp variance from theoretical — high. Investigation found over-pouring on espresso drinks and uncounted employee meals.',
+    diagnosis: 'Theoretical was 24%. Actual at 28% meant 4pp variance from theoretical, high. Investigation found over-pouring on espresso drinks and uncounted employee meals.',
     fix: 'Implemented portion shots on espresso, employee meal log, weekly variance review.',
     outcome: 'Variance down to 1.5%. Same revenue, 2.5pp food cost reduction = $850/month.',
   },
   {
     title: 'The 33% casual dining',
-    setup: 'Casual dining, 80 seats. Food cost holding steady at 33% — within range but missing 30% target.',
-    diagnosis: 'Three menu items priced too low for cost — drove margin down. Two items had heavy waste from over-prep.',
+    setup: 'Casual dining, 80 seats. Food cost holding steady at 33%, within range but missing 30% target.',
+    diagnosis: 'Three menu items priced too low for cost, drove margin down. Two items had heavy waste from over-prep.',
     fix: 'Repriced two underperformers, eliminated one waste-prone item, dialed back daily prep.',
     outcome: 'Hit 30% target within 2 months. $1,800/month margin recovery.',
   },
@@ -163,7 +163,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Food cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Food Cost Percentage Calculator</h1>
       <p class="calc-page__intro">
-        The single most important margin number in any kitchen. This calculator does <strong>true COGS</strong> from inventory plus actual-vs-target variance and (optional) actual-vs-theoretical analysis — the same numbers your accountant runs, without the spreadsheet.
+        The single most important margin number in any kitchen. This calculator does <strong>true COGS</strong> from inventory plus actual-vs-target variance and (optional) actual-vs-theoretical analysis, the same numbers your accountant runs, without the spreadsheet.
       </p>
     </header>
 
@@ -182,7 +182,7 @@ const relatedCalcs = [
               Food purchases this period
               <button type="button" class="help-tip" aria-label="Where to find this number">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Sum of <strong>food invoices</strong> paid for the period. Food only — exclude beverages, paper goods, chemicals. Quick mode treats this as your COGS proxy. For true COGS (with inventory swing), switch to Detailed below.</span>
+                <span class="help-tip__pop" role="tooltip">Sum of <strong>food invoices</strong> paid for the period. Food only, exclude beverages, paper goods, chemicals. Quick mode treats this as your COGS proxy. For true COGS (with inventory swing), switch to Detailed below.</span>
               </button>
             </label>
             <div class="input-shell">
@@ -243,7 +243,7 @@ const relatedCalcs = [
           <details class="optional-fields">
             <summary class="optional-fields__trigger">
               <span class="optional-fields__icon" aria-hidden="true">+</span>
-              Adjustments — transfers, employee meals, comps (optional)
+              Adjustments, transfers, employee meals, comps (optional)
             </summary>
             <div class="optional-fields__body">
               <p class="form-row__hint" style="margin-bottom:var(--space-2)">Per NRA/Toast/Restaurant365 standard COGS formula. Adds transfers in, subtracts transfers out + employee meals + comps.</p>
@@ -287,7 +287,7 @@ const relatedCalcs = [
             How much did you sell in food?
             <button type="button" class="help-tip" aria-label="Where to find this">
               <span aria-hidden="true">?</span>
-              <span class="help-tip__pop" role="tooltip">Revenue from <strong>food only</strong>. Exclude beverage sales — they have separate margins. Pull from your POS sales report filtered to food.</span>
+              <span class="help-tip__pop" role="tooltip">Revenue from <strong>food only</strong>. Exclude beverage sales, they have separate margins. Pull from your POS sales report filtered to food.</span>
             </button>
           </label>
           <div class="input-shell">
@@ -310,7 +310,7 @@ const relatedCalcs = [
                   <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="30" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">Your goal — calculator shows variance from target in dollars.</p>
+                <p class="form-row__hint">Your goal, calculator shows variance from target in dollars.</p>
               </div>
 
               <div class="form-row">
@@ -319,7 +319,7 @@ const relatedCalcs = [
                   <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="28.5" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">From recipe costing — what costs SHOULD be. Variance flags waste/theft.</p>
+                <p class="form-row__hint">From recipe costing, what costs SHOULD be. Variance flags waste/theft.</p>
               </div>
             </div>
           </details>
@@ -398,15 +398,15 @@ const relatedCalcs = [
             </div>
             <div class="extras-row" data-target-row hidden>
               <span class="extras-row__label">Vs. target</span>
-              <span class="extras-row__value num" data-target-variance>—</span>
+              <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
               <span class="extras-row__label">Cost impact at target</span>
-              <span class="extras-row__value num" data-target-money>—</span>
+              <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
               <span class="extras-row__label">Vs. theoretical</span>
-              <span class="extras-row__value num" data-theoretical-variance>—</span>
+              <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
         </div>
@@ -432,7 +432,7 @@ const relatedCalcs = [
           Most P&amp;L line items are step changes. Rent goes up at lease renewal. A new hire shifts labor by a known amount. Insurance reprices once a year.
         </p>
         <p>
-          Food cost is different. It drifts continuously. Cheese goes up two cents a pound. The new line cook plates 9 oz instead of 7. A walk-in seal fails for three days. A vendor short-ships and gets back-billed at retail. None of those individually move the dial. But thirty of them stacked across a month is two full points of margin gone — silently.
+          Food cost is different. It drifts continuously. Cheese goes up two cents a pound. The new line cook plates 9 oz instead of 7. A walk-in seal fails for three days. A vendor short-ships and gets back-billed at retail. None of those individually move the dial. But thirty of them stacked across a month is two full points of margin gone, silently.
         </p>
         <p class="essay__pull">
           A 2-point food cost slip on $80,000/month in food sales is $19,200 a year. The same operator running prime cost weekly catches it in week 3 and fixes it in week 4.
@@ -452,25 +452,25 @@ const relatedCalcs = [
       <h2 class="essay__headline">A great restaurant <em>that gave itself away</em>.</h2>
       <div class="essay__body">
         <p>
-          A friend of mine ran a cafe in Florida — Flaco's. His parents came straight from Cuba and cooked the menu themselves. Paella on weekends. Traditional Cuban plates Monday through Friday. The food was incredible. The service was warm in a way you can't fake. Regulars walked in and got hugged.
+          A friend of mine ran a cafe in Florida, Flaco's. His parents came straight from Cuba and cooked the menu themselves. Paella on weekends. Traditional Cuban plates Monday through Friday. The food was incredible. The service was warm in a way you can't fake. Regulars walked in and got hugged.
         </p>
         <p>
-          The food didn't cost a lot to make either — proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, it should have worked.
+          The food didn't cost a lot to make either, proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, it should have worked.
         </p>
         <p>
-          But they gave the business away. Free meals for staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the guys who fixed the AC, the priest, anyone who walked in hungry. Nobody was tracking the cost of any of it. The food was love, and love doesn't have a price tag — until rent is due.
+          But they gave the business away. Free meals for staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the guys who fixed the AC, the priest, anyone who walked in hungry. Nobody was tracking the cost of any of it. The food was love, and love doesn't have a price tag, until rent is due.
         </p>
         <p class="essay__pull">
-          Food cost discipline isn't about being cheap. It's about knowing what you're giving away — so you can choose to do it on purpose.
+          Food cost discipline isn't about being cheap. It's about knowing what you're giving away, so you can choose to do it on purpose.
         </p>
         <p>
-          Flaco's closed. Not because the food was wrong. Not because the service was wrong. Because nobody was running the math on the generosity. There's a version of that restaurant that lives on — same family, same recipes, same warmth — if someone had been pulling food cost weekly and flagging the comp creep before it ate the margin. It would have been an uncomfortable conversation. It would have saved the restaurant.
+          Flaco's closed. Not because the food was wrong. Not because the service was wrong. Because nobody was running the math on the generosity. There's a version of that restaurant that lives on, same family, same recipes, same warmth, if someone had been pulling food cost weekly and flagging the comp creep before it ate the margin. It would have been an uncomfortable conversation. It would have saved the restaurant.
         </p>
         <p>
           That's the entire reason this calculator exists. You can be generous. You can comp regulars. You can feed your staff. But you have to <em>know</em> what it costs you. Once a week, every week, no exceptions. The number doesn't lie. The number doesn't have feelings about your regulars. The number just tells you whether you're still in business in twelve months.
         </p>
         <div class="operator-byline">
-          <span class="operator-byline__dash">— Signed</span>
+          <span class="operator-byline__dash">Signed</span>
           <span class="operator-byline__name">Brock Markarian</span>
           <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
         </div>
@@ -483,7 +483,7 @@ const relatedCalcs = [
     <section class="benchmarks">
       <h2 class="benchmarks__headline">Benchmarks <em>by concept type</em></h2>
       <p class="t-body-large benchmarks__intro">
-        Healthy food cost varies by concept. Use these as a sanity check, not a hard rule — your local market, supplier mix, menu mix, and labor model all shift the target. The shaded saffron band shows the typical healthy range for each.
+        Healthy food cost varies by concept. Use these as a sanity check, not a hard rule, your local market, supplier mix, menu mix, and labor model all shift the target. The shaded saffron band shows the typical healthy range for each.
       </p>
       <div class="benchmarks__chart">
         {benchmarks.map((b) => (
@@ -531,7 +531,7 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron">Real scenarios</p>
       <h2 class="scenarios__headline">Three operators, three different problems</h2>
       <p class="t-body-large scenarios__intro">
-        Same number, different stories. Food cost % alone never tells you what's wrong — it just tells you to look.
+        Same number, different stories. Food cost % alone never tells you what's wrong, it just tells you to look.
       </p>
       <div class="scenarios__grid">
         {scenarios.map((s, i) => (
@@ -577,10 +577,10 @@ const relatedCalcs = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast — How to Calculate Food Cost Percentage</a></li>
-        <li><a href="https://www.restaurant365.com/blog/calculate-restaurant-cogs/" target="_blank" rel="noopener">Restaurant365 — Calculating Restaurant COGS</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Economist's Notebook</a></li>
-        <li><a href="https://www.marginedge.com/" target="_blank" rel="noopener">MarginEdge — Theoretical vs Actual Food Cost</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast, How to Calculate Food Cost Percentage</a></li>
+        <li><a href="https://www.restaurant365.com/blog/calculate-restaurant-cogs/" target="_blank" rel="noopener">Restaurant365, Calculating Restaurant COGS</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Economist's Notebook</a></li>
+        <li><a href="https://www.marginedge.com/" target="_blank" rel="noopener">MarginEdge, Theoretical vs Actual Food Cost</a></li>
       </ul>
     </section>
 
@@ -772,7 +772,7 @@ const relatedCalcs = [
       // Math breakdown
       let note = '';
       if (s.label === 'Healthy') note = 'In the healthy band. Maintain weekly tracking to catch drift.';
-      if (s.label === 'Lean') note = 'Below typical range. Verify revenue and cost numbers — and check for under-portioning that could hurt guest experience.';
+      if (s.label === 'Lean') note = 'Below typical range. Verify revenue and cost numbers, and check for under-portioning that could hurt guest experience.';
       if (s.label === 'Watch') note = 'Slightly elevated. Common causes: portion creep, supplier price increases without menu update, or rising waste.';
       if (s.label === 'Critical') note = 'Above industry healthy range. Investigate: menu repricing, portion audits, supplier renegotiation, theft, or waste tracking.';
 
@@ -1416,7 +1416,7 @@ const relatedCalcs = [
     box-shadow: 0 0 0 3px rgba(156, 79, 28, 0.22);
   }
 
-  /* Detailed-mode extras — [hidden] must beat display:flex */
+  /* Detailed-mode extras, [hidden] must beat display:flex */
   .calc-result__extras {
     display: flex;
     flex-direction: column;

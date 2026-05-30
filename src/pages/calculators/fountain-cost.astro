@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Fountain Drink / BIB Cost Calculator — Free | RestaurantCalcs';
+const title = 'Fountain Drink / BIB Cost Calculator, Free | RestaurantCalcs';
 const description = 'Free fountain drink and BIB (bag-in-box) cost calculator. Pour cost % accounting for ice fill, cup, CO2, and free refills. Industry healthy 8–15%. Math shown.';
 
 const faq = [
@@ -290,31 +290,31 @@ const schema = [
           <div class="calc-result__extras">
             <div class="extras-row">
               <span class="extras-row__label">Pours per BIB</span>
-              <span class="extras-row__value num" data-pours>—</span>
+              <span class="extras-row__value num" data-pours></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Customers per BIB</span>
-              <span class="extras-row__value num" data-customers>—</span>
+              <span class="extras-row__value num" data-customers></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Cost per pour (syrup + CO2)</span>
-              <span class="extras-row__value num" data-cost-pour>—</span>
+              <span class="extras-row__value num" data-cost-pour></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Cup cost per drink</span>
-              <span class="extras-row__value num" data-cup>—</span>
+              <span class="extras-row__value num" data-cup></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Total cost per customer</span>
-              <span class="extras-row__value num" data-total-customer>—</span>
+              <span class="extras-row__value num" data-total-customer></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Profit per customer</span>
-              <span class="extras-row__value num" data-profit-customer>—</span>
+              <span class="extras-row__value num" data-profit-customer></span>
             </div>
             <div class="extras-row">
               <span class="extras-row__label">Profit per BIB</span>
-              <span class="extras-row__value num" data-profit-bib>—</span>
+              <span class="extras-row__value num" data-profit-bib></span>
             </div>
           </div>
         </div>
@@ -443,10 +443,10 @@ const schema = [
     <section class="cited-sources">
       <p class="t-micro t-micro--saffron">Cited sources</p>
       <ul>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association — Beverage Profitability Trends</a></li>
-        <li><a href="https://www.coca-colacompany.com/brands/foodservice" target="_blank" rel="noopener">Coca-Cola Foodservice — BIB Yield Calculations</a></li>
-        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise — Beverage Cost Management</a></li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast — Bar &amp; Beverage Profitability Guide</a></li>
+        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Beverage Profitability Trends</a></li>
+        <li><a href="https://www.coca-colacompany.com/brands/foodservice" target="_blank" rel="noopener">Coca-Cola Foodservice, BIB Yield Calculations</a></li>
+        <li><a href="https://home.binwise.com/blog/pour-cost" target="_blank" rel="noopener">BinWise, Beverage Cost Management</a></li>
+        <li><a href="https://pos.toasttab.com/blog/on-the-line/bar-profitability" target="_blank" rel="noopener">Toast, Bar &amp; Beverage Profitability Guide</a></li>
       </ul>
     </section>
 
@@ -536,7 +536,7 @@ const schema = [
       animateCounter(counter!, lastValue, 0, 400);
       lastValue = 0;
       mathBody!.innerHTML = '<p class="t-caption">Enter values above to see the calculation.</p>';
-      [poursEl, customersEl, costPourEl, cupEl, totalCustomerEl, profitCustomerEl, profitBibEl].forEach(e => { if (e) e.textContent = '—'; });
+      [poursEl, customersEl, costPourEl, cupEl, totalCustomerEl, profitCustomerEl, profitBibEl].forEach(e => { if (e) e.textContent = ', '; });
     }
 
     function calc() {
