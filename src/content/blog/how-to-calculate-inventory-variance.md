@@ -8,7 +8,11 @@ relatedCalc: "inventory-variance"
 heroImage: "/illustrations/inventory-variance.webp"
 ---
 
-I counted the walk-in one Sunday night and the carnitas number was way off. We had sold what the POS said we sold, but we were short six pounds of pork that nobody could explain. My first thought was the same as everybody's first thought: somebody is stealing. I was wrong. It was the new cook building tacos with a heavy hand, an extra ounce a plate, three hundred plates a week. No theft. Just drift. But I only knew that because I ran the variance instead of guessing.
+I counted the walk-in one Sunday night and the carnitas number was way off. We had sold exactly what the POS said we sold. But we were six pounds of pork short, and nobody could explain where it went. My first thought was everybody's first thought.
+
+Somebody is stealing.
+
+I was wrong. It was the new cook, building tacos with a heavy hand, an extra ounce a plate, three hundred plates a week. No theft. Just drift. The only reason I knew that, instead of pulling someone into the office and accusing them, is that I ran the variance first.
 
 Here is how to calculate it, and how to read what the number is actually telling you.
 
@@ -22,9 +26,9 @@ Inventory variance is the gap between what you should have used and what you act
 
 > **Variance % = Variance / Theoretical usage x 100**
 
-**Actual usage** is real. You counted it: what you started with, plus what you bought, minus what is left. **Theoretical usage** is what your POS says you should have used, based on what you sold times your recipe specs. If you sold 200 carnitas tacos at 3 ounces of pork each, theoretical usage is 600 ounces, or 37.5 pounds.
+**Actual usage** is real. You counted it: what you started with, plus what you bought, minus what is left. **Theoretical usage** is what your POS says you should have used, based on what you sold times your recipe specs. Sell 200 carnitas tacos at 3 ounces of pork each, and theoretical usage is 600 ounces. Call it 37.5 pounds.
 
-The variance is the difference. When actual is higher than theoretical, you used more than you sold, and that gap is money walking out the door somehow.
+The variance is the difference. When actual runs higher than theoretical, you used more than you sold, and that gap is money leaving the building somehow.
 
 ## A worked example
 
@@ -38,41 +42,43 @@ Carnitas, one week.
 - **Variance: 46 - 40 = 6 lbs**
 - **Variance %: 6 / 40 = 15%**
 
-A 15% variance on a single high-volume item is a flashing light. At maybe $5 a pound, that is $30 a week on one protein, $1,500 a year, and carnitas is one line on your inventory. Run this across every item and the small drifts add up to most of the gap between your theoretical food cost and the ugly number on your P&L.
+A 15% variance on a single high-volume item is a flashing light. At maybe $5 a pound, that is $30 a week on one protein. Fifteen hundred a year. And carnitas is one line on your inventory. Run this across every item and those small drifts add up to most of the gap between your theoretical food cost and the ugly number on your P&L.
 
 ## What counts as acceptable
 
 Some variance is normal. Nobody hits zero, and chasing zero will make you crazy. The bands that matter:
 
-- **Food, overall:** 1 to 3% is healthy. Over 3% needs a look.
-- **High-cost proteins:** tighter, aim for under 2%. These are where the money is.
-- **Liquor:** 3 to 5%, higher tolerance because of free-pour and spillage.
-- **Draft beer:** 5 to 10%, foam and line cleaning eat into it. See [the real cost of a keg](/blog/half-barrel-pints-foam-loss/).
+- **Food, overall:** 1 to 3% is healthy. Over 3%, go looking.
+- **High-cost proteins:** tighter. Aim for under 2%, because that is where the money lives.
+- **Liquor:** 3 to 5%. Free-pour and spillage build the slack in.
+- **Draft beer:** 5 to 10%. You literally pour beer down the drain cleaning lines. See [the real cost of a keg](/blog/half-barrel-pints-foam-loss/).
 
-If a single item runs double digits, that is not noise. That is a process problem, and it has a specific cause.
+A single item in double digits is not noise. That is a process problem, and it has a specific cause.
 
 ## The five places variance hides (before you blame theft)
 
-Theft is real, but it is almost never the first answer. When variance runs hot, check these in order, because that is roughly the order of how often each one is the culprit.
+Theft is real. It is also almost never the first answer. When variance runs hot, work these in order, because that is roughly how often each one turns out to be the culprit.
 
-1. **Portioning drift.** The big one. An extra ounce of protein, a heavier cheese hand, a free-poured sauce. Usually a new cook or a missing scale on the line. My carnitas problem lived here.
+1. **Portioning drift.** The big one. An extra ounce of protein, a heavier cheese hand, a free-poured sauce. Usually a new cook or a missing scale on the line. My carnitas problem lived right here.
 2. **Waste and spoilage not logged.** Trim, drops, burned plates, spoilage in the walk-in. Real usage, never recorded, so it shows up as variance.
 3. **Comps and voids.** Plates that left the kitchen and got comped or voided without coming out of theoretical usage. The food was used. The sale was not.
 4. **Receiving errors.** You were billed for 50 pounds and the box held 46. Or it never made it off the dock. Short deliveries and receiving theft both surface here.
 5. **Actual theft.** Last on the list, not first. Once you have ruled out the four above and the variance still will not close, then you start looking at people.
 
-You cannot tell these apart by staring at a food cost percentage. You can only tell them apart by running variance item by item, which points you at the exact protein or pour that is leaking.
+You cannot tell these apart by staring at a food cost percentage. You tell them apart by running variance item by item, which walks you straight to the exact protein that is leaking.
+
+And do that work before you accuse anyone. I almost pinned six pounds of pork on a cook who was guilty of nothing but a heavy hand, and you do not get that kind of trust back once you have spent it on the wrong person.
 
 ## Weekly, not monthly
 
-A monthly variance number is too old to act on. By the time you find a 15% leak, it has been running for four weeks and you have no idea which week or which shift it started. Weekly counts on your top 10 cost items catch the drift while you can still walk into the kitchen and fix it. More on why the cadence matters in [why monthly inventory lies](/blog/weekly-vs-monthly-inventory/), and for the food-cost side of the same gap, [theoretical vs actual food cost](/blog/theoretical-vs-actual-food-cost/).
+A monthly variance number is too old to act on. By the time you spot a 15% leak, it has been running four weeks, and you have no idea which week or which shift it started. Weekly counts on your top 10 cost items catch the drift while you can still walk into the kitchen and do something about it. More on the cadence in [why monthly inventory lies](/blog/weekly-vs-monthly-inventory/), and for the food-cost side of the same gap, [theoretical vs actual food cost](/blog/theoretical-vs-actual-food-cost/).
 
 ## What this looks like in the calculator
 
-The [inventory variance calculator](/calculators/inventory-variance/) on this site runs the opening-plus-purchases-minus-closing math for you, compares actual against theoretical, and gives you the variance in both units and dollars so you can see which items are actually costing you. Run your top proteins through it weekly and you will spot the drift before it becomes a four-figure surprise.
+The [inventory variance calculator](/calculators/inventory-variance/) on this site runs the opening-plus-purchases-minus-closing math, compares actual against theoretical, and hands you the variance in units and in dollars. Watch the dollar column. Run your top proteins through it every week and you will catch the drift while it is still thirty bucks, not fifteen hundred.
 
 ## What to do today
 
-Pick your five highest-cost items. Count them tonight at close, that is your opening. Track purchases this week, count again next week at the same time, that is your closing. Pull theoretical usage from your POS sales times your recipe specs. Run the variance. Whatever item runs furthest above its band is your leak, and now you know exactly where to walk and what to watch. Fix that one before you worry about the rest.
+Pick your five highest-cost items. Count them tonight at close, that is your opening. Buy as usual this week, then count again at the same time next week, that is your closing. Pull theoretical usage from your POS sales times your recipe specs, run the variance, and find the item sitting furthest above its band. That one is your leak. Now you know exactly where to walk and what to watch. Fix it before you worry about the rest.
 
 Sources: [BinWise](https://home.binwise.com/), [MarketMan](https://www.marketman.com/), [Sculpture Hospitality](https://sculpturehospitality.com/), [Chefs Resources](https://www.chefs-resources.com/).
