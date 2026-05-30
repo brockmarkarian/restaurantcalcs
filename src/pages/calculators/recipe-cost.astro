@@ -93,6 +93,30 @@ const relatedCalcs = [
   { slug: 'menu-pricing', title: 'Menu Pricing', desc: 'Price from plate cost.' },
   { slug: 'menu-engineering', title: 'Menu Engineering', desc: 'Plot recipe cost on the matrix.' },
 ];
+
+const scenarios = [
+  {
+    title: 'The special that sold out at a loss',
+    setup: 'Sunday paella special, 40 orders a week, the kitchen loved it.',
+    diagnosis: 'Nobody had costed the plate. Saffron and seafood ran it to a 47% plate cost, priced like a 30% dish.',
+    fix: 'Re-costed every line, right-sized the seafood portion, raised the price $4.',
+    outcome: 'Plate cost to 31%. Same dish, a $600/week swing.',
+  },
+  {
+    title: 'The burger priced on a guess',
+    setup: 'House burger, the bestseller, set at $14 because the last place charged $14.',
+    diagnosis: 'Real plate cost with the brioche, the blend, and hand-cut fries was $5.80, a 41% plate on the highest-volume item.',
+    fix: 'Costed it line by line, swapped to a house bun at half the cost, nudged the price to $16.',
+    outcome: 'Plate cost to 30%. On 300 burgers a week, four figures a month.',
+  },
+  {
+    title: 'The Q-factor nobody counted',
+    setup: 'Plates looked costed on paper, but actual food cost ran 4 points high.',
+    diagnosis: 'The spec sheets ignored the free bread, the oil, the garnish, the salt, the misc. The Q-factor adds 3 to 5% to every plate.',
+    fix: 'Added a 4% Q-factor to every recipe and repriced the thin-margin items.',
+    outcome: 'Theoretical finally matched actual. The 4 points were hiding in the misc.',
+  },
+];
 ---
 
 <Layout {title} {description} {schema}>
@@ -293,6 +317,63 @@ const relatedCalcs = [
         </div>
       </aside>
     </div>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="operator-story">
+      <p class="essay__eyebrow t-micro t-micro--saffron">A plate I costed too late</p>
+      <h2 class="essay__headline">The special that sold out <em>at a loss</em>.</h2>
+      <div class="essay__body">
+        <p>
+          We ran a Sunday paella special and it was a hit. Forty orders a week, the kitchen loved making it, regulars came in just for it. On the board it looked like a clean win. A popular dish flying out the window.
+        </p>
+        <p>
+          Then I actually costed the plate. The saffron, the seafood, the portion the cooks were proud of, all of it added up to a 47% plate cost on a dish I had priced like a 30% one. Every order I sold, I handed money back. And the more it sold, the more it bled. The popularity was the problem, not the upside.
+        </p>
+        <p class="essay__pull">
+          A dish you never costed is a dish you are guessing on, and the popular ones hurt the most.
+        </p>
+        <p>
+          We fixed it in an afternoon. Re-costed every line, right-sized the seafood to a portion that still ate beautifully, moved the price up four dollars. Nobody flinched. The special stayed on the board, the regulars kept coming, and it finally made money instead of costing it. That is the whole job of a plate cost. Not to kill the dish you love, but to know what it runs before the menu does the math for you.
+        </p>
+        <div class="operator-byline">
+          <span class="operator-byline__dash">Signed</span>
+          <span class="operator-byline__name">Brock Markarian</span>
+          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
+
+    <section class="scenarios">
+      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <h2 class="scenarios__headline">Three plates, three different leaks</h2>
+      <p class="t-body-large scenarios__intro">
+        Same calculator, three ways a plate quietly loses money. The popular dishes are usually the ones worth costing first.
+      </p>
+      <div class="scenarios__grid">
+        {scenarios.map((s, i) => (
+          <article class="scenario-card">
+            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="scenario-card__title">{s.title}</h3>
+            <p class="scenario-card__setup">{s.setup}</p>
+            <div class="scenario-card__row">
+              <span class="scenario-card__label">Diagnosis</span>
+              <p class="scenario-card__text">{s.diagnosis}</p>
+            </div>
+            <div class="scenario-card__row">
+              <span class="scenario-card__label">Fix</span>
+              <p class="scenario-card__text">{s.fix}</p>
+            </div>
+            <div class="scenario-card__row scenario-card__row--outcome">
+              <span class="scenario-card__label">Outcome</span>
+              <p class="scenario-card__text"><strong>{s.outcome}</strong></p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
     <section class="calc-faq">
       <p class="t-micro t-micro--saffron">FAQ</p>
