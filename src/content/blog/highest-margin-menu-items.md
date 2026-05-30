@@ -8,7 +8,7 @@ relatedCalc: "menu-pricing"
 heroImage: "/illustrations/menu-pricing.webp"
 ---
 
-Every menu has a few items quietly paying the rent. During our worst stretch of months, it was the soda gun and a pasta dish keeping the lights on, while the items I was proudest of barely broke even. Once I actually ran the numbers, the ranking surprised me, and it changed how I built every menu after that.
+Every menu has a few items quietly paying the rent. During our worst stretch of months, it was the soda gun and a pasta dish keeping the lights on, while the items I was proudest of barely broke even. Then I actually ran the numbers. The ranking surprised me, and it changed how I built every menu after that.
 
 Here are the seven highest-margin items on a typical restaurant menu, ranked, with the food or pour cost on each. One honest warning at the end, because high margin percentage is not the same as high margin dollars.
 
@@ -18,11 +18,11 @@ The highest-margin items on most menus are **fountain soda (around 88% margin)**
 
 ## 1. Fountain soda (food cost 8 to 12%)
 
-The best margin on the menu, full stop. A cup of fountain soda costs you syrup, CO2, ice, and the cup, somewhere around 25 to 40 cents, and sells for $3 or more. Even with free refills, you are running an 85 to 90% margin. Nothing else on the menu touches it. See [the soda fountain math](/blog/soda-fountain-margin-free-refills/) for the full breakdown, and the [fountain cost calculator](/calculators/fountain-cost/) for your numbers.
+The best margin on the menu, full stop. A cup of fountain soda costs you syrup, CO2, ice, and the cup, somewhere around 25 to 40 cents, and sells for $3 or more. Even with free refills, you are running an 88 to 90% margin. Nothing else on the menu touches it. See [the soda fountain math](/blog/soda-fountain-margin-free-refills/) for the full breakdown, and the [fountain cost calculator](/calculators/fountain-cost/) for your numbers.
 
 ## 2. Coffee and tea (food cost 10 to 15%)
 
-Same story, slightly less extreme. A cup of brewed coffee costs you 20 to 40 cents and sells for $3 to $4. Specialty drinks push the margin even higher. The only catch is waste, brewed coffee sitting too long and getting dumped, which quietly eats the margin if you over-brew.
+Same story, slightly less extreme. A cup of brewed coffee costs you 20 to 40 cents and sells for $3 to $4. Specialty drinks push the margin even higher. The one catch is waste. Brewed coffee sits too long, gets dumped, and that quietly eats the margin if you over-brew.
 
 ## 3. Well drinks and cocktails (pour cost 14 to 20%)
 
@@ -34,25 +34,27 @@ Dry pasta is pennies. Sauce is cheap and scales. A plate that costs you $3 in fo
 
 ## 5. Pizza (food cost 20 to 28%)
 
-Dough, sauce, and cheese are cheap, and pizza carries enormous perceived value. A pie that costs you $3 to $4 sells for $16 to $24. Toppings are where it slips, premium meats and a heavy cheese hand drag the margin, so spec it tight.
+Dough, sauce, and cheese are cheap, and pizza carries enormous perceived value. A pie that costs you $3 to $4 sells for $16 to $24. Toppings are where it slips. Premium meats and a heavy cheese hand drag the margin, so spec it tight.
 
 ## 6. Fried apps and chips (food cost 20 to 30%)
 
-Chips and dip, fries, fried starters. Cheap base ingredients, high markup, and they ride along on impulse orders. The margin is good and the add-on nature makes them pure incremental revenue most of the time.
+Chips and dip, fries, fried starters. Cheap base ingredients, high markup. Nobody walks in for the chips. But half the tables order them anyway, on impulse, which makes apps close to pure incremental revenue.
 
 ## 7. Bread and dough programs
 
-House bread, focaccia, dinner rolls. Flour, water, yeast, salt. Costs almost nothing and either anchors perceived value (a great free bread service) or sells directly at a strong margin. Either way the food cost is trivial.
+House bread, focaccia, dinner rolls. Flour, water, yeast, salt, maybe 30 cents a basket. It either anchors perceived value as a free bread service people actually remember, or sells outright at a fat margin. The one real cost is labor, and a tight dough program pays that back fast.
 
 ## The honest warning: percentage is not dollars
 
-Here is the part that matters. A high margin percentage does not mean high margin dollars. A fountain soda at 88% margin makes you maybe $2.60 a cup. A steak at 35% food cost makes you $18 a plate. The steak has a "worse" food cost percentage and makes you seven times the money.
+Here is the part that matters, and it is the part most operators get wrong. A high margin percentage does not mean high margin dollars.
 
-So do not gut your menu down to soda and pasta because the percentages look pretty. Use the high-margin items to lift the average and protect cash flow, and keep the high-dollar items that people actually come in for. This is the contribution-margin trap, and it kills more good menu items than it saves. The full version is in [contribution margin vs food cost percentage](/blog/contribution-margin-vs-food-cost-percentage/).
+A fountain soda at 88% margin makes you maybe $2.60 a cup. A steak at 35% food cost makes you $18 a plate. The steak has a "worse" food cost percentage and makes you seven times the money. Sit with that for a second, because it runs against every instinct you have when you stare at a spreadsheet.
+
+So do not gut your menu down to soda and pasta because the percentages look pretty. Use the high-margin items to lift the average and protect cash flow, and keep the high-dollar items that people actually come in for. This is the contribution-margin trap, and it kills more good menu items than it saves. I have watched operators cut the one dish their regulars drove across town for, all because the percentage looked ugly next to the soda gun. The full version is in [contribution margin vs food cost percentage](/blog/contribution-margin-vs-food-cost-percentage/).
 
 ## What this looks like in the calculator
 
-The [menu pricing calculator](/calculators/menu-pricing/) on this site prices any item off its cost and your target food cost, so you can see where each plate actually lands. Run your menu through it and you will spot which items are quietly carrying you, and which ones you have been underpricing out of habit.
+The [menu pricing calculator](/calculators/menu-pricing/) on this site prices any item off its cost and your target food cost, so you can see where each plate actually lands. Run your menu through it. You will spot which items are quietly carrying you, and which ones you have been underpricing out of habit.
 
 ## What to do today
 

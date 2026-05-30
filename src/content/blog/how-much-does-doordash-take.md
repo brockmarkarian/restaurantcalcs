@@ -8,7 +8,7 @@ relatedCalc: "delivery-profit"
 heroImage: "/illustrations/delivery-profit.webp"
 ---
 
-The first DoorDash payout we got was a gut check. We had done what looked like a solid week of delivery volume, and the deposit was nowhere near what I expected. I had been doing the math on the menu price and the commission rate in my head, and I had it wrong, because the commission rate is not the whole story. Here is what these platforms actually take, including the part that does not show up on the rate card.
+Our first DoorDash payout was a gut check. The week looked solid. Good volume, steady tickets, the kind of numbers that make you think delivery is finally pulling its weight. Then the deposit landed and it was nowhere near what I had in my head. I had been running the menu price against the commission rate in my head all week, and I had it wrong, because the commission rate is not the whole story and nobody tells you that going in. Here is what these platforms actually take, including the part that never shows up on the rate card.
 
 ## The short answer
 
@@ -34,11 +34,13 @@ The commission is not the end of it. The real take after everything is usually h
 - **Marketing and promotions.** Sponsored placement and discount campaigns come out of your pocket and stack on top of commission.
 - **Commission on the full ticket.** Depending on setup, commission can apply to the order including fees, not just the food subtotal.
 
-Add it up and a "25%" plan often nets out closer to 30%-plus once processing and any promo spend are in. That is the gap that surprised me on that first payout.
+Add it up and a "25%" plan often nets out closer to 30%-plus once processing and any promo spend are in.
+
+That is the gap that gutted my first payout. I budgeted for a quarter and paid closer to a third, on every order, all week.
 
 ## When delivery still makes money
 
-This is the honest part. Third-party delivery is not free money, but it is not automatically a loser either. It makes sense when:
+This is the honest part. Third-party delivery is not free money. It is also not automatically a loser, and the operators who write it off entirely are leaving real orders on the table. It makes sense when:
 
 - The orders are **incremental**, meaning customers who would not have come in anyway. A 30% commission on a sale you would not have made is still a sale.
 - Your **marginal food cost** is low enough to absorb it. High-margin items (pizza, pasta) survive the commission better than a tight-margin entree.

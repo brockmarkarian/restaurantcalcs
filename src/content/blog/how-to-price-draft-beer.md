@@ -8,7 +8,7 @@ relatedCalc: "keg-cost"
 heroImage: "/illustrations/keg-cost.webp"
 ---
 
-I priced my first craft draft straight off the keg invoice. Took the cost, divided by what the box said the keg held, set a price, felt good about it. Then the margin never showed up at the end of the month, because I had priced against the theoretical pint count and not the one we actually served. Foam, line cleaning, and the first cloudy pour off a fresh keg all came out of a number I never accounted for. Here is how to price draft so the profit actually lands.
+I priced my first craft draft straight off the keg invoice. Took the cost, divided by what the box said the keg held, set a price, felt good about it. The margin never showed up at the end of the month. I had priced against the theoretical pint count, not the one we actually served. Foam, line cleaning, the first cloudy pour off a fresh keg, all of it came out of a number I never put in. Here is how to price draft so the profit actually lands.
 
 ## The short answer
 
@@ -16,9 +16,9 @@ Price draft beer to a **20 to 22% pour cost**. A $180 half-barrel that pours rou
 
 ## Start with real servable pints, not the box number
 
-A half-barrel keg is 15.5 gallons, which is **124 sixteen-ounce pints** in theory. You will not serve 124. Between foam, line cleaning, the first pour off a fresh tap, and the foam at the bottom of the keg, you lose 5 to 10%. Real servable pints land around **110 to 118** on a well-run system, lower on a system with long lines or warm glassware.
+A half-barrel keg is 15.5 gallons, which is **124 sixteen-ounce pints** in theory. You will not serve 124. Foam, line cleaning, the first pour off a fresh tap, the foam at the bottom of the keg. You lose 5 to 10% before a guest ever pays for it. Real servable pints land around **110 to 118** on a well-run system, lower if your lines run long or your glassware comes out warm.
 
-So pricing math starts at 115 servable pints from a half-barrel, not 124. That single correction is the difference between the margin you planned and the margin you got. The full breakdown of where the beer goes is in [half-barrel pints and foam loss](/blog/half-barrel-pints-foam-loss/).
+So the math starts at 115 servable pints from a half-barrel, not 124. That one correction is the whole difference between the margin you planned and the margin you got. The full breakdown of where the beer goes is in [half-barrel pints and foam loss](/blog/half-barrel-pints-foam-loss/).
 
 ## The pricing formula
 
@@ -40,18 +40,20 @@ At a $7 pint you are running a 22.4% pour cost and netting $625 on the keg. Drop
 
 ## Glass size is part of the price
 
-A "pint" in a lot of bars is not 16 ounces. The cheater pint, the 14-ounce glass that looks like a pint, changes everything. If you pour 14 ounces and charge pint prices, your real servable count goes up and your margin with it, but you are also a little bit lying to the guest. If you pour an honest 16, your count is lower and you need the price to match. Decide which you are, spec the glassware, and price against the glass you actually pour, not the one on the menu.
+A "pint" in a lot of bars is not 16 ounces. The cheater pint, that 14-ounce glass that looks like a pint, changes everything. Pour 14 and charge pint prices and your servable count goes up and your margin with it, but now you are also lying to the guest a little. Pour an honest 16 and your count is lower and your price has to match. Pick one. Spec the glassware, and price against the glass you actually pour, not the one printed on the menu.
 
 ## Profit per pint is the wrong lens
 
-The reason to think in profit per keg instead of profit per pint is that the keg is the unit you buy and the unit you tie up cash in. A pint that "makes $5" tells you nothing about whether the keg cleared. A keg that nets $625 and sells through in a week is a great line. A keg that nets $625 and takes a month to blow is dead money sitting in the cooler. Price for margin, then watch velocity, and pull the lines that do not move.
+Think in profit per keg, not profit per pint, because the keg is the unit you buy and the unit you tie up cash in.
+
+A pint that "makes $5" tells you nothing about whether the keg cleared. A keg that nets $625 and sells through in a week is a great line. A keg that nets $625 and takes a month to blow is dead money sitting in your cooler. That is the part nobody feels until the cash is stuck. Price for margin, then watch velocity, and pull the lines that do not move.
 
 ## What this looks like in the calculator
 
-The [keg cost calculator](/calculators/keg-cost/) on this site runs cost per pint off real servable pints, prices to your target pour cost, and gives you the profit per keg at any price, so you can see exactly what a dollar on the menu price does to the keg. Run your draft list through it and you will probably find one or two lines you have been underpricing.
+The [keg cost calculator](/calculators/keg-cost/) on this site runs cost per pint off real servable pints, prices to your target pour cost, and gives you the profit per keg at any price. You can see exactly what a dollar on the menu does to the keg. Run your draft list through it and you will probably find one or two lines you have been underpricing.
 
 ## What to do today
 
-Take your three best-selling drafts, pull the real keg cost from your last invoice, and price each one off 115 servable pints to a 22% pour cost. Compare that to what you actually charge. If you are under, you are leaving margin on every keg, and if you are way over, your velocity is probably suffering. Set the price to the math, then watch which lines move.
+Take your three best-selling drafts. Pull the real keg cost off your last invoice, and price each one off 115 servable pints to a 22% pour cost. Compare that to what you actually charge. If you are under, you are leaving margin on every keg. If you are way over, your velocity is probably hurting for it. Set the price to the math, then watch which lines move.
 
 Sources: [Backbar](https://getbackbar.com/), [BinWise](https://home.binwise.com/), [Brewers Association](https://www.brewersassociation.org/), [Kegerator.com](https://www.kegerator.com/).
