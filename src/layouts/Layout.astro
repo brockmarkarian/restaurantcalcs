@@ -22,7 +22,7 @@ const canonical = new URL(Astro.url.pathname, SITE_URL).toString();
 
 // Ad slots active for AdSense review (pre-approval uses data-adtest="on" placeholders).
 // After approval lands: swap data-ad-slot placeholders for real slot IDs + drop data-adtest.
-const ADS_ENABLED = true;
+const ADS_ENABLED = false;
 const ADSENSE_CLIENT = 'ca-pub-6332696231897305';
 
 // Auto-resolve per-page OG image based on URL pathname.
@@ -142,7 +142,7 @@ const allSchema = schema
 
     {!ADS_ENABLED && (
       <style is:inline set:html={`
-        .ad-inline, .post-rail, .rail, .ad-slot { display: none !important; }
+        .ad-inline, .ad-wrap, .post-rail, .rail, .ad-slot, .adsbygoogle { display: none !important; }
       `}></style>
     )}
 
@@ -188,8 +188,112 @@ const allSchema = schema
       } catch (e) {}
     </script>
 
-    <!-- Google AdSense -->
+    <!-- Google AdSense (loaded for review purposes; ins blocks replaced by house ads below until approved) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
+
+    <!-- House Ads (active while AdSense application pending). Set window.__RC_HOUSE_ADS__ = false to restore native AdSense slots after approval. -->
+    <script is:inline>
+      window.__RC_HOUSE_ADS__ = true;
+      (function () {
+        if (!window.__RC_HOUSE_ADS__) return;
+        var CALCS = [
+          { slug: 'food-cost', label: 'Food Cost %', blurb: 'COGS / sales — with the full inventory-and-transfers breakdown.' },
+          { slug: 'recipe-cost', label: 'Recipe Cost', blurb: 'Plate cost line-by-line with optional Q-factor.' },
+          { slug: 'labor-cost', label: 'Labor Cost %', blurb: 'Schedule mode, OT detection, concept-aware thresholds.' },
+          { slug: 'tip-pool', label: 'Tip Pool', blurb: 'Hours, points, role tip-out — with FLSA flags.' },
+          { slug: 'menu-pricing', label: 'Menu Pricing', blurb: 'Cost-plus pricing with charm rounding.' },
+          { slug: 'liquor-pour-cost', label: 'Liquor Pour Cost', blurb: 'Aggregate or per-drink with spillage adjustment.' },
+          { slug: 'keg-cost', label: 'Keg / Draft Cost', blurb: 'Half-barrel pour cost with foam loss math.' },
+          { slug: 'break-even', label: 'Break-Even', blurb: 'Fixed costs / contribution margin + safety margin.' },
+          { slug: 'inventory-variance', label: 'Inventory Variance', blurb: 'Actual vs theoretical — sign-aware diagnosis.' },
+          { slug: 'prime-cost', label: 'Prime Cost', blurb: 'Food + labor as a share of sales.' },
+          { slug: 'no-show-deposit', label: 'No-Show Deposit', blurb: 'Reservation hold sizing for high-cover nights.' },
+          { slug: 'menu-engineering', label: 'Menu Engineering', blurb: 'Stars / plowhorses / puzzles / dogs matrix.' },
+          { slug: 'turnover-cost', label: 'Turnover Cost', blurb: 'Per-departure cost with concept benchmarks.' },
+          { slug: 'fountain-cost', label: 'Fountain Soda Margin', blurb: 'BIB syrup cost / free refill loss.' },
+          { slug: 'delivery-profit', label: 'Third-Party Delivery', blurb: 'True cost after 30% platform commissions.' },
+          { slug: 'catering-pricing', label: 'Catering Pricing', blurb: 'Offsite event quote with labor + travel + tax.' }
+        ];
+
+        function rand(n) { return Math.floor(Math.random() * n); }
+        function pick(arr, exclude) {
+          var c = arr.filter(function (x) { return x.slug !== exclude; });
+          return c[rand(c.length)];
+        }
+
+        var CALC_ICON =
+          '<svg class="house-ad__icon" viewBox="0 0 64 64" aria-hidden="true">' +
+            '<rect x="10" y="6" width="44" height="52" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(245,166,35,0.45)" stroke-width="1.5"/>' +
+            '<rect x="16" y="12" width="32" height="10" rx="3" fill="rgba(245,166,35,0.18)"/>' +
+            '<text x="32" y="20.5" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="#f5a623" font-weight="700">FOOD%</text>' +
+            '<g fill="#f5a623">' +
+              '<circle cx="20" cy="32" r="2.5"/><circle cx="32" cy="32" r="2.5"/><circle cx="44" cy="32" r="2.5"/>' +
+              '<circle cx="20" cy="42" r="2.5"/><circle cx="32" cy="42" r="2.5"/><circle cx="44" cy="42" r="2.5"/>' +
+              '<circle cx="20" cy="52" r="2.5" fill="#ff6b35"/><circle cx="32" cy="52" r="2.5"/><circle cx="44" cy="52" r="2.5"/>' +
+            '</g>' +
+          '</svg>';
+
+        function buildCrossPromo(currentSlug, opts) {
+          var c = pick(CALCS, currentSlug);
+          var el = document.createElement('div');
+          el.className = 'house-ad house-ad--cross' + (opts && opts.tall ? ' house-ad--tall' : '');
+          var icon = (opts && opts.tall) ? CALC_ICON : '';
+          el.innerHTML =
+            icon +
+            '<span class="house-ad__eyebrow">Free calculator</span>' +
+            '<a class="house-ad__title" href="/calculators/' + c.slug + '/">' + c.label + '</a>' +
+            '<p class="house-ad__blurb">' + c.blurb + '</p>' +
+            '<a class="house-ad__cta" href="/calculators/' + c.slug + '/">Open calculator &rarr;</a>';
+          return el;
+        }
+
+        function buildAdvertise(opts) {
+          var el = document.createElement('div');
+          el.className = 'house-ad house-ad--ad' + (opts && opts.tall ? ' house-ad--tall' : '');
+          var icon = (opts && opts.tall) ? CALC_ICON : '';
+          el.innerHTML =
+            icon +
+            '<span class="house-ad__eyebrow">Advertise here</span>' +
+            '<p class="house-ad__title house-ad__title--static">Reach restaurant operators</p>' +
+            '<p class="house-ad__blurb">Direct ad spots on RestaurantCalcs. POS, inventory, payroll, scheduling, training tools welcome.</p>' +
+            '<a class="house-ad__cta" href="mailto:hello@restaurantcalcs.com?subject=Advertise%20on%20RestaurantCalcs">Get rate sheet &rarr;</a>';
+          return el;
+        }
+
+        function currentCalcSlug() {
+          var m = location.pathname.match(/\/calculators\/([^\/]+)\//);
+          return m ? m[1] : null;
+        }
+
+        function swap() {
+          var slug = currentCalcSlug();
+          var slots = document.querySelectorAll('.adsbygoogle');
+          var k = 0;
+          slots.forEach(function (slot) {
+            // Only convert our own designated ad slots. Google's loader injects
+            // body-level anchor/vignette `ins.adsbygoogle` with no wrapper, so skip
+            // those or we orphan a house-ad card at the bottom of the page.
+            var wrap = slot.closest('.ad-inline, .ad-slot, .rail__inner');
+            if (!wrap) return;
+            // Mark wrapper and its outer container so their ad chrome unhides.
+            wrap.classList.add('is-house-ad');
+            var outer = wrap.closest('.ad-wrap');
+            if (outer) outer.classList.add('is-house-ad');
+            var isRail = wrap.classList.contains('rail__inner');
+            // Mix: 3 cross-promo to 1 advertise
+            var card = (k % 4 === 3) ? buildAdvertise({ tall: isRail }) : buildCrossPromo(slug, { tall: isRail });
+            slot.replaceWith(card);
+            k++;
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', swap);
+        } else {
+          swap();
+        }
+      })();
+    </script>
 
     <!-- Google Analytics 4 (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y"></script>
@@ -341,33 +445,6 @@ const allSchema = schema
       </aside>
     </div>
 
-    <!-- Margin ad rails (wide screens only — 1480px+) -->
-    {ADS_ENABLED && !hideRails && (
-      <>
-        <aside class="rail rail--left">
-          <div class="rail__inner">
-            <span class="rail__label">Advertisement</span>
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:160px;height:600px"
-                 data-ad-client={ADSENSE_CLIENT}
-                 data-ad-slot="0000000000"
-                 data-adtest="on"></ins>
-            <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-          </div>
-        </aside>
-        <aside class="rail rail--right">
-          <div class="rail__inner">
-            <span class="rail__label">Advertisement</span>
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:160px;height:600px"
-                 data-ad-client={ADSENSE_CLIENT}
-                 data-ad-slot="0000000000"
-                 data-adtest="on"></ins>
-            <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-          </div>
-        </aside>
-      </>
-    )}
 
     <main id="main">
       <slot />
@@ -519,6 +596,14 @@ const allSchema = schema
         <div class="site-footer__brand">
           <div class="site-footer__logo">RestaurantCalcs</div>
           <p class="t-caption">Restaurant math, done right.</p>
+          <div class="site-footer__badges">
+            <a href="https://www.producthunt.com/products/restaurantcalcs?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-restaurantcalcs" target="_blank" rel="noopener noreferrer" class="site-footer__badge site-footer__badge--ph" aria-label="RestaurantCalcs on Product Hunt">
+              <img src="/producthunt-badge.svg" alt="RestaurantCalcs - 16 free restaurant ops calculators. No signup. No tracking. | Product Hunt" width="250" height="54" loading="lazy" />
+            </a>
+            <a href="https://sourceforge.net/projects/restaurantcalcs/" target="_blank" rel="noopener" class="site-footer__badge" aria-label="RestaurantCalcs on SourceForge">
+              <img src="/sourceforge-badge.svg" alt="RestaurantCalcs reviews — SourceForge" width="80" height="80" loading="lazy" />
+            </a>
+          </div>
         </div>
         <div class="site-footer__links">
           <div class="site-footer__col">
@@ -559,9 +644,6 @@ const allSchema = schema
         </div>
         <div class="site-footer__legal">
           <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators. Built by <a href="https://marketing760.com" rel="noopener" class="site-footer__credit">Marketing 760</a>.</span>
-          <a href="https://sourceforge.net/projects/restaurantcalcs/" target="_blank" rel="noopener" class="site-footer__badge" aria-label="RestaurantCalcs on SourceForge">
-            <img src="/sourceforge-badge.svg" alt="RestaurantCalcs reviews — SourceForge" width="80" height="80" loading="lazy" />
-          </a>
           <span class="t-caption site-footer__updated">Last reviewed <time datetime="2026-05-16">May 16, 2026</time></span>
         </div>
       </div>
@@ -897,7 +979,7 @@ const allSchema = schema
         background: var(--color-cream);
         border-top: 1px solid var(--color-border);
         padding: var(--space-16) 0 var(--space-8);
-        margin-top: var(--space-24);
+        margin-top: 0;
       }
 
       .site-footer__inner {
@@ -1050,6 +1132,13 @@ const allSchema = schema
       .site-footer__badge:hover,
       .site-footer__badge:focus-visible { opacity: 1; }
       .site-footer__badge img { display: block; height: auto; }
+      .site-footer__badges {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
       .site-footer__credit { color: var(--color-saffron-text); font-weight: 500; text-decoration: none; transition: color var(--transition-fast); }
       .site-footer__credit:hover { color: var(--color-heading); text-decoration: underline; }
 
@@ -1316,6 +1405,194 @@ const allSchema = schema
         .cmp { padding: 16px; }
         .cmp__actions { justify-content: stretch; }
         .cmp__btn { flex: 1 1 auto; }
+      }
+
+    </style>
+
+    <!-- House Ads global styles — JS-injected DOM needs global scope to bypass Astro CSS hashing -->
+    <style is:global>
+      .house-ad {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 22px 24px;
+        background:
+          radial-gradient(ellipse at top right, rgba(255, 140, 60, 0.18) 0%, transparent 55%),
+          linear-gradient(135deg, #15110d 0%, #1f1814 50%, #15110d 100%);
+        border: 1px solid rgba(212, 160, 23, 0.22);
+        border-radius: 6px;
+        min-height: 180px;
+        justify-content: center;
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(6px);
+        animation: houseAdIn 380ms cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 24px -10px rgba(0, 0, 0, 0.5);
+      }
+      /* Orange gradient accent strip at top */
+      .house-ad::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 2px;
+        background: linear-gradient(90deg, #d4a017 0%, #f5a623 35%, #ff6b35 70%, #DA552F 100%);
+        opacity: 0.9;
+      }
+      /* Subtle bottom-left glow */
+      .house-ad::after {
+        content: '';
+        position: absolute;
+        bottom: -40px;
+        left: -40px;
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, transparent 65%);
+        pointer-events: none;
+      }
+      .house-ad--ad {
+        background:
+          radial-gradient(ellipse at top right, rgba(255, 97, 84, 0.22) 0%, transparent 55%),
+          linear-gradient(135deg, #15110d 0%, #1f1814 50%, #15110d 100%);
+        border-color: rgba(255, 97, 84, 0.28);
+      }
+      .house-ad__eyebrow {
+        position: relative;
+        font-family: var(--font-body, system-ui, sans-serif);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: linear-gradient(90deg, #f5a623 0%, #ff6b35 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: #f5a623;
+      }
+      .house-ad__title {
+        position: relative;
+        font-family: var(--font-display, Georgia, serif);
+        font-size: 21px;
+        font-weight: 600;
+        color: #fbf7f0;
+        text-decoration: none;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        transition: color 180ms ease;
+      }
+      .house-ad__title--static { cursor: default; }
+      a.house-ad__title:hover { color: #f5a623; }
+      .house-ad__blurb {
+        position: relative;
+        font-family: var(--font-body, system-ui, sans-serif);
+        font-size: 14px;
+        line-height: 1.55;
+        color: rgba(251, 247, 240, 0.72);
+        margin: 0;
+      }
+      .house-ad__cta {
+        position: relative;
+        align-self: flex-start;
+        margin-top: 6px;
+        padding: 7px 14px;
+        font-family: var(--font-body, system-ui, sans-serif);
+        font-size: 13px;
+        font-weight: 600;
+        color: #15110d;
+        background: linear-gradient(90deg, #f5a623 0%, #ff6b35 100%);
+        border-radius: 6px;
+        text-decoration: none;
+        transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+        box-shadow: 0 4px 14px -4px rgba(255, 107, 53, 0.5);
+      }
+      .house-ad__cta:hover {
+        transform: translateX(2px);
+        filter: brightness(1.08);
+        box-shadow: 0 6px 18px -4px rgba(255, 107, 53, 0.7);
+        text-decoration: none;
+        color: #15110d;
+      }
+      .house-ad--ad .house-ad__cta {
+        background: linear-gradient(90deg, #ff6154 0%, #DA552F 100%);
+        color: #fff;
+        box-shadow: 0 4px 14px -4px rgba(218, 85, 47, 0.55);
+      }
+      .house-ad--ad .house-ad__cta:hover { color: #fff; }
+
+      /* Sidebar rails get tall version */
+      .rail .house-ad { min-height: 560px; border-radius: 6px; }
+
+      /* Tall layout: calculator icon up top, content fills below */
+      .house-ad--tall {
+        min-height: 560px;
+        padding: 26px 22px;
+        justify-content: flex-start;
+        gap: 14px;
+      }
+      .house-ad__icon {
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 6px;
+        filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.25));
+        animation: iconFloat 4s ease-in-out infinite;
+      }
+      .house-ad--tall .house-ad__eyebrow { text-align: center; }
+      .house-ad--tall .house-ad__title { text-align: center; font-size: 19px; }
+      .house-ad--tall .house-ad__blurb { text-align: center; font-size: 13px; }
+      .house-ad--tall .house-ad__cta {
+        align-self: center;
+        margin-top: auto;
+        animation: ctaPulse 2.4s ease-in-out infinite;
+      }
+
+      @keyframes ctaPulse {
+        0%, 100% { box-shadow: 0 4px 14px -4px rgba(255, 107, 53, 0.5); transform: scale(1); }
+        50% { box-shadow: 0 6px 22px -2px rgba(255, 107, 53, 0.75); transform: scale(1.035); }
+      }
+      @keyframes iconFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .house-ad__icon { animation: none; }
+        .house-ad--tall .house-ad__cta { animation: none; }
+      }
+
+      /* Inline ad-inline container's label can stay; ensure house ad fills available */
+      .ad-inline__inner .house-ad,
+      .ad-slot__inner .house-ad { margin: 0; }
+
+      /* When wrapping container holds a house ad, strip the "Advertisement" chrome */
+      .ad-wrap.is-house-ad { display: block !important; }
+      .ad-inline.is-house-ad,
+      .ad-slot.is-house-ad {
+        display: block !important;
+        border: none !important;
+        background: transparent !important;
+        overflow: visible !important;
+      }
+      .ad-inline.is-house-ad > .ad-inline__label,
+      .ad-slot.is-house-ad > .ad-slot__label { display: none !important; }
+      .ad-inline.is-house-ad > .ad-inline__inner,
+      .ad-slot.is-house-ad > .ad-slot__inner {
+        padding: 0 !important;
+        min-height: 0 !important;
+      }
+      .rail__inner.is-house-ad { display: block !important; border: none !important; background: transparent !important; height: auto !important; }
+      .rail__inner.is-house-ad > .rail__label { display: none !important; }
+
+      @keyframes houseAdIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .house-ad { animation: none; opacity: 1; transform: none; }
+        .house-ad__cta:hover { transform: none; }
       }
     </style>
   </body>
