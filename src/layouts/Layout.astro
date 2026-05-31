@@ -549,9 +549,9 @@ const allSchema = schema
 
       // Share modal: copy link, native share, social intents, embed code
       (function () {
-        var open = document.querySelector('[data-share-open]');
+        var opens = document.querySelectorAll('[data-share-open]');
         var modal = document.querySelector('[data-share-modal]');
-        if (!open || !modal) return;
+        if (!opens.length || !modal) return;
 
         var url = location.origin + location.pathname;
         var h1 = document.querySelector('h1');
@@ -600,7 +600,7 @@ const allSchema = schema
           }
         }
 
-        open.addEventListener('click', function () { modal.hidden = false; });
+        opens.forEach(function (o) { o.addEventListener('click', function () { modal.hidden = false; }); });
         closes.forEach(function (el) { el.addEventListener('click', function () { modal.hidden = true; }); });
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && !modal.hidden) modal.hidden = true;

@@ -163,14 +163,14 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Food cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Food Cost Percentage Calculator</h1>
       <p class="calc-page__intro">
-        The single most important margin number in any kitchen. This calculator does <strong>true COGS</strong> from inventory plus actual-vs-target variance and (optional) actual-vs-theoretical analysis, the same numbers your accountant runs, without the spreadsheet.
+        The single most important number in any kitchen. Put in <strong>what your food cost you</strong> and <strong>what you sold</strong>, and it tells you the percent that goes to food, whether that is healthy, and where money might be leaking. The quick version takes two numbers. Want it exact? Count your inventory.
       </p>
     </header>
 
     <section class="calc-grid">
       <form class="calc-form" data-form data-mode="quick">
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Compares food cost to revenue. Tells you if you're losing margin to over-portioning, theft, waste, or under-pricing.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Shows what percent of your food sales gets eaten up by what the food cost you. A high number means money is leaking somewhere: portions too big, waste, theft, or prices set too low.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -182,14 +182,14 @@ const relatedCalcs = [
               Food purchases this period
               <button type="button" class="help-tip" aria-label="Where to find this number">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Sum of <strong>food invoices</strong> paid for the period. Food only, exclude beverages, paper goods, chemicals. Quick mode treats this as your COGS proxy. For true COGS (with inventory swing), switch to Detailed below.</span>
+                <span class="help-tip__pop" role="tooltip">Add up your <strong>food invoices</strong> for this period. Food only, leave out drinks, paper goods, and cleaning supplies. This quick version is close enough for most checks. For the exact number, use Detailed mode below.</span>
               </button>
             </label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="7500" autocomplete="off" />
             </div>
-            <p class="form-row__hint">Quick mode skips the inventory swing. For true COGS, use Detailed mode below.</p>
+            <p class="form-row__hint">This quick version skips whatever food was already sitting in your fridge and freezer. For the exact number, use Detailed mode below.</p>
           </div>
         </div>
 
@@ -198,10 +198,10 @@ const relatedCalcs = [
           <div class="form-row">
             <label class="form-row__label" for="opening">
               <span class="step-num">01a</span>
-              Opening inventory value
+              Food you had at the start (dollar value)
               <button type="button" class="help-tip" aria-label="Where to find this">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Total dollar value of food on hand at the <strong>start</strong> of the period. Physical count at open + value at last paid price.</span>
+                <span class="help-tip__pop" role="tooltip">The dollar value of all the food in your building at the <strong>start</strong> of the period. Count it, and value it at what you last paid.</span>
               </button>
             </label>
             <div class="input-shell">
@@ -216,7 +216,7 @@ const relatedCalcs = [
               Food purchases during period
               <button type="button" class="help-tip" aria-label="Where to find this">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Sum of all <strong>food invoices</strong> paid during the period. Exclude beverages, paper, chemicals. Most accounting software has a "Food COGS" GL category.</span>
+                <span class="help-tip__pop" role="tooltip">Add up all your <strong>food invoices</strong> paid during the period. Leave out drinks, paper, and cleaning supplies.</span>
               </button>
             </label>
             <div class="input-shell">
@@ -228,10 +228,10 @@ const relatedCalcs = [
           <div class="form-row">
             <label class="form-row__label" for="closing">
               <span class="step-num">01c</span>
-              Closing inventory value
+              Food you had left at the end (dollar value)
               <button type="button" class="help-tip" aria-label="Where to find this">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Physical count at the <strong>end</strong> of the period × last paid price. Same valuation method as opening inventory.</span>
+                <span class="help-tip__pop" role="tooltip">The dollar value of all the food left in your building at the <strong>end</strong>. Count it the same way you counted the start.</span>
               </button>
             </label>
             <div class="input-shell">
@@ -243,34 +243,34 @@ const relatedCalcs = [
           <details class="optional-fields">
             <summary class="optional-fields__trigger">
               <span class="optional-fields__icon" aria-hidden="true">+</span>
-              Adjustments, transfers, employee meals, comps (optional)
+              Extras: staff meals, comped food, food moved between locations (optional)
             </summary>
             <div class="optional-fields__body">
-              <p class="form-row__hint" style="margin-bottom:var(--space-2)">Per NRA/Toast/Restaurant365 standard COGS formula. Adds transfers in, subtracts transfers out + employee meals + comps.</p>
+              <p class="form-row__hint" style="margin-bottom:var(--space-2)">These fine-tune the number. We add food moved in, and subtract food moved out, staff meals, and comped food, so the percent only counts food you actually sold to guests.</p>
               <div class="form-row">
-                <label class="form-row__label" for="transfers-in">Transfers in (food received from another location/dept)</label>
+                <label class="form-row__label" for="transfers-in">Food moved IN from another location (dollar value)</label>
                 <div class="input-shell">
                   <span class="input-shell__prefix">$</span>
                   <input id="transfers-in" name="transfers-in" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" autocomplete="off" />
                 </div>
               </div>
               <div class="form-row">
-                <label class="form-row__label" for="transfers-out">Transfers out (food sent to bar/another location)</label>
+                <label class="form-row__label" for="transfers-out">Food moved OUT to the bar or another location (dollar value)</label>
                 <div class="input-shell">
                   <span class="input-shell__prefix">$</span>
                   <input id="transfers-out" name="transfers-out" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" autocomplete="off" />
                 </div>
               </div>
               <div class="form-row">
-                <label class="form-row__label" for="employee-meals">Employee meals (cost)</label>
+                <label class="form-row__label" for="employee-meals">Staff meals (what they cost you)</label>
                 <div class="input-shell">
                   <span class="input-shell__prefix">$</span>
                   <input id="employee-meals" name="employee-meals" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" autocomplete="off" />
                 </div>
-                <p class="form-row__hint">Removes from COGS so true food-cost % reflects sold food only.</p>
+                <p class="form-row__hint">We subtract these so the percent only counts food you sold to guests.</p>
               </div>
               <div class="form-row">
-                <label class="form-row__label" for="comps">Comps / promo / spillage (cost)</label>
+                <label class="form-row__label" for="comps">Free or comped meals, promos, spills (what they cost)</label>
                 <div class="input-shell">
                   <span class="input-shell__prefix">$</span>
                   <input id="comps" name="comps" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" autocomplete="off" />
@@ -301,7 +301,7 @@ const relatedCalcs = [
           <details class="optional-fields">
             <summary class="optional-fields__trigger">
               <span class="optional-fields__icon" aria-hidden="true">+</span>
-              Add target &amp; theoretical (optional)
+              Compare to your goal and your recipe cost (optional)
             </summary>
             <div class="optional-fields__body">
               <div class="form-row">
@@ -310,16 +310,16 @@ const relatedCalcs = [
                   <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="30" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">Your goal, calculator shows variance from target in dollars.</p>
+                <p class="form-row__hint">Your goal number. We show how far off you are, in dollars.</p>
               </div>
 
               <div class="form-row">
-                <label class="form-row__label" for="theoretical">Theoretical food cost %</label>
+                <label class="form-row__label" for="theoretical">Recipe food cost % (what it should be)</label>
                 <div class="input-shell">
                   <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="28.5" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">From recipe costing, what costs SHOULD be. Variance flags waste/theft.</p>
+                <p class="form-row__hint">What your food cost would be if every plate was made exactly to recipe. The gap between this and your real number is usually waste or theft.</p>
               </div>
             </div>
           </details>
@@ -327,8 +327,8 @@ const relatedCalcs = [
 
         <!-- Mode toggle moved below form, framed as accuracy upgrade -->
         <div class="mode-switch-wrap">
-          <button type="button" class="mode-switch" data-mode-btn="detailed" data-mode-quick-text="Need more accuracy? Use inventory-based COGS →" data-mode-detailed-text="← Switch back to quick mode (2 inputs)">
-            Need more accuracy? Use inventory-based COGS →
+          <button type="button" class="mode-switch" data-mode-btn="detailed" data-mode-quick-text="Want the exact number? Count your inventory →" data-mode-detailed-text="← Back to the quick 2-input version">
+            Want the exact number? Count your inventory →
           </button>
           <button type="button" class="mode-switch mode-switch--hidden" data-mode-btn="quick">
             ← Switch back to quick mode
@@ -345,13 +345,9 @@ const relatedCalcs = [
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate food cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption">
-          <strong>Nothing is saved or sent.</strong> All math runs in your browser.
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
         </p>
       </form>
 
@@ -393,22 +389,27 @@ const relatedCalcs = [
           <!-- Detailed-mode extras -->
           <div class="calc-result__extras" data-extras hidden>
             <div class="extras-row">
-              <span class="extras-row__label">Calculated COGS</span>
+              <span class="extras-row__label">Your food cost in dollars</span>
               <span class="extras-row__value num" data-cogs>$0.00</span>
             </div>
             <div class="extras-row" data-target-row hidden>
-              <span class="extras-row__label">Vs. target</span>
+              <span class="extras-row__label">Vs. your goal</span>
               <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
-              <span class="extras-row__label">Cost impact at target</span>
+              <span class="extras-row__label">What hitting your goal saves</span>
               <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
-              <span class="extras-row__label">Vs. theoretical</span>
+              <span class="extras-row__label">Vs. recipe cost</span>
               <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -702,18 +703,18 @@ const relatedCalcs = [
         if (cogs <= 0 || revenue <= 0) { reset(); return; }
         const adjRows = (transfersIn || transfersOut || employeeMeals || comps)
           ? `
-            ${transfersIn > 0 ? `<tr class="math-table__step"><td>+ Transfers in</td><td class="num">${fmtUSD(transfersIn)}</td></tr>` : ''}
-            ${transfersOut > 0 ? `<tr class="math-table__step"><td>− Transfers out</td><td class="num">${fmtUSD(transfersOut)}</td></tr>` : ''}
-            ${employeeMeals > 0 ? `<tr class="math-table__step"><td>− Employee meals</td><td class="num">${fmtUSD(employeeMeals)}</td></tr>` : ''}
-            ${comps > 0 ? `<tr class="math-table__step"><td>− Comps / spillage</td><td class="num">${fmtUSD(comps)}</td></tr>` : ''}
+            ${transfersIn > 0 ? `<tr class="math-table__step"><td>+ Food moved in</td><td class="num">${fmtUSD(transfersIn)}</td></tr>` : ''}
+            ${transfersOut > 0 ? `<tr class="math-table__step"><td>− Food moved out</td><td class="num">${fmtUSD(transfersOut)}</td></tr>` : ''}
+            ${employeeMeals > 0 ? `<tr class="math-table__step"><td>− Staff meals</td><td class="num">${fmtUSD(employeeMeals)}</td></tr>` : ''}
+            ${comps > 0 ? `<tr class="math-table__step"><td>− Free/comped food</td><td class="num">${fmtUSD(comps)}</td></tr>` : ''}
           `
           : '';
         mathRows = `
-          <tr><td>Opening inventory</td><td class="num">${fmtUSD(opening)}</td></tr>
+          <tr><td>Food at start</td><td class="num">${fmtUSD(opening)}</td></tr>
           <tr><td>+ Purchases</td><td class="num">${fmtUSD(purchases)}</td></tr>
           ${adjRows}
-          <tr><td>− Closing inventory</td><td class="num">${fmtUSD(closing)}</td></tr>
-          <tr class="math-table__step"><td>= COGS</td><td class="num"><strong>${fmtUSD(cogs)}</strong></td></tr>
+          <tr><td>− Food at end</td><td class="num">${fmtUSD(closing)}</td></tr>
+          <tr class="math-table__step"><td>= Your food cost</td><td class="num"><strong>${fmtUSD(cogs)}</strong></td></tr>
           <tr><td>Total food sales</td><td class="num">${fmtUSD(revenue)}</td></tr>
         `;
       }
@@ -779,7 +780,7 @@ const relatedCalcs = [
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
           ${mathRows}
-          <tr class="math-table__step"><td>COGS ÷ Food sales</td><td class="num">${(cogs / revenue).toFixed(4)}</td></tr>
+          <tr class="math-table__step"><td>Food cost ÷ food sales</td><td class="num">${(cogs / revenue).toFixed(4)}</td></tr>
           <tr class="math-table__step"><td>× 100</td><td class="num">${pct.toFixed(2)}%</td></tr>
           <tr class="math-table__final"><td>Food cost percentage</td><td class="num"><strong>${pct.toFixed(1)}%</strong></td></tr>
         </table>
@@ -1993,5 +1994,76 @@ const relatedCalcs = [
 
   .related-card:hover .related-card__arrow {
     transform: translateX(4px);
+  }
+
+  /* ===== Redesign prototype: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+
+  /* Calmer step badges (outline, not filled saffron) */
+  .step-num {
+    background: transparent;
+    color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28);
+    min-width: 22px;
+    padding: 1px 6px;
+    font-weight: 700;
+  }
+
+  /* Live indicator replaces the Calculate button */
+  .calc-form__live {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-saffron-text);
+    animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+
+  /* Result-area share (peak-intent placement) */
+  .result-share {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    margin-top: var(--space-5);
+    padding: 11px 16px;
+    background: var(--color-white);
+    color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover {
+    background: var(--color-saffron-text);
+    color: var(--color-white);
+    transform: translateY(-1px);
+  }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calc-form__live-dot { animation: none; }
   }
 </style>
