@@ -455,20 +455,51 @@ const allSchema = schema
     <!-- Embed CTA (calc pages only, non-embed mode) -->
     {Astro.url.pathname.startsWith('/calculators/') && Astro.url.pathname !== '/calculators/' && (
       <>
-        <button type="button" class="embed-cta" data-embed-open aria-haspopup="dialog">
-          <span class="embed-cta__icon" aria-hidden="true">⧉</span>
-          <span><span class="embed-cta__label-long">Embed this </span>calculator</span>
+        <button type="button" class="share-cta" data-share-open aria-haspopup="dialog">
+          <svg class="share-cta__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span>Share<span class="share-cta__label-long"> calculator</span></span>
         </button>
-        <div class="embed-modal" data-embed-modal hidden role="dialog" aria-modal="true" aria-labelledby="embed-modal-title">
-          <div class="embed-modal__scrim" data-embed-close></div>
-          <div class="embed-modal__panel">
-            <h2 class="embed-modal__title" id="embed-modal-title">Embed this calculator</h2>
-            <p class="embed-modal__sub">Paste this on your blog or restaurant resource page. Free, no attribution required (but appreciated).</p>
-            <textarea class="embed-modal__code" data-embed-code readonly></textarea>
-            <div class="embed-modal__actions">
-              <button type="button" class="embed-modal__btn" data-embed-close>Close</button>
-              <button type="button" class="embed-modal__btn embed-modal__btn--primary" data-embed-copy>Copy code</button>
+        <div class="share-modal" data-share-modal hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+          <div class="share-modal__scrim" data-share-close></div>
+          <div class="share-modal__panel">
+            <button type="button" class="share-modal__x" data-share-close aria-label="Close">×</button>
+            <h2 class="share-modal__title" id="share-modal-title">Share this calculator</h2>
+            <p class="share-modal__sub">Send it to an operator, post it, or embed it on your site. Free, no signup.</p>
+
+            <div class="share-modal__linkrow">
+              <input class="share-modal__link" data-share-link readonly aria-label="Calculator link" />
+              <button type="button" class="share-modal__btn share-modal__btn--primary" data-share-copylink>Copy link</button>
             </div>
+
+            <div class="share-modal__channels">
+              <button type="button" class="share-chip" data-share-native hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Share
+              </button>
+              <a class="share-chip" data-share-x target="_blank" rel="noopener" href="#">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7 8 8.2 12h-6.4l-5-7.3L6 22H2.9l7.5-8.6L2 2h6.6l4.5 6.7L18.9 2zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20z"/></svg>X
+              </a>
+              <a class="share-chip" data-share-fb target="_blank" rel="noopener" href="#">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>Facebook
+              </a>
+              <a class="share-chip" data-share-li target="_blank" rel="noopener" href="#">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-.9 1.8-1.9 3.6-1.9 3.9 0 4.6 2.5 4.6 5.8V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg>LinkedIn
+              </a>
+              <a class="share-chip" data-share-reddit target="_blank" rel="noopener" href="#">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.1a2 2 0 0 0-3.4-1.4 9.9 9.9 0 0 0-5-1.5l.9-4 2.8.6a1.5 1.5 0 1 0 .2-1l-3.4-.7-1.2 5.1a9.9 9.9 0 0 0-5.1 1.5A2 2 0 1 0 3.6 13.4a4 4 0 0 0 0 .6c0 3 3.6 5.5 8 5.5s8-2.5 8-5.5a4 4 0 0 0 0-.6 2 2 0 0 0 .8-1.3zM7.5 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm8.2 4c-1 1-3.9 1-4.7 1s-3.7 0-4.7-1a.5.5 0 0 1 .7-.7c.6.6 2.7.7 4 .7s3.4-.1 4-.7a.5.5 0 0 1 .7.7zm-.5-2.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>Reddit
+              </a>
+              <a class="share-chip" data-share-email href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email
+              </a>
+            </div>
+
+            <details class="share-modal__embed">
+              <summary>Embed on your site</summary>
+              <p class="share-modal__embedsub">Paste this on your blog or resource page. Attribution not required, but appreciated.</p>
+              <textarea class="share-modal__code" data-share-code readonly></textarea>
+              <div class="share-modal__actions">
+                <button type="button" class="share-modal__btn" data-share-copycode>Copy embed code</button>
+              </div>
+            </details>
           </div>
         </div>
       </>
@@ -516,41 +547,66 @@ const allSchema = schema
         });
       })();
 
-      // Embed modal: build iframe code + copy to clipboard
+      // Share modal: copy link, native share, social intents, embed code
       (function () {
-        var open = document.querySelector('[data-embed-open]');
-        var modal = document.querySelector('[data-embed-modal]');
+        var open = document.querySelector('[data-share-open]');
+        var modal = document.querySelector('[data-share-modal]');
         if (!open || !modal) return;
-        var code = modal.querySelector('[data-embed-code]');
-        var copy = modal.querySelector('[data-embed-copy]');
-        var closes = modal.querySelectorAll('[data-embed-close]');
-        function buildCode() {
-          var url = location.origin + location.pathname + '?embed=1';
-          return '<iframe src="' + url + '" width="100%" height="900" style="border:0;border-radius:12px;max-width:720px" loading="lazy" title="Restaurant calculator"></iframe>';
+
+        var url = location.origin + location.pathname;
+        var h1 = document.querySelector('h1');
+        var title = (h1 ? h1.textContent : document.title).trim();
+        var shareText = title + ' (free, no signup)';
+        var enc = encodeURIComponent;
+
+        var linkInput = modal.querySelector('[data-share-link]');
+        var copyLink = modal.querySelector('[data-share-copylink]');
+        var code = modal.querySelector('[data-share-code]');
+        var copyCode = modal.querySelector('[data-share-copycode]');
+        var closes = modal.querySelectorAll('[data-share-close]');
+        var nativeBtn = modal.querySelector('[data-share-native]');
+
+        function setHref(sel, href) { var el = modal.querySelector(sel); if (el) el.href = href; }
+
+        linkInput.value = url;
+        code.value = '<iframe src="' + url + '?embed=1" width="100%" height="900" style="border:0;border-radius:12px;max-width:720px" loading="lazy" title="' + title.replace(/"/g, '') + '"></iframe>';
+        setHref('[data-share-x]', 'https://twitter.com/intent/tweet?url=' + enc(url) + '&text=' + enc(shareText));
+        setHref('[data-share-fb]', 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url));
+        setHref('[data-share-li]', 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url));
+        setHref('[data-share-reddit]', 'https://www.reddit.com/submit?url=' + enc(url) + '&title=' + enc(title));
+        setHref('[data-share-email]', 'mailto:?subject=' + enc(title) + '&body=' + enc(shareText + ' ' + url));
+
+        if (navigator.share && nativeBtn) {
+          nativeBtn.hidden = false;
+          nativeBtn.addEventListener('click', function () {
+            navigator.share({ title: title, url: url }).catch(function () {});
+          });
         }
-        open.addEventListener('click', function () {
-          code.value = buildCode();
-          modal.hidden = false;
-          setTimeout(function () { code.focus(); code.select(); }, 50);
-        });
+
+        function flash(btn, done) {
+          var orig = btn.textContent;
+          btn.textContent = done;
+          setTimeout(function () { btn.textContent = orig; }, 1600);
+        }
+        function copyText(text, btn) {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function () { flash(btn, 'Copied ✓'); });
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); flash(btn, 'Copied ✓'); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+        }
+
+        open.addEventListener('click', function () { modal.hidden = false; });
         closes.forEach(function (el) { el.addEventListener('click', function () { modal.hidden = true; }); });
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && !modal.hidden) modal.hidden = true;
         });
-        copy.addEventListener('click', function () {
-          code.select();
-          var ok = false;
-          try { ok = document.execCommand('copy'); } catch (e) {}
-          if (navigator.clipboard) {
-            navigator.clipboard.writeText(code.value).then(function () {
-              copy.textContent = 'Copied ✓';
-              setTimeout(function () { copy.textContent = 'Copy code'; }, 1800);
-            });
-          } else if (ok) {
-            copy.textContent = 'Copied ✓';
-            setTimeout(function () { copy.textContent = 'Copy code'; }, 1800);
-          }
-        });
+        copyLink.addEventListener('click', function () { copyText(url, copyLink); });
+        copyCode.addEventListener('click', function () { copyText(code.value, copyCode); });
       })();
 
       // Mobile drawer
@@ -1212,7 +1268,7 @@ const allSchema = schema
       html.embed .cited-sources,
       html.embed .related-calcs,
       html.embed .ad-slot,
-      html.embed .embed-cta { display: none !important; }
+      html.embed .share-cta { display: none !important; }
       html.embed main { min-height: 0 !important; }
       html.embed .calc-page,
       html.embed .calc-grid {
@@ -1240,8 +1296,8 @@ const allSchema = schema
       }
       .embed-credit a:hover { text-decoration: underline; }
 
-      /* ---------- "Get embed code" button (calc pages, non-embed only) ---------- */
-      .embed-cta {
+      /* ---------- Share button + modal (calc pages, non-embed only) ---------- */
+      .share-cta {
         position: fixed;
         right: 20px;
         bottom: 20px;
@@ -1261,62 +1317,97 @@ const allSchema = schema
         cursor: pointer;
         box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15);
         transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-        animation: embed-cta-pulse 2.4s ease-in-out 1.5s 2;
+        animation: share-cta-pulse 2.4s ease-in-out 1.5s 2;
       }
-      .embed-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(184, 101, 26, 0.45); }
-      .embed-cta__icon { font-size: 1.05rem; line-height: 1; }
-      @keyframes embed-cta-pulse {
+      .share-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(184, 101, 26, 0.45); }
+      .share-cta__icon { width: 17px; height: 17px; flex-shrink: 0; }
+      @keyframes share-cta-pulse {
         0%, 100% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15); }
         50% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 0 0 12px rgba(184, 101, 26, 0); }
       }
       @media (max-width: 720px) {
-        .embed-cta {
+        .share-cta {
           right: 12px;
           bottom: 12px;
           padding: 11px 16px;
           font-size: 0.8125rem;
         }
-        .embed-cta__label-long { display: none; }
+        .share-cta__label-long { display: none; }
       }
 
-      .embed-modal[hidden] { display: none; }
-      .embed-modal {
+      .share-modal[hidden] { display: none; }
+      .share-modal {
         position: fixed; inset: 0; z-index: 200;
         display: flex; align-items: center; justify-content: center;
         padding: 16px;
       }
-      .embed-modal__scrim { position: absolute; inset: 0; background: rgba(26,24,20,0.55); }
-      .embed-modal__panel {
+      .share-modal__scrim { position: absolute; inset: 0; background: rgba(26,24,20,0.55); }
+      .share-modal__panel {
         position: relative;
         background: var(--color-white);
         border-radius: var(--radius-lg);
-        max-width: 560px;
+        max-width: 480px;
         width: 100%;
         padding: 24px;
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       }
-      .embed-modal__title { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 4px; color: var(--color-heading); }
-      .embed-modal__sub { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-muted); margin: 0 0 14px; }
-      .embed-modal__code {
-        width: 100%;
-        min-height: 110px;
-        font-family: var(--font-mono, monospace);
-        font-size: 0.8125rem;
-        padding: 12px;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-md);
-        background: var(--color-cream);
-        color: var(--color-heading);
-        resize: vertical;
+      .share-modal__x {
+        position: absolute; top: 12px; right: 14px;
+        width: 30px; height: 30px;
+        border: none; background: transparent;
+        font-size: 1.4rem; line-height: 1; color: var(--color-muted);
+        cursor: pointer; border-radius: 8px;
       }
-      .embed-modal__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
-      .embed-modal__btn {
-        padding: 8px 14px; border-radius: var(--radius-md);
+      .share-modal__x:hover { background: var(--color-cream); color: var(--color-heading); }
+      .share-modal__title { font-family: var(--font-display); font-size: 1.25rem; margin: 0 36px 4px 0; color: var(--color-heading); }
+      .share-modal__sub { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-muted); margin: 0 0 16px; }
+
+      .share-modal__linkrow { display: flex; gap: 8px; margin-bottom: 16px; }
+      .share-modal__link {
+        flex: 1; min-width: 0;
+        padding: 10px 12px;
+        border: 1px solid var(--color-border); border-radius: var(--radius-md);
+        background: var(--color-cream); color: var(--color-heading);
+        font-family: var(--font-body); font-size: 0.875rem;
+      }
+      .share-modal__btn {
+        padding: 10px 14px; border-radius: var(--radius-md); white-space: nowrap;
         font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
         cursor: pointer; border: 1px solid var(--color-border);
         background: var(--color-white); color: var(--color-heading);
       }
-      .embed-modal__btn--primary { background: var(--color-heading); color: var(--color-white); border-color: var(--color-heading); }
+      .share-modal__btn--primary { background: var(--color-heading); color: var(--color-white); border-color: var(--color-heading); }
+
+      .share-modal__channels { display: flex; flex-wrap: wrap; gap: 8px; }
+      .share-chip {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 9px 13px; border-radius: 999px;
+        border: 1px solid var(--color-border); background: var(--color-white); color: var(--color-heading);
+        font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600;
+        text-decoration: none; cursor: pointer;
+        transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+      }
+      .share-chip:hover { background: var(--color-cream); border-color: var(--color-saffron-text); transform: translateY(-1px); }
+      .share-chip svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+      .share-modal__embed { margin-top: 18px; border-top: 1px solid var(--color-border); padding-top: 14px; }
+      .share-modal__embed > summary {
+        cursor: pointer; list-style: none;
+        font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading);
+      }
+      .share-modal__embed > summary::-webkit-details-marker { display: none; }
+      .share-modal__embed > summary::before { content: '+ '; color: var(--color-saffron-text); font-weight: 700; }
+      .share-modal__embed[open] > summary::before { content: '- '; }
+      .share-modal__embedsub { font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin: 10px 0; }
+      .share-modal__code {
+        width: 100%; min-height: 90px;
+        font-family: var(--font-mono, monospace); font-size: 0.8125rem;
+        padding: 12px;
+        border: 1px solid var(--color-border); border-radius: var(--radius-md);
+        background: var(--color-cream); color: var(--color-heading);
+        resize: vertical;
+      }
+      .share-modal__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
 
       /* Cookie consent (CMP) */
       .cmp {
