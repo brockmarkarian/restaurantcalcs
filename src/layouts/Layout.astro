@@ -268,7 +268,6 @@ const allSchema = schema
         function swap() {
           var slug = currentCalcSlug();
           var slots = document.querySelectorAll('.adsbygoogle');
-          var k = 0;
           slots.forEach(function (slot) {
             // Only convert our own designated ad slots. Google's loader injects
             // body-level anchor/vignette `ins.adsbygoogle` with no wrapper, so skip
@@ -280,10 +279,9 @@ const allSchema = schema
             var outer = wrap.closest('.ad-wrap');
             if (outer) outer.classList.add('is-house-ad');
             var isRail = wrap.classList.contains('rail__inner');
-            // Mix: 3 cross-promo to 1 advertise
-            var card = (k % 4 === 3) ? buildAdvertise({ tall: isRail }) : buildCrossPromo(slug, { tall: isRail });
+            // Mix: roughly 1 in 4 slots is an advertise card, the rest cross-promo
+            var card = (Math.random() < 0.25) ? buildAdvertise({ tall: isRail }) : buildCrossPromo(slug, { tall: isRail });
             slot.replaceWith(card);
-            k++;
           });
         }
 
