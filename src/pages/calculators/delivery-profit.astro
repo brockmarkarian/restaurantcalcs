@@ -144,72 +144,72 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Builds the full per-order P&L for a third-party delivery order. Commission, processing, packaging, promo, integration fees, plus food, labor, and other variable cost. Returns net profit per order, net margin %, and a reverse-solved platform menu price for your target margin.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Adds up everything one delivery order really costs you. The cut the app takes, card fees, the to-go box, any discount, plus your food, your labor, and the odds and ends. Then it shows what you actually keep per order, and what to charge on the app to hit the profit you want.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="subtotal">Order subtotal</label>
+          <label class="form-row__label" for="subtotal">Order total (just the food, before tax and tip)</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="subtotal" name="subtotal" type="number" inputmode="decimal" min="0" step="0.50" placeholder="32" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Pre-tax, pre-tip subtotal of the order on the platform menu price.</p>
+          <p class="form-row__hint">The price of the food on the app, before tax and before tip.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="platform">Platform / commission tier</label>
+          <label class="form-row__label" for="platform">Which app, and the cut they take</label>
           <select id="platform" name="platform">
             <option value="doordash-30" selected>DoorDash standard (30%)</option>
             <option value="doordash-25">DoorDash Marketplace (25%)</option>
             <option value="ubereats-30">UberEats standard (30%)</option>
-            <option value="ubereats-15">UberEats Lite, operator delivers (15%)</option>
+            <option value="ubereats-15">UberEats Lite, you deliver it (15%)</option>
             <option value="grubhub-30">GrubHub standard (30%)</option>
             <option value="grubhub-20">GrubHub partnership (20%)</option>
             <option value="ezcater-18">ezCater (18%)</option>
-            <option value="custom">Custom commission %</option>
+            <option value="custom">Type in my own rate</option>
           </select>
-          <p class="form-row__hint">Commission rates per Toast and platform partner pages. Lower tiers usually require operator delivery or visibility tradeoffs.</p>
+          <p class="form-row__hint">The "cut" is the share of every order the app keeps. Rates from Toast and the app partner pages. Cheaper rates usually mean you deliver it yourself or show up lower in the app.</p>
         </div>
 
         <div class="form-row" data-custom-row hidden>
-          <label class="form-row__label" for="commission">Custom commission %</label>
+          <label class="form-row__label" for="commission">Your cut, in percent</label>
           <div class="input-shell">
             <input id="commission" name="commission" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Whatever your platform contract says. Read the small print, bundle promotions can shift this number.</p>
+          <p class="form-row__hint">Whatever your contract with the app says. Check the fine print, special deals can change this number.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="processing">Payment processing %</label>
+          <label class="form-row__label" for="processing">Card fee %</label>
           <div class="input-shell">
             <input id="processing" name="processing" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="2.9" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Default 2.9%. Some platforms include this in commission, some pass it through. Read your contract.</p>
+          <p class="form-row__hint">The fee for running the customer's credit card. Usually around 2.9%. Some apps fold it into their cut, some charge it on top. Check your contract.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="packaging">Packaging cost per order</label>
+          <label class="form-row__label" for="packaging">To-go box and bag, cost per order</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="packaging" name="packaging" type="number" inputmode="decimal" min="0" step="0.05" placeholder="0.85" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Clamshell + utensils + bag + label. Sustainable packaging often runs $1.20–1.80.</p>
+          <p class="form-row__hint">Container, utensils, bag, and label for one order. Eco-friendly packaging often runs $1.20 to $1.80.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="promo">Promo / discount % offered</label>
+          <label class="form-row__label" for="promo">Any discount you're running %</label>
           <div class="input-shell">
             <input id="promo" name="promo" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="10" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">"$5 off $30" is roughly 17%. The platform takes the discount out of your revenue, not theirs.</p>
+          <p class="form-row__hint">A deal like "$5 off $30" is about 17% off. The app takes that discount out of your money, not theirs, so it works just like extra commission.</p>
         </div>
 
         <div class="form-row form-row--split">
-          <label class="form-row__label">Monthly platform fees ÷ Monthly orders</label>
+          <label class="form-row__label">App's monthly fees ÷ orders per month</label>
           <div class="form-row__split">
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
@@ -220,57 +220,55 @@ const schema = [
               <input id="monthly-orders" name="monthly-orders" type="number" inputmode="decimal" min="1" step="10" placeholder="250" autocomplete="off" />
             </div>
           </div>
-          <p class="form-row__hint">Tablet rental + integration + any platform-side fixed monthly cost, divided by monthly platform orders. Default $30 ÷ 250 = $0.12 per order.</p>
+          <p class="form-row__hint">The flat monthly stuff (tablet rental, software connection, any fixed app charge) divided by how many app orders you get a month. This spreads it across each order. Example: $30 ÷ 250 = $0.12 per order.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="food-cost">Food cost %</label>
+          <label class="form-row__label" for="food-cost">Food cost % (what the food costs you to make)</label>
           <div class="input-shell">
             <input id="food-cost" name="food-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" required />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Concept benchmark: casual 28–32%, QSR 25–30%, pizza 22–28%, fine dining 30–35% (NRA, Toast).</p>
+          <p class="form-row__hint">The cost of the ingredients as a share of the price. Typical: casual 28 to 32%, fast food 25 to 30%, pizza 22 to 28%, fine dining 30 to 35% (NRA, Toast).</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="labor-cost">Labor cost %</label>
+          <label class="form-row__label" for="labor-cost">Labor cost % (what staff cost you)</label>
           <div class="input-shell">
             <input id="labor-cost" name="labor-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" required />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Allocate kitchen-side labor only if delivery never touches FOH. Most operators allocate full burden to keep the comparison honest.</p>
+          <p class="form-row__hint">Pay for the staff who make the order, as a share of the price. Only count kitchen pay if no front-of-house staff ever touch delivery. Most people count full labor to keep it honest.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="other-cost">Other variable cost %</label>
+          <label class="form-row__label" for="other-cost">Everything else %</label>
           <div class="input-shell">
             <input id="other-cost" name="other-cost" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="5" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Paper, cleaning, utilities-at-margin, credit losses. Default 5%.</p>
+          <p class="form-row__hint">The odds and ends: paper, cleaning, your share of utilities, bad-card losses. About 5% is a fair starting guess.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="target-margin">Target net margin % (for reverse-solve)</label>
+          <label class="form-row__label" for="target-margin">Profit you want to keep %</label>
           <div class="input-shell">
             <input id="target-margin" name="target-margin" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="15" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Calculator returns suggested platform menu price to hit this margin given your inputs.</p>
+          <p class="form-row__hint">The slice of each order you want to walk away with. The calculator works backward and tells you what to charge on the app to hit it.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate delivery profit
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Net profit per order</span>
+            <span class="t-micro calc-result__label">What you keep per order</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -282,7 +280,7 @@ const schema = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Healthy delivery net margin</span>
+            <span class="t-caption">A healthy delivery order keeps</span>
             <span class="t-caption num" data-bench>10–20%</span>
           </div>
 
@@ -303,26 +301,31 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Order subtotal</span>
+              <span class="extras-row__label">Order total (the food)</span>
               <span class="extras-row__value num" data-subtotal></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Total platform take</span>
+              <span class="extras-row__label">What the app takes</span>
               <span class="extras-row__value num" data-platform-take></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Total cost (all in)</span>
+              <span class="extras-row__label">Everything it costs you</span>
               <span class="extras-row__value num" data-total-cost></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Net margin %</span>
+              <span class="extras-row__label">Share you keep</span>
               <span class="extras-row__value num" data-margin-pct></span>
             </div>
             <div class="extras-row extras-row--highlight">
-              <span class="extras-row__label">Suggested platform price for target margin</span>
+              <span class="extras-row__label">What to charge on the app to hit your profit</span>
               <span class="extras-row__value num" data-suggested></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -612,31 +615,31 @@ const schema = [
       const platformLabel = PLATFORM_RATES[platformSelect?.value || 'doordash-30']?.label || 'Platform';
 
       let note = '';
-      if (s.label === 'Bleeding') note = `Negative net on platform orders. You are subsidizing the platform with dining-room margin. Standard fix is dual pricing, set platform menu 15–20% above dine-in (Toast, R365). The reverse-solve above shows the platform price for your target margin.`;
-      if (s.label === 'Critical') note = `Below 3% net margin. One bad week of food cost or labor drift puts this negative. Healthy band on delivery is 10–20%. Look at promo participation and platform menu pricing first.`;
-      if (s.label === 'Watch') note = `Below the 10% healthy floor. Either platform menu prices are too low or promo stacking is eating margin. Promo discount is commission with a different name, model it that way.`;
-      if (s.label === 'Healthy') note = `Inside the 10–20% healthy band for ${platformLabel}. Maintain weekly tracking. Watch for commission-tier changes and promo opt-ins that quietly push you back to Watch.`;
-      if (s.label === 'Strong') note = `Above 20% net on platform orders. Strong. Verify the food cost and labor cost inputs are realistic for delivery, under-allocating either is the most common reason this number reads high.`;
+      if (s.label === 'Bleeding') note = `You are losing money on every app order. Right now your dining-room profit is paying for delivery. The usual fix is to charge more on the app, 15 to 20% above your dine-in price (Toast, R365). The line above shows exactly what to charge to hit your profit goal.`;
+      if (s.label === 'Critical') note = `You keep under 3% of each app order, almost nothing. One rough week on food or labor flips this to a loss. A healthy app order keeps 10 to 20%. Look at the discounts you're running and your app prices first.`;
+      if (s.label === 'Watch') note = `You keep under 10%, below where you want to be. Either your app prices are too low or discounts are eating your money. A discount works just like the app's cut, treat it the same way.`;
+      if (s.label === 'Healthy') note = `You're keeping 10 to 20% on ${platformLabel}, right where you want to be. Check it weekly. Watch for the app changing its cut or new "deals" that quietly drop you back down.`;
+      if (s.label === 'Strong') note = `You're keeping more than 20% on app orders. Strong. Double-check your food cost and labor cost numbers are real for delivery, leaving either one too low is the usual reason this reads high.`;
 
       const suggestedRow = (denom > 0 && targetMarginPct > 0)
-        ? `<tr class="math-table__step"><td>Suggested platform price for ${targetMarginPct.toFixed(1)}% net margin</td><td class="num"><strong>${fmtUSDPlain(suggestedPrice)}</strong></td></tr>`
+        ? `<tr class="math-table__step"><td>Charge this on the app to keep ${targetMarginPct.toFixed(1)}%</td><td class="num"><strong>${fmtUSDPlain(suggestedPrice)}</strong></td></tr>`
         : '';
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Order subtotal</td><td class="num">${fmtUSDPlain(subtotal)}</td></tr>
-          <tr><td>− Platform commission (${commissionPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(platformFee)}</td></tr>
-          <tr><td>− Payment processing (${procPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(procFee)}</td></tr>
-          <tr><td>− Promo discount (${promoPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(promoDiscount)}</td></tr>
-          <tr class="math-table__step"><td>= Total platform take</td><td class="num">${fmtUSDPlain(platformTake)} (${platformTakePct.toFixed(1)}%)</td></tr>
-          <tr><td>− Packaging</td><td class="num">${fmtUSDPlain(packaging)}</td></tr>
-          <tr><td>− Integration ($${monthlyFees.toFixed(2)}/mo ÷ ${monthlyOrders} orders)</td><td class="num">${fmtUSDPlain(integrationPerOrder)}</td></tr>
+          <tr><td>Order total (the food)</td><td class="num">${fmtUSDPlain(subtotal)}</td></tr>
+          <tr><td>− App's cut (${commissionPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(platformFee)}</td></tr>
+          <tr><td>− Card fee (${procPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(procFee)}</td></tr>
+          <tr><td>− Discount you're running (${promoPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(promoDiscount)}</td></tr>
+          <tr class="math-table__step"><td>= What the app takes</td><td class="num">${fmtUSDPlain(platformTake)} (${platformTakePct.toFixed(1)}%)</td></tr>
+          <tr><td>− To-go box and bag</td><td class="num">${fmtUSDPlain(packaging)}</td></tr>
+          <tr><td>− App's monthly fees ($${monthlyFees.toFixed(2)}/mo ÷ ${monthlyOrders} orders)</td><td class="num">${fmtUSDPlain(integrationPerOrder)}</td></tr>
           <tr><td>− Food cost (${foodCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(foodCost)}</td></tr>
           <tr><td>− Labor cost (${laborCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(laborCost)}</td></tr>
-          <tr><td>− Other variable cost (${otherCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(otherCost)}</td></tr>
-          <tr class="math-table__step"><td>= Total cost</td><td class="num">${fmtUSDPlain(totalCosts)}</td></tr>
-          <tr class="math-table__final"><td>Net profit per order</td><td class="num"><strong>${fmtUSD(netProfit)}</strong></td></tr>
-          <tr class="math-table__final"><td>Net margin %</td><td class="num"><strong>${netMarginPct.toFixed(1)}%</strong></td></tr>
+          <tr><td>− Everything else (${otherCostPct.toFixed(1)}%)</td><td class="num">${fmtUSDPlain(otherCost)}</td></tr>
+          <tr class="math-table__step"><td>= Everything it costs you</td><td class="num">${fmtUSDPlain(totalCosts)}</td></tr>
+          <tr class="math-table__final"><td>What you keep per order</td><td class="num"><strong>${fmtUSD(netProfit)}</strong></td></tr>
+          <tr class="math-table__final"><td>Share you keep</td><td class="num"><strong>${netMarginPct.toFixed(1)}%</strong></td></tr>
           ${suggestedRow}
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
@@ -712,8 +715,6 @@ const schema = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -846,4 +847,38 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

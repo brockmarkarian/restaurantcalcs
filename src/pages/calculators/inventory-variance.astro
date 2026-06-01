@@ -124,35 +124,35 @@ const relatedCalcs = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Compares what your costs SHOULD have been (from recipes + POS) to what they actually were (from inventory). The gap is where waste, theft, and over-portioning hide. Best operators run under 1%.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Compares what your food should have cost (the recipe number from your POS) to what it actually cost (from counting your inventory). The gap is where waste, free meals, and theft hide. The best run under 1%.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="theoretical">Theoretical food cost</label>
+          <label class="form-row__label" for="theoretical">What the food should have cost (the recipe number)</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" step="0.01" placeholder="7000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">From POS usage report × recipe costs. What you SHOULD have used.</p>
+          <p class="form-row__hint">Your POS knows how many of each item sold. Multiply that by what each recipe costs to make. This is what the food should have cost if every plate was made exactly to recipe.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="actual">Actual food cost</label>
+          <label class="form-row__label" for="actual">What the food actually cost</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="actual" name="actual" type="number" inputmode="decimal" min="0" step="0.01" placeholder="7500" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">From inventory math: Opening + Purchases − Closing. What you ACTUALLY used.</p>
+          <p class="form-row__hint">From counting your inventory: food you had at the start, plus what you bought, minus food you had left at the end. This is what the food really cost.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="revenue">Total food sales</label>
+          <label class="form-row__label" for="revenue">How much you sold in food (dollars)</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="25000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Total food revenue for the same period.</p>
+          <p class="form-row__hint">Total food sales for the same stretch of time. Pull it from your POS.</p>
         </div>
 
         <div class="form-row">
@@ -164,18 +164,16 @@ const relatedCalcs = [
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate variance
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Variance</span>
+            <span class="t-micro calc-result__label">The gap (variance)</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -207,22 +205,27 @@ const relatedCalcs = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Theoretical cost %</span>
+              <span class="extras-row__label">What it should have cost (% of sales)</span>
               <span class="extras-row__value num" data-theoretical-pct></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Actual cost %</span>
+              <span class="extras-row__label">What it actually cost (% of sales)</span>
               <span class="extras-row__value num" data-actual-pct></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Dollar leak</span>
+              <span class="extras-row__label">Money leaking this period</span>
               <span class="extras-row__value num" data-leak></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Annual impact</span>
+              <span class="extras-row__label">What that adds up to in a year</span>
               <span class="extras-row__value num" data-annual></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -491,31 +494,31 @@ const relatedCalcs = [
 
       let note = '';
       // Positive variance (actual > theoretical) = waste/theft/over-portion direction
-      if (s.label === 'Excellent') note = 'Best-in-class. Maintain weekly inventory + portion discipline.';
-      if (s.label === 'Acceptable') note = 'Within normal range. Track weekly to catch drift early. Top opportunity: split by category to find which is leaking.';
-      if (s.label === 'Investigate') note = 'Above acceptable. Investigate top variance categories: usually protein, dairy, or beverages. Audit comps and waste logs.';
-      if (s.label === 'Audit now') note = 'Significant leak. Audit immediately for theft, severe over-portioning, or systematic comping. Lock walk-ins, install scales, review POS comps.';
+      if (s.label === 'Excellent') note = 'About as tight as it gets. Keep counting your inventory every week and keep portions consistent.';
+      if (s.label === 'Acceptable') note = 'Within the normal range. Count weekly so a small gap does not grow. Next step: break the count out by category (proteins, produce, dairy, dry goods) to see which one is leaking.';
+      if (s.label === 'Investigate') note = 'Higher than it should be. Look at your biggest-cost items first (usually proteins, dairy, or drinks). Check your free-meal records and your waste log.';
+      if (s.label === 'Audit now') note = 'A real leak. Dig in now: theft, portions running too heavy, or free meals not being rung up. Lock the walk-in coolers, put a scale on the line, and check every comp in your POS.';
       // Negative variance (actual < theoretical) = under-portion / recipe overstated / miscount direction
-      if (s.label === 'Under-using') note = 'Using less than recipes predict, usually under-portioning (guest dissatisfaction risk) or recipe costs slightly overstated. Less urgent than positive variance but worth checking.';
-      if (s.label === 'Recipe / count check') note = 'Significant under-usage. Likely cause: stale recipe costs (ingredient prices outdated downward), inventory miscount, or systematic under-portioning. Recount and re-cost top SKUs.';
-      if (s.label === 'Recipe likely off') note = 'Large negative variance is rare and almost always a data problem: recipe cost stale by 12+ months, inventory count error, or theoretical sales mix not matching POS. Audit data sources before changing operations.';
+      if (s.label === 'Under-using') note = 'You used less food than the recipes say you should have. Usually that means portions are running light (guests may notice) or your recipe costs are a little out of date. Less urgent than the other direction, but worth a look.';
+      if (s.label === 'Recipe / count check') note = 'A real gap in the other direction. Most likely your recipe costs are out of date (ingredient prices have dropped), you miscounted inventory, or portions are running light across the board. Recount and refresh the cost on your top items.';
+      if (s.label === 'Recipe likely off') note = 'A big gap in this direction is rare and almost always a data problem: recipe costs that are a year or more out of date, a counting error, or the sales numbers not matching your POS. Double-check your numbers before you change anything in the kitchen.';
 
-      const denominatorNote = `Variance % shown as (Actual − Theoretical) ÷ Sales = ${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)}pp. Some controllers use ÷ Theoretical instead, that\'d report ${theoretical > 0 ? `${(((actual - theoretical) / theoretical) * 100).toFixed(2)}%` : ', '} on the same gap. We use sales because operators read from POS sales reports.`;
+      const denominatorNote = `We figure the gap as (actual cost − should-have-cost) ÷ sales = ${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)} points. Some people divide by the should-have-cost instead, which would show ${theoretical > 0 ? `${(((actual - theoretical) / theoretical) * 100).toFixed(2)}%` : ', '} on the same gap. We divide by sales because that is the number you already pull off your POS report.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Theoretical food cost</td><td class="num">${fmtUSD(theoretical)}</td></tr>
-          <tr><td>Actual food cost</td><td class="num">${fmtUSD(actual)}</td></tr>
+          <tr><td>What it should have cost</td><td class="num">${fmtUSD(theoretical)}</td></tr>
+          <tr><td>What it actually cost</td><td class="num">${fmtUSD(actual)}</td></tr>
           <tr><td>Total food sales</td><td class="num">${fmtUSD(revenue)}</td></tr>
-          <tr class="math-table__step"><td>Theoretical % of sales</td><td class="num">${theoreticalPct.toFixed(2)}%</td></tr>
-          <tr class="math-table__step"><td>Actual % of sales</td><td class="num">${actualPct.toFixed(2)}%</td></tr>
-          <tr class="math-table__final"><td>Variance</td><td class="num"><strong>${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)}%</strong></td></tr>
+          <tr class="math-table__step"><td>Should-have-cost as % of sales</td><td class="num">${theoreticalPct.toFixed(2)}%</td></tr>
+          <tr class="math-table__step"><td>Actual cost as % of sales</td><td class="num">${actualPct.toFixed(2)}%</td></tr>
+          <tr class="math-table__final"><td>The gap (variance)</td><td class="num"><strong>${variancePct >= 0 ? '+' : '−'}${Math.abs(variancePct).toFixed(2)}%</strong></td></tr>
         </table>
         <p class="t-caption math-note">
-          ${note} Dollar leak ${period}ly: ${leak >= 0 ? fmtUSD(leak) : `(saving) ${fmtUSD(Math.abs(leak))}`}. Annualized: ${annual >= 0 ? fmtUSDInt(annual) : `(saving) ${fmtUSDInt(Math.abs(annual))}`}.
+          ${note} Money leaking this ${period}: ${leak >= 0 ? fmtUSD(leak) : `(you are actually saving) ${fmtUSD(Math.abs(leak))}`}. Over a year: ${annual >= 0 ? fmtUSDInt(annual) : `(saving) ${fmtUSDInt(Math.abs(annual))}`}.
         </p>
         <p class="t-caption math-note" style="opacity:0.75;border-top:1px dashed var(--color-border);padding-top:var(--space-2);margin-top:var(--space-2)">
-          <strong>Denominator note:</strong> ${denominatorNote}
+          <strong>How we do the math:</strong> ${denominatorNote}
         </p>
       `;
 
@@ -565,8 +568,6 @@ const relatedCalcs = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
   .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
   @media (max-width: 880px) { .calc-result { position: static; } }
   .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
@@ -667,4 +668,37 @@ const relatedCalcs = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

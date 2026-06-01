@@ -138,76 +138,74 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Models annual turnover cost across hourly and salaried headcount. Returns total annual cost, monthly and weekly equivalents, and cost as a percentage of typical $1M revenue.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Adds up what losing and replacing staff costs you in a year, hourly workers and managers both. It shows the total per year, what that works out to per month and per week, and how big a bite it takes out of a typical $1 million in sales.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="hourly-count">Total hourly employees (FOH + BOH)</label>
+          <label class="form-row__label" for="hourly-count">How many hourly staff do you have? (front and back of house)</label>
           <div class="input-shell">
             <input id="hourly-count" name="hourly-count" type="number" inputmode="numeric" min="0" step="1" placeholder="25" autocomplete="off" required />
             <span class="input-shell__suffix">people</span>
           </div>
-          <p class="form-row__hint">Active hourly payroll heads. Not seats budgeted, not contractors.</p>
+          <p class="form-row__hint">Servers, cooks, bartenders, dishwashers, anyone paid by the hour. Count people actually on payroll right now, not open positions or contractors.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="hourly-rate">Annual hourly turnover rate</label>
+          <label class="form-row__label" for="hourly-rate">How many of those jobs do you have to fill again each year? (as a percent)</label>
           <div class="input-shell">
             <input id="hourly-rate" name="hourly-rate" type="number" inputmode="decimal" min="0" max="300" step="1" placeholder="75" autocomplete="off" required />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Industry full-service midpoint 75–130% (NRA). QSR runs 130–150%. Fine dining 50–80%.</p>
+          <p class="form-row__hint">This is your turnover rate, how much of your staff you replace in a year. 100% means you fill every position once over. Most sit-down spots run 75 to 130% (NRA). Fast food runs 130 to 150%. Fine dining runs 50 to 80%.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="hourly-cost">Cost per hourly replacement</label>
+          <label class="form-row__label" for="hourly-cost">What does it cost you to replace one hourly worker?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="hourly-cost" name="hourly-cost" type="number" inputmode="decimal" min="0" step="100" placeholder="5500" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Cornell SHA range $3,000–$7,000. Default is the midpoint. Includes recruiting, onboarding, training, and the productivity gap during ramp.</p>
+          <p class="form-row__hint">Everything it takes to find, hire, and train one new person, plus the slower output while they learn. Cornell pegs this at $3,000 to $7,000 per hire. The default is the middle. Not sure? Leave it at $5,500.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="salaried-count">Salaried / manager headcount <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
+          <label class="form-row__label" for="salaried-count">How many managers do you have on salary? <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
           <div class="input-shell">
             <input id="salaried-count" name="salaried-count" type="number" inputmode="numeric" min="0" step="1" placeholder="3" autocomplete="off" />
             <span class="input-shell__suffix">people</span>
           </div>
-          <p class="form-row__hint">GM, AGMs, sous chefs, kitchen managers. Skip if you do not run salaried roles.</p>
+          <p class="form-row__hint">GM, assistant managers, kitchen managers, head chefs, anyone on a fixed yearly salary instead of an hourly wage. Skip this if you do not have any.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="salaried-rate">Annual salaried turnover rate <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
+          <label class="form-row__label" for="salaried-rate">How many of those manager jobs do you refill each year? (as a percent) <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
           <div class="input-shell">
             <input id="salaried-rate" name="salaried-rate" type="number" inputmode="decimal" min="0" max="200" step="1" placeholder="25" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Lower frequency than hourly. Industry healthy is under 25%. Above 40% is structural.</p>
+          <p class="form-row__hint">Managers leave less often than hourly staff. Under 25% a year is healthy. Above 40% means something deeper is wrong.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="salaried-cost">Cost per salaried replacement <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
+          <label class="form-row__label" for="salaried-cost">What does it cost you to replace one manager? <span style="color:var(--color-muted);font-weight:400">(optional)</span></label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="salaried-cost" name="salaried-cost" type="number" inputmode="decimal" min="0" step="500" placeholder="15000" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Cornell SHA range $10,000–$25,000+. Default is the midpoint. Manager loss runs higher than line-staff loss.</p>
+          <p class="form-row__hint">Cornell pegs this at $10,000 to $25,000 or more per manager. Losing a manager hurts more than losing a line cook. The default is the middle. Not sure? Leave it at $15,000.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate annual turnover cost
-          <span class="btn__arrow" aria-hidden="true">&rarr;</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Annual turnover cost</span>
+            <span class="t-micro calc-result__label">What turnover costs you a year</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -220,7 +218,7 @@ const schema = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Industry full-service turnover</span>
+            <span class="t-caption">Typical sit-down restaurant turnover</span>
             <span class="t-caption num" data-bench>75–130%</span>
           </div>
 
@@ -241,30 +239,35 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Annual turnover events</span>
+              <span class="extras-row__label">People you replace in a year</span>
               <span class="extras-row__value num" data-events>&mdash;</span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Annual hourly cost</span>
+              <span class="extras-row__label">Cost from hourly staff (per year)</span>
               <span class="extras-row__value num" data-hourly-cost>&mdash;</span>
             </div>
             <div class="extras-row" data-salaried-row hidden>
-              <span class="extras-row__label">Annual salaried cost</span>
+              <span class="extras-row__label">Cost from managers (per year)</span>
               <span class="extras-row__value num" data-salaried-cost>&mdash;</span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Monthly equivalent</span>
+              <span class="extras-row__label">That works out to per month</span>
               <span class="extras-row__value num" data-monthly>&mdash;</span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Weekly equivalent</span>
+              <span class="extras-row__label">And per week</span>
               <span class="extras-row__value num" data-weekly>&mdash;</span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">% of typical $1M revenue</span>
+              <span class="extras-row__label">Bite out of $1M in sales</span>
               <span class="extras-row__value num" data-revpct>&mdash;</span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -515,26 +518,26 @@ const schema = [
       if (revPctEl) revPctEl.textContent = `${revPct.toFixed(1)}%`;
 
       let note = '';
-      if (s.label === 'Healthy') note = `Hourly turnover under 60% is below the full-service midpoint (NRA 75–130%). Holding it there is the compounding move. Stay interviews at 30/60/90 days, schedule predictability, and a small annual wage bump usually keep you in this band.`;
-      if (s.label === 'Watch') note = `Hourly turnover ${hourlyRate.toFixed(0)}% sits in the industry-norm band. Most operators treat that as fine. The math says it is costing you ${fmtUSD(hourlyAnnual)}/year just on the hourly side. Worth modeling against a wage bump (Cornell SHA).`;
-      if (s.label === 'Critical') note = `Hourly turnover above 100% is the silent margin killer. ${fmtUSD(totalAnnual)}/year, or roughly ${revPct.toFixed(1)}% of a typical $1M revenue. Cut 30 points off the rate and the savings usually fund a meaningful wage increase. Compounding from there.`;
+      if (s.label === 'Healthy') note = `Replacing under 60% of your hourly staff a year is better than most sit-down spots, which run 75 to 130% (NRA). Keep it there. Quick check-ins with new hires at 30, 60, and 90 days, a schedule people can count on, and a small raise once a year usually hold the line.`;
+      if (s.label === 'Watch') note = `Replacing ${hourlyRate.toFixed(0)}% of your hourly staff a year is normal for the industry, so most owners shrug it off. But it is costing you ${fmtUSD(hourlyAnnual)} a year on the hourly side alone. That money could fund a raise instead.`;
+      if (s.label === 'Critical') note = `Replacing more than 100% of your hourly staff a year quietly eats your profit. That is ${fmtUSD(totalAnnual)} a year, about ${revPct.toFixed(1)}% of a typical $1 million in sales. Cut 30 points off the rate and the savings usually pay for a real raise, which slows the bleeding even more.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Hourly headcount</td><td class="num">${fmtInt(hourlyCount)} people</td></tr>
-          <tr><td>&times; Annual turnover rate</td><td class="num">${hourlyRate.toFixed(1)}%</td></tr>
-          <tr class="math-table__step"><td>= Annual turnover events</td><td class="num">${hourlyEvents.toFixed(1)} people</td></tr>
-          <tr><td>&times; Cost per replacement</td><td class="num">${fmtUSD(hourlyCost)}</td></tr>
-          <tr class="math-table__step"><td>= Annual hourly cost</td><td class="num"><strong>${fmtUSD(hourlyAnnual)}</strong></td></tr>
+          <tr><td>Hourly staff you have</td><td class="num">${fmtInt(hourlyCount)} people</td></tr>
+          <tr><td>&times; Share you replace each year</td><td class="num">${hourlyRate.toFixed(1)}%</td></tr>
+          <tr class="math-table__step"><td>= Hourly people replaced a year</td><td class="num">${hourlyEvents.toFixed(1)} people</td></tr>
+          <tr><td>&times; Cost to replace each one</td><td class="num">${fmtUSD(hourlyCost)}</td></tr>
+          <tr class="math-table__step"><td>= Cost from hourly staff</td><td class="num"><strong>${fmtUSD(hourlyAnnual)}</strong></td></tr>
           ${hasSalaried ? `
-          <tr><td>+ Salaried events (${fmtInt(salariedCount)} &times; ${salariedRate.toFixed(1)}%)</td><td class="num">${salariedEvents.toFixed(1)} people</td></tr>
-          <tr><td>&times; Salaried replacement cost</td><td class="num">${fmtUSD(salariedCostPer)}</td></tr>
-          <tr class="math-table__step"><td>= Annual salaried cost</td><td class="num">${fmtUSD(salariedAnnual)}</td></tr>
+          <tr><td>+ Managers replaced (${fmtInt(salariedCount)} &times; ${salariedRate.toFixed(1)}%)</td><td class="num">${salariedEvents.toFixed(1)} people</td></tr>
+          <tr><td>&times; Cost to replace each manager</td><td class="num">${fmtUSD(salariedCostPer)}</td></tr>
+          <tr class="math-table__step"><td>= Cost from managers</td><td class="num">${fmtUSD(salariedAnnual)}</td></tr>
           ` : ''}
-          <tr class="math-table__final"><td>Total annual turnover cost</td><td class="num"><strong>${fmtUSD(totalAnnual)}</strong></td></tr>
+          <tr class="math-table__final"><td>What turnover costs you a year</td><td class="num"><strong>${fmtUSD(totalAnnual)}</strong></td></tr>
           <tr><td>&divide; 12 months</td><td class="num">${fmtUSD(monthly)}/month</td></tr>
           <tr><td>&divide; 52 weeks</td><td class="num">${fmtUSD(weekly)}/week</td></tr>
-          <tr><td>As % of $1M revenue</td><td class="num">${revPct.toFixed(1)}%</td></tr>
+          <tr><td>Bite out of $1M in sales</td><td class="num">${revPct.toFixed(1)}%</td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -586,8 +589,6 @@ const schema = [
   .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
   .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -715,4 +716,38 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

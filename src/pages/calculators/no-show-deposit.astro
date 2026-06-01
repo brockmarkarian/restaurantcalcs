@@ -139,74 +139,72 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Models weekly, monthly, and annual revenue lost to no-shows. Calculates deposit recapture and break-even no-show rate by concept.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Shows how much money no-shows cost you per week, month, and year. Then it tells you whether asking for a deposit would earn that money back, and how much you would get back.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="ticket">Average ticket per cover</label>
+          <label class="form-row__label" for="ticket"><span class="step-num">01</span> Average spend per guest</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="ticket" name="ticket" type="number" inputmode="decimal" min="0" step="1" placeholder="35" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Total check divided by guests. Use weekend prime-time average if no-shows concentrate there.</p>
+          <p class="form-row__hint">What one guest spends on average. Take a check total and divide by the number of people on it. If no-shows hit mostly on weekend nights, use a busy weekend night average.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="noshow">No-show rate</label>
+          <label class="form-row__label" for="noshow"><span class="step-num">02</span> How often guests don't show up</label>
           <div class="input-shell">
             <input id="noshow" name="noshow" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="8" autocomplete="off" required />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Percentage of reservations that never arrive and never cancel. Industry range 5-15%.</p>
+          <p class="form-row__hint">Out of every 100 reservations, how many simply never arrive and never call to cancel. Most restaurants land between 5 and 15.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="reservations">Reservations per week</label>
+          <label class="form-row__label" for="reservations"><span class="step-num">03</span> Reservations you take in a week</label>
           <div class="input-shell">
             <input id="reservations" name="reservations" type="number" inputmode="numeric" min="0" step="5" placeholder="280" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Count of bookings, not covers. Pull from OpenTable, Resy, Tock, or SevenRooms reporting.</p>
+          <p class="form-row__hint">The number of bookings, not the number of guests. Your booking system (OpenTable, Resy, Tock, SevenRooms) shows this on its weekly report.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="party">Average party size</label>
+          <label class="form-row__label" for="party"><span class="step-num">04</span> Guests per reservation, on average</label>
           <div class="input-shell">
             <input id="party" name="party" type="number" inputmode="decimal" min="1" step="0.1" placeholder="3" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Covers per reservation. Casual concepts often run 2.5-3.5, fine dining 2-3, group venues 4+.</p>
+          <p class="form-row__hint">Average number of people on each booking. Casual spots usually see 2.5 to 3.5, fine dining 2 to 3, group spots 4 or more.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="deposit">Suggested deposit per cover</label>
+          <label class="form-row__label" for="deposit"><span class="step-num">05</span> Deposit you'd charge per guest</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="deposit" name="deposit" type="number" inputmode="decimal" min="0" step="1" placeholder="25" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Industry standard $20-$50 per cover. Fine dining $50-$100. Casual $20-$25.</p>
+          <p class="form-row__hint">The amount each guest pays up front to hold the table, and loses if they no-show. Most restaurants charge $20 to $50 per guest. Fine dining $50 to $100, casual $20 to $25.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="forecast">Forecast no-show rate after deposit (optional)</label>
+          <label class="form-row__label" for="forecast"><span class="step-num">06</span> Where you think the deposit drops no-shows to (optional)</label>
           <div class="input-shell">
             <input id="forecast" name="forecast" type="range" min="0" max="15" step="0.5" value="5" />
             <span class="input-shell__suffix" data-forecast-display>5%</span>
           </div>
-          <p class="form-row__hint">Slide to model net annual recovery if deposits drop the no-show rate to the target level.</p>
+          <p class="form-row__hint">Slide to your best guess for the new no-show rate once you start charging a deposit. The result shows how much money that wins back per year.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate no-show cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Monthly revenue lost</span>
+            <span class="t-micro calc-result__label">Lost to no-shows each month</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -219,7 +217,7 @@ const schema = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Industry no-show range</span>
+            <span class="t-caption">Typical no-show range</span>
             <span class="t-caption num" data-bench>5–15%</span>
           </div>
 
@@ -240,30 +238,35 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Weekly no-shows (covers)</span>
+              <span class="extras-row__label">Empty seats from no-shows each week</span>
               <span class="extras-row__value num" data-weekly-covers></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Weekly revenue lost</span>
+              <span class="extras-row__label">Lost to no-shows each week</span>
               <span class="extras-row__value num" data-weekly-lost></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Annual revenue lost</span>
+              <span class="extras-row__label">Lost to no-shows each year</span>
               <span class="extras-row__value num" data-annual-lost></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Deposit revenue at current rate</span>
+              <span class="extras-row__label">Deposits you'd keep each year</span>
               <span class="extras-row__value num" data-deposit-rev></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Break-even no-show rate</span>
+              <span class="extras-row__label">No-show rate where the deposit pays for itself</span>
               <span class="extras-row__value num" data-breakeven></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Net annual recovery w/ deposit</span>
+              <span class="extras-row__label">Money the deposit wins back each year</span>
               <span class="extras-row__value num" data-net-recovery></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -519,30 +522,30 @@ const schema = [
       if (netRecoveryEl) netRecoveryEl.textContent = fmtUSD(netRecoveryAnnual);
 
       let note = '';
-      if (s.label === 'Lean') note = `No-show rate under 5% is healthy. Verify the number is real (some POS / reservation systems mis-tag late cancellations as walk-ins). At this rate the friction of a deposit program may cost more in lost reservations than it recaptures.`;
-      if (s.label === 'Healthy') note = `5-8% is the broad industry healthy band. Worth modeling a targeted deposit on weekend prime-time and parties of 6+ even if the overall rate is fine. Group bookings and weekend brunch typically run 2-3x the average.`;
-      if (s.label === 'Watch') note = `8-12% is above healthy. Annual loss is real money. Run the deposit math by segment: weekend, parties of 4+, holiday bookings. Most concepts can knock 4-6 percentage points off with a $20-25 per cover deposit on the worst segments only.`;
-      if (s.label === 'Critical') note = `Above 12% is structural. Either the booking source is too frictionless (walk-up sites, social media DMs without confirmation) or the policy is non-existent. Implement deposits across all reservations for 60 days. Industry data says no-show drops 50-80%.`;
+      if (s.label === 'Lean') note = `A no-show rate under 5% is good. Double-check the number is real, some booking systems log late cancellations as walk-ins by mistake. At this rate, asking for a deposit may scare off more bookings than it saves you.`;
+      if (s.label === 'Healthy') note = `5 to 8% is the normal, healthy range. Even so, a deposit aimed only at weekend nights and big parties (6 or more) is worth a look. Large groups and weekend brunch usually no-show 2 to 3 times more than everyone else.`;
+      if (s.label === 'Watch') note = `8 to 12% is higher than you want. The yearly loss is real money. Try a deposit on just your worst groups: weekend nights, parties of 4 or more, holiday bookings. Most restaurants cut their no-show rate by 4 to 6 points with a $20 to $25 per guest deposit on those bookings alone.`;
+      if (s.label === 'Critical') note = `Above 12% means something is broken. Either bookings come in too easily (walk-up sites, social media DMs with no confirmation) or there is no policy at all. Try a deposit on every reservation for 60 days. Restaurants that do this usually see no-shows drop by half or more.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Reservations / week</td><td class="num">${reservations.toLocaleString('en-US')}</td></tr>
-          <tr><td>× Average party size</td><td class="num">${party}</td></tr>
-          <tr class="math-table__step"><td>= Covers booked / week</td><td class="num">${coversBookedPerWeek.toFixed(0)}</td></tr>
-          <tr><td>× No-show rate</td><td class="num">${noShowRate}%</td></tr>
-          <tr class="math-table__step"><td>= No-show covers / week</td><td class="num">${noShowCoversPerWeek.toFixed(1)}</td></tr>
-          <tr><td>× Average ticket</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
-          <tr class="math-table__step"><td>= Weekly revenue lost</td><td class="num">${fmtUSDFull(weeklyRevenueLost)}</td></tr>
+          <tr><td>Reservations a week</td><td class="num">${reservations.toLocaleString('en-US')}</td></tr>
+          <tr><td>× Guests per reservation</td><td class="num">${party}</td></tr>
+          <tr class="math-table__step"><td>= Seats booked a week</td><td class="num">${coversBookedPerWeek.toFixed(0)}</td></tr>
+          <tr><td>× How often guests don't show</td><td class="num">${noShowRate}%</td></tr>
+          <tr class="math-table__step"><td>= Empty seats from no-shows a week</td><td class="num">${noShowCoversPerWeek.toFixed(1)}</td></tr>
+          <tr><td>× Average spend per guest</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
+          <tr class="math-table__step"><td>= Lost each week</td><td class="num">${fmtUSDFull(weeklyRevenueLost)}</td></tr>
           <tr><td>× 52 weeks</td><td class="num">52</td></tr>
-          <tr class="math-table__final"><td>Annual revenue lost</td><td class="num"><strong>${fmtUSD(annualRevenueLost)}</strong></td></tr>
+          <tr class="math-table__final"><td>Lost each year</td><td class="num"><strong>${fmtUSD(annualRevenueLost)}</strong></td></tr>
         </table>
         <table class="math-table" role="presentation" style="margin-top: var(--space-5);">
-          <tr><td colspan="2" style="font-weight:600;color:var(--color-heading);padding-top:0;">Deposit math</td></tr>
-          <tr><td>Deposit per cover</td><td class="num">${fmtUSDFull(deposit)}</td></tr>
-          <tr><td>÷ Average ticket</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
-          <tr class="math-table__step"><td>= Break-even no-show rate</td><td class="num">${breakEvenRate.toFixed(1)}%</td></tr>
-          <tr><td>Annual deposit revenue (current rate)</td><td class="num">${fmtUSD(depositRevenueAnnual)}</td></tr>
-          <tr class="math-table__final"><td>Net annual recovery (forecast ${forecastRate}%)</td><td class="num"><strong>${fmtUSD(netRecoveryAnnual)}</strong></td></tr>
+          <tr><td colspan="2" style="font-weight:600;color:var(--color-heading);padding-top:0;">The deposit math</td></tr>
+          <tr><td>Deposit per guest</td><td class="num">${fmtUSDFull(deposit)}</td></tr>
+          <tr><td>÷ Average spend per guest</td><td class="num">${fmtUSDFull(ticket)}</td></tr>
+          <tr class="math-table__step"><td>= No-show rate where the deposit pays for itself</td><td class="num">${breakEvenRate.toFixed(1)}%</td></tr>
+          <tr><td>Deposits you'd keep a year (at today's rate)</td><td class="num">${fmtUSD(depositRevenueAnnual)}</td></tr>
+          <tr class="math-table__final"><td>Money the deposit wins back a year (if no-shows drop to ${forecastRate}%)</td><td class="num"><strong>${fmtUSD(netRecoveryAnnual)}</strong></td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -597,8 +600,6 @@ const schema = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -727,4 +728,38 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

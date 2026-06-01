@@ -126,14 +126,14 @@ const scenarios = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Recipe &amp; plate cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Recipe &amp; Plate Cost Calculator</h1>
       <p class="calc-page__intro">
-        Add ingredients, set quantities, get plate cost. Calculate <strong>per-portion cost</strong> from a recipe batch. Optional target food cost % returns a suggested menu price with markup multiplier.
+        Add your ingredients, type the amounts, and see what <strong>one plate costs to make</strong>. Tell it the percent of the price you want food to be, and it suggests a menu price too.
       </p>
     </header>
 
     <section class="calc-grid calc-grid--wide">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Builds plate cost from ingredients. Pick units (oz, lb, g, ea), enter quantity + cost per unit. Calculator multiplies, sums, and divides by yield to give you cost per portion.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Tells you what one plate of a dish costs to make. Pick a unit (oz, lb, g, ea), then type how much you use and what it costs. We multiply, add it all up, and split it by how many plates the recipe makes.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example recipe (Carbonara)</button>
         </div>
 
@@ -150,9 +150,9 @@ const scenarios = [
             <label class="form-row__label" for="yield">
               <span class="step-num">02</span>
               Makes how many portions?
-              <button type="button" class="help-tip" aria-label="What yield means">
+              <button type="button" class="help-tip" aria-label="What this number means">
                 <span aria-hidden="true">?</span>
-                <span class="help-tip__pop" role="tooltip">Number of <strong>plates served</strong> from one batch of this recipe. A pot of soup yielding 8 bowls = 8.</span>
+                <span class="help-tip__pop" role="tooltip">How many <strong>plates you serve</strong> from one batch of this recipe. A pot of soup that fills 8 bowls = 8.</span>
               </button>
             </label>
             <div class="input-shell">
@@ -168,7 +168,7 @@ const scenarios = [
             Ingredients
             <button type="button" class="help-tip" aria-label="How to enter ingredients">
               <span aria-hidden="true">?</span>
-              <span class="help-tip__pop" role="tooltip">Pick the unit your ingredient is priced in (oz / lb / g / ea / cups). Enter quantity used + cost per unit. <strong>Tip:</strong> for trimmed proteins (tenderloin, fish), use the as-purchased cost ÷ trimmed weight to bake yield loss into the unit cost.</span>
+              <span class="help-tip__pop" role="tooltip">Pick the unit your ingredient is priced in (oz / lb / g / ea / cups). Enter how much you use and what it costs per unit. <strong>Tip:</strong> for meat or fish you trim down, divide what you paid by the weight you can actually use, so the waste is already built into the price.</span>
             </button>
           </p>
           <div class="unit-notice" role="note">
@@ -196,15 +196,15 @@ const scenarios = [
         <details class="optional-fields">
           <summary class="optional-fields__trigger">
             <span class="optional-fields__icon" aria-hidden="true">+</span>
-            More options (Q-factor, target price)
+            More options: the little extras and a suggested price (optional)
           </summary>
           <div class="optional-fields__body">
             <div class="form-row">
               <label class="form-row__label" for="qfactor">
-                Q-factor %
-                <button type="button" class="help-tip" aria-label="What Q-factor means">
+                Little extras you don't count (Q-factor %)
+                <button type="button" class="help-tip" aria-label="What this little extras number means">
                   <span aria-hidden="true">?</span>
-                  <span class="help-tip__pop" role="tooltip">Miscellaneous absorption: bread service, garnish, condiments, packaging, sub-recipe rounding. Industry default <strong>5–10%</strong> (Toast, Culinary Pro). Applied to plate cost after yield divide.</span>
+                  <span class="help-tip__pop" role="tooltip">The small stuff that never makes the recipe sheet: free bread, oil, garnish, salt, the takeout box. Chefs call it the <strong>Q-factor</strong>. Add <strong>5 to 10%</strong> to cover it. We tack it onto the cost per plate.</span>
                 </button>
               </label>
               <div class="input-shell">
@@ -215,10 +215,10 @@ const scenarios = [
 
             <div class="form-row">
               <label class="form-row__label" for="target">
-                Target food cost %
-                <button type="button" class="help-tip" aria-label="What target means">
+                What percent of the price should be food?
+                <button type="button" class="help-tip" aria-label="What this food percent means">
                   <span aria-hidden="true">?</span>
-                  <span class="help-tip__pop" role="tooltip">Concept benchmark (28–32% casual, 30–35% fine dining). Returns suggested menu price.</span>
+                  <span class="help-tip__pop" role="tooltip">Your goal for how much of the menu price the food itself eats up. Most casual spots aim for <strong>28 to 32%</strong>, fine dining <strong>30 to 35%</strong>. Put a number here and we'll suggest a menu price.</span>
                 </button>
               </label>
               <div class="input-shell">
@@ -229,13 +229,16 @@ const scenarios = [
           </div>
         </details>
 
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Plate cost</span>
+            <span class="t-micro calc-result__label">Cost per plate</span>
           </div>
 
           <div class="calc-result__big calc-result__big--money">
@@ -244,17 +247,17 @@ const scenarios = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Recipe total</span>
+            <span class="t-caption">Cost for the whole batch</span>
             <span class="t-caption num" data-recipe-total>$0.00</span>
           </div>
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Ingredient lines</span>
+              <span class="extras-row__label">Ingredients counted</span>
               <span class="extras-row__value num" data-line-count>0</span>
             </div>
             <div class="extras-row" data-yield-row hidden>
-              <span class="extras-row__label">Yield</span>
+              <span class="extras-row__label">Plates per batch</span>
               <span class="extras-row__value num" data-yield-display></span>
             </div>
             <div class="extras-row" data-suggested-row hidden>
@@ -262,10 +265,15 @@ const scenarios = [
               <span class="extras-row__value num" data-suggested></span>
             </div>
             <div class="extras-row" data-markup-row hidden>
-              <span class="extras-row__label">Markup multiplier</span>
+              <span class="extras-row__label">How many times the cost you charge</span>
               <span class="extras-row__value num" data-markup></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -556,9 +564,9 @@ const scenarios = [
       if (target > 0 && target < 100 && yield_ > 0 && suggestedRow && suggestedEl && markupRow && markupEl) {
         suggestedPrice = platecost / (target / 100);
         suggestedRow.hidden = false;
-        suggestedEl.textContent = `${fmtUSD(suggestedPrice)} (${target}% target)`;
+        suggestedEl.textContent = `${fmtUSD(suggestedPrice)} (food at ${target}%)`;
         markupRow.hidden = false;
-        markupEl.textContent = `${(suggestedPrice / platecost).toFixed(2)}× cost`;
+        markupEl.textContent = `${(suggestedPrice / platecost).toFixed(2)}× the cost`;
       } else if (suggestedRow && markupRow) {
         suggestedRow.hidden = true;
         markupRow.hidden = true;
@@ -571,11 +579,11 @@ const scenarios = [
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
           ${linesHtml}
-          <tr class="math-table__step"><td>Recipe total</td><td></td><td class="num"><strong>${fmtUSD(recipeTotal)}</strong></td></tr>
-          ${yield_ > 0 ? `<tr class="math-table__step"><td>÷ Yield</td><td class="num">${yield_} portions</td><td class="num">${fmtUSD(platecostBase)}/plate</td></tr>` : ''}
-          ${qFactor > 0 ? `<tr class="math-table__step"><td>× (1 + ${(qFactor * 100).toFixed(1)}% Q-factor)</td><td></td><td class="num">${fmtUSD(platecost)} adjusted</td></tr>` : ''}
-          <tr class="math-table__final"><td>Plate cost</td><td></td><td class="num"><strong>${fmtUSD(platecost)}</strong></td></tr>
-          ${suggestedPrice > 0 ? `<tr class="math-table__step"><td>÷ Target ${target}%</td><td></td><td class="num">${fmtUSD(suggestedPrice)} suggested price</td></tr>` : ''}
+          <tr class="math-table__step"><td>Cost for the whole batch</td><td></td><td class="num"><strong>${fmtUSD(recipeTotal)}</strong></td></tr>
+          ${yield_ > 0 ? `<tr class="math-table__step"><td>÷ plates per batch</td><td class="num">${yield_} plates</td><td class="num">${fmtUSD(platecostBase)}/plate</td></tr>` : ''}
+          ${qFactor > 0 ? `<tr class="math-table__step"><td>+ ${(qFactor * 100).toFixed(1)}% for the little extras</td><td></td><td class="num">${fmtUSD(platecost)} per plate</td></tr>` : ''}
+          <tr class="math-table__final"><td>Cost per plate</td><td></td><td class="num"><strong>${fmtUSD(platecost)}</strong></td></tr>
+          ${suggestedPrice > 0 ? `<tr class="math-table__step"><td>÷ food at ${target}%</td><td></td><td class="num">${fmtUSD(suggestedPrice)} menu price</td></tr>` : ''}
         </table>
       `;
 
@@ -642,7 +650,6 @@ const scenarios = [
   .input-shell__suffix { padding: 0 var(--space-4) 0 0; font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
   .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   /* Recipe header, name + yield side-by-side */
   .recipe-header-grid {
@@ -788,4 +795,37 @@ const scenarios = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

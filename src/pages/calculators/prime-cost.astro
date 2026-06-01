@@ -138,65 +138,65 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Sums food cost, beverage cost, and labor cost (with full burden), divides by revenue. Returns prime cost % vs concept benchmark with breakdown.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Adds up what your food, drinks, and staff cost you, then divides by what you sold. That percent is your prime cost, the two biggest costs you can actually change this week. It tells you if the whole operation is healthy for your type of restaurant.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="concept">Restaurant concept</label>
+          <label class="form-row__label" for="concept">What kind of restaurant is this?</label>
           <select id="concept" name="concept">
-            <option value="qsr">Quick service / QSR (target 55–60%)</option>
-            <option value="fast-casual">Fast casual (target 55–60%)</option>
-            <option value="casual" selected>Casual dining (target 60–65%)</option>
-            <option value="fine">Fine dining (target 60–70%)</option>
-            <option value="pizza">Pizza (target 55–60%)</option>
-            <option value="cafe">Coffee / cafe (target 55–60%)</option>
+            <option value="qsr">Quick service / fast food (healthy 55–60%)</option>
+            <option value="fast-casual">Fast casual, order at the counter (healthy 55–60%)</option>
+            <option value="casual" selected>Sit-down restaurant with servers (healthy 60–65%)</option>
+            <option value="fine">Fine dining (healthy 60–70%)</option>
+            <option value="pizza">Pizza (healthy 55–60%)</option>
+            <option value="cafe">Coffee shop or cafe (healthy 55–60%)</option>
           </select>
-          <p class="form-row__hint">Sets benchmark thresholds for healthy / watch / critical ranges.</p>
+          <p class="form-row__hint">Picks the healthy range we measure you against. Different restaurant types have different normal numbers.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="food">Food cost</label>
+          <label class="form-row__label" for="food">What your food cost you</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="food" name="food" type="number" inputmode="decimal" min="0" step="50" placeholder="7000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">COGS for food only. Use weekly totals for actionable tracking.</p>
+          <p class="form-row__hint">The dollar cost of the food itself, no drinks. Use a weekly total so you can catch problems fast.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="beverage">Beverage cost</label>
+          <label class="form-row__label" for="beverage">What your drinks cost you</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="beverage" name="beverage" type="number" inputmode="decimal" min="0" step="50" placeholder="2000" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Beer, wine, spirits, NA cost. Optional, leave blank if not separated.</p>
+          <p class="form-row__hint">The dollar cost of beer, wine, liquor, soda, and coffee. Optional. Leave it blank if you do not track drinks on their own.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="labor">Total labor (with burden)</label>
+          <label class="form-row__label" for="labor">What your staff cost you (the real total)</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="labor" name="labor" type="number" inputmode="decimal" min="0" step="50" placeholder="9000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Wages + salaries + payroll taxes + benefits + workers comp. Wages alone undercounts by 15–25%.</p>
+          <p class="form-row__hint">Not just paychecks. Add in payroll taxes, any benefits, and workers comp too. Paychecks alone leave out 15 to 25 percent of what staff really costs you. If you only have the paycheck total, check the box below and we add the rest for you.</p>
         </div>
 
         <div class="form-row">
           <label class="form-row__label" for="auto-burden">
             <input type="checkbox" id="auto-burden" name="auto-burden" style="margin-right:6px" />
-            My labor figure is wages only (auto-add 25% burden)
+            The number above is paychecks only. Add the extras for me (+25%).
           </label>
-          <p class="form-row__hint">Industry rule of thumb (Toast, 7shifts, R365): true labor ≈ wages × 1.25 (FICA 7.65% + FUTA/SUTA ~3% + WC ~3% + benefits ~10%).</p>
+          <p class="form-row__hint">A standard rule of thumb: real staff cost is about paychecks times 1.25. The extra 25 percent covers payroll taxes (about 11%), workers comp (about 3%), and basic benefits (about 10%).</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="revenue">Total revenue</label>
+          <label class="form-row__label" for="revenue">How much you sold (total sales)</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="100" placeholder="30000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">All sales revenue for the period, food + beverage + retail.</p>
+          <p class="form-row__hint">Everything you took in for this period: food, drinks, and any retail. Pull the total from your POS sales report.</p>
         </div>
 
         <div class="form-row">
@@ -208,12 +208,10 @@ const schema = [
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate prime cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
@@ -253,26 +251,31 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Food + beverage</span>
+              <span class="extras-row__label">Food and drinks cost</span>
               <span class="extras-row__value num" data-cogs></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Labor (fully burdened)</span>
+              <span class="extras-row__label">Staff cost (with extras added in)</span>
               <span class="extras-row__value num" data-laborv></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Total prime cost $</span>
+              <span class="extras-row__label">Food, drinks, and staff added up</span>
               <span class="extras-row__value num" data-prime></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Food cost % of revenue</span>
+              <span class="extras-row__label">Food and drinks as a share of sales</span>
               <span class="extras-row__value num" data-foodpct></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Labor cost % of revenue</span>
+              <span class="extras-row__label">Staff as a share of sales</span>
               <span class="extras-row__value num" data-laborpct></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -531,20 +534,20 @@ const schema = [
       if (laborPctEl) laborPctEl.textContent = `${laborPct.toFixed(1)}%`;
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch the components, food and labor can drift in opposite directions and net to no change.`;
-      if (s.label === 'Lean') note = `Below typical ${concept.label} range. Verify labor figure includes burden (taxes + benefits + WC). Owner working unpaid hours? Add a market manager wage on paper before comparing.`;
-      if (s.label === 'Watch') note = `Slightly above ${concept.label} healthy range. Look at component split: ${cogsPct.toFixed(1)}% food/bev vs ${laborPct.toFixed(1)}% labor. Whichever is further from concept norm is the lever.`;
-      if (s.label === 'Critical') note = `Above ${concept.label} healthy range. Drill into both components weekly. Fastest 1–2pp usually come from labor: slow-shift overstaffing, overtime creep, schedule built for old volume.`;
+      if (s.label === 'Healthy') note = `You are in the healthy range for a ${concept.label.toLowerCase()} spot (${concept.low}–${concept.high}%). Keep checking weekly. Food and staff costs can move in opposite directions and hide a problem, so watch both.`;
+      if (s.label === 'Lean') note = `This is below the usual ${concept.label.toLowerCase()} range. Double-check your staff number includes the extras (taxes, benefits, workers comp), not just paychecks. If you work for free, put a fair manager wage on paper for yourself first, or the number looks better than it really is.`;
+      if (s.label === 'Watch') note = `A little above the healthy range for a ${concept.label.toLowerCase()} spot. Look at the split: ${cogsPct.toFixed(1)}% goes to food and drinks, ${laborPct.toFixed(1)}% goes to staff. Whichever one is more out of line is the one to fix first.`;
+      if (s.label === 'Critical') note = `Above the healthy range for a ${concept.label.toLowerCase()} spot. Check both parts every week. The quickest wins usually come from staff costs: too many people on slow shifts, overtime adding up, or a schedule built for busier days that did not come back.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Food cost</td><td class="num">${fmtUSDFull(food)}</td></tr>
-          ${beverage > 0 ? `<tr><td>+ Beverage cost</td><td class="num">${fmtUSDFull(beverage)}</td></tr>` : ''}
-          <tr class="math-table__step"><td>= COGS</td><td class="num">${fmtUSDFull(cogs)}</td></tr>
-          <tr><td>+ Labor (${autoBurden ? 'wages × 1.25' : 'fully burdened'})</td><td class="num">${fmtUSDFull(labor)}</td></tr>
-          <tr class="math-table__step"><td>= Prime cost</td><td class="num"><strong>${fmtUSDFull(prime)}</strong></td></tr>
-          <tr><td>÷ Revenue</td><td class="num">${fmtUSDFull(revenue)}</td></tr>
-          <tr class="math-table__final"><td>Prime cost percentage</td><td class="num"><strong>${pct.toFixed(1)}%</strong></td></tr>
+          <tr><td>What your food cost</td><td class="num">${fmtUSDFull(food)}</td></tr>
+          ${beverage > 0 ? `<tr><td>+ What your drinks cost</td><td class="num">${fmtUSDFull(beverage)}</td></tr>` : ''}
+          <tr class="math-table__step"><td>= Food and drinks cost</td><td class="num">${fmtUSDFull(cogs)}</td></tr>
+          <tr><td>+ Staff cost (${autoBurden ? 'paychecks plus 25%' : 'with extras added in'})</td><td class="num">${fmtUSDFull(labor)}</td></tr>
+          <tr class="math-table__step"><td>= All three added up</td><td class="num"><strong>${fmtUSDFull(prime)}</strong></td></tr>
+          <tr><td>÷ What you sold</td><td class="num">${fmtUSDFull(revenue)}</td></tr>
+          <tr class="math-table__final"><td>Prime cost percent</td><td class="num"><strong>${pct.toFixed(1)}%</strong></td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -596,8 +599,6 @@ const schema = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -726,4 +727,38 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

@@ -128,76 +128,76 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Liquor pour cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Liquor Pour Cost Calculator</h1>
       <p class="calc-page__intro">
-        Bar margin moves faster than food cost. A 1-oz over-pour at scale is the difference between a profitable program and a leaky one. This calculator runs pour cost by category, <strong>liquor, beer, wine, or blended</strong>with category-specific benchmarks.
+        Pour cost is the percent of a drink's sale price that goes to the booze itself. Bar margin slips faster than food, a heavy hand on the bottle, drink after drink, quietly eats your profit. This tool figures pour cost by category, <strong>liquor, beer, wine, or all of them combined</strong>, and tells you whether each one is in a healthy range.
       </p>
     </header>
 
     <section class="calc-grid">
       <form class="calc-form" data-form data-mode="aggregate">
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Two modes. <strong>Aggregate</strong> takes period beverage cost ÷ revenue for a category-level pour cost %. <strong>Per-drink</strong> builds the cost of one cocktail or pour from bottle invoice + pour size + spillage, returning cost per drink, pour cost %, and a suggested menu price.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Two ways to check it. <strong>Whole bar</strong> compares what you paid for drinks to what you sold over a stretch of time, so you get the percent for a whole category. <strong>One drink</strong> works out what a single pour costs you from the bottle price and pour size, then tells you the percent and suggests a menu price.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="mode-tabs" role="tablist" aria-label="Calculator mode">
-          <button type="button" role="tab" class="mode-tab" data-mode-tab="aggregate" aria-selected="true">Aggregate (period)</button>
-          <button type="button" role="tab" class="mode-tab" data-mode-tab="perdrink" aria-selected="false">Per-drink (bottle → pour)</button>
+          <button type="button" role="tab" class="mode-tab" data-mode-tab="aggregate" aria-selected="true">Whole bar (over time)</button>
+          <button type="button" role="tab" class="mode-tab" data-mode-tab="perdrink" aria-selected="false">One drink (bottle to pour)</button>
         </div>
 
         <div data-panel-aggregate>
         <div class="form-row">
-          <label class="form-row__label" for="category">Beverage category</label>
+          <label class="form-row__label" for="category">Which drinks are you checking?</label>
           <select id="category" name="category">
-            <option value="liquor" selected>Liquor / spirits (target 18–24%)</option>
-            <option value="beer-draft">Beer, draft (target 18–24%)</option>
-            <option value="beer-bottle">Beer, bottled (target 25–30%)</option>
-            <option value="wine-glass">Wine by glass (target 28–32%)</option>
-            <option value="wine-bottle">Wine by bottle (target 30–40%)</option>
-            <option value="blended">Blended beverage program (target 20–25%)</option>
+            <option value="liquor" selected>Liquor / spirits (healthy 18–24%)</option>
+            <option value="beer-draft">Beer, draft (healthy 18–24%)</option>
+            <option value="beer-bottle">Beer, bottled (healthy 25–30%)</option>
+            <option value="wine-glass">Wine by the glass (healthy 28–32%)</option>
+            <option value="wine-bottle">Wine by the bottle (healthy 30–40%)</option>
+            <option value="blended">All drinks combined (healthy 20–25%)</option>
           </select>
-          <p class="form-row__hint">Sets benchmark + status thresholds for your category.</p>
+          <p class="form-row__hint">Picks the healthy range and the good/watch/over colors for this kind of drink.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="cost">Beverage cost (period)</label>
+          <label class="form-row__label" for="cost">What the drinks cost you</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="2200" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Total invoices paid for this beverage category.</p>
+          <p class="form-row__hint">Add up the invoices you paid for these drinks over the stretch of time you are checking.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="revenue">Beverage revenue (same period)</label>
+          <label class="form-row__label" for="revenue">What you sold them for</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="11000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Total sales for the same category and same period.</p>
+          <p class="form-row__hint">Sales of these same drinks over the same stretch of time. Pull it from your POS.</p>
         </div>
 
         <details class="optional-fields">
           <summary class="optional-fields__trigger">
             <span class="optional-fields__icon" aria-hidden="true">+</span>
-            Add target &amp; theoretical (optional)
+            Compare to your goal and your recipe cost (optional)
           </summary>
           <div class="optional-fields__body">
             <div class="form-row">
-              <label class="form-row__label" for="target">Target pour cost %</label>
+              <label class="form-row__label" for="target">Your goal pour cost %</label>
               <div class="input-shell">
                 <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="22" autocomplete="off" />
                 <span class="input-shell__suffix">%</span>
               </div>
-              <p class="form-row__hint">Your goal, calculator shows variance from target.</p>
+              <p class="form-row__hint">The number you are aiming for. We show how far off you are, in dollars.</p>
             </div>
 
             <div class="form-row">
-              <label class="form-row__label" for="theoretical">Theoretical pour cost %</label>
+              <label class="form-row__label" for="theoretical">Recipe pour cost % (what it should be)</label>
               <div class="input-shell">
                 <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="20" autocomplete="off" />
                 <span class="input-shell__suffix">%</span>
               </div>
-              <p class="form-row__hint">From recipe costing, variance flags over-pouring or theft.</p>
+              <p class="form-row__hint">What your pour cost would be if every drink was made exactly to recipe. The gap between this and your real number is usually over-pouring, comps, or theft.</p>
             </div>
           </div>
         </details>
@@ -219,12 +219,12 @@ const relatedCalcs = [
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="bottle-cost">Bottle cost (your invoice)</label>
+            <label class="form-row__label" for="bottle-cost">What the bottle cost you</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="bottle-cost" name="bottle-cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="22.50" autocomplete="off" />
             </div>
-            <p class="form-row__hint">What you paid wholesale, before tax/tip.</p>
+            <p class="form-row__hint">The price on your invoice from the distributor, before any tax or tip.</p>
           </div>
 
           <div class="form-row">
@@ -239,7 +239,7 @@ const relatedCalcs = [
           </div>
 
           <div class="form-row" data-custom-size-row hidden>
-            <label class="form-row__label" for="bottle-size-custom">Custom size (ml)</label>
+            <label class="form-row__label" for="bottle-size-custom">Your bottle size (ml)</label>
             <div class="input-shell">
               <input id="bottle-size-custom" name="bottle-size-custom" type="number" inputmode="decimal" min="0" step="1" placeholder="700" autocomplete="off" />
               <span class="input-shell__suffix">ml</span>
@@ -247,57 +247,53 @@ const relatedCalcs = [
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="pour-size">Pour size (per drink)</label>
+            <label class="form-row__label" for="pour-size">How much goes in one drink</label>
             <div class="input-shell">
               <input id="pour-size" name="pour-size" type="number" inputmode="decimal" min="0" step="0.05" placeholder="1.5" value="1.5" autocomplete="off" />
               <span class="input-shell__suffix">fl oz</span>
             </div>
-            <p class="form-row__hint">US standard 1.5oz cocktail pour. Shot 1oz. Heavy pour 2oz. Wine BTG 5oz (use 5).</p>
+            <p class="form-row__hint">A standard cocktail pour is 1.5 oz. A shot is 1 oz. A heavy pour is 2 oz. A glass of wine is 5 oz, so type 5.</p>
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="spillage">Spillage / shrinkage</label>
+            <label class="form-row__label" for="spillage">Waste and spills</label>
             <div class="input-shell">
               <input id="spillage" name="spillage" type="number" inputmode="decimal" min="0" max="30" step="0.5" placeholder="5" value="5" autocomplete="off" />
               <span class="input-shell__suffix">%</span>
             </div>
-            <p class="form-row__hint">Industry default 5%. Reduces usable oz per bottle (over-pour, evaporation, breakage).</p>
+            <p class="form-row__hint">A little gets lost to over-pours, spills, and broken bottles. 5% is the usual guess. We trim that much off each bottle.</p>
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="drink-price">Menu price (this drink)</label>
+            <label class="form-row__label" for="drink-price">What you charge for this drink</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="drink-price" name="drink-price" type="number" inputmode="decimal" min="0" step="0.25" placeholder="12" autocomplete="off" />
             </div>
-            <p class="form-row__hint">What you charge guests. Leave blank to skip pour cost % calc.</p>
+            <p class="form-row__hint">The menu price guests pay. Leave it blank and we just show what the pour costs you.</p>
           </div>
 
           <details class="optional-fields">
             <summary class="optional-fields__trigger">
               <span class="optional-fields__icon" aria-hidden="true">+</span>
-              Add target pour cost % (optional)
+              Get a suggested price for your goal (optional)
             </summary>
             <div class="optional-fields__body">
               <div class="form-row">
-                <label class="form-row__label" for="target-pd">Target pour cost %</label>
+                <label class="form-row__label" for="target-pd">Your goal pour cost %</label>
                 <div class="input-shell">
                   <input id="target-pd" name="target-pd" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="22" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">Calculator returns suggested menu price for this target.</p>
+                <p class="form-row__hint">The number you want to hit. We tell you the menu price that gets you there.</p>
               </div>
             </div>
           </details>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate pour cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption">
-          <strong>Nothing is saved or sent.</strong> All math runs in your browser.
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
         </p>
       </form>
 
@@ -338,18 +334,23 @@ const relatedCalcs = [
 
           <div class="calc-result__extras" data-extras hidden>
             <div class="extras-row" data-target-row hidden>
-              <span class="extras-row__label">Vs. target</span>
+              <span class="extras-row__label">Vs. your goal</span>
               <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
-              <span class="extras-row__label">Cost impact at target</span>
+              <span class="extras-row__label">What hitting your goal saves</span>
               <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
-              <span class="extras-row__label">Vs. theoretical</span>
+              <span class="extras-row__label">Vs. recipe cost</span>
               <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -672,7 +673,7 @@ const relatedCalcs = [
       if (drinkPrice > 0) {
         animateCounter(counter!, lastValue, pourPct, 800, 1);
         lastValue = pourPct;
-        if (resultLabel) resultLabel.textContent = `Pour cost % (${drinkName})`;
+        if (resultLabel) resultLabel.textContent = `Pour cost for ${drinkName}`;
         const pctSuffix = document.querySelector('.result-num__pct');
         if (pctSuffix) pctSuffix.textContent = '%';
         const clamped = Math.min(50, Math.max(0, pourPct));
@@ -683,12 +684,12 @@ const relatedCalcs = [
       } else {
         animateCounter(counter!, lastValue, costPerPour, 800, 2);
         lastValue = costPerPour;
-        if (resultLabel) resultLabel.textContent = `Cost per pour (${drinkName})`;
+        if (resultLabel) resultLabel.textContent = `What ${drinkName} costs you`;
         const pctSuffix = document.querySelector('.result-num__pct');
         if (pctSuffix) pctSuffix.textContent = '';
         marker!.style.left = '0%';
         statusPill!.dataset.status = 'empty';
-        statusLabel!.textContent = 'Add menu price';
+        statusLabel!.textContent = 'Add a price';
       }
 
       // Hide aggregate extras, show per-drink extras
@@ -698,21 +699,21 @@ const relatedCalcs = [
       if (theoreticalRow) theoreticalRow.hidden = true;
 
       const note = drinkPrice > 0
-        ? `${cat.label} healthy range ${cat.low}–${cat.high}%. Profit per drink ${fmtUSD(profitPerDrink)}.${suggestedPrice > 0 ? ` Suggested price at ${targetPd}% target: ${fmtUSD(suggestedPrice)}.` : ''}`
-        : `Add a menu price to see pour cost % and profit per drink.${suggestedPrice > 0 ? ` Suggested price at ${targetPd}% target: ${fmtUSD(suggestedPrice)}.` : ''}`;
+        ? `A healthy ${cat.label.toLowerCase()} pour runs ${cat.low}–${cat.high}%. You keep ${fmtUSD(profitPerDrink)} on each one.${suggestedPrice > 0 ? ` To hit your ${targetPd}% goal, charge ${fmtUSD(suggestedPrice)}.` : ''}`
+        : `Add what you charge to see the pour cost percent and what you keep per drink.${suggestedPrice > 0 ? ` To hit your ${targetPd}% goal, charge ${fmtUSD(suggestedPrice)}.` : ''}`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Bottle cost</td><td class="num">${fmtUSD(bottleCost)}</td></tr>
+          <tr><td>What the bottle cost</td><td class="num">${fmtUSD(bottleCost)}</td></tr>
           <tr><td>Bottle size</td><td class="num">${bottleMl}ml (${bottleOz.toFixed(2)} fl oz)</td></tr>
-          <tr class="math-table__step"><td>− Spillage ${spillage}%</td><td class="num">${usableOz.toFixed(2)} usable fl oz</td></tr>
-          <tr class="math-table__step"><td>Cost ÷ usable oz</td><td class="num">${fmtUSD(costPerOz)}/oz</td></tr>
-          <tr class="math-table__step"><td>× ${pourSize} oz pour</td><td class="num">${fmtUSD(costPerPour)} per pour</td></tr>
-          <tr class="math-table__step"><td>Pours per bottle</td><td class="num">${poursPerBottle.toFixed(1)}</td></tr>
+          <tr class="math-table__step"><td>− Waste and spills ${spillage}%</td><td class="num">${usableOz.toFixed(2)} oz you can pour</td></tr>
+          <tr class="math-table__step"><td>Cost ÷ oz you can pour</td><td class="num">${fmtUSD(costPerOz)}/oz</td></tr>
+          <tr class="math-table__step"><td>× ${pourSize} oz per drink</td><td class="num">${fmtUSD(costPerPour)} per drink</td></tr>
+          <tr class="math-table__step"><td>Drinks you get per bottle</td><td class="num">${poursPerBottle.toFixed(1)}</td></tr>
           ${drinkPrice > 0 ? `<tr class="math-table__step"><td>Cost ÷ ${fmtUSD(drinkPrice)} menu price</td><td class="num">${pourPct.toFixed(2)}%</td></tr>` : ''}
-          ${drinkPrice > 0 ? `<tr class="math-table__final"><td>Pour cost</td><td class="num"><strong>${pourPct.toFixed(1)}%</strong></td></tr>` : `<tr class="math-table__final"><td>Cost per pour</td><td class="num"><strong>${fmtUSD(costPerPour)}</strong></td></tr>`}
-          ${drinkPrice > 0 ? `<tr class="math-table__step"><td>Profit per drink</td><td class="num">${fmtUSD(profitPerDrink)}</td></tr>` : ''}
-          ${suggestedPrice > 0 ? `<tr class="math-table__step"><td>Suggested @ ${targetPd}% target</td><td class="num">${fmtUSD(suggestedPrice)}</td></tr>` : ''}
+          ${drinkPrice > 0 ? `<tr class="math-table__final"><td>Pour cost</td><td class="num"><strong>${pourPct.toFixed(1)}%</strong></td></tr>` : `<tr class="math-table__final"><td>What one drink costs you</td><td class="num"><strong>${fmtUSD(costPerPour)}</strong></td></tr>`}
+          ${drinkPrice > 0 ? `<tr class="math-table__step"><td>What you keep per drink</td><td class="num">${fmtUSD(profitPerDrink)}</td></tr>` : ''}
+          ${suggestedPrice > 0 ? `<tr class="math-table__step"><td>Price to hit your ${targetPd}% goal</td><td class="num">${fmtUSD(suggestedPrice)}</td></tr>` : ''}
         </table>
         <p class="t-caption math-note">${note}</p>
       `;
@@ -766,7 +767,7 @@ const relatedCalcs = [
         targetMoneyRow.hidden = false;
         const targetCost = revenue * (target / 100);
         const moneyDiff = cost - targetCost;
-        targetMoneyEl.textContent = moneyDiff >= 0 ? `${fmtSignedUSD(moneyDiff)} over target` : `${fmtSignedUSD(moneyDiff)} under target`;
+        targetMoneyEl.textContent = moneyDiff >= 0 ? `${fmtSignedUSD(moneyDiff)} over goal` : `${fmtSignedUSD(moneyDiff)} under goal`;
         targetMoneyEl.className = `extras-row__value num ${moneyDiff > 0 ? 'is-bad' : 'is-good'}`;
       } else if (targetRow && targetMoneyRow) {
         targetRow.hidden = true;
@@ -776,23 +777,23 @@ const relatedCalcs = [
       if (theoretical !== null && theoreticalRow && theoreticalVarEl) {
         const tDiff = pct - theoretical;
         theoreticalRow.hidden = false;
-        theoreticalVarEl.textContent = `${tDiff >= 0 ? '+' : '−'}${Math.abs(tDiff).toFixed(2)}pp variance`;
+        theoreticalVarEl.textContent = `${tDiff >= 0 ? '+' : '−'}${Math.abs(tDiff).toFixed(2)} points off`;
         theoreticalVarEl.className = `extras-row__value num ${Math.abs(tDiff) > 5 ? 'is-bad' : Math.abs(tDiff) > 2 ? 'is-watch' : 'is-good'}`;
       } else if (theoreticalRow) {
         theoreticalRow.hidden = true;
       }
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within ${cat.label.toLowerCase()} healthy range. Maintain weekly tracking on top 10 SKUs.`;
-      if (s.label === 'Lean') note = `Below typical range, verify the numbers. Could indicate under-pouring (guest dissatisfaction risk) or under-counting cost.`;
-      if (s.label === 'Watch') note = `Slightly elevated. Common causes: free pours on the well, comping creep, outdated cocktail pricing.`;
-      if (s.label === 'Critical') note = `Above healthy range. Audit: measured pour spouts in use? Comp tracking in POS? Inventory variance on top 5 SKUs?`;
+      if (s.label === 'Healthy') note = `Your ${cat.label.toLowerCase()} is in a healthy range. Keep checking it weekly, focus on your 10 best-selling bottles.`;
+      if (s.label === 'Lean') note = `Lower than usual, double-check your numbers. It can mean pours are too light, which guests notice, or that your cost is undercounted.`;
+      if (s.label === 'Watch') note = `A little high. Usual causes: heavy free pours on the well, too many comped drinks, or menu prices that never kept up with cost.`;
+      if (s.label === 'Critical') note = `Higher than healthy. Things to check: are bartenders using measured pour spouts? Are comps rung up in the POS? Count your top 5 bottles against what the POS says you sold.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Beverage cost</td><td class="num">${fmtUSD(cost)}</td></tr>
-          <tr><td>Beverage revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
-          <tr class="math-table__step"><td>Cost ÷ Revenue</td><td class="num">${(cost / revenue).toFixed(4)}</td></tr>
+          <tr><td>What the drinks cost you</td><td class="num">${fmtUSD(cost)}</td></tr>
+          <tr><td>What you sold them for</td><td class="num">${fmtUSD(revenue)}</td></tr>
+          <tr class="math-table__step"><td>Cost ÷ sales</td><td class="num">${(cost / revenue).toFixed(4)}</td></tr>
           <tr class="math-table__step"><td>× 100</td><td class="num">${pct.toFixed(2)}%</td></tr>
           <tr class="math-table__final"><td>${cat.label} pour cost</td><td class="num"><strong>${pct.toFixed(1)}%</strong></td></tr>
         </table>
@@ -893,7 +894,6 @@ const relatedCalcs = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
 
   /* Mode tabs (Aggregate / Per-drink) */
   .mode-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
@@ -904,7 +904,6 @@ const relatedCalcs = [
   [data-panel-aggregate][hidden], [data-panel-perdrink][hidden] { display: none; }
   .text-input { padding: 14px 16px; font-family: var(--font-body); font-size: 1rem; font-weight: 500; color: var(--color-heading); background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; transition: all var(--transition-fast); }
   .text-input:focus { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
   .optional-fields { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
   .optional-fields__trigger { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); cursor: pointer; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); list-style: none; }
   .optional-fields__trigger::-webkit-details-marker { display: none; }
@@ -1035,4 +1034,37 @@ const relatedCalcs = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

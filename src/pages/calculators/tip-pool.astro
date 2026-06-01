@@ -102,14 +102,14 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Tip pool calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Tip Pool &amp; Tip Out Calculator</h1>
       <p class="calc-page__intro">
-        Split a tip pool fairly across servers, bartenders, bussers, and runners. Choose <strong>hours-weighted</strong>, <strong>points-weighted</strong>, or <strong>equal split</strong>. Returns per-employee distribution and role rollup.
+        Split tips fairly across servers, bartenders, bussers, and runners. Choose <strong>by hours worked</strong>, <strong>by role (some jobs count more)</strong>, or <strong>even split</strong>. You get what each person takes home, with the math shown.
       </p>
     </header>
 
     <section class="calc-grid calc-grid--wide">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Splits a tip pool fairly across servers, bartenders, bussers, and runners. Pick a method (hours, points, equal, or tip-out by role %), add employees, get per-person distribution.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Splits tips fairly across servers, bartenders, bussers, and runners. Pick how you want to split (by hours, by role, even, or server-keeps-and-tips-out), add your people, and see what each one takes home.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example shift</button>
         </div>
 
@@ -124,12 +124,12 @@ const relatedCalcs = [
         </aside>
 
         <div class="form-row">
-          <label class="form-row__label" for="tipcredit">Are you taking a tip credit?</label>
+          <label class="form-row__label" for="tipcredit">Do you pay your tipped staff less than full minimum wage, and count their tips to make up the rest?</label>
           <select id="tipcredit" name="tipcredit">
-            <option value="no" selected>No, paying full min wage (CA, WA, NY, etc.)</option>
-            <option value="yes">Yes, paying tipped sub-minimum + tips</option>
+            <option value="no" selected>No, I pay everyone full minimum wage (CA, WA, NY, etc.)</option>
+            <option value="yes">Yes, I pay tipped staff below minimum and tips fill the gap</option>
           </select>
-          <p class="form-row__hint">If yes, only customarily-tipped employees (servers, bartenders, bussers, runners, hosts) may share the pool. Cooks and dishwashers are excluded.</p>
+          <p class="form-row__hint">This is called taking a "tip credit." If yes, only front-of-house tipped staff (servers, bartenders, bussers, runners, hosts) can share the tips. Cooks and dishwashers are left out.</p>
         </div>
 
         <div class="legal-warning" data-legal-warning hidden role="alert">
@@ -137,23 +137,23 @@ const relatedCalcs = [
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="pool" data-pool-label>Total tip pool</label>
+          <label class="form-row__label" for="pool" data-pool-label>Total tips to split</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="pool" name="pool" type="number" inputmode="decimal" min="0" step="0.01" placeholder="2400" autocomplete="off" required />
           </div>
-          <p class="form-row__hint" data-pool-hint>Total tips collected for the period being distributed.</p>
+          <p class="form-row__hint" data-pool-hint>All the tips you are about to hand out for this shift or this week.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="method">Distribution method</label>
+          <label class="form-row__label" for="method">How do you want to split the tips?</label>
           <select id="method" name="method">
-            <option value="hours" selected>Tip pool, hours-weighted</option>
-            <option value="points">Tip pool, points-weighted (role × hours)</option>
-            <option value="equal">Tip pool, equal split</option>
-            <option value="tipout">Tip-out, server keeps, tips out support staff by %</option>
+            <option value="hours" selected>By hours worked, more hours, bigger share</option>
+            <option value="points">By role, some jobs count for more (role × hours)</option>
+            <option value="equal">Even split, everyone gets the same</option>
+            <option value="tipout">Server keeps the tips and tips out the support staff by a percentage</option>
           </select>
-          <p class="form-row__hint" data-method-hint>Hours: split by hours worked. Points: weight by role responsibility. Equal: same share each. Tip-out: server keeps majority, tips out other roles by percentage.</p>
+          <p class="form-row__hint" data-method-hint>By hours: split by how long each person worked. By role: jobs with more responsibility get a bigger weight. Even: same amount each. Server tips out: the server keeps the rest and pays out support staff by a percentage.</p>
         </div>
 
         <div class="employees-table-wrap">
@@ -162,24 +162,27 @@ const relatedCalcs = [
               <span>Name</span>
               <span data-role-col>Role</span>
               <span data-hours-col>Hours</span>
-              <span data-points-col>Points</span>
+              <span data-points-col>Weight</span>
               <span class="visually-hidden">Remove</span>
             </div>
             <div class="employees-table__body" data-rows></div>
           </div>
 
           <button type="button" class="btn-add-row" data-add-row>
-            <span aria-hidden="true">+</span> <span data-add-label>Add employee</span>
+            <span aria-hidden="true">+</span> <span data-add-label>Add a person</span>
           </button>
         </div>
 
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label" data-result-label>Average per employee</span>
+            <span class="t-micro calc-result__label" data-result-label>Average each person takes home</span>
           </div>
 
           <div class="calc-result__big calc-result__big--money">
@@ -188,33 +191,38 @@ const relatedCalcs = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Total pool distributed</span>
+            <span class="t-caption">Total tips handed out</span>
             <span class="t-caption num" data-pool-total>$0.00</span>
           </div>
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Employees</span>
+              <span class="extras-row__label">People in the split</span>
               <span class="extras-row__value num" data-emp-count>0</span>
             </div>
             <div class="extras-row" data-hours-row hidden>
-              <span class="extras-row__label">Total hours</span>
+              <span class="extras-row__label">Total hours worked</span>
               <span class="extras-row__value num" data-total-hours></span>
             </div>
             <div class="extras-row" data-rate-row hidden>
-              <span class="extras-row__label">Effective rate / hour</span>
+              <span class="extras-row__label">Average pay per hour worked</span>
               <span class="extras-row__value num" data-rate></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
           <summary class="show-math__trigger">
             <span class="show-math__icon" aria-hidden="true">+</span>
-            Show distribution
+            Show who gets what
           </summary>
           <div class="show-math__body" data-math>
-            <p class="t-caption">Add employees above to see the distribution.</p>
+            <p class="t-caption">Add people above to see what each one takes home.</p>
           </div>
         </details>
       </aside>
@@ -394,12 +402,12 @@ const relatedCalcs = [
       const row = document.createElement('div');
       row.className = 'employee-row';
       row.dataset.rowId = String(id);
-      const roleOpts = Object.keys(ROLE_POINTS).map(k => `<option value="${k}"${k === role ? ' selected' : ''}>${k.charAt(0).toUpperCase() + k.slice(1)} (${ROLE_POINTS[k]} pts)</option>`).join('');
+      const roleOpts = Object.keys(ROLE_POINTS).map(k => `<option value="${k}"${k === role ? ' selected' : ''}>${k.charAt(0).toUpperCase() + k.slice(1)} (weight ${ROLE_POINTS[k]})</option>`).join('');
       row.innerHTML = `
         <input type="text" class="employee-row__name" name="name-${id}" placeholder="e.g. Alex" value="${name}" autocomplete="off" />
         <select class="employee-row__role" name="role-${id}">${roleOpts}</select>
         <input type="number" class="employee-row__hours num" name="hours-${id}" inputmode="decimal" min="0" step="0.25" placeholder="6.5" value="${hours}" autocomplete="off" />
-        <input type="number" class="employee-row__points num" name="points-${id}" inputmode="decimal" min="0" step="0.5" placeholder="auto" value="${points}" autocomplete="off" />
+        <input type="number" class="employee-row__points num" name="points-${id}" inputmode="decimal" min="0" step="0.5" placeholder="auto" value="${points}" autocomplete="off" title="Leave blank to use the role's default weight, or type your own." />
         <button type="button" class="employee-row__remove" data-remove-row aria-label="Remove employee">×</button>
       `;
       rowsEl!.appendChild(row);
@@ -426,10 +434,10 @@ const relatedCalcs = [
       const body = document.querySelector('.employees-table__body') as HTMLElement | null;
 
       if (method === 'tipout') {
-        if (poolLabel) poolLabel.textContent = 'Server total tips';
-        if (poolHint) poolHint.textContent = 'Total tips the server earned for the shift before tipping out support staff.';
-        if (methodHint) methodHint.textContent = 'Server keeps the remainder. Each support role gets a percentage of total tips. Sum of percentages can be ≤ 100%.';
-        if (hoursCol) hoursCol.textContent = 'Tip-out %';
+        if (poolLabel) poolLabel.textContent = 'Tips the server earned';
+        if (poolHint) poolHint.textContent = 'All the tips the server took in for the shift, before paying out the support staff.';
+        if (methodHint) methodHint.textContent = 'The server keeps whatever is left. Each support role gets a percentage of the server\'s tips. The percentages added up have to be 100% or less.';
+        if (hoursCol) hoursCol.textContent = 'Their cut (%)';
         if (pointsCol) pointsCol.style.display = 'none';
         if (roleCol) roleCol.style.display = 'none';
         if (addLabel) addLabel.textContent = 'Add support role';
@@ -438,14 +446,14 @@ const relatedCalcs = [
         if (head) head.style.gridTemplateColumns = 'minmax(140px, 2fr) minmax(100px, 1fr) 36px';
         if (body) body.classList.add('employees-table__body--tipout');
       } else {
-        if (poolLabel) poolLabel.textContent = 'Total tip pool';
-        if (poolHint) poolHint.textContent = 'Total tips collected for the period being distributed.';
-        if (methodHint) methodHint.textContent = 'Hours: split by hours worked. Points: weight by role responsibility. Equal: same share each.';
+        if (poolLabel) poolLabel.textContent = 'Total tips to split';
+        if (poolHint) poolHint.textContent = 'All the tips you are about to hand out for this shift or this week.';
+        if (methodHint) methodHint.textContent = 'By hours: split by how long each person worked. By role: jobs with more responsibility get a bigger weight. Even: same amount each.';
         if (hoursCol) hoursCol.textContent = 'Hours';
         if (pointsCol) { pointsCol.style.display = ''; pointsCol.style.opacity = method === 'points' ? '1' : '0.4'; }
         if (roleCol) roleCol.style.display = '';
-        if (addLabel) addLabel.textContent = 'Add employee';
-        if (resultLabel) resultLabel.textContent = 'Average per employee';
+        if (addLabel) addLabel.textContent = 'Add a person';
+        if (resultLabel) resultLabel.textContent = 'Average each person takes home';
         if (head) head.style.gridTemplateColumns = '';
         if (body) body.classList.remove('employees-table__body--tipout');
       }
@@ -519,7 +527,7 @@ const relatedCalcs = [
         if (empCountEl) empCountEl.textContent = '0';
         if (hoursRow) hoursRow.hidden = true;
         if (rateRow) rateRow.hidden = true;
-        mathBody!.innerHTML = '<p class="t-caption">Add employees above to see the distribution.</p>';
+        mathBody!.innerHTML = '<p class="t-caption">Add people above to see what each one takes home.</p>';
         return;
       }
 
@@ -529,7 +537,7 @@ const relatedCalcs = [
       if (method === 'tipout') {
         // Calculate each support role share + server's keep
         if (totalTipoutPct > 100) {
-          mathBody!.innerHTML = `<p class="t-caption" style="color:#823a14"><strong>Tip-out percentages exceed 100%.</strong> Sum of all tip-out %s must be ≤ 100%. Currently ${totalTipoutPct.toFixed(1)}%.</p>`;
+          mathBody!.innerHTML = `<p class="t-caption" style="color:#823a14"><strong>The cuts add up to more than 100%.</strong> The support staff percentages added together have to be 100% or less. Right now they total ${totalTipoutPct.toFixed(1)}%.</p>`;
           animateCounter(counter!, lastValue, 0, 400, 2);
           lastValue = 0;
           return;
@@ -540,7 +548,7 @@ const relatedCalcs = [
         resultDisplay = serverKeep;
       } else {
         if (totalWeight === 0) {
-          mathBody!.innerHTML = '<p class="t-caption">Add hours to at least one employee.</p>';
+          mathBody!.innerHTML = '<p class="t-caption">Add hours to at least one person.</p>';
           return;
         }
         employees.forEach(e => { e.share = pool * (e.weight / totalWeight); });
@@ -576,14 +584,14 @@ const relatedCalcs = [
             </div>
             <div class="dist-card__sub">
               <span class="dist-card__role">${e.role}</span>
-              <span class="dist-card__detail num">${(e.pct || 0).toFixed(1)}% of tips</span>
+              <span class="dist-card__detail num">gets ${(e.pct || 0).toFixed(1)}% of tips</span>
             </div>
           </div>
         `).join('');
         mathBody!.innerHTML = `
           <div class="dist-list">${cardsHtml}</div>
           <div class="dist-summary">
-            <div class="dist-summary__row"><span>Total tipped out</span><span class="num">${fmtUSD(totalTippedOut)} <em>(${totalTipoutPct.toFixed(1)}%)</em></span></div>
+            <div class="dist-summary__row"><span>Paid out to support staff</span><span class="num">${fmtUSD(totalTippedOut)} <em>(${totalTipoutPct.toFixed(1)}%)</em></span></div>
             <div class="dist-summary__row dist-summary__row--final"><span><strong>Server keeps</strong></span><span class="num"><strong>${fmtUSD(serverKeep)}</strong></span></div>
           </div>
         `;
@@ -597,14 +605,14 @@ const relatedCalcs = [
             </div>
             <div class="dist-card__sub">
               <span class="dist-card__role">${e.role}</span>
-              <span class="dist-card__detail num">${method === 'equal' ? 'equal split' : `${e.hours.toFixed(1)}h${method === 'points' ? ` × ${e.points}pt` : ''}`}</span>
+              <span class="dist-card__detail num">${method === 'equal' ? 'even split' : `${e.hours.toFixed(1)} hrs${method === 'points' ? ` × weight ${e.points}` : ''}`}</span>
             </div>
           </div>
         `).join('');
         mathBody!.innerHTML = `
           <div class="dist-list">${cardsHtml}</div>
           <div class="dist-summary">
-            <div class="dist-summary__row dist-summary__row--final"><span><strong>Total distributed</strong></span><span class="num"><strong>${fmtUSD(totalDist)}</strong></span></div>
+            <div class="dist-summary__row dist-summary__row--final"><span><strong>Total handed out</strong></span><span class="num"><strong>${fmtUSD(totalDist)}</strong></span></div>
           </div>
         `;
       }
@@ -667,7 +675,6 @@ const relatedCalcs = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   /* Employee table */
   .employees-table-wrap { display: flex; flex-direction: column; gap: var(--space-3); }
@@ -814,4 +821,37 @@ const relatedCalcs = [
   .legal-warning { padding: var(--space-3) var(--space-4); background: #fbeaea; border: 1.5px solid #c0392b; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; line-height: 1.5; color: #823b32; }
   .legal-warning[hidden] { display: none; }
   .legal-warning strong { color: #c0392b; }
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

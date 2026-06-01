@@ -138,7 +138,7 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Calculates pours per keg, cost per pour, and pour cost percentage. Adjusts for foam, line cleaning, and spillage waste. Returns benchmark vs draft beer industry standard.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Tells you how many glasses you get from a keg, what each glass costs you, and what share of the price goes to the beer. It even accounts for the beer you lose to foam, spills, and cleaning the lines. Then it shows you whether that is normal for draft beer.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -154,66 +154,64 @@ const schema = [
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="keg-price">Keg purchase price</label>
+          <label class="form-row__label" for="keg-price">What you paid for the keg</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="keg-price" name="keg-price" type="number" inputmode="decimal" min="0" step="5" placeholder="180" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">What you pay the distributor delivered. Exclude deposit, include any keg fees baked into invoice.</p>
+          <p class="form-row__hint">The price on the invoice from your beer supplier, delivered. Leave out the deposit you get back when you return the empty keg.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="pour-size">Pour size</label>
+          <label class="form-row__label" for="pour-size">How big is one glass?</label>
           <select id="pour-size" name="pour-size">
             <option value="16" selected>16 oz pint (standard)</option>
             <option value="14">14 oz</option>
             <option value="12">12 oz</option>
             <option value="10">10 oz</option>
             <option value="5">5 oz taster</option>
-            <option value="custom">Custom size</option>
+            <option value="custom">Other size</option>
           </select>
-          <p class="form-row__hint">Use lined glassware to enforce pour size. Unlined "16 oz" glasses commonly hold 18+ oz.</p>
+          <p class="form-row__hint">Use glasses with a fill line so every pour is the same. A plain "16 oz" glass often holds 18 oz or more, which quietly costs you money on every pour.</p>
         </div>
 
         <div class="form-row" id="custom-pour-row" style="display:none">
-          <label class="form-row__label" for="pour-size-custom">Custom pour size (oz)</label>
+          <label class="form-row__label" for="pour-size-custom">Your glass size (oz)</label>
           <div class="input-shell">
             <input id="pour-size-custom" name="pour-size-custom" type="number" inputmode="decimal" min="1" step="0.5" placeholder="20" autocomplete="off" />
             <span class="input-shell__suffix">oz</span>
           </div>
-          <p class="form-row__hint">Enter pour size in ounces.</p>
+          <p class="form-row__hint">Type how many ounces one glass holds.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="waste">Waste percentage</label>
+          <label class="form-row__label" for="waste">Beer you lose to foam and spills (percent)</label>
           <div class="input-shell">
             <input id="waste" name="waste" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="5" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Foam, line cleaning, spillage, sampling. Industry default 5%. Real-world unmaintained systems run 8–15%.</p>
+          <p class="form-row__hint">Beer that never makes it into a glass you can sell: foam, spills, cleaning the lines, and tasters. A clean draft system loses about 5 percent. A system that needs work loses 8 to 15 percent.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="menu-price">Menu price per pour</label>
+          <label class="form-row__label" for="menu-price">What you charge for one glass</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="menu-price" name="menu-price" type="number" inputmode="decimal" min="0" step="0.25" placeholder="7" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">What the customer pays for one pour at this size. Pre-tax.</p>
+          <p class="form-row__hint">The price on your menu for one glass this size, before tax.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate pour cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Your pour cost</span>
+            <span class="t-micro calc-result__label">Share of the price that goes to the beer</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -247,26 +245,31 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Pours per keg</span>
+              <span class="extras-row__label">Glasses you get from one keg</span>
               <span class="extras-row__value num" data-pours></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Cost per oz</span>
+              <span class="extras-row__label">Cost of one ounce of beer</span>
               <span class="extras-row__value num" data-cost-oz></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Cost per pour</span>
+              <span class="extras-row__label">What each glass costs you</span>
               <span class="extras-row__value num" data-cost-pour></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Profit per pour</span>
+              <span class="extras-row__label">Profit on each glass</span>
               <span class="extras-row__value num" data-profit-pour></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Profit per keg</span>
+              <span class="extras-row__label">Profit from the whole keg</span>
               <span class="extras-row__value num" data-profit-keg></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -523,25 +526,25 @@ const schema = [
       if (profitKegEl) profitKegEl.textContent = fmtUSD(profitPerKeg);
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy 18–22% draft band. Profit per keg: ${fmtUSD(profitPerKeg)}. Maintain weekly waste audits, most leaks happen at the tap, not the spreadsheet.`;
-      if (s.label === 'Lean') note = `Below typical draft pour cost. You probably have headroom to raise prices. Or the waste figure is too low, verify with a real keg-weight audit before patting yourself on the back.`;
-      if (s.label === 'Watch') note = `Above 22% healthy band. Common causes: oversize pours (lined glasses fix this), high foam waste (line cleaning + CO2 calibration), or distributor cost increase that menu price did not absorb. Audit the tap before the spreadsheet.`;
-      if (s.label === 'Critical') note = `Above 28%. Something is structurally broken. Run a weighed-keg waste audit for 30 days. Most "critical" pour cost numbers turn out to be 10%+ real waste, not the assumed 5%, plus oversize pours stacked on top.`;
+      if (s.label === 'Healthy') note = `This is right where draft beer should be (18 to 22 percent of the price). The whole keg makes you ${fmtUSD(profitPerKeg)} in profit. Check your foam and spill losses every week, that is where most of the money quietly slips away.`;
+      if (s.label === 'Lean') note = `The beer is taking a smaller share of the price than usual, so you may have room to charge a little more. Just double-check the foam and spill number you entered is real, weigh a keg full and empty to be sure, before you celebrate.`;
+      if (s.label === 'Watch') note = `The beer is eating a bit more of the price than it should (over 22 percent). Usually one of three things: glasses pouring too big (use glasses with a fill line), too much foam and spill (clean the lines and check the gas pressure), or your supplier raised the price and your menu has not caught up.`;
+      if (s.label === 'Critical') note = `The beer is eating way too much of the price (over 28 percent). Something is off. Weigh your kegs full and empty for a month to find out how much you are really losing to foam and spills. It is usually double what people assume, plus glasses being poured too big on top of that.`;
 
       const pourSizeStr = pourSize % 1 === 0 ? pourSize.toString() : pourSize.toFixed(1);
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Keg size</td><td class="num">${kegSize.toLocaleString('en-US')} oz</td></tr>
-          <tr><td>× (1 − waste ${waste}%)</td><td class="num">× ${(1 - waste / 100).toFixed(3)}</td></tr>
-          <tr class="math-table__step"><td>= Usable ounces</td><td class="num">${usableOz.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
-          <tr><td>÷ Pour size</td><td class="num">${pourSizeStr} oz</td></tr>
-          <tr class="math-table__step"><td>= Pours per keg</td><td class="num"><strong>${poursPerKeg.toLocaleString('en-US')}</strong></td></tr>
-          <tr><td>Keg price</td><td class="num">${fmtUSDFull(kegPrice)}</td></tr>
-          <tr><td>÷ Pours per keg</td><td class="num">${poursPerKeg.toLocaleString('en-US')}</td></tr>
-          <tr class="math-table__step"><td>= Cost per pour</td><td class="num"><strong>${fmtUSDFull(costPerPour)}</strong></td></tr>
-          <tr><td>÷ Menu price</td><td class="num">${fmtUSDFull(menuPrice)}</td></tr>
-          <tr class="math-table__final"><td>Pour cost percentage</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
+          <tr><td>Beer in the keg</td><td class="num">${kegSize.toLocaleString('en-US')} oz</td></tr>
+          <tr><td>Take away ${waste}% lost to foam and spills</td><td class="num">× ${(1 - waste / 100).toFixed(3)}</td></tr>
+          <tr class="math-table__step"><td>= Beer you can actually sell</td><td class="num">${usableOz.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
+          <tr><td>÷ How big one glass is</td><td class="num">${pourSizeStr} oz</td></tr>
+          <tr class="math-table__step"><td>= Glasses you get from the keg</td><td class="num"><strong>${poursPerKeg.toLocaleString('en-US')}</strong></td></tr>
+          <tr><td>What you paid for the keg</td><td class="num">${fmtUSDFull(kegPrice)}</td></tr>
+          <tr><td>÷ Glasses from the keg</td><td class="num">${poursPerKeg.toLocaleString('en-US')}</td></tr>
+          <tr class="math-table__step"><td>= What each glass costs you</td><td class="num"><strong>${fmtUSDFull(costPerPour)}</strong></td></tr>
+          <tr><td>÷ What you charge for a glass</td><td class="num">${fmtUSDFull(menuPrice)}</td></tr>
+          <tr class="math-table__final"><td>Share of the price that goes to the beer</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -602,8 +605,6 @@ const schema = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -732,4 +733,38 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

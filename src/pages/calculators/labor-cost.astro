@@ -166,14 +166,14 @@ const relatedCalcs = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Labor cost calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Labor Cost Percentage Calculator</h1>
       <p class="calc-page__intro">
-        Half of restaurant prime cost. Most operators undercount labor by 15–25% because they only track wages, not the full burden. This calculator does <strong>fully-burdened labor</strong> (wages + salaries + payroll taxes + benefits + workers comp) and shows your variance from target.
+        Put in <strong>what your staff cost you</strong> and <strong>what you sold</strong>, and it tells you the percent of every dollar that goes to labor, and whether that is healthy for your kind of restaurant. Most owners undercount by 15 to 25% because they only count the paychecks. The real cost adds payroll taxes, benefits, and workers comp on top.
       </p>
     </header>
 
     <section class="calc-grid">
       <form class="calc-form" data-form data-mode="quick">
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Compares labor cost to revenue. Detailed mode adds full burden (taxes + benefits + workers comp), most operators undercount labor by 15–25% by tracking only wages.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Shows what percent of your sales gets eaten up by staff cost. Detailed mode adds the stuff most owners forget (payroll taxes, benefits, workers comp), which is why tracking only paychecks undercounts labor by 15 to 25%.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -184,74 +184,74 @@ const relatedCalcs = [
           </button>
           <button type="button" class="mode-toggle__btn" data-mode-btn="detailed" role="tab" aria-selected="false">
             Detailed
-            <span class="mode-toggle__hint">full burden + variance</span>
+            <span class="mode-toggle__hint">add taxes + benefits</span>
           </button>
           <button type="button" class="mode-toggle__btn" data-mode-btn="schedule" role="tab" aria-selected="false">
             Schedule
-            <span class="mode-toggle__hint">build by shift + OT alerts</span>
+            <span class="mode-toggle__hint">build it shift by shift</span>
           </button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="concept">Restaurant concept</label>
+          <label class="form-row__label" for="concept">What kind of restaurant is this?</label>
           <select id="concept" name="concept">
-            <option value="qsr">Quick service / QSR (target 20–25%)</option>
-            <option value="fast-casual">Fast casual (target 25–30%)</option>
-            <option value="casual" selected>Casual dining (target 28–35%)</option>
-            <option value="fine">Fine dining (target 30–40%)</option>
-            <option value="pizza">Pizza (target 25–30%)</option>
-            <option value="cafe">Coffee / cafe (target 25–32%)</option>
+            <option value="qsr">Quick service / fast food (healthy 20–25%)</option>
+            <option value="fast-casual">Fast casual (healthy 25–30%)</option>
+            <option value="casual" selected>Casual dining (healthy 28–35%)</option>
+            <option value="fine">Fine dining (healthy 30–40%)</option>
+            <option value="pizza">Pizza (healthy 25–30%)</option>
+            <option value="cafe">Coffee / cafe (healthy 25–32%)</option>
           </select>
-          <p class="form-row__hint">Sets benchmark thresholds and SPLH targets for your concept type.</p>
+          <p class="form-row__hint">Picks the healthy range to compare you against. Different kinds of restaurant run different labor.</p>
         </div>
 
         <!-- Quick mode -->
         <div class="form-group" data-group="quick">
           <div class="form-row">
-            <label class="form-row__label" for="cost">Total labor cost (period)</label>
+            <label class="form-row__label" for="cost">What your staff cost you this period</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="9000" autocomplete="off" />
             </div>
-            <p class="form-row__hint">Wages + salaries + taxes + benefits combined.</p>
+            <p class="form-row__hint">Paychecks plus payroll taxes and benefits, all added together. Not sure about the extras? Use Detailed mode and we will add them for you.</p>
           </div>
         </div>
 
         <!-- Detailed mode -->
         <div class="form-group form-group--hidden" data-group="detailed">
           <div class="form-row">
-            <label class="form-row__label" for="hourly">Hourly wages</label>
+            <label class="form-row__label" for="hourly">Hourly staff pay</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="hourly" name="hourly" type="number" inputmode="decimal" min="0" step="0.01" placeholder="5800" autocomplete="off" />
             </div>
-            <p class="form-row__hint">Total hourly wages paid during period.</p>
+            <p class="form-row__hint">Everything you paid your hourly people this period (servers, cooks, dishwashers).</p>
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="salary">Salaried wages</label>
+            <label class="form-row__label" for="salary">Salaried staff pay</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="salary" name="salary" type="number" inputmode="decimal" min="0" step="0.01" placeholder="2500" autocomplete="off" />
             </div>
-            <p class="form-row__hint">Manager and salaried compensation.</p>
+            <p class="form-row__hint">Managers and anyone on a flat salary instead of an hourly rate.</p>
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="burden">Taxes, benefits, workers comp</label>
+            <label class="form-row__label" for="burden">Payroll taxes, benefits, workers comp</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="burden" name="burden" type="number" inputmode="decimal" min="0" step="0.01" placeholder="1500" autocomplete="off" />
             </div>
-            <p class="form-row__hint">Payroll taxes (FICA 7.65%, FUTA, SUTA), benefits, workers comp insurance, PTO accrual.</p>
+            <p class="form-row__hint">The extras on top of paychecks: the employer share of payroll taxes, health benefits, workers comp insurance, and paid time off. Don't know the number? Check the box below and we will estimate it.</p>
           </div>
 
           <div class="form-row">
             <label class="form-row__label" for="auto-burden">
               <input type="checkbox" id="auto-burden" name="auto-burden" style="margin-right:6px" />
-              Auto-calc burden (wages × 25%)
+              Estimate the extras for me (add 25% to pay)
             </label>
-            <p class="form-row__hint">Industry rule of thumb (Restaurant365, 7shifts, Square): true labor = wages × ~1.25 (FICA 7.65% + FUTA/SUTA ~3% + WC ~3% + benefits ~10%). Overrides burden field above.</p>
+            <p class="form-row__hint">A common rule of thumb: the taxes, benefits, and workers comp add about 25% on top of what you pay people. Check this and we will add it automatically, ignoring the box above.</p>
           </div>
         </div>
 
@@ -260,7 +260,7 @@ const relatedCalcs = [
           <div class="sched">
             <div class="sched__head">
               <h3 class="sched__title">Weekly schedule</h3>
-              <p class="sched__hint">Add one row per employee. Hours over 40/week trigger overtime (federal: 1.5× rate). California, Alaska, Nevada, Colorado also have daily OT thresholds, consult your state labor board.</p>
+              <p class="sched__hint">Add one row per person. Anyone over 40 hours a week gets paid time and a half for the extra hours (federal overtime). California, Alaska, Nevada, and Colorado also pay overtime by the day, so check your state's rules.</p>
             </div>
 
             <div class="sched__rows" data-sched-rows>
@@ -281,19 +281,19 @@ const relatedCalcs = [
 
             <div class="sched__totals" data-sched-totals>
               <div class="sched__total-row">
-                <span class="sched__total-label">Total scheduled hours</span>
+                <span class="sched__total-label">Total hours scheduled</span>
                 <span class="sched__total-value num" data-sched-hours>0</span>
               </div>
               <div class="sched__total-row">
-                <span class="sched__total-label">Straight-time wages</span>
+                <span class="sched__total-label">Regular pay</span>
                 <span class="sched__total-value num" data-sched-straight>$0</span>
               </div>
               <div class="sched__total-row" data-sched-ot-row hidden>
-                <span class="sched__total-label">+ Overtime premium</span>
+                <span class="sched__total-label">+ Extra overtime pay</span>
                 <span class="sched__total-value num is-watch" data-sched-ot-cost>$0</span>
               </div>
               <div class="sched__total-row sched__total-row--final">
-                <span class="sched__total-label">Wages subtotal</span>
+                <span class="sched__total-label">Total pay before taxes</span>
                 <span class="sched__total-value num" data-sched-wages>$0</span>
               </div>
             </div>
@@ -306,39 +306,39 @@ const relatedCalcs = [
           <div class="form-row">
             <label class="form-row__label" for="sched-burden">
               <input type="checkbox" id="sched-burden" name="sched-burden" checked style="margin-right:6px" />
-              Apply 25% burden (taxes + benefits + workers comp)
+              Add 25% for taxes, benefits, and workers comp
             </label>
-            <p class="form-row__hint">Adds payroll taxes (FICA 7.65% + FUTA/SUTA ~3% + WC ~3% + benefits ~10%) on top of wages. Most operators forget this and undercount labor by 15–25%.</p>
+            <p class="form-row__hint">Adds the employer extras on top of pay (payroll taxes, benefits, workers comp). Leaving these out is how most owners undercount labor by 15 to 25%.</p>
           </div>
 
           <div class="form-row">
-            <label class="form-row__label" for="sched-salary">Salaried payroll (optional)</label>
+            <label class="form-row__label" for="sched-salary">Manager salaries per week (optional)</label>
             <div class="input-shell">
               <span class="input-shell__prefix">$</span>
               <input id="sched-salary" name="sched-salary" type="number" inputmode="decimal" min="0" step="50" placeholder="1500" autocomplete="off" />
               <span class="input-shell__suffix">/wk</span>
             </div>
-            <p class="form-row__hint">GM, AGM, sous chef weekly salary not paid hourly. Added on top of shift wages.</p>
+            <p class="form-row__hint">Weekly pay for anyone on a flat salary instead of an hourly rate. Added on top of the shift pay above.</p>
           </div>
         </div>
 
         <!-- Shared: revenue -->
         <div class="form-row">
-          <label class="form-row__label" for="revenue">Total revenue (food + beverage)</label>
+          <label class="form-row__label" for="revenue">How much did you sell in total?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="revenue" name="revenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="30000" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">All sales revenue for the period, food + beverage + retail.</p>
+          <p class="form-row__hint">All your sales for the period: food, drinks, everything. Pull the total from your POS.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="hours">Total labor hours (optional)</label>
+          <label class="form-row__label" for="hours">Total hours your staff worked (optional)</label>
           <div class="input-shell">
             <input id="hours" name="hours" type="number" inputmode="decimal" min="0" step="0.5" placeholder="450" autocomplete="off" />
             <span class="input-shell__suffix">hrs</span>
           </div>
-          <p class="form-row__hint">Sum of all hours worked. Returns sales-per-labor-hour (SPLH), industry-standard scheduling metric.</p>
+          <p class="form-row__hint">Add up everyone's hours. We use it to show how many dollars you sold per hour of staff time, a quick gut-check on whether you are staffed right.</p>
         </div>
 
         <!-- Optional advanced fields -->
@@ -346,25 +346,25 @@ const relatedCalcs = [
           <details class="optional-fields">
             <summary class="optional-fields__trigger">
               <span class="optional-fields__icon" aria-hidden="true">+</span>
-              Add target &amp; scheduled (optional)
+              Compare to your goal and your schedule (optional)
             </summary>
             <div class="optional-fields__body">
               <div class="form-row">
-                <label class="form-row__label" for="target">Target labor cost %</label>
+                <label class="form-row__label" for="target">Your goal labor %</label>
                 <div class="input-shell">
                   <input id="target" name="target" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="30" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">Your goal, calculator shows variance from target in dollars.</p>
+                <p class="form-row__hint">The number you are aiming for. We show how far off you are, in dollars.</p>
               </div>
 
               <div class="form-row">
-                <label class="form-row__label" for="theoretical">Scheduled labor %</label>
+                <label class="form-row__label" for="theoretical">What you planned to spend (labor %)</label>
                 <div class="input-shell">
                   <input id="theoretical" name="theoretical" type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="28" autocomplete="off" />
                   <span class="input-shell__suffix">%</span>
                 </div>
-                <p class="form-row__hint">What you scheduled. Variance flags overtime, late punches, or scheduling errors.</p>
+                <p class="form-row__hint">The labor percent you built into the schedule. A big gap between this and your real number usually means overtime or people clocking out late.</p>
               </div>
             </div>
           </details>
@@ -380,13 +380,9 @@ const relatedCalcs = [
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate labor cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption">
-          <strong>Nothing is saved or sent.</strong> All math runs in your browser.
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
         </p>
       </form>
 
@@ -427,26 +423,31 @@ const relatedCalcs = [
 
           <div class="calc-result__extras" data-extras hidden>
             <div class="extras-row">
-              <span class="extras-row__label">Total labor cost</span>
+              <span class="extras-row__label">Your staff cost in dollars</span>
               <span class="extras-row__value num" data-cogs>$0.00</span>
             </div>
             <div class="extras-row" data-splh-row hidden>
-              <span class="extras-row__label">Sales per labor hour</span>
+              <span class="extras-row__label">Sales per hour of staff time</span>
               <span class="extras-row__value num" data-splh></span>
             </div>
             <div class="extras-row" data-target-row hidden>
-              <span class="extras-row__label">Vs. target</span>
+              <span class="extras-row__label">Vs. your goal</span>
               <span class="extras-row__value num" data-target-variance></span>
             </div>
             <div class="extras-row" data-target-money-row hidden>
-              <span class="extras-row__label">Cost impact at target</span>
+              <span class="extras-row__label">What hitting your goal saves</span>
               <span class="extras-row__value num" data-target-money></span>
             </div>
             <div class="extras-row" data-theoretical-row hidden>
-              <span class="extras-row__label">Vs. scheduled</span>
+              <span class="extras-row__label">Vs. what you scheduled</span>
               <span class="extras-row__value num" data-theoretical-variance></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -732,7 +733,7 @@ const relatedCalcs = [
         } else {
           alertsEl.hidden = false;
           alertsEl.innerHTML = r.otAlerts.map(a =>
-            `<div class="sched__alert"><strong>OT alert:</strong> ${a.name} scheduled ${a.hours.toFixed(1)} hrs (over 40). Premium cost: ${fmtUSD(a.cost)}.</div>`
+            `<div class="sched__alert"><strong>Overtime:</strong> ${a.name} is scheduled ${a.hours.toFixed(1)} hrs, over 40. The extra time-and-a-half costs you ${fmtUSD(a.cost)}.</div>`
           ).join('');
         }
       }
@@ -818,8 +819,8 @@ const relatedCalcs = [
         totalLabor = parseFloat(String(data.get('cost') || '0')) || 0;
         if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
         mathRows = `
-          <tr><td>Total labor cost</td><td class="num">${fmtUSD(totalLabor)}</td></tr>
-          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+          <tr><td>What your staff cost</td><td class="num">${fmtUSD(totalLabor)}</td></tr>
+          <tr><td>What you sold</td><td class="num">${fmtUSD(revenue)}</td></tr>
         `;
       } else if (mode === 'schedule') {
         const r = renderSchedTotals();
@@ -829,16 +830,16 @@ const relatedCalcs = [
         const salary = parseFloat(String(data.get('sched-salary') || '0')) || 0;
         totalLabor = r.wagesSubtotal + burden + salary;
         if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
-        const otNote = r.otPremium > 0 ? ` (incl. ${fmtUSD(r.otPremium)} OT premium)` : '';
+        const otNote = r.otPremium > 0 ? ` (includes ${fmtUSD(r.otPremium)} extra overtime pay)` : '';
         mathRows = `
-          <tr><td>Scheduled hours</td><td class="num">${r.totalHours.toFixed(1)} hrs</td></tr>
-          <tr><td>Straight-time wages</td><td class="num">${fmtUSD(r.straightWages)}</td></tr>
-          ${r.otPremium > 0 ? `<tr><td>+ OT premium (${r.otHours.toFixed(1)} hrs × 0.5×)</td><td class="num">${fmtUSD(r.otPremium)}</td></tr>` : ''}
-          <tr class="math-table__step"><td>= Wages subtotal${otNote}</td><td class="num">${fmtUSD(r.wagesSubtotal)}</td></tr>
-          ${applyBurden ? `<tr><td>+ 25% burden (taxes + benefits + WC)</td><td class="num">${fmtUSD(burden)}</td></tr>` : ''}
-          ${salary > 0 ? `<tr><td>+ Salaried payroll</td><td class="num">${fmtUSD(salary)}</td></tr>` : ''}
-          <tr class="math-table__step"><td>= Total labor cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
-          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+          <tr><td>Hours scheduled</td><td class="num">${r.totalHours.toFixed(1)} hrs</td></tr>
+          <tr><td>Regular pay</td><td class="num">${fmtUSD(r.straightWages)}</td></tr>
+          ${r.otPremium > 0 ? `<tr><td>+ Extra overtime pay (${r.otHours.toFixed(1)} hrs at half-time)</td><td class="num">${fmtUSD(r.otPremium)}</td></tr>` : ''}
+          <tr class="math-table__step"><td>= Total pay before taxes${otNote}</td><td class="num">${fmtUSD(r.wagesSubtotal)}</td></tr>
+          ${applyBurden ? `<tr><td>+ 25% for taxes, benefits, workers comp</td><td class="num">${fmtUSD(burden)}</td></tr>` : ''}
+          ${salary > 0 ? `<tr><td>+ Manager salaries</td><td class="num">${fmtUSD(salary)}</td></tr>` : ''}
+          <tr class="math-table__step"><td>= What your staff cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
+          <tr><td>What you sold</td><td class="num">${fmtUSD(revenue)}</td></tr>
         `;
       } else {
         const hourly = parseFloat(String(data.get('hourly') || '0')) || 0;
@@ -849,11 +850,11 @@ const relatedCalcs = [
         totalLabor = hourly + salary + burden;
         if (totalLabor <= 0 || revenue <= 0) { reset(); return; }
         mathRows = `
-          <tr><td>Hourly wages</td><td class="num">${fmtUSD(hourly)}</td></tr>
-          <tr><td>+ Salaries</td><td class="num">${fmtUSD(salary)}</td></tr>
-          <tr><td>+ Taxes, benefits, comp${autoBurden ? ' (auto: wages × 25%)' : ''}</td><td class="num">${fmtUSD(burden)}</td></tr>
-          <tr class="math-table__step"><td>= Total labor cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
-          <tr><td>Total revenue</td><td class="num">${fmtUSD(revenue)}</td></tr>
+          <tr><td>Hourly staff pay</td><td class="num">${fmtUSD(hourly)}</td></tr>
+          <tr><td>+ Salaried staff pay</td><td class="num">${fmtUSD(salary)}</td></tr>
+          <tr><td>+ Taxes, benefits, workers comp${autoBurden ? ' (estimated: pay + 25%)' : ''}</td><td class="num">${fmtUSD(burden)}</td></tr>
+          <tr class="math-table__step"><td>= What your staff cost</td><td class="num"><strong>${fmtUSD(totalLabor)}</strong></td></tr>
+          <tr><td>What you sold</td><td class="num">${fmtUSD(revenue)}</td></tr>
         `;
       }
 
@@ -888,7 +889,7 @@ const relatedCalcs = [
         let splhClass = 'is-good';
         if (splh < concept.splhLow) splhClass = 'is-bad';
         else if (splh < concept.splhLow * 1.1) splhClass = 'is-watch';
-        splhEl.textContent = `${fmtUSD(splh)}/hr (target ${concept.splhLow}–${concept.splhHigh})`;
+        splhEl.textContent = `${fmtUSD(splh)}/hr (healthy ${concept.splhLow}–${concept.splhHigh})`;
         splhEl.className = `extras-row__value num ${splhClass}`;
       } else if (splhRow) {
         splhRow.hidden = true;
@@ -903,14 +904,14 @@ const relatedCalcs = [
         if (target !== null && targetRow && targetVarEl && targetMoneyRow && targetMoneyEl) {
           const diff = pct - target;
           targetRow.hidden = false;
-          targetVarEl.textContent = `${diff >= 0 ? '+' : '−'}${Math.abs(diff).toFixed(2)}pp`;
+          targetVarEl.textContent = `${diff >= 0 ? '+' : '−'}${Math.abs(diff).toFixed(2)} points`;
           targetVarEl.className = `extras-row__value num ${diff > 0.5 ? 'is-bad' : diff < -0.5 ? 'is-lean' : 'is-good'}`;
           targetMoneyRow.hidden = false;
           const targetLabor = revenue * (target / 100);
           const moneyDiff = totalLabor - targetLabor;
           targetMoneyEl.textContent = moneyDiff >= 0
-            ? `${fmtSignedUSD(moneyDiff)} over target`
-            : `${fmtSignedUSD(moneyDiff)} under target`;
+            ? `${fmtSignedUSD(moneyDiff)} over your goal`
+            : `${fmtSignedUSD(moneyDiff)} under your goal`;
           targetMoneyEl.className = `extras-row__value num ${moneyDiff > 0 ? 'is-bad' : 'is-good'}`;
         } else if (targetRow && targetMoneyRow) {
           targetRow.hidden = true;
@@ -920,7 +921,7 @@ const relatedCalcs = [
         if (theoretical !== null && theoreticalRow && theoreticalVarEl) {
           const tDiff = pct - theoretical;
           theoreticalRow.hidden = false;
-          theoreticalVarEl.textContent = `${tDiff >= 0 ? '+' : '−'}${Math.abs(tDiff).toFixed(2)}pp variance`;
+          theoreticalVarEl.textContent = `${tDiff >= 0 ? '+' : '−'}${Math.abs(tDiff).toFixed(2)} points off plan`;
           theoreticalVarEl.className = `extras-row__value num ${Math.abs(tDiff) > 3 ? 'is-bad' : Math.abs(tDiff) > 1 ? 'is-watch' : 'is-good'}`;
         } else if (theoreticalRow) {
           theoreticalRow.hidden = true;
@@ -930,10 +931,10 @@ const relatedCalcs = [
       }
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy band for ${concept.label} (${concept.low}–${concept.high}%). Maintain weekly tracking and watch overtime creep.`;
-      if (s.label === 'Lean') note = `Below typical ${concept.label} range (${concept.low}–${concept.high}%). Verify burden, wages alone undercounts by 15–25%. Or you may be over-relying on owner labor.`;
-      if (s.label === 'Watch') note = `Slightly above ${concept.label} healthy range (${concept.low}–${concept.high}%). Common causes: overtime creep, schedule built for old sales volume, slow-shift overstaffing.`;
-      if (s.label === 'Critical') note = `Above ${concept.label} healthy range (${concept.low}–${concept.high}%). Investigate: overtime, scheduling vs daypart sales, productivity per labor hour, prep-vs-line ratio.`;
+      if (s.label === 'Healthy') note = `In the healthy range for ${concept.label} (${concept.low}–${concept.high}%). Keep checking it every week and keep an eye on overtime.`;
+      if (s.label === 'Lean') note = `Below the usual ${concept.label} range (${concept.low}–${concept.high}%). Make sure you added the taxes and benefits, paychecks alone undercount by 15 to 25%. Or you may be leaning hard on owner hours that you are not paying yourself for.`;
+      if (s.label === 'Watch') note = `A bit above the healthy ${concept.label} range (${concept.low}–${concept.high}%). Usual reasons: overtime sneaking up, a schedule built for busier days than you have now, or too many people on slow shifts.`;
+      if (s.label === 'Critical') note = `Above the healthy ${concept.label} range (${concept.low}–${concept.high}%). Things to check: overtime, whether your schedule matches when you are actually busy, and how much you sell per hour of staff time.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
@@ -1158,8 +1159,6 @@ const relatedCalcs = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .optional-fields { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
   .optional-fields__trigger { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); cursor: pointer; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); list-style: none; }
@@ -1302,4 +1301,38 @@ const relatedCalcs = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

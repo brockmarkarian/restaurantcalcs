@@ -122,21 +122,21 @@ const schema = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Menu engineering calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Menu Engineering Matrix Calculator</h1>
       <p class="calc-page__intro">
-        Plot every item as a <strong>Star, Plowhorse, Puzzle, or Dog</strong> on contribution margin and popularity. The framework comes from Donald Smith at Cornell, 1982. Still the single best menu decision tool an operator owns (Cornell SHA). The math is the easy part. The discipline of running it every quarter is the entire game.
+        Sort every item into a <strong>Star, Plowhorse, Puzzle, or Dog</strong> based on two things: how much profit each plate brings in (its price minus what the food cost you) and how often it sells. The framework comes from Donald Smith at Cornell, 1982. Still the single best menu decision tool an operator owns (Cornell SHA). The math is the easy part. The discipline of running it every quarter is the entire game.
       </p>
     </header>
 
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Add every menu item with its food cost, menu price, and units sold. Classifies each item by whether its contribution margin and popularity are above or below the menu averages. Returns total contribution dollars and a quadrant action plan.</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Add every menu item with what the food cost you, what you charge, and how many you sold. It sorts each item by whether its profit per plate and how often it sells land above or below your menu average. You get total profit from all items, plus a clear plan for what to do with each one.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example menu</button>
         </div>
 
         <div class="menu">
           <div class="menu__head">
             <h3 class="menu__title">Menu items</h3>
-            <p class="menu__hint">One row per item. Pull units sold from your POS sales mix report for a meaningful window (30 days minimum, 90 days ideal).</p>
+            <p class="menu__hint">One row per item. Pull how many you sold from your POS sales report for a real stretch of time (30 days minimum, 90 days is best).</p>
           </div>
 
           <div class="menu__table" aria-label="Menu items">
@@ -159,32 +159,30 @@ const schema = [
 
           <div class="menu__totals" data-menu-totals>
             <div class="menu__total-row">
-              <span class="menu__total-label">Items in matrix</span>
+              <span class="menu__total-label">Items added</span>
               <span class="menu__total-value num" data-menu-count>0</span>
             </div>
             <div class="menu__total-row">
-              <span class="menu__total-label">Total units sold</span>
+              <span class="menu__total-label">Total plates sold</span>
               <span class="menu__total-value num" data-menu-units>0</span>
             </div>
             <div class="menu__total-row menu__total-row--final">
-              <span class="menu__total-label">Total contribution dollars</span>
+              <span class="menu__total-label">Total profit from these items</span>
               <span class="menu__total-value num" data-menu-contrib>$0</span>
             </div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Run matrix
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Total contribution</span>
+            <span class="t-micro calc-result__label">Total profit from these items</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Add items</span>
             </span>
@@ -193,21 +191,21 @@ const schema = [
           <div class="calc-result__big">
             <span class="result-num__pre" aria-hidden="true">$</span>
             <span class="result-num" data-counter>0</span>
-            <span class="visually-hidden">total contribution dollars</span>
+            <span class="visually-hidden">total profit from these items in dollars</span>
           </div>
 
           <div class="calc-result__benchmark">
             <span class="t-caption">Healthy menu mix</span>
-            <span class="t-caption num">stars + puzzles &gt;50%, dogs &lt;15%</span>
+            <span class="t-caption num">Stars + Puzzles over half, Dogs under 15%</span>
           </div>
 
-          <div class="matrix" data-matrix aria-label="Menu engineering 2x2 matrix: contribution margin vs popularity">
+          <div class="matrix" data-matrix aria-label="Menu engineering 2x2 matrix: profit per plate vs how often it sells">
             <span class="matrix__axis-y" aria-hidden="true">
-              <span class="matrix__axis-label">Contribution margin →</span>
+              <span class="matrix__axis-label">Profit per plate →</span>
             </span>
             <div class="matrix__plot">
               <span class="matrix__axis-x" aria-hidden="true">
-                <span class="matrix__axis-label">Popularity →</span>
+                <span class="matrix__axis-label">How often it sells →</span>
               </span>
               <span class="matrix__hline" aria-hidden="true"></span>
               <span class="matrix__vline" aria-hidden="true"></span>
@@ -233,22 +231,27 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Avg contribution margin</span>
+              <span class="extras-row__label">Average profit per plate</span>
               <span class="extras-row__value num" data-avg-cm></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Avg units per item</span>
+              <span class="extras-row__label">Average plates sold per item</span>
               <span class="extras-row__value num" data-avg-pop></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Top star</span>
+              <span class="extras-row__label">Best moneymaker</span>
               <span class="extras-row__value num" data-top-star></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Worst dog</span>
+              <span class="extras-row__label">Biggest drag</span>
               <span class="extras-row__value num" data-worst-dog></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -264,9 +267,9 @@ const schema = [
     </section>
 
     <section class="results-table" data-results-section hidden>
-      <h2 class="results-table__headline">Classified results</h2>
+      <h2 class="results-table__headline">Every item, sorted</h2>
       <p class="t-body-large results-table__intro">
-        Every item with its quadrant assignment, contribution margin, and dollar contribution. Sorted by contribution dollars, descending.
+        Each item with its category, its profit per plate, and the total profit it brings in. Sorted by total profit, highest first.
       </p>
       <div class="results-table__wrap">
         <table class="results-table__table">
@@ -275,11 +278,11 @@ const schema = [
               <th>Item</th>
               <th class="num">Food cost</th>
               <th class="num">Price</th>
-              <th class="num">CM $</th>
-              <th class="num">CM %</th>
-              <th class="num">Units</th>
-              <th class="num">Contribution $</th>
-              <th>Class</th>
+              <th class="num">Profit per plate</th>
+              <th class="num">Profit margin</th>
+              <th class="num">Sold</th>
+              <th class="num">Total profit</th>
+              <th>Category</th>
             </tr>
           </thead>
           <tbody data-results-body>
@@ -546,8 +549,8 @@ const schema = [
             </div>
           </div>
           <div class="menu-row__cell menu-row__cell--units">
-            <span class="menu-row__minilabel">Units sold</span>
-            <input type="number" inputmode="decimal" min="0" step="1" placeholder="0" value="${it.units || ''}" data-field="units" aria-label="Units sold" />
+            <span class="menu-row__minilabel">How many sold</span>
+            <input type="number" inputmode="decimal" min="0" step="1" placeholder="0" value="${it.units || ''}" data-field="units" aria-label="How many sold" />
           </div>
           <button type="button" class="menu-row__remove" data-row-remove aria-label="Remove ${it.name || 'row'}" title="Remove item">×</button>
         </div>`;
@@ -683,8 +686,8 @@ const schema = [
           const yPct = 90 - yNorm * 80;
           const safeName = (c.name || 'Unnamed').replace(/</g, '&lt;').replace(/"/g, '&quot;');
           const cmStr = fmtUSD(c.cm);
-          return `<span class="matrix__dot matrix__dot--${c.klass}" tabindex="0" style="left:${xPct.toFixed(1)}%; top:${yPct.toFixed(1)}%" aria-label="${safeName}: ${c.klass}, ${cmStr} CM, ${c.units} units">
-            <span class="matrix__dot-tip">${safeName} · ${cmStr} CM · ${c.units} units</span>
+          return `<span class="matrix__dot matrix__dot--${c.klass}" tabindex="0" style="left:${xPct.toFixed(1)}%; top:${yPct.toFixed(1)}%" aria-label="${safeName}: ${c.klass}, ${cmStr} profit per plate, ${c.units} sold">
+            <span class="matrix__dot-tip">${safeName} · ${cmStr} profit per plate · ${c.units} sold</span>
           </span>`;
         }).join('');
       } else if (dotsWrap) {
@@ -736,24 +739,24 @@ const schema = [
       const cmThresholdDollars = avgCM * CM_THRESHOLD;
       const popThresholdUnits = avgPop * POP_THRESHOLD;
       let note = '';
-      if (statusText === 'Healthy') note = `Dog share is ${dogPct.toFixed(0)}% of items (under 15% target). Menu is healthy. Focus next quarter on converting puzzles into stars through placement and server training.`;
-      if (statusText === 'Watch') note = `Dog share is ${dogPct.toFixed(0)}% of items (15–25% range). Audit each dog for strategic role. Two consecutive quarters in dog quadrant = remove or rework.`;
-      if (statusText === 'Critical') note = `Dog share is ${dogPct.toFixed(0)}% of items (over 25%). The menu is carrying weight. Cut at least half the dogs this quarter. Replace each cut item with a star variant in the same category.`;
+      if (statusText === 'Healthy') note = `Dogs are ${dogPct.toFixed(0)}% of your items (under the 15% target). The menu is healthy. Next quarter, work on turning Puzzles into Stars: better menu placement and have servers recommend them.`;
+      if (statusText === 'Watch') note = `Dogs are ${dogPct.toFixed(0)}% of your items (15 to 25%). Check each Dog for a reason to keep it (the only veggie or kids option, for example). If an item lands in the Dog group two quarters in a row with no good reason, cut it or rework it.`;
+      if (statusText === 'Critical') note = `Dogs are ${dogPct.toFixed(0)}% of your items (over 25%). The menu is carrying dead weight. Cut at least half the Dogs this quarter. Replace each one with a better version of a popular, high-profit item in the same category.`;
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Items in matrix</td><td class="num">${itemCount}</td></tr>
-          <tr><td>Total units sold</td><td class="num">${totalUnits.toLocaleString('en-US')}</td></tr>
-          <tr><td>Total contribution dollars</td><td class="num">${fmtUSD(totalContribution)}</td></tr>
-          <tr class="math-table__step"><td>Weighted avg CM (sum(cm × units) ÷ total units)</td><td class="num">${fmtUSD(avgCM)}</td></tr>
-          <tr class="math-table__step"><td>Avg popularity (units ÷ items)</td><td class="num">${avgPop.toFixed(1)}</td></tr>
-          <tr><td>High CM threshold (avg CM × ${CM_THRESHOLD})</td><td class="num">${fmtUSD(cmThresholdDollars)}</td></tr>
-          <tr><td>High popularity threshold (avg pop × ${POP_THRESHOLD})</td><td class="num">${popThresholdUnits.toFixed(1)} units</td></tr>
-          <tr class="math-table__step"><td>Stars (high CM &amp; high pop)</td><td class="num">${counts.star}</td></tr>
-          <tr class="math-table__step"><td>Plowhorses (low CM &amp; high pop)</td><td class="num">${counts.plowhorse}</td></tr>
-          <tr class="math-table__step"><td>Puzzles (high CM &amp; low pop)</td><td class="num">${counts.puzzle}</td></tr>
-          <tr class="math-table__step"><td>Dogs (low CM &amp; low pop)</td><td class="num">${counts.dog}</td></tr>
-          <tr class="math-table__final"><td>Dog share of menu</td><td class="num"><strong>${dogPct.toFixed(1)}%</strong></td></tr>
+          <tr><td>Items counted</td><td class="num">${itemCount}</td></tr>
+          <tr><td>Total plates sold</td><td class="num">${totalUnits.toLocaleString('en-US')}</td></tr>
+          <tr><td>Total profit from all items</td><td class="num">${fmtUSD(totalContribution)}</td></tr>
+          <tr class="math-table__step"><td>Average profit per plate (total profit ÷ total plates sold)</td><td class="num">${fmtUSD(avgCM)}</td></tr>
+          <tr class="math-table__step"><td>Average plates sold per item (total plates ÷ items)</td><td class="num">${avgPop.toFixed(1)}</td></tr>
+          <tr><td>"High profit" line (average profit × ${CM_THRESHOLD})</td><td class="num">${fmtUSD(cmThresholdDollars)}</td></tr>
+          <tr><td>"Sells often" line (average plates × ${POP_THRESHOLD})</td><td class="num">${popThresholdUnits.toFixed(1)} plates</td></tr>
+          <tr class="math-table__step"><td>Stars (high profit, sells often)</td><td class="num">${counts.star}</td></tr>
+          <tr class="math-table__step"><td>Plowhorses (low profit, sells often)</td><td class="num">${counts.plowhorse}</td></tr>
+          <tr class="math-table__step"><td>Puzzles (high profit, sells rarely)</td><td class="num">${counts.puzzle}</td></tr>
+          <tr class="math-table__step"><td>Dogs (low profit, sells rarely)</td><td class="num">${counts.dog}</td></tr>
+          <tr class="math-table__final"><td>Share of menu that are Dogs</td><td class="num"><strong>${dogPct.toFixed(1)}%</strong></td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -831,8 +834,6 @@ const schema = [
   .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
   .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -1152,4 +1153,38 @@ const schema = [
   .matrix__dot--dog { background: #c0392b; }
   .matrix__dot-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); white-space: nowrap; background: #1a1814; color: #fafaf7; font-family: 'Geist', sans-serif; font-size: 0.6875rem; font-weight: 500; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 150ms ease-out; z-index: 20; }
   .matrix__dot:hover .matrix__dot-tip, .matrix__dot:focus .matrix__dot-tip { opacity: 1; }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

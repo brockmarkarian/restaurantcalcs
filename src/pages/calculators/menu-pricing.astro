@@ -131,54 +131,52 @@ const relatedCalcs = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Reverse-engineers menu price from item cost and target food cost percentage. $5 plate ÷ 30% target = $16.67 menu price (round to $16.95 or $17).</p>
+          <p class="form-intro__what"><strong>What this does:</strong> Tells you the price to put on the menu. Start with what the plate costs you to make and how much of that price you want food to be. $5 plate, you want food to be 30% of the price, gives a $16.67 menu price (round to $16.95 or $17).</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="cost">Item cost (per plate)</label>
+          <label class="form-row__label" for="cost">What one plate costs you to make</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="5.50" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Total ingredient cost for one served portion.</p>
+          <p class="form-row__hint">Add up the cost of every ingredient in one serving.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="target">Target food cost %</label>
+          <label class="form-row__label" for="target">How much of the price should food be?</label>
           <div class="input-shell">
             <input id="target" name="target" type="number" inputmode="decimal" min="1" max="100" step="0.5" placeholder="30" autocomplete="off" required />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Concept benchmark: casual 28–32%, fine dining 30–35%, QSR 25–30%, pizza 22–28%.</p>
+          <p class="form-row__hint">The share of the menu price you want the food to eat up. Typical goals: sit-down 28–32%, fancy 30–35%, fast food 25–30%, pizza 22–28%.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="labor">Labor cost % (optional, for prime cost)</label>
+          <label class="form-row__label" for="labor">Labor as a share of sales (optional)</label>
           <div class="input-shell">
             <input id="labor" name="labor" type="number" inputmode="decimal" min="0" max="100" step="0.5" placeholder="30" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Adds prime cost output (food cost % + labor cost %). NRA target: 55–60%. Above 65% signals trouble.</p>
+          <p class="form-row__hint">Add this and we also show your prime cost: food plus labor as a share of sales. Aim for 55–60%. Over 65% means trouble.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="rounding">Round to nearest</label>
+          <label class="form-row__label" for="rounding">Round the price to</label>
           <select id="rounding" name="rounding">
-            <option value="0.05">.95 endings (charm pricing)</option>
-            <option value="0.99">.99 endings (QSR / value)</option>
-            <option value="0.50">.50 / .00 endings</option>
-            <option value="1" selected>Whole dollar</option>
-            <option value="0">No rounding</option>
+            <option value="0.05">.95 endings (like $16.95)</option>
+            <option value="0.99">.99 endings (like $16.99)</option>
+            <option value="0.50">.50 or .00 endings</option>
+            <option value="1" selected>A whole dollar</option>
+            <option value="0">Don't round</option>
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate menu price
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
@@ -193,21 +191,21 @@ const relatedCalcs = [
           </div>
 
           <div class="calc-result__benchmark">
-            <span class="t-caption">Pricing factor</span>
+            <span class="t-caption">Price is this many times the cost</span>
             <span class="t-caption num" data-factor></span>
           </div>
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Gross profit per plate</span>
+              <span class="extras-row__label">Money left after food, per plate</span>
               <span class="extras-row__value num" data-profit>$0.00</span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Contribution margin %</span>
+              <span class="extras-row__label">That money as a share of the price</span>
               <span class="extras-row__value num" data-cm-pct></span>
             </div>
             <div class="extras-row" data-prime-row hidden>
-              <span class="extras-row__label">Prime cost % (food + labor)</span>
+              <span class="extras-row__label">Prime cost (food + labor share of sales)</span>
               <span class="extras-row__value num" data-prime></span>
             </div>
             <div class="extras-row" data-rounded-row hidden>
@@ -215,6 +213,11 @@ const relatedCalcs = [
               <span class="extras-row__value num" data-rounded></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -482,7 +485,7 @@ const relatedCalcs = [
       if (laborPct > 0 && primeRow && primeEl) {
         primeRow.hidden = false;
         const primeCls = primePct > 65 ? 'is-bad' : primePct > 60 ? 'is-watch' : 'is-good';
-        primeEl.textContent = `${primePct.toFixed(1)}% (target 55–60%)`;
+        primeEl.textContent = `${primePct.toFixed(1)}% (aim for 55–60%)`;
         primeEl.className = `extras-row__value num ${primeCls}`;
       } else if (primeRow) {
         primeRow.hidden = true;
@@ -490,22 +493,22 @@ const relatedCalcs = [
 
       if (rounding !== '0' && roundedRow && roundedEl) {
         roundedRow.hidden = false;
-        roundedEl.textContent = `${fmtUSD(rounded)} (${actualPct.toFixed(1)}% food cost)`;
+        roundedEl.textContent = `${fmtUSD(rounded)} (food is ${actualPct.toFixed(1)}% of it)`;
       } else if (roundedRow) {
         roundedRow.hidden = true;
       }
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>Item cost</td><td class="num">${fmtUSD(cost)}</td></tr>
-          <tr><td>Target food cost</td><td class="num">${target.toFixed(1)}%</td></tr>
-          <tr class="math-table__step"><td>Cost ÷ (Target ÷ 100)</td><td class="num">${fmtUSD(rawPrice)}</td></tr>
+          <tr><td>What the plate costs you</td><td class="num">${fmtUSD(cost)}</td></tr>
+          <tr><td>Food's share of the price</td><td class="num">${target.toFixed(1)}%</td></tr>
+          <tr class="math-table__step"><td>Plate cost ÷ that share</td><td class="num">${fmtUSD(rawPrice)}</td></tr>
           ${rounding !== '0' ? `<tr class="math-table__step"><td>Rounded</td><td class="num">${fmtUSD(rounded)}</td></tr>` : ''}
-          <tr class="math-table__final"><td>Suggested menu price</td><td class="num"><strong>${fmtUSD(rounding === '0' ? rawPrice : rounded)}</strong></td></tr>
+          <tr class="math-table__final"><td>Price to put on the menu</td><td class="num"><strong>${fmtUSD(rounding === '0' ? rawPrice : rounded)}</strong></td></tr>
         </table>
         <p class="t-caption math-note">
-          Pricing factor: ${factor.toFixed(2)}x · Contribution margin: ${cmPct.toFixed(1)}% (${fmtUSD(finalProfit)}/plate).
-          ${rounding !== '0' ? ` Rounded price reflects ${actualPct.toFixed(1)}% actual food cost.` : ''}
+          Price is ${factor.toFixed(2)}x the cost · ${fmtUSD(finalProfit)} left on each plate after food, ${cmPct.toFixed(1)}% of the price.
+          ${rounding !== '0' ? ` At the rounded price, food is ${actualPct.toFixed(1)}% of it.` : ''}
         </p>
       `;
 
@@ -555,8 +558,6 @@ const relatedCalcs = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
   .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
   @media (max-width: 880px) { .calc-result { position: static; } }
   .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
@@ -660,4 +661,38 @@ const relatedCalcs = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

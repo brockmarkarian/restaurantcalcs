@@ -149,113 +149,111 @@ const schema = [
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="bib-volume">BIB syrup volume</label>
+          <label class="form-row__label" for="bib-volume">How much syrup is in the box?</label>
           <div class="input-shell">
             <input id="bib-volume" name="bib-volume" type="number" inputmode="decimal" min="0" step="32" placeholder="640" autocomplete="off" required />
             <span class="input-shell__suffix">oz</span>
           </div>
-          <p class="form-row__hint">Standard is 5 gal = 640 oz. 2.5 gal = 320 oz. 3 gal = 384 oz.</p>
+          <p class="form-row__hint">A bag-in-box of soda syrup. The standard 5-gallon box is 640 oz. A 2.5-gallon box is 320 oz, a 3-gallon box is 384 oz.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="bib-price">BIB purchase price</label>
+          <label class="form-row__label" for="bib-price">What did the box cost you?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="bib-price" name="bib-price" type="number" inputmode="decimal" min="0" step="5" placeholder="90" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Branded cola (Coke, Pepsi) typically $80–95. Store-brand or proprietary syrups $35–50.</p>
+          <p class="form-row__hint">What you paid for the box of syrup. Name-brand cola (Coke, Pepsi) usually runs $80 to $95. Store-brand syrup runs $35 to $50.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="mix-ratio">Mix ratio (water:syrup)</label>
+          <label class="form-row__label" for="mix-ratio">How much water gets mixed with the syrup?</label>
           <select id="mix-ratio" name="mix-ratio">
-            <option value="5" selected>5:1 (industry standard, most colas)</option>
-            <option value="4">4:1 (diet, sparkling, some specialty)</option>
-            <option value="6">6:1 (a few specialty syrups)</option>
-            <option value="3">3:1 (juice concentrates)</option>
+            <option value="5" selected>5 parts water to 1 part syrup (the usual, most colas)</option>
+            <option value="4">4 parts water to 1 part syrup (diet, sparkling, some specialty)</option>
+            <option value="6">6 parts water to 1 part syrup (a few specialty syrups)</option>
+            <option value="3">3 parts water to 1 part syrup (juice concentrates)</option>
           </select>
-          <p class="form-row__hint">Sets finished beverage yield. 5:1 means 1 oz syrup makes 6 oz drink (5 water + 1 syrup).</p>
+          <p class="form-row__hint">This is how much finished drink you get from the syrup. The usual setting (5 to 1) means 1 oz of syrup makes 6 oz of drink: 5 oz water plus 1 oz syrup. The dispenser is set to one of these.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="pour-size">Pour size</label>
+          <label class="form-row__label" for="pour-size">What size cup do you serve?</label>
           <select id="pour-size" name="pour-size">
             <option value="12">12 oz small</option>
             <option value="16" selected>16 oz medium (standard)</option>
             <option value="20">20 oz large</option>
             <option value="24">24 oz extra-large</option>
             <option value="32">32 oz mega</option>
-            <option value="custom">Custom size</option>
+            <option value="custom">Other size</option>
           </select>
-          <p class="form-row__hint">Cup size, not finished beverage. Ice fill is subtracted next.</p>
+          <p class="form-row__hint">The size of the cup, not the amount of soda in it. We take ice out of that next.</p>
         </div>
 
         <div class="form-row" id="custom-pour-row" style="display:none">
-          <label class="form-row__label" for="pour-size-custom">Custom pour size (oz)</label>
+          <label class="form-row__label" for="pour-size-custom">Your cup size (oz)</label>
           <div class="input-shell">
             <input id="pour-size-custom" name="pour-size-custom" type="number" inputmode="decimal" min="1" step="0.5" placeholder="44" autocomplete="off" />
             <span class="input-shell__suffix">oz</span>
           </div>
-          <p class="form-row__hint">Enter pour size in ounces.</p>
+          <p class="form-row__hint">Enter the cup size in ounces.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="ice-fill">Ice fill</label>
+          <label class="form-row__label" for="ice-fill">How much of the cup is ice?</label>
           <div class="input-shell">
             <input id="ice-fill" name="ice-fill" type="number" inputmode="decimal" min="0" max="80" step="5" placeholder="30" autocomplete="off" />
             <span class="input-shell__suffix">%</span>
           </div>
-          <p class="form-row__hint">Industry default 30%. Drive-through cups run 40%+. Ice displaces beverage so it lowers per-pour syrup cost.</p>
+          <p class="form-row__hint">Most cups are about 30% ice. Drive-through cups are often 40% or more. Ice takes the place of soda, so a cup with more ice uses less syrup per drink.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="cup-cost">Cup + lid + straw cost</label>
+          <label class="form-row__label" for="cup-cost">What does the cup, lid, and straw cost?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="cup-cost" name="cup-cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.18" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Roughly $0.08 (small kraft) to $0.30 (large compostable). Often higher than the syrup itself on small drinks.</p>
+          <p class="form-row__hint">Add up the cup, lid, and straw for one drink. Usually $0.08 (small paper) to $0.30 (large eco-friendly). On small drinks this often costs more than the soda itself.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="co2-cost">CO2 cost per pour</label>
+          <label class="form-row__label" for="co2-cost">What does the fizz (CO2) cost per drink?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="co2-cost" name="co2-cost" type="number" inputmode="decimal" min="0" step="0.005" placeholder="0.01" autocomplete="off" />
           </div>
-          <p class="form-row__hint">Roughly $0.01 per pour for cylinder rental + gas. Bulk CO2 systems run lower.</p>
+          <p class="form-row__hint">The gas that carbonates the soda. About $0.01 per drink for tank rental plus gas. Bulk systems cost less. If you are not sure, leave the example number.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="menu-price">Menu price per drink</label>
+          <label class="form-row__label" for="menu-price">What do you charge for the drink?</label>
           <div class="input-shell">
             <span class="input-shell__prefix">$</span>
             <input id="menu-price" name="menu-price" type="number" inputmode="decimal" min="0" step="0.10" placeholder="3.49" autocomplete="off" required />
           </div>
-          <p class="form-row__hint">Pre-tax menu price for one drink at this size.</p>
+          <p class="form-row__hint">The menu price before tax for one drink this size.</p>
         </div>
 
         <div class="form-row">
-          <label class="form-row__label" for="refill-mult">Free-refill multiplier</label>
+          <label class="form-row__label" for="refill-mult">If refills are free, how many drinks does one customer really get?</label>
           <div class="input-shell">
             <input id="refill-mult" name="refill-mult" type="number" inputmode="decimal" min="1" max="3" step="0.1" placeholder="1.4" autocomplete="off" />
             <span class="input-shell__suffix">×</span>
           </div>
-          <p class="form-row__hint">Industry default 1.4 when refills are free (BinWise). Use 1.0 for no refills, 1.1 for one-refill cap.</p>
+          <p class="form-row__hint">When refills are free, the average customer drinks about 1.4 cups, not 1 (BinWise). Use 1.0 for no refills, 1.1 if you cap it at one refill.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large calc-form__submit">
-          Calculate fountain pour cost
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-
-        <p class="calc-form__privacy t-caption"><strong>Nothing is saved or sent.</strong> All math runs in your browser.</p>
+        <p class="calc-form__live">
+          <span class="calc-form__live-dot" aria-hidden="true"></span>
+          Updates live as you type. <strong>Nothing is saved or sent</strong>, the math runs in your browser.
+        </p>
       </form>
 
       <aside class="calc-result">
         <div class="calc-result__card" aria-live="polite" aria-atomic="true">
           <div class="calc-result__head">
-            <span class="t-micro calc-result__label">Your pour cost</span>
+            <span class="t-micro calc-result__label">What the drink costs you</span>
             <span class="status-pill" data-status="empty">
               <span class="status-pill__dot"></span><span data-status-label>Enter values</span>
             </span>
@@ -289,23 +287,23 @@ const schema = [
 
           <div class="calc-result__extras">
             <div class="extras-row">
-              <span class="extras-row__label">Pours per BIB</span>
+              <span class="extras-row__label">Drinks you can pour from one box</span>
               <span class="extras-row__value num" data-pours></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Customers per BIB</span>
+              <span class="extras-row__label">Customers served from one box</span>
               <span class="extras-row__value num" data-customers></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Cost per pour (syrup + CO2)</span>
+              <span class="extras-row__label">Cost of one cup of soda (syrup + fizz)</span>
               <span class="extras-row__value num" data-cost-pour></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Cup cost per drink</span>
+              <span class="extras-row__label">Cost of the cup, lid, and straw</span>
               <span class="extras-row__value num" data-cup></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Total cost per customer</span>
+              <span class="extras-row__label">What one customer really costs you</span>
               <span class="extras-row__value num" data-total-customer></span>
             </div>
             <div class="extras-row">
@@ -313,10 +311,15 @@ const schema = [
               <span class="extras-row__value num" data-profit-customer></span>
             </div>
             <div class="extras-row">
-              <span class="extras-row__label">Profit per BIB</span>
+              <span class="extras-row__label">Profit from one box of syrup</span>
               <span class="extras-row__value num" data-profit-bib></span>
             </div>
           </div>
+
+          <button type="button" class="result-share" data-share-open aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Share these numbers
+          </button>
         </div>
 
         <details class="show-math" data-math-wrap>
@@ -586,29 +589,29 @@ const schema = [
       if (profitBibEl) profitBibEl.textContent = fmtUSD(profitPerBIB);
 
       let note = '';
-      if (s.label === 'Healthy') note = `Within healthy 5–15% fountain band. Profit per BIB: ${fmtUSD(profitPerBIB)}. Fountain is the highest-margin line on most menus when modeled like this.`;
-      if (s.label === 'Lean') note = `Below typical fountain pour cost. Either you have headroom to drop menu price for traffic, or one of the inputs (cup cost, refill multiplier) is too low. Verify the cup invoice and the actual refill behavior before celebrating.`;
-      if (s.label === 'Watch') note = `Above 15%. Common cause: free-refill multiplier × cup cost stack. A one-refill cap drops the multiplier from 1.4 to 1.1 and recovers most of the gap. Branded vs store-brand BIB swap is the second lever.`;
-      if (s.label === 'Critical') note = `Above 22%. Something is structurally wrong. Either the menu price is set for a smaller cup, the cup line item jumped (compostable PLA?), or the refill multiplier is closer to 2× than 1.4×. Run the cup invoice first.`;
+      if (s.label === 'Healthy') note = `In the healthy 5% to 15% range for soda. You make about ${fmtUSD(profitPerBIB)} in profit from each box of syrup. Soda is usually the highest-profit item on the menu when you run the numbers like this.`;
+      if (s.label === 'Lean') note = `Lower than most soda costs. Either you have room to drop the price and bring in more people, or one of your numbers (cup cost, free-refill count) is set too low. Check the cup invoice and how many refills people really take before celebrating.`;
+      if (s.label === 'Watch') note = `Above 15%. Usually it is free refills and cup cost stacking up. Capping refills at one drops the average from 1.4 drinks to about 1.1 and recovers most of the gap. Switching from name-brand to store-brand syrup is the next lever.`;
+      if (s.label === 'Critical') note = `Above 22%. Something is off. Either the price is set for a smaller cup, the cup got a lot more expensive (switched to eco-friendly?), or people are taking closer to 2 drinks each instead of 1.4. Check the cup invoice first.`;
 
       const pourSizeStr = pourSize % 1 === 0 ? pourSize.toString() : pourSize.toFixed(1);
 
       mathBody!.innerHTML = `
         <table class="math-table" role="presentation">
-          <tr><td>BIB syrup volume</td><td class="num">${bibVolume.toLocaleString('en-US')} oz</td></tr>
-          <tr><td>× (1 + mix ${mixRatio}:1)</td><td class="num">× ${(1 + mixRatio).toFixed(1)}</td></tr>
-          <tr class="math-table__step"><td>= Finished beverage</td><td class="num">${finishedBevOz.toLocaleString('en-US', { maximumFractionDigits: 0 })} oz</td></tr>
-          <tr><td>Pour size</td><td class="num">${pourSizeStr} oz</td></tr>
-          <tr><td>× (1 − ice ${ice}%)</td><td class="num">× ${(1 - ice / 100).toFixed(2)}</td></tr>
-          <tr class="math-table__step"><td>= Effective pour</td><td class="num">${effectivePour.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
-          <tr><td>BIB price ÷ finished oz × effective pour</td><td class="num">${fmtUSDCents(syrupCostPour)}</td></tr>
-          <tr><td>+ CO2 per pour</td><td class="num">${fmtUSDCents(co2Cost)}</td></tr>
-          <tr class="math-table__step"><td>= Single-pour cost</td><td class="num">${fmtUSDCents(singlePourCost)}</td></tr>
-          <tr><td>× refill multiplier</td><td class="num">× ${refillMult.toFixed(1)}</td></tr>
-          <tr><td>+ Cup + lid + straw</td><td class="num">${fmtUSDFull(cupCost)}</td></tr>
-          <tr class="math-table__step"><td>= Total cost per customer</td><td class="num"><strong>${fmtUSDFull(totalPerCustomer)}</strong></td></tr>
+          <tr><td>Syrup in the box</td><td class="num">${bibVolume.toLocaleString('en-US')} oz</td></tr>
+          <tr><td>× (1 + ${mixRatio} parts water)</td><td class="num">× ${(1 + mixRatio).toFixed(1)}</td></tr>
+          <tr class="math-table__step"><td>= Total finished drink from the box</td><td class="num">${finishedBevOz.toLocaleString('en-US', { maximumFractionDigits: 0 })} oz</td></tr>
+          <tr><td>Cup size</td><td class="num">${pourSizeStr} oz</td></tr>
+          <tr><td>× (cup minus ${ice}% ice)</td><td class="num">× ${(1 - ice / 100).toFixed(2)}</td></tr>
+          <tr class="math-table__step"><td>= Soda in one cup</td><td class="num">${effectivePour.toLocaleString('en-US', { maximumFractionDigits: 1 })} oz</td></tr>
+          <tr><td>Box price ÷ total finished drink × soda per cup</td><td class="num">${fmtUSDCents(syrupCostPour)}</td></tr>
+          <tr><td>+ Fizz (CO2) per cup</td><td class="num">${fmtUSDCents(co2Cost)}</td></tr>
+          <tr class="math-table__step"><td>= Cost of one cup of soda</td><td class="num">${fmtUSDCents(singlePourCost)}</td></tr>
+          <tr><td>× drinks per customer (free refills)</td><td class="num">× ${refillMult.toFixed(1)}</td></tr>
+          <tr><td>+ Cup, lid, and straw</td><td class="num">${fmtUSDFull(cupCost)}</td></tr>
+          <tr class="math-table__step"><td>= What one customer costs you</td><td class="num"><strong>${fmtUSDFull(totalPerCustomer)}</strong></td></tr>
           <tr><td>÷ Menu price</td><td class="num">${fmtUSDFull(menuPrice)}</td></tr>
-          <tr class="math-table__final"><td>Pour cost percentage</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
+          <tr class="math-table__final"><td>Cost as a share of the price (pour cost %)</td><td class="num"><strong>${pourCostPct.toFixed(1)}%</strong></td></tr>
         </table>
         ${note ? `<p class="t-caption math-note">${note}</p>` : ''}
       `;
@@ -673,8 +676,6 @@ const schema = [
   .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
   .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
   .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-form__submit { margin-top: var(--space-2); width: 100%; justify-content: center; }
-  .calc-form__privacy { text-align: center; color: var(--color-muted); }
 
   .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
   .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
@@ -803,4 +804,37 @@ const schema = [
   .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
   .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
   .related-card:hover .related-card__arrow { transform: translateX(4px); }
+  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
+  .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  .form-row { gap: var(--space-3); }
+  .form-group { gap: var(--space-6); }
+  .step-num {
+    background: transparent; color: var(--color-saffron-text);
+    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
+  }
+  .calc-form__live {
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
+    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
+  }
+  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
+  .calc-form__live-dot {
+    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
+  }
+  .result-share {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
+    background: var(--color-white); color: var(--color-saffron-text);
+    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
+    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
+  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>
