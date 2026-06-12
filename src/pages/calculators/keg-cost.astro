@@ -1,8 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-const title = 'Draft Beer / Keg Cost Calculator, Free | RestaurantCalcs';
-const description = 'Free draft beer keg cost calculator. Pours per keg, cost per pour, pour cost %. 1/2 BBL, 1/6 BBL, 1/4 BBL, Cornelius. Industry benchmarks 18–22%. Math shown.';
+const title = 'Keg Cost Calculator + Pints per Keg & Keg Prices | RestaurantCalcs';
+const description = 'Free draft beer keg cost calculator: pours per keg, cost per pour, pour cost %. Plus how many pints in a half-barrel (15.5 gal) keg and what a keg costs by size. Math shown.';
+
+// Pints per keg by size. 16 oz pint. Theoretical = oz / 16; real = x 0.95 (5% foam/line waste).
+const kegRows = [
+  { name: 'Half barrel (1/2 BBL)', vol: '15.5 gal', oz: 1984, pints: 124, real: 117, price: '$100–220' },
+  { name: '50L import keg', vol: '13.2 gal', oz: 1690, pints: 105, real: 100, price: '$150–200' },
+  { name: 'Quarter barrel (1/4 BBL)', vol: '7.75 gal', oz: 992, pints: 62, real: 58, price: '$60–120' },
+  { name: 'Sixth barrel (sixtel)', vol: '5.16 gal', oz: 661, pints: 41, real: 39, price: '$70–120' },
+  { name: 'Cornelius (corny)', vol: '5 gal', oz: 640, pints: 40, real: 38, price: 'homebrew' },
+];
 
 const faq = [
   {
@@ -20,6 +29,14 @@ const faq = [
   {
     q: 'What sizes do kegs come in?',
     a: 'Four common. 1/2 BBL is 1,984 oz, the standard bar keg. 1/6 BBL ("sixtel") is 661 oz, common for craft rotators. 1/4 BBL ("pony") is 992 oz. Cornelius is 640 oz, 5-gallon homebrew style. A 1/2 BBL gets you about 124 sixteen-ounce pints at 0% waste, 117 at 5%.',
+  },
+  {
+    q: 'How many pints in a half-barrel keg?',
+    a: 'A half-barrel keg holds 15.5 gallons, or 1,984 oz (Brewers Association). That is 124 sixteen-ounce pints at zero waste, but real-world foam and line cleaning take 5% or more, so plan on about 117 servable pints. Smaller kegs: a quarter barrel (992 oz) yields about 58 real pints, a sixth-barrel sixtel (661 oz) about 39, and a 50-liter import keg (1,690 oz) about 100.',
+  },
+  {
+    q: 'How much does a keg cost?',
+    a: 'A half-barrel runs roughly $100–150 for domestic lagers and $180–220 for craft. A quarter barrel is about $60–120, and a sixth-barrel sixtel of craft beer runs $70–120. Import 50-liter kegs land around $150–200. Prices vary by market, brand, and distributor. At about 117 servable pints, a $180 craft half-barrel costs roughly $1.54 per pint before waste, which is the number that should drive your menu price.',
   },
   {
     q: 'What is a Sankey coupler?',
@@ -283,6 +300,41 @@ const schema = [
         </details>
       </aside>
     </section>
+
+    <section class="yield" id="pints-per-keg">
+      <p class="t-micro t-micro--saffron">Quick answer</p>
+      <h2 class="yield__headline">How many pints in a keg? (And what a keg costs)</h2>
+      <p class="yield__lead">
+        A half-barrel keg holds <strong>15.5 gallons, or 1,984 oz</strong> (Brewers Association). That is <strong>124 sixteen-ounce pints</strong> at zero waste, but real-world foam and line cleaning take 5% or more, so plan on about <strong>117 servable pints</strong>. A craft half-barrel runs roughly <strong>$180–220</strong>, which works out to about <strong>$1.54 per pint</strong> before waste. Full breakdown by keg size:
+      </p>
+      <table class="yield-table">
+        <thead>
+          <tr>
+            <th scope="col">Keg size</th>
+            <th scope="col" class="num">Volume</th>
+            <th scope="col" class="num">16-oz pints</th>
+            <th scope="col" class="num">Real pints (5% waste)</th>
+            <th scope="col" class="num">Typical price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {kegRows.map((r) => (
+            <tr>
+              <td>{r.name}</td>
+              <td class="num">{r.vol}</td>
+              <td class="num">{r.pints}</td>
+              <td class="num">{r.real}</td>
+              <td class="num">{r.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="yield__note t-caption">
+        Pints assume a 16-oz pour. Real pints apply a 5% foam-and-line-cleaning loss; unmaintained systems run 8–15% (BinWise). Prices vary by market, brand, and distributor, domestic lagers sit at the low end, craft and imports at the high end. Use the calculator above for your exact keg price, pour size, and waste rate.
+      </p>
+    </section>
+
+    <hr class="rule" aria-hidden="true" />
 
     <section class="essay">
       <img src="/illustrations/keg-cost.webp" alt="Editorial illustration of a stainless half-barrel beer keg on a worn wooden bar with brass tap handle, etched pint glass with foam, copper tubing behind, and a small chalkboard with hand-drawn tally marks." class="operator-story__hero" width="1264" height="848" loading="lazy" />
@@ -659,6 +711,19 @@ const schema = [
   .math-table__final td:last-child { font-size: 1.0625rem; }
   .math-table__final td strong { color: var(--color-saffron-text); }
   .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
+
+  .yield { max-width: 760px; margin: 0 auto var(--space-16); }
+  .yield__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-5); }
+  .yield__lead { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.6; color: var(--color-body); max-width: 64ch; margin-bottom: var(--space-6); }
+  .yield__lead strong { color: var(--color-heading); font-weight: 600; }
+  .yield-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 0.9375rem; }
+  .yield-table th, .yield-table td { padding: 12px 8px; border-bottom: 1px solid var(--color-border); text-align: left; }
+  .yield-table th { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-muted); }
+  .yield-table .num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--color-heading); }
+  .yield-table tbody tr:first-child td { color: var(--color-saffron-text); font-weight: 600; }
+  .yield-table tbody tr:first-child td.num { color: var(--color-saffron-text); }
+  .yield__note { margin-top: var(--space-4); color: var(--color-muted); line-height: 1.5; max-width: 64ch; }
+  @media (max-width: 620px) { .yield-table { font-size: 0.8125rem; } .yield-table th, .yield-table td { padding: 9px 5px; } }
 
   .essay { margin: var(--space-16) auto; max-width: 720px; }
   .essay__eyebrow { margin-bottom: var(--space-4); }
