@@ -2,6 +2,7 @@
 title: "How to Calculate Inventory Variance (The Number That Means Theft)"
 description: "The inventory variance formula, the 1-3% acceptable band, and the five places variance hides before you blame theft. From a 5-year GM."
 pubDate: 2026-06-05
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Inventory", "Variance", "Food cost", "Operations"]
 relatedCalc: "inventory-variance"
@@ -15,6 +16,11 @@ Somebody is stealing.
 I was wrong. It was the new cook, building tacos with a heavy hand, an extra ounce a plate, three hundred plates a week. No theft. Just drift. The only reason I knew that, instead of pulling someone into the office and accusing them, is that I ran the variance first.
 
 Here is how to calculate it, and how to read what the number is actually telling you.
+
+
+## The short answer
+
+Inventory variance % is the gap between what you should have used and what you actually used, divided by what you should have used, times 100. For food overall **1 to 3%** is healthy, high-cost proteins should stay **under 2%**, liquor runs **3 to 5%** and draft beer **5 to 10%**. Count your top 10 cost items weekly, and check portioning, waste, receiving and recipe costs before you blame theft.
 
 ## The formula
 

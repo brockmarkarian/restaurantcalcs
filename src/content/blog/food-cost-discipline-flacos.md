@@ -23,6 +23,11 @@ This is the story I want every operator to read before they open their doors. Fl
 
 > Permission note: Felix has consented to me telling his story here. The lessons are universal. The names are real because his family's craft deserves to be remembered, not erased.
 
+
+## The short answer
+
+Food cost discipline isn't about being cheap. It's about knowing exactly what you give away. Set a comp budget up front, around **3 to 5% of food sales** (about **$400 a week** at 5% on an $80,000-a-month operation), ring every comp, staff meal and mistake through the POS, and look at it every week. Generosity you track is a marketing cost. Generosity you don't track closes restaurants.
+
 ## Food cost percentage, what it actually measures
 
 Most operators learn food cost percentage as a math definition: cost of food sold divided by food revenue, times 100. That's correct. That's also the part that doesn't matter.

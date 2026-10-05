@@ -2,7 +2,7 @@
 title: "Average Labor Cost Percentage by Segment (2026 NRA Data)"
 description: "Latest NRA labor cost benchmarks: full-service 36.5%, limited-service 31.7%. State and segment breakdowns. Where to actually target. From a 5-year GM."
 pubDate: 2026-05-20
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Labor cost", "Benchmarks", "By segment", "NRA"]
 relatedCalc: "labor-cost"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/labor-cost.webp"
 ---
 
 The 2024 NRA Industry Factbook told every operator something they already felt in their gut. Labor cost is at historical highs. Full-service median **36.5%**. Limited-service median **31.7%**. Both run 4-5 points higher than they did five years ago. Most write-ups stop at quoting those two numbers, which is useless if you're standing in front of a schedule trying to decide what good actually looks like. This is the version that tells you where to target.
+
+
+## The short answer
+
+The NRA's latest medians put labor at **36.5%** of sales for full-service and **31.7%** for limited-service, about 4 points higher than in 2019. A median is not a target, since half those operators are struggling. Aim **4 to 6 points under** it: about **30 to 33%** for full-service and **26 to 29%** for limited-service, a couple points higher in expensive markets.
 
 ## The latest NRA medians
 

@@ -2,7 +2,7 @@
 title: "How to Reduce Labor Cost Without Cutting Hours"
 description: "Five scheduling fixes that cut labor cost 2-4 points without firing anyone: staggered starts, forecast scheduling, OT control. From a 5-year GM."
 pubDate: 2026-05-27
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Labor cost", "Scheduling", "Operations", "Retention"]
 relatedCalc: "labor-cost"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/labor-cost.webp"
 ---
 
 When labor cost runs hot, the first thing most operators do is cut hours. Send people home early, trim a shift, fire someone. And almost every time, that move backfires inside 2-3 weeks, because the operation actually needed those hours. It just needed them at different times of the day. So the fix isn't fewer hours. It's changing *when* you have them scheduled.
+
+
+## The short answer
+
+You can usually cut **2 to 4 points** of labor without taking hours away from anyone. Stagger start times to the real rush, cross-train so one person covers two roles on slow shifts, schedule to a sales forecast instead of last week, keep overtime under **2%** of hours, and stop losing people you just trained. Start with a sales-per-labor-hour audit so you know which shifts are actually overstaffed.
 
 ## Run an SPLH audit before touching the schedule
 

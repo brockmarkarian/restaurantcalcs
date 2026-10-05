@@ -21,6 +21,11 @@ Here's the thing nobody tells you when you start running a bar program: **the po
 
 Operators see a 28% pour cost on liquor (when the healthy range is 18–24%) and immediately assume theft. That's almost never the first answer. In five years of running variance, I watched pour cost drift hot for five very different reasons. Theft was the rarest of the five. Here they are in order of frequency, with the operational fix for each.
 
+
+## The short answer
+
+When liquor pour cost runs hot, say **28%** against a healthy **18 to 24%**, the cause is usually one of five process leaks, not theft: free pours on the well, buybacks, comps that never get rung in, vendor short-ships, and recipe drift. A steady **0.25 oz over-pour** on a 1.5 oz spec gives away **17%** of every drink by itself. Check those five first. Theft goes last on the list.
+
 ## 1. Free pours on the well
 
 This is the single biggest leak in most indie bars. New bartenders don't trust jiggers, so they eyeball it because that's what they saw on TV, on YouTube, in cocktail competitions. Every one of us was that bartender once. Two ounces becomes two-and-a-half before anyone notices, and multiply that by three hundred drinks on a busy Saturday and you've given away more product than a comp tab would ever have flagged.

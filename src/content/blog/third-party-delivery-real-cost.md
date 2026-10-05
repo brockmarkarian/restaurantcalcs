@@ -2,7 +2,7 @@
 title: "What Third-Party Delivery Actually Costs You (The Math Nobody Quotes)"
 description: "Real all-in cost of DoorDash, Uber Eats, GrubHub. The fees commission rates hide and when delivery makes money. From a 5-year GM."
 pubDate: 2026-05-12
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Delivery", "Margin", "Operations", "Third-party"]
 relatedCalc: "delivery-profit"
@@ -12,6 +12,11 @@ heroImage: "/illustrations/delivery-profit.webp"
 When DoorDash signed up our restaurant in 2021, the rep walked me through a slide deck that quoted a 15% commission. Sounded fine. The math on a $30 ticket said we'd net about $25.50, so we signed. Six months later I pulled the actual deposit data against the actual ticket count, and the average net per order was $19.40, not $25.50.
 
 The 15% was real. So was the 35%. They were just describing different parts of the same order. Here's the math you need before you sign anything.
+
+
+## The short answer
+
+The headline commission is **15 to 30%**, but the all-in cost of a third-party delivery order runs closer to **30 to 40%** once you add payment processing, the marketing tier, promotions and refunds. With restaurant net margins at **3 to 9%**, a delivery ticket at your dine-in prices often loses money. Price the delivery menu separately and check the actual deposit against your order totals every month.
 
 ## The headline commission is not the all-in cost
 

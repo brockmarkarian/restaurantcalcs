@@ -2,7 +2,7 @@
 title: "Restaurant Break-Even Formula (In Dollars and In Covers)"
 description: "Two break-even formulas every operator should run, the cover gap reading, and what changes when you add or kill a daypart. From a 5-year GM."
 pubDate: 2026-05-18
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Break-even", "Operations", "P&L", "Formulas"]
 relatedCalc: "break-even"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/break-even.webp"
 ---
 
 Break-even is the number that tells you how big the hill is before you start counting profit. Most operators know the dollars version. The covers version, way fewer. They answer different questions, and most decisions you make behind the line need both of them.
+
+
+## The short answer
+
+Break-even sales = fixed costs divided by (1 minus your variable cost %). In the example below, **$40,750** a month in fixed costs with variable costs at **52%** of sales means **$84,896** a month to break even. Divide that by what each cover contributes and you get covers: **2,234** a month, about **74 a day**. Count the minimum crew it takes to open the doors as a fixed cost, not a variable one.
 
 ## The two formulas
 

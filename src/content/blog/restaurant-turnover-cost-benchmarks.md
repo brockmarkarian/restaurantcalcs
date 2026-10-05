@@ -2,7 +2,7 @@
 title: "What Restaurant Turnover Actually Costs (The $5,864 Per Quit)"
 description: "Real cost of losing one hourly employee, why 75% turnover is normal but expensive, and the math on a $1,000 retention bonus. From a 5-year GM."
 pubDate: 2026-05-13
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Turnover", "Labor", "Retention", "Operations"]
 relatedCalc: "turnover-cost"
@@ -14,6 +14,11 @@ I lost a line cook to a sandwich shop across the street that paid him fifty cent
 I added it up at the end of the quarter. That fifty-cent raise I would not give cost me around $6,200. Not theoretically. Actually. The math is below.
 
 This is the version of turnover cost I wish somebody had run for me on a napkin before the morning I let that cook walk.
+
+
+## The short answer
+
+Each hourly quit costs about **$5,864** to replace, between hiring, training and the productivity you lose while someone ramps up. The industry turns over **75 to 77%** of hourly staff a year. On a 50-person team that's about **37 quits and $217,000** a year, roughly **10 to 14% of revenue**, more than most independents make in profit.
 
 ## The $5,864 number
 

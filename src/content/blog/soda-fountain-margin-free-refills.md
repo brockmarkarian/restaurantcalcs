@@ -17,6 +17,11 @@ The actual cost was closer to twenty cents. The customer was paying $3.50. Two y
 
 This post is the math somebody should have walked me through on day one. If you've already done the BIB math at your bar and you're reading this for sport, skip down to the failure-modes section. That's where the actually useful stuff lives.
 
+
+## The short answer
+
+A fountain drink costs about **$0.35 to $0.49** once you count the cup, lid, straw and CO2, depending on store-brand or branded syrup. On a **$3.50** drink that is a **10 to 14%** pour cost. Free refills average **1.4 drinks a visit** and push branded cola to about **17.6%**, which still beats most of the food on your menu. The real leaks are cup costs and prices nobody has touched since 2017, not the refills.
+
 ## What is in a fountain drink, cost-wise
 
 Five things. None of them are expensive on their own:
@@ -35,20 +40,20 @@ A standard branded BIB is five gallons. That is **640 ounces of concentrated syr
 
 The mix ratio for fountain is **5:1**, five parts carbonated water to one part syrup. Diet runs 4:1. Specialty syrups can go 6:1.
 
-640 ounces of syrup at a 5:1 mix yields **3,840 ounces of finished beverage** (640 syrup + 3,200 water). That is about **240 sixteen-ounce pours** after a 30% ice fill, or **342 pours** if you measure straight to the rim and never serve ice.
+640 ounces of syrup at a 5:1 mix yields **3,840 ounces of finished beverage** (640 syrup + 3,200 water). That is about **342 sixteen-ounce pours** after a 30% ice fill, or **240** if you pour straight to the rim with no ice.
 
 A branded cola BIB runs **$80-95** (BinWise). Proprietary or store-brand syrups for the same volume run **$35-50**. Call a branded BIB $90 for round numbers.
 
-$90 ÷ 240 finished servings = **$0.38 per drink, syrup cost.**
+$90 ÷ 342 servings = **$0.26 per drink, syrup cost.**
 
 Add the rest of the stack:
 
 - 16 oz cup + lid + straw: **~$0.18** (industry mid-range disposable cost)
 - CO2 + carbonated water + ice + minor amortization: **~$0.05**
 
-Total: **roughly $0.61 per fountain drink.** Sold at $3.50, that is a **17.5% pour cost** before refills, leaving $2.89 of contribution margin per drink.
+Total: **roughly $0.49 per fountain drink.** Sold at $3.50, that is a **14% pour cost** before refills, leaving $3.01 of contribution margin per drink.
 
-If you skip the branded BIB and run a proprietary or store-brand syrup at $40 a box: $0.17 syrup cost. Add the same disposable + CO2 stack and you are at **$0.40 per drink**, an **11% pour cost**, $3.10 contribution margin.
+If you skip the branded BIB and run a proprietary or store-brand syrup at $40 a box: $0.12 syrup cost. Add the same disposable + CO2 stack and you are at **$0.35 per drink**, a **10% pour cost**, $3.15 contribution margin.
 
 That's why concepts that own their drink mix print money on beverages. Think regional chains, the burger spots with their own root beer, the quick-service that runs Polar or Faygo or some weird local. The brand cola is paying for marketing. The math is paying for everything else.
 
@@ -68,9 +73,9 @@ Recalculate when you change cup size. Always.
 
 Free refills add a multiplier on every drink sold.
 
-Industry rule of thumb: **1.4 pours per visit** when refills are free (BinWise). That is 40% more cost on every drink the customer orders. So your $0.61 cost per pour becomes $0.85 cost per visit. Your $3.50 menu price still stands. Pour cost on a refill program goes from 17.5% to **24.3%**.
+Industry rule of thumb: **1.4 pours per visit** when refills are free (BinWise). The syrup, CO2 and ice get refilled, the cup doesn't, so that's 40% more on the liquid side of every drink. Your $0.49 cost per drink becomes about $0.62 per visit. Your $3.50 menu price still stands. Pour cost on a refill program goes from 14% to **17.6%**.
 
-Two things to notice. First, that's still a very good pour cost. **A 24% pour cost on a beverage at full retail is healthier than 80% of food items on most menus.** Free fountain refills are not the leak you think they are. The real leak is probably the bar program or the comp creep on apps.
+Two things to notice. First, that's still a very good pour cost. **A 17.6% pour cost on a beverage at full retail is healthier than most of the food on your menu.** Free fountain refills are not the leak you think they are. The real leak is probably the bar program or the comp creep on apps.
 
 Second, you can drop the multiplier without killing the experience. A one-refill cap drops the average from 1.4 to about 1.1. Most customers don't refill more than once. The guy who refills four times was never going to buy a second drink at full price. He's just trying to win at fountain.
 
@@ -80,11 +85,11 @@ If your concept is competitive in a category where free refills are an expectati
 
 Plot your number against the band:
 
-- **8-15%:** healthy on small to medium pours (Toast, BinWise)
-- **4-8%:** what you should run on 32 oz mega cups (cup + CO2 cost stay flat as price scales up)
+- **8-15%:** healthy before free refills (store-brand syrup near the bottom, branded cola near the top)
+- **Rises with cup size:** a 32 oz holds almost three times the syrup of a 12 oz but rarely sells for three times the price, so expect about 12-18% on a 32 oz
 - **Above 22%:** something is broken. Cup cost too high, mix ratio is wrong on the dispenser, or you are running a 24 oz mega at $1.99 and trying to win on volume
 
-The mix ratio is the silent killer. A dispenser tuned to 4:1 instead of 5:1 burns 25% more syrup per pour. On a high-volume concept, across a year, that's real money walking out the door. Calibrate quarterly. The distributor will do it free if you ask. They won't show up if you don't, so ask.
+The mix ratio is the silent killer. A dispenser tuned to 4:1 instead of 5:1 burns 20% more syrup per pour. On a high-volume concept, across a year, that's real money walking out the door. Calibrate quarterly. The distributor will do it free if you ask. They won't show up if you don't, so ask.
 
 ## Failure modes (what makes fountain bleed)
 

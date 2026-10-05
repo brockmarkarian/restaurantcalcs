@@ -2,7 +2,7 @@
 title: "Restaurant Profit Margin Benchmarks (2026 Net by Segment)"
 description: "Restaurant net profit margins by segment: full-service 3-8%, fast casual 4-10%, QSR 6-12%, ghost kitchen 10-15%. What 6% net actually means on $1.2M revenue."
 pubDate: 2026-05-22
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Profit margin", "Benchmarks", "P&L", "Operations"]
 relatedCalc: "prime-cost"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/prime-cost.webp"
 ---
 
 Restaurant margins are thin. That's the whole game. Industry-wide net profit margin sits at **3-9%** depending on segment (NRA 2024, Toast, Baker Tilly), and what that actually means in dollars comes down to whatever is left after every other line on the P&L gets paid. So here's the breakdown by segment, plus what each band looks like when you're the one signing the checks.
+
+
+## The short answer
+
+Restaurants net **3 to 9%** of sales. Full-service casual runs **3 to 8%** (most land at 4 to 6%), fine dining and fast casual **4 to 10%**, QSR and pizza **6 to 12%**. On **$1.2 million** in sales, a 6% margin is **$72,000** a year. That's why a 2-point slip in food or labor wipes out a third of the profit.
 
 ## Industry-wide and by segment
 

@@ -2,7 +2,7 @@
 title: "Theoretical vs Actual Food Cost (Variance Explained)"
 description: "Theoretical food cost vs actual: what the gap means, acceptable variance bands by segment, and the five places variance hides. From a 5-year GM."
 pubDate: 2026-05-23
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Food cost", "Variance", "Inventory", "Operations"]
 relatedCalc: "inventory-variance"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/inventory-variance.webp"
 ---
 
 Every operator who has ever pulled a food cost report has wondered why the number came in higher than the recipes said it should. That gap is variance: the difference between what your recipes predict you should spend and what your invoices and inventory say you actually spent. Nobody puts it on a P&L line, but it's the cleanest read you'll get on how the kitchen is actually running.
+
+
+## The short answer
+
+Theoretical food cost is what your recipes say you should have spent. Actual is what your inventory and invoices say you did. The gap is variance: **2 to 3%** is healthy, **6 to 10%** means something is broken. On **$86,000** a month in sales, a 5% gap is **$4,300** a month going to waste, portion drift, theft, off-recipe swaps or recipe costs that never got updated.
 
 ## The two numbers
 

@@ -2,7 +2,7 @@
 title: "Sales Per Labor Hour: The Number That Tells You Who To Cut First"
 description: "From a 5-year bar GM: the math behind the 9pm 'cut a server' decision, why SPLH beats labor cost % at the shift level, and concept-by-concept benchmarks."
 pubDate: 2026-05-04
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Labor cost", "Scheduling", "SPLH", "Operations"]
 relatedCalc: "labor-cost"
@@ -18,6 +18,11 @@ Multiply that across five nights a week, fifty weeks a year, and you are looking
 **Sales per labor hour is the number that catches it.**
 
 So here's the case for running SPLH at the shift level instead of, or alongside, labor cost percentage at the period level. Concept-by-concept benchmarks, plus the practical reality of when to actually cut somebody.
+
+
+## The short answer
+
+Sales per labor hour (SPLH) is net sales divided by the total hours everybody was on the clock. Casual dining usually runs **$60 to $85** an hour, QSR **$40 to $60**, fine dining **$80 to $150**, and a sports bar **$80 to $120** at peak but **$30 to $50** in the slow windows. When a shift drops under its band, cut the person whose hours are buying the least sales. It beats labor cost % at 9pm because it's real dollars you can do in your head.
 
 ## What SPLH actually is
 

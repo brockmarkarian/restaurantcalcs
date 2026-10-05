@@ -2,6 +2,7 @@
 title: "Charm Pricing vs Round Pricing on Restaurant Menus"
 description: "The data on .99 vs round pricing: 24% retail lift, Cornell menu studies, when to drop the dollar sign, anchor and decoy pricing on menus."
 pubDate: 2026-05-31
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Menu pricing", "Pricing psychology", "Menu design", "Operations"]
 relatedCalc: "menu-pricing"
@@ -9,6 +10,11 @@ heroImage: "/illustrations/menu-pricing.webp"
 ---
 
 How you write a price on the menu changes how people buy. Same burger. The $14.99 version and the $15 version sell at different rates, and the menu with dollar signs pulls a different average check than the one without. Researchers have been picking at this for decades, and the patterns are real. Here's the version that actually matters behind the bar.
+
+
+## The short answer
+
+Charm pricing ($14.99) lifts sales about **24%** in retail studies but closer to **5 to 15%** on restaurant menus, and it fits casual and fast casual best. Dropping the dollar sign and decimals (just "16") raised average check **8.15%** in Cornell's research and suits full-service and fine dining. Add one high anchor, like a $48 ribeye that makes the $32 steak look reasonable, and a 271-restaurant study saw check averages climb **6.8%**.
 
 ## Charm pricing: the .99 / .95 ending
 

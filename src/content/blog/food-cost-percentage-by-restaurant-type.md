@@ -11,6 +11,11 @@ heroImage: "/illustrations/food-cost.webp"
 
 Industry-wide food cost runs 28-35% for full-service restaurants. That range is so wide it's almost useless as a target. You want it by concept, by segment, and tuned to your actual menu mix. That's the number that tells you anything.
 
+
+## The short answer
+
+Full-service food cost runs **28 to 35%** on paper, but the number that matters is your concept's: pizza **20 to 28%**, burgers **25 to 32%**, casual full-service **28 to 32%**, sushi and seafood **30 to 38%**, steakhouse **32 to 40%**. A steakhouse at 36% can be healthier than a burger joint at 31%, because each plate carries more dollars. Compare yourself to your segment, not the industry average.
+
 ## The industry-wide range and why it is so wide
 
 Toast, Lightspeed, and the National Restaurant Association all publish food cost benchmarks in the **28-35%** range for full-service. A few things push the spread that wide.

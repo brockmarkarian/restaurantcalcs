@@ -2,7 +2,7 @@
 title: "What Is Menu Engineering (Stars / Plowhorses / Puzzles / Dogs)"
 description: "The menu engineering matrix explained: how to classify items by margin and popularity, what to do with each quadrant, and when to rerun the analysis."
 pubDate: 2026-05-24
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Menu engineering", "Pricing", "Margin", "Operations"]
 relatedCalc: "menu-engineering"
@@ -12,6 +12,11 @@ heroImage: "/illustrations/menu-engineering.webp"
 Menu engineering looks at your menu two ways at the same time: which items make you the most money per cover, and which ones get ordered the most. Plot those two against each other and you get a four-quadrant grid. Each box tells you what to do with the item sitting in it. Promote it, reprice it, move it, or kill it.
 
 Most articles stop at the labels. This one does the math.
+
+
+## The short answer
+
+Menu engineering sorts every item two ways: how much contribution margin it makes in dollars, and how often it sells. High on both is a **Star**: feature it and protect it. Popular but low margin is a **Plowhorse**: find cost savings and nudge the price. High margin but slow is a **Puzzle**: move it up the menu or rename it. Low on both is a **Dog**: cut it or rework it. Rerun the matrix every quarter or after any price change.
 
 ## The two axes
 

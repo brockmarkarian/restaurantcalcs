@@ -2,7 +2,7 @@
 title: "Half-Barrel Pints, Foam Loss, and What a Draft Beer Actually Costs"
 description: "From a 5-year bar GM: how many pints actually pour out of a half-barrel keg, why foam and line cleaning eat 5-10%, and what every pint really costs."
 pubDate: 2026-05-04
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Bar program", "Draft beer", "Pour cost", "Operations"]
 relatedCalc: "keg-cost"
@@ -18,6 +18,11 @@ My first thought was theft. My first thought is always theft. That is how new ma
 I was wrong. The kegs were losing twenty-five pints to foam, line cleaning, and a regulator pressure that nobody had touched in months. Nobody was stealing anything. The bar was just bleeding out the taps.
 
 This post is the math I wish I had on a printed sheet pinned above the keg cooler when I started.
+
+
+## The short answer
+
+A half-barrel holds about **124 sixteen-ounce pints** on paper, but after foam, line cleaning and what's left at the bottom you'll pour about **110 to 118**. That **5 to 10%** loss is normal; 5% is a tuned system and 10% is one nobody has touched. Cost every pint off the real count, not 124. At **$1.74** a pint and a **$7** price, that's a **24.9%** pour cost, just over the top of the **18 to 24%** draft band.
 
 ## How many pints are actually in a keg
 

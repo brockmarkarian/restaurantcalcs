@@ -2,7 +2,7 @@
 title: "Why Monthly Inventory Lies (And the Weekly Fix That Catches Leaks)"
 description: "From a 5-year bar GM: monthly variance is too late, weekly is the real number, and the discipline of looking matters more than the math."
 pubDate: 2026-05-04
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Inventory", "Variance", "Operations"]
 relatedCalc: "inventory-variance"
@@ -18,6 +18,11 @@ That is the entire problem with monthly inventory. By the time you see the gap, 
 Weekly inventory isn't about tighter numbers. **It's about catching the gap while the trail is still warm.**
 
 This post is the case for switching from monthly to weekly counts and the practical guide to doing it without burning out the team.
+
+
+## The short answer
+
+Count your top cost items weekly, not just once a month. A monthly count shows you a leak four weeks after it started, with no way to tell which week or which shift. Best-in-class operators keep variance under **1%** of sales, **2 to 3%** is normal, and sustained **4 to 5%** means trouble. You don't need to count everything weekly, just the **20 to 40 items** that drive most of your cost.
 
 ## What monthly inventory actually catches
 

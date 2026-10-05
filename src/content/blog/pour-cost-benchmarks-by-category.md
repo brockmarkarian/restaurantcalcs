@@ -11,6 +11,11 @@ heroImage: "/illustrations/liquor-pour-cost.webp"
 
 Every operator asks the same question: what should my pour cost be? Most consultants answer 20%. They're wrong. Beer, wine, and spirits run on completely different cost structures, and a single number jams them together so you can't see which one is bleeding. The blended figure is fine for a back-of-envelope gut check. The category numbers are what actually tell you where the leak lives.
 
+
+## The short answer
+
+Don't run your bar on one blended pour cost. Spirits poured straight should land at **14 to 18%**, cocktails **18 to 22%**, draft beer **18 to 24%**, bottled beer **24 to 30%**, and wine by the glass in the high 20s to low 30s. A 20% blend can look fine while beer runs 26% and spirits cover for it at 18%. Track each category on its own and the leak has nowhere to hide.
+
 ## Why a single target is wrong
 
 Say a bar does 50% beer, 25% wine, 25% spirits and chases a 20% blended target. It might be running 26% on beer (bad), 24% on wine (slightly hot), and 18% on spirits (great). The blend averages out to something that looks healthy. Meanwhile two of your three categories are quietly leaking and the one good number is covering for them.

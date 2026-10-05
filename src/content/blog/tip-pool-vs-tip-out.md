@@ -2,7 +2,7 @@
 title: "Tip Pool vs Tip Out (When to Switch and When Not To)"
 description: "Tip pool vs tip out: standard percentages, FLSA compliance, and four questions that decide which structure fits your concept. From a 5-year GM."
 pubDate: 2026-05-29
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Tip pool", "FLSA", "Service", "Operations"]
 relatedCalc: "tip-pool"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/tip-pool.webp"
 ---
 
 People say tip pool and tip out like they're the same thing. They're not. A tip pool is one bucket that gets redistributed. A tip out is a server taking a cut of their sales and handing it down to support staff. Those two setups carry different legal risk, different compliance flags, different headaches on a Friday night. Here's how I'd frame it after running both.
+
+
+## The short answer
+
+In a tip pool, everyone's tips go in one bucket and get split by hours or points. In a tip-out, each server pays the support staff a set share of their sales or tips. Most tip-outs run **4 to 8% of sales** or **15 to 25% of server tips**. Pools fit team service where everybody touches every table; tip-outs fit section service where one server owns the guest. Either way, managers and supervisors can't take a cent (FLSA §3(m)(2)(B)).
 
 ## Definitions
 

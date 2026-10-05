@@ -2,7 +2,7 @@
 title: "How to Cost a Recipe (The Yield Percentage Most Operators Skip)"
 description: "How to cost a recipe plate-by-plate, why yield percentage matters more than spec sheets show, and the Q-factor most kitchens forget. From a 5-year GM."
 pubDate: 2026-05-11
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Recipe costing", "Food cost", "Kitchen ops", "Operations"]
 relatedCalc: "recipe-cost"
@@ -16,6 +16,11 @@ Three weeks later the food cost report came back and the burger was running 31%.
 The math was not wrong. The spec sheet was just incomplete. It costed the ingredients at as-purchased prices and ignored every step between the box on the receiving dock and the plate on the table. That gap is yield percentage, and almost every independent kitchen costs without it.
 
 This is the version of recipe costing I wish somebody had walked me through when I started writing P&Ls.
+
+
+## The short answer
+
+Cost each ingredient at its usable price, not the invoice price: divide what you paid by the yield percentage. A **$24-a-pound** tenderloin that yields **70%** after trimming really costs **$34.29** per usable pound. Skip yield and your recipe cost runs **15 to 20% low**, which is how a burger costed at 22% shows up at 31% on the food cost report.
 
 ## The three terms that get mixed up
 

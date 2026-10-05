@@ -13,6 +13,11 @@ When I first ran labor cost percentage at Cosmos, I divided gross wages by sales
 
 The 24% was wages. The 32% was what it actually costs to employ people once you count everything. The industry calls that difference payroll burden, and most operators leave it out of their weekly tracking. That's the eight points right there.
 
+
+## The short answer
+
+Labor cost % is total labor cost divided by total sales, times 100. Total labor means wages **plus** payroll taxes, workers comp and benefits. That burden adds roughly **25 to 35%** on top of wages, which is how a **24%** wage number shows up as **32%** on the P&L. Most full-service operators land between **25 and 35%** of sales.
+
 ## The formula (the version that matches your P&L)
 
 > **Labor Cost % = (Gross Wages + Salaries + Payroll Burden) ÷ Total Sales × 100**

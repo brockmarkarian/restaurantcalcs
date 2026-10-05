@@ -11,6 +11,11 @@ heroImage: "/illustrations/food-cost.webp"
 
 Every operator knows the food cost formula. Most run it wrong, and not because they can't do the division. The math is simple. The inputs are where it falls apart, and that's where I've watched good operators fool themselves for years.
 
+
+## The short answer
+
+Food cost % = (beginning inventory + purchases minus ending inventory) divided by food sales, times 100. Pull out staff meals, comps and transfers before you divide, or the number drifts and you can't tell why. In the example below, that adjustment moves the number from **29.3%** to **27.8%**. For casual full-service, **28 to 32%** is healthy. Run it weekly.
+
 ## The formula
 
 > **Food Cost % = COGS ÷ Food Sales × 100**

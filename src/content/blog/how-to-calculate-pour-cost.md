@@ -13,6 +13,11 @@ The first beverage director I worked under handed me a clipboard one Sunday and 
 
 This is the version of pour cost I wish somebody had explained to me the first time I set a target.
 
+
+## The short answer
+
+Pour cost % is what the liquor in the glass cost you divided by what you sold the drink for, times 100. Track it by category, not one 20% blend: spirits poured straight run **14 to 18%**, a full liquor program with cocktails **18 to 24%**, draft beer **18 to 24%**, bottled beer **24 to 30%**. Then measure your real pour. A 1.5 oz spec poured at 1.7 oz turns **17.8%** into **19.8%**, and nobody notices until the count.
+
 ## The formulas
 
 There are two pour cost formulas, and most operators use them interchangeably and confuse themselves.

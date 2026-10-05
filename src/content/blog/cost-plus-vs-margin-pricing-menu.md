@@ -2,6 +2,7 @@
 title: "Cost-Plus vs Margin Pricing (Three Menu Pricing Methods Compared)"
 description: "Cost-plus, food-cost-target, and contribution-margin pricing compared. Same $4.50 cost, three different menu prices. Which method wins by concept."
 pubDate: 2026-05-30
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Menu pricing", "Margin", "Operations", "Pricing"]
 relatedCalc: "menu-pricing"
@@ -9,6 +10,11 @@ heroImage: "/illustrations/menu-pricing.webp"
 ---
 
 Three menu pricing methods cover most of what you'll ever need. Run the same dish through all three and you get three different prices, sometimes wildly different. Each one shines on a certain kind of item and bleeds you on another. The mistake I see most often is an operator picking one formula and running it across the whole menu, top to bottom. That's how you under-price the steak and over-price the espresso in the same shift.
+
+
+## The short answer
+
+There are three common ways to price a dish, and on the same **$4.50** plate cost they give three different prices: **$13.50** with a 3x markup, **$15.00** at a 30% food cost target, and **$18.00** if you aim for $13.50 of contribution margin. On 1,000 covers a week, that **$4.50** spread is about **$4,500 a week** in revenue. Most well-run kitchens use a food cost target on everyday items and a contribution margin target on premium proteins.
 
 ## The three methods
 

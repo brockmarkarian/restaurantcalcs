@@ -2,7 +2,7 @@
 title: "Contribution Margin vs Food Cost Percentage (Why Food Cost % Lies)"
 description: "The dollar-vs-percentage trap that makes operators kill profitable items: why a 38% food cost steak makes more money than a 22% food cost salad."
 pubDate: 2026-05-25
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Margin", "Pricing", "Menu engineering", "Operations"]
 relatedCalc: "menu-engineering"
@@ -12,6 +12,11 @@ heroImage: "/illustrations/menu-engineering.webp"
 The mistake I see most often in menu pricing? Operators chasing food cost percentage like it's the score that matters. They see a 38% food cost dish and figure it's bleeding them. They see a 22% food cost dish and figure it's carrying the place. Both reads are wrong, and they're wrong in a way that costs real money. Food cost % is a ratio. Profit gets paid in dollars, and the dollars don't care what the ratio says.
 
 Here's the contribution margin argument with the math actually worked out, so you don't have to take my word for it.
+
+
+## The short answer
+
+Rank menu items by contribution margin in dollars, not food cost percentage. A **$42 steak at 38%** food cost leaves **$26.04** per plate. A **$14 salad at 22%** leaves **$10.92**. The steak looks worse on the percentage and makes more than twice the money. Use food cost % to compare your whole operation to benchmarks, not to decide which dishes to push.
 
 ## The two numbers
 

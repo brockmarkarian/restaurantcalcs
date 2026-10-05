@@ -2,7 +2,7 @@
 title: "How to Reduce Restaurant Turnover (Real Numbers, Not Perks)"
 description: "Retention strategies that actually work, the ROI math on bonuses and onboarding, and why manager training beats every other intervention. From a 5-year GM."
 pubDate: 2026-05-28
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Turnover", "Retention", "Labor", "Operations"]
 relatedCalc: "turnover-cost"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/turnover-cost.webp"
 ---
 
 Every operator wants to reduce turnover. Most start in the wrong place. Ping-pong tables, employee appreciation week, free meals, T-shirts, none of that moves the needle. The stuff that actually works is boring: predictable schedules, manager training, structured onboarding, pay you can explain out loud. Here's the math on each one.
+
+
+## The short answer
+
+Hourly restaurant turnover runs **75 to 77%** a year and each quit costs about **$5,864**, so a 50-person crew spends roughly **$220,000** a year on it. Half of quits happen in the first **90 days**, and **55 to 70%** trace back to a manager. Fix schedule predictability, train your managers and check in at 30, 60 and 90 days before you spend a dollar on perks.
 
 ## The baseline you are working against
 

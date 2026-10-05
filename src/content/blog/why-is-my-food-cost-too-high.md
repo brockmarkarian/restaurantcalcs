@@ -2,7 +2,7 @@
 title: "Why Is My Food Cost Too High? 7 Root Causes (Diagnostic Order)"
 description: "The seven root causes of high food cost, the diagnostic flowchart for finding which one is yours, and the triage order based on variance size."
 pubDate: 2026-05-26
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Food cost", "Variance", "Diagnostics", "Operations"]
 relatedCalc: "food-cost"
@@ -10,6 +10,11 @@ heroImage: "/illustrations/food-cost.webp"
 ---
 
 When food cost runs hot, everybody wants to fix everything at once. Tighten portions, renegotiate vendors, reprice the menu, retrain the line, install cameras, write up the closing manager. None of it works, because none of it is aimed at anything. You're guessing. Work it like a diagnosis instead: in order, smallest fix first. Here's the flowchart.
+
+
+## The short answer
+
+High food cost almost always traces to one of seven causes: menu prices that didn't move when costs did, portion drift, waste, theft and unrung comps, short deliveries logged as full, off-recipe substitutions, or a sales mix that drifted toward expensive dishes. Compare theoretical to actual food cost first. A **1 to 2 point** gap is noise. An **8 point** gap has a real cause, big enough to find, and stale prices and portion drift are the usual suspects.
 
 ## First, run the variance check
 

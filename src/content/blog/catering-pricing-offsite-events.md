@@ -2,6 +2,7 @@
 title: "Catering Pricing: Off-Site Event Math (Beyond Food Cost)"
 description: "Catering pricing formula that captures off-site labor, travel, equipment, minimum spend. Target margins 7-15% net, gross 65-70%. From a 5-year GM."
 pubDate: 2026-06-02
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Catering", "Pricing", "Margin", "Operations"]
 relatedCalc: "catering-pricing"
@@ -9,6 +10,11 @@ heroImage: "/illustrations/catering-pricing.webp"
 ---
 
 Catering looks like a margin win until you actually run the numbers. The pitch sounds great. $40 per head × 80 guests = $3,200 ticket, food cost 30%, "easy money." Then the part nobody puts in the spreadsheet shows up: load-out labor, drive time both ways, on-site setup, breakdown, and a stack of equipment costs that never touch the food cost line. Most operators undercount that stuff and lose money on catering they were sure was profitable.
+
+
+## The short answer
+
+Price catering from all-in cost, not food cost. On top of a **28 to 35%** food cost, an off-site event carries **25 to 35%** labor, **2 to 4%** travel and **2 to 5%** rentals and disposables, plus your overhead. That leaves a realistic net margin of **7 to 15%**, not the 70% the food cost alone suggests. Set a minimum spend so a small event can't lose money just by showing up.
 
 ## The catering P&L (honest version)
 

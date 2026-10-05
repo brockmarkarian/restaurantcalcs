@@ -2,7 +2,7 @@
 title: "How to Calculate Prime Cost (Weekly, Not Monthly)"
 description: "The right way to calculate restaurant prime cost: weekly cadence, fully loaded labor, why a 60% target hides more than it reveals. From a 5-year GM."
 pubDate: 2026-05-14
-updatedDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Prime cost", "Food cost", "Labor", "Operations"]
 relatedCalc: "prime-cost"
@@ -12,6 +12,11 @@ heroImage: "/illustrations/prime-cost.webp"
 Prime cost is the one number every operator should be watching weekly. Most aren't. They pull it monthly from the bookkeeper, see "62%" on the report, shrug, and move on. By the time that monthly number lands, the week that broke prime cost is four weeks gone and the second bad week is already two weeks in.
 
 This is the version I wish somebody had walked me through the first time I sat down with a P&L and pretended I understood it.
+
+
+## The short answer
+
+Prime cost = (food and beverage cost + fully loaded labor) divided by total sales, times 100. Run it weekly, not monthly. Fully loaded means payroll taxes, workers comp and benefits on top of wages, which adds **25 to 35%** to gross pay. Healthy depends on the concept: about **55 to 60%** for counter service and **60 to 65%** for sit-down. Over **65%**, fix it this week, not next month.
 
 ## The formula
 

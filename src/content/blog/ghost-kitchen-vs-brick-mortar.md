@@ -2,6 +2,7 @@
 title: "Ghost Kitchen vs Brick & Mortar (The Honest Cost Comparison)"
 description: "Ghost kitchen vs traditional restaurant: startup cost, labor, margin, and the 60% failure rate nobody talks about. The break-even math by concept."
 pubDate: 2026-06-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Ghost kitchen", "Concept comparison", "Operations", "Margin"]
 relatedCalc: "break-even"
@@ -9,6 +10,11 @@ heroImage: "/illustrations/break-even.webp"
 ---
 
 Ghost kitchens (sometimes called virtual brands or cloud kitchens) get pitched as the future of restaurants. Lower startup cost, lower labor, fatter margin. Some of that holds up. The part the pitch deck skips is the failure rate, which runs up to 60% in some markets according to recent reporting (Restaurant Business Online, CloudKitchens disclosures). So here's the honest comparison, line by line.
+
+
+## The short answer
+
+A ghost kitchen costs **75 to 85% less** to open than a brick-and-mortar restaurant and runs leaner labor, about **20 to 25%** of revenue against **28 to 35%**. The catch is delivery. Ghost kitchens live on third-party orders, and the all-in platform cost runs **30 to 40%** of each order, which eats most of that advantage. They work best as a second brand run out of a kitchen you're already paying for.
 
 ## Startup cost
 
