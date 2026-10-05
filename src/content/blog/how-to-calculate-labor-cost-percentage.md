@@ -74,11 +74,11 @@ For the SPLH math in detail, see [Sales Per Labor Hour: The Number That Tells Yo
 
 ## The 30% benchmark across segments
 
-Industry-standard labor cost benchmark for full-service restaurants: **28-32%** (NRA 2024). Some specific segment medians:
+Industry-standard labor cost benchmark for full-service restaurants: **25-35%** of revenue (Toast, NRA), with most casual operators aiming for about 30%. By segment:
 
-- **QSR / fast food:** 25-30% (high check velocity, low wage rates)
-- **Fast casual:** 28-32%
-- **Casual full-service:** 30-35%
+- **QSR / fast food:** 20-25% (high check velocity, low wage rates)
+- **Fast casual:** 25-30%
+- **Casual full-service:** 28-35%
 - **Family restaurant:** 30-35%
 - **Fine dining:** 32-38% (more BOH, skilled positions, higher service ratio)
 - **Steakhouse:** 32-36%

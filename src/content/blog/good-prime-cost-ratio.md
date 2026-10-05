@@ -32,7 +32,7 @@ These are healthy ranges, not red lines. A full-service restaurant at 66% is not
 
 ## Why bars run lower
 
-Beverage margin. That is the whole reason, start to finish. Spirits run a 14 to 18% pour cost, which is far better than the 28 to 35% food cost a kitchen lives with. A bar-led concept is selling a bigger share of its revenue as high-margin liquor, so its combined COGS sits lower, and that drags the whole prime cost down with it. A bar at 52% prime cost is not doing anything magical. It is selling a product that costs less to make. Same reason a restaurant that adds a strong bar program can pull its overall prime cost down a few points without touching the kitchen.
+Beverage margin. That is the whole reason, start to finish. Spirits poured straight run a 14 to 18% pour cost, which is far better than the 28 to 35% food cost a kitchen lives with. A bar-led concept is selling a bigger share of its revenue as high-margin liquor, so its combined COGS sits lower, and that drags the whole prime cost down with it. A bar at 52% prime cost is not doing anything magical. It is selling a product that costs less to make. Same reason a restaurant that adds a strong bar program can pull its overall prime cost down a few points without touching the kitchen.
 
 ## Why fine dining runs higher
 

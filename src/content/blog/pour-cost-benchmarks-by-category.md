@@ -18,7 +18,7 @@ Run category-level targets. Use the blended number as a cross-check, not the sco
 
 ## Spirits / liquor
 
-**Industry target:** 14-18% pour cost (Backbar, BinWise, Sculpture Hospitality)
+**Industry target:** 14-18% pour cost on spirits poured straight or in simple well drinks (Backbar, BinWise, Sculpture Hospitality). Once cocktails are in the mix, most liquor programs land at 18-24% overall, which is the range the [liquor pour cost calculator](/calculators/liquor-pour-cost/) grades against.
 
 Spirits are the highest-margin thing behind your bar. Nothing else is close. A $24 bottle of well vodka gives you about 15 servable 1.5 oz drinks after spillage. At $1.60 cost per drink and a $9 menu price, that's 17.8% pour cost. Even with 2 points of variance from over-pour and comps, well drinks should land below 20%. If your well is over 20%, you've got a pour problem, not a pricing one.
 

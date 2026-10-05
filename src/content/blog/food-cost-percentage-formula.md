@@ -59,7 +59,7 @@ That 1.5-point difference isn't noise. On annualized $4.5M revenue at 60% food s
 
 ## The 28-35% target and what changes it
 
-Industry-standard food cost benchmark for casual full-service: **28-35%** (Toast, Lightspeed, NRA Industry Factbook).
+Industry-standard food cost benchmark for casual full-service: **28-35%** (Toast, Lightspeed, NRA Industry Factbook). The [food cost calculator](/calculators/food-cost/) calls 28-32% healthy for casual dining and flags 32-35% as worth watching, because the top of the published range is where margin starts to slip.
 
 Concept shifts the band:
 

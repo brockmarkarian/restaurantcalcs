@@ -46,8 +46,8 @@
 
 ### Liquor pour cost
 
-- **Liquor / spirits:** 18–24%
-- **Beer (draft):** 18–24%
+- **Liquor / spirits, whole program:** 18–24% (spirits poured straight 14–18%, cocktails 18–22%)
+- **Beer (draft):** 18–24% across a tap list (domestic 18–22%, craft 20–25%, imports 22–28%)
 - **Beer (bottled):** 25–30%
 - **Wine (by glass):** 28–32%
 - **Wine (by bottle):** 30–40%

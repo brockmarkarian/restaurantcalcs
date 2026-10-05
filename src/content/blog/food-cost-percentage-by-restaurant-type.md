@@ -54,7 +54,7 @@ Bread, protein, cheese, produce. Margins are tighter than burgers because the vo
 
 ## Casual full-service
 
-**Casual full-service:** 28-35%
+**Casual full-service:** 28-35% published, 28-32% healthy (above 32% is worth a look)
 
 This is the big tent, Applebee's-tier up through Cheesecake Factory-tier. Wide mix of entrees, apps, salads, kids' menu, dessert. What moves the food cost most is how much of the plate count is protein versus everything else.
 

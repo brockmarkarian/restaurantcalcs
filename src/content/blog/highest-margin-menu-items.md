@@ -24,7 +24,7 @@ The best margin on the menu, full stop. A cup of fountain soda costs you syrup, 
 
 Same story, slightly less extreme. A cup of brewed coffee costs you 20 to 40 cents and sells for $3 to $4. Specialty drinks push the margin even higher. The one catch is waste. Brewed coffee sits too long, gets dumped, and that quietly eats the margin if you over-brew.
 
-## 3. Well drinks and cocktails (pour cost 14 to 20%)
+## 3. Well drinks and cocktails (pour cost 14 to 22%)
 
 A well vodka soda costs you about $1.60 and sells for $9, a pour cost under 18%. House cocktails done right run 18 to 22%. Spirits are the highest-margin beverage category by a wide margin. The leak is over-pour, not the recipe. See [how to price a cocktail](/blog/how-to-price-a-cocktail/) and the [liquor pour cost calculator](/calculators/liquor-pour-cost/).
 
