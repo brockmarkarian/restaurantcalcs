@@ -54,6 +54,16 @@
 - **Combined beverage program:** 20–25%
 - Sources: Toast, BinWise, BevSpot, USBG
 
+### Fountain soda pour cost
+
+- **Healthy:** 8–15% before free refills (store-brand syrup at the low end, branded cola at the high end)
+- **Watch:** 15–22%. **Critical:** above 22%
+- **Rises with cup size**, it does not fall: syrup scales with the cup, menu price usually doesn't
+- **By size** (5:1 mix, 30% ice, $0.01 CO2, $45 to $90 BIB, no refills; prices / cup costs 12 oz $2.49 / $0.10, 16 oz $2.99 / $0.12, 20 oz $3.29 / $0.14, 24 oz $3.49 / $0.16, 32 oz $3.99 / $0.20): 12 oz 8–12%, 16 oz 9–13%, 20 oz 10–15%, 24 oz 11–16%, 32 oz 12–18%
+- **Yield:** 5-gallon BIB = 640 oz syrup = 3,840 oz finished at 5:1. 16 oz cup at 30% ice = 11.2 oz liquid, ~342 servings per box
+- **Free refills:** 1.4 drinks per visit on average (BinWise), ~1.1 with a one-refill cap
+- Source: derived from the fountain calculator's own formula; keep every page in line with these numbers
+
 ### Inventory variance
 
 - **Best-in-class:** under 1% of sales

@@ -41,7 +41,7 @@ const faq = [
   },
   {
     q: 'What is a healthy fountain drink pour cost?',
-    a: '8–15% on small to medium drinks (Toast, BinWise). Drops to 4–8% on large 32 oz pours because cup and CO2 cost stay flat while menu price scales up. Free refills add 35–50% to whatever number you started with. If you are running over 22% on fountain, something is wrong with cup cost, mix ratio, or you are running a 24 oz mega at $1.99.',
+    a: '8–15% before free refills. Store-brand syrup lands near the bottom of that range, branded cola near the top. It climbs with cup size: at a 30% ice fill a 12 oz runs about 8–12% and a 32 oz about 12–18%, because the big cup holds almost three times the syrup but rarely sells for three times the price. Free refills add 35–50% to the syrup side of the cost. If you are running over 22% on fountain, something is wrong with cup cost, mix ratio, or you are running a 24 oz mega at $1.99.',
   },
   {
     q: 'How much does the cup cost on a fountain drink?',
@@ -53,7 +53,7 @@ const faq = [
   },
   {
     q: 'Should fountain drinks be a profit center or loss leader?',
-    a: 'Profit center, almost always. Fountain has the highest margin of anything on the menu when you model it correctly (NRA). A $3.49 fountain at 12% pour cost has the same dollar profit as a $14 entree at 32% food cost. The trap is treating the fountain as a "throw-in" to support food sales. The math says it should be the highest-margin item on the ticket.',
+    a: 'Profit center, almost always. Fountain has the highest margin of anything on the menu when you model it correctly (NRA). A $3.49 fountain drink at 13% pour cost keeps about 87 cents of every sales dollar after product cost. A plate at 32% food cost keeps 68 cents, and it needed a cook to make it. The trap is treating the fountain as a "throw-in" to support food sales. The math says it should be the highest-margin item on the ticket.',
   },
   {
     q: 'Does this calculator save my data?',
@@ -62,34 +62,34 @@ const faq = [
 ];
 
 const benchmarks = [
-  { name: '12 oz small', low: 4, high: 7 },
-  { name: '16 oz medium', low: 6, high: 10 },
-  { name: '20 oz large', low: 8, high: 12 },
-  { name: '24 oz extra-large', low: 10, high: 14 },
-  { name: '32 oz mega', low: 13, high: 18 },
+  { name: '12 oz small', low: 8, high: 12 },
+  { name: '16 oz medium', low: 9, high: 13 },
+  { name: '20 oz large', low: 10, high: 15 },
+  { name: '24 oz extra-large', low: 11, high: 16 },
+  { name: '32 oz mega', low: 12, high: 18 },
 ];
 
 const scenarios = [
   {
     title: 'The "free refills" margin killer',
     setup: 'Family casual concept, 24 oz pour, free refills standard. Owner had been quoting $0.12 cost per drink to staff during onboarding for two years. Used that number to build menu pricing.',
-    diagnosis: 'Real cost: $0.31 per customer. Branded BIB at $90, 5:1 mix, 30% ice fill, $0.21 compostable cup, and a 1.4× refill multiplier (BinWise). The operator was modeling a single pour and ignoring the refill behavior. Across 180 fountain drinks per day that is $34/day extra cost, roughly $12K/year of margin he thought he had.',
+    diagnosis: 'Real cost: $0.78 per customer. Branded BIB at $90, 5:1 mix, 30% ice fill, $0.21 compostable cup, and a 1.4× refill multiplier (BinWise). The operator was costing one pour of syrup and leaving out the cup and the refills. Across 180 fountain customers a day, the gap between $0.12 and $0.78 is about $118 a day, roughly $43K a year of margin he thought he had.',
     fix: 'Switched to a one-refill-cap policy. Refill multiplier dropped from 1.4 to 1.1. Staff trained to ask once, not pour twice. Menu held at $3.49.',
-    outcome: 'Pour cost dropped from 18% to 13% on the 24 oz. Recovered roughly $9K/year on the cap alone. No customer pushback worth tracking. The "all you can drink" framing was costing more than it was loyalty-building.',
+    outcome: 'Pour cost dropped from 22% to 19% on the 24 oz. Recovered roughly $8K/year on the cap alone. No customer pushback worth tracking. The "all you can drink" framing was costing more than it was loyalty-building.',
   },
   {
     title: 'The branded vs store-brand swap',
-    setup: '12-tap fountain at a fast-casual concept. Running branded cola BIBs at $90 per unit. Pour cost on the 16 oz cola line running 8%, healthy on paper but cup costs were creeping up.',
-    diagnosis: 'Switched the cola line to a store-brand equivalent at $40 per BIB. Same mix ratio, same yield (Coca-Cola Foodservice yield reference applies regardless of label). Pour cost dropped from 8% to 4% on the cola tap. Other taps unchanged.',
+    setup: '12-tap fountain at a fast-casual concept. Running branded cola BIBs at $90 per unit. Pour cost on the 16 oz cola line running 13%, healthy on paper but cup costs were creeping up.',
+    diagnosis: 'Switched the cola line to a store-brand equivalent at $40 per BIB. Same mix ratio, same yield (Coca-Cola Foodservice yield reference applies regardless of label). Pour cost dropped from 13% to 9% on the cola tap. Other taps unchanged.',
     fix: 'Ran a four-week blind comparison with regulars before committing. Two voted branded preferred, three voted store-brand preferred, the rest could not tell. No menu price change.',
     outcome: 'About $14K/year saved on a single drink line. The contract had a 90-day exit clause nobody had read. The fountain was the highest-margin item on the menu before the swap. After the swap, it was not even close.',
   },
   {
     title: 'The cup cost ambush',
     setup: 'Operator switched all cups to compostable PLA after a sustainability push. Small cup went from $0.08 kraft paper to $0.21 compostable. Same menu price. Same pour size.',
-    diagnosis: 'Pour cost % on the small fountain jumped 4 points overnight. Owner spent six weeks blaming the BIB distributor for a cost increase. Distributor invoices had not changed. The cups had. Cup cost on a small drink is often a bigger line than the syrup.',
+    diagnosis: 'Pour cost % on the small fountain jumped 4 points overnight, from about 9% to 13%. Owner spent six weeks blaming the BIB distributor for a cost increase. Distributor invoices had not changed. The cups had. Cup cost on a small drink is often a bigger line than the syrup.',
     fix: 'Reverted small cups to kraft paper at $0.08. Kept compostable on the flagship 24 oz where the cup is a visible brand signal and a higher menu price absorbs the cost.',
-    outcome: 'Small cup pour cost back to 6%. The flagship 24 oz absorbed the compostable premium without breaking the band. Sustainability story preserved on the cup the customer photographs. The cup the customer drinks coffee out of at 7am went back to being cheap.',
+    outcome: 'Small cup pour cost back to about 9%. The flagship 24 oz absorbed the compostable premium without breaking the band. Sustainability story preserved on the cup the customer photographs. The cup the customer drinks coffee out of at 7am went back to being cheap.',
   },
 ];
 
@@ -151,7 +151,7 @@ const schema = [
       <p class="t-micro t-micro--saffron calc-page__eyebrow">Fountain drink calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Fountain Drink / BIB Cost Calculator</h1>
       <p class="calc-page__intro">
-        Real cost per fountain drink, accounting for mix ratio, ice fill, cup, CO2, and free refills. Healthy pour cost is <strong>8–15%</strong> on small drinks, dropping to <strong>4–8%</strong> on large (Toast, BinWise). Most operators undercount this number by 2–4 points because they ignore the refill multiplier.
+        Real cost per fountain drink, accounting for mix ratio, ice fill, cup, CO2, and free refills. Healthy pour cost is <strong>8–15%</strong> before free refills, and it rises with cup size, because a 32 oz holds nearly three times the syrup of a 12 oz but rarely sells for three times the price. Most operators undercount this number by 2–4 points because they ignore the refill multiplier.
       </p>
     </header>
 
@@ -281,7 +281,7 @@ const schema = [
 
           <div class="calc-result__benchmark">
             <span class="t-caption">Industry healthy range</span>
-            <span class="t-caption num" data-bench>5–15%</span>
+            <span class="t-caption num" data-bench>8–15%</span>
           </div>
 
           <div class="calc-result__bar">
@@ -388,7 +388,7 @@ const schema = [
           A 5-gallon BIB of branded cola at $90 yields 3,840 oz of finished drink at a 5:1 mix. At a 16 oz pour with 30% ice, that is roughly 342 fountain drinks per box. Sell them at $3.49 and the BIB generates about $1,193 in revenue. The syrup cost on each pour is about a quarter (Coca-Cola Foodservice yield reference). That is the kind of margin nothing else on the menu touches.
         </p>
         <p>
-          Most operators ballpark fountain cost at $0.10–$0.25 and never run the actual stack. They miss the cup. They miss the CO2. They forget that ice fill is in the dispenser cup, not the BIB. And they almost always forget the free-refill multiplier. The industry rule of thumb is 1.4 pours per visit when refills are free (BinWise). On a 24 oz with a $0.21 compostable cup, that turns a "$0.12 drink" into a $0.31 drink. Two-to-four points of margin disappears on every ticket and the operator blames cup costs or the distributor.
+          Most operators ballpark fountain cost at $0.10–$0.25 and never run the actual stack. They miss the cup. They miss the CO2. They forget that ice fill is in the dispenser cup, not the BIB. And they almost always forget the free-refill multiplier. The industry rule of thumb is 1.4 pours per visit when refills are free (BinWise). On a 24 oz with branded syrup and a $0.21 compostable cup, that turns a "quarter's worth of syrup" into $0.78 per customer. Four to five points of margin disappear on every ticket and the operator blames cup costs or the distributor.
         </p>
         <p class="essay__pull">
           Fountain is the operator's blind spot. The line item is small enough nobody flinches at it, and the math compounds quietly underneath until the year-end P&L looks worse than the weekly reports said it would.
@@ -423,7 +423,7 @@ const schema = [
     <section class="benchmarks">
       <h2 class="benchmarks__headline">Pour cost benchmarks <em>by drink size</em></h2>
       <p class="t-body-large benchmarks__intro">
-        Pour cost % drops as drink size grows because cup and CO2 cost stay roughly flat while menu price scales up. These ranges assume a $3.49 base menu price scaling with size, 30% ice fill, and no free refills. Add 35–50% on top for free refills (1.4× multiplier per BinWise).
+        Pour cost % rises with drink size, because syrup scales with the cup while menu prices usually don't. Each range runs from store-brand syrup ($45 BIB) to branded cola ($90 BIB), with a 5:1 mix, 30% ice, $0.01 CO2, no free refills, and typical prices and cup costs: 12 oz $2.49 / $0.10, 16 oz $2.99 / $0.12, 20 oz $3.29 / $0.14, 24 oz $3.49 / $0.16, 32 oz $3.99 / $0.20. Free refills (1.4× per BinWise) add 35–50% to the syrup side.
       </p>
       <div class="benchmarks__chart">
         {benchmarks.map((b) => (
@@ -452,7 +452,7 @@ const schema = [
     <hr class="rule" aria-hidden="true" />
 
     <section class="scenarios">
-      <p class="t-micro t-micro--saffron">Real scenarios</p>
+      <p class="t-micro t-micro--saffron">Worked scenarios</p>
       <h2 class="scenarios__headline">Three operators, three different fountain leaks</h2>
       <p class="t-body-large scenarios__intro">
         Same calculator, three different blind spots. The fix depends on which input you got wrong.
@@ -542,7 +542,7 @@ const schema = [
     let calcDebounce: number | null = null;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const BENCH = { low: 5, high: 15 };
+    const BENCH = { low: 8, high: 15 };
 
     function fmtUSD(n: number) { return '$' + Math.round(n).toLocaleString('en-US'); }
     function fmtUSDFull(n: number) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -563,7 +563,7 @@ const schema = [
     }
 
     function statusFor(pct: number) {
-      if (pct < 5) return { key: 'lean', label: 'Lean' };
+      if (pct < 8) return { key: 'lean', label: 'Lean' };
       if (pct <= 15) return { key: 'healthy', label: 'Healthy' };
       if (pct <= 22) return { key: 'watch', label: 'Watch' };
       return { key: 'critical', label: 'Critical' };
@@ -639,7 +639,7 @@ const schema = [
       if (breakevenEl) breakevenEl.textContent = breakEvenRefills.toLocaleString('en-US') + (breakEvenRefills === 1 ? ' refill' : ' refills');
 
       let note = '';
-      if (s.label === 'Healthy') note = `In the healthy 5% to 15% range for soda. You make about ${fmtUSD(profitPerBIB)} in profit from each box of syrup. Soda is usually the highest-profit item on the menu when you run the numbers like this.`;
+      if (s.label === 'Healthy') note = `In the healthy 8% to 15% range for soda. You make about ${fmtUSD(profitPerBIB)} in profit from each box of syrup. Soda is usually the highest-profit item on the menu when you run the numbers like this.`;
       if (s.label === 'Lean') note = `Lower than most soda costs. Either you have room to drop the price and bring in more people, or one of your numbers (cup cost, free-refill count) is set too low. Check the cup invoice and how many refills people really take before celebrating.`;
       if (s.label === 'Watch') note = `Above 15%. Usually it is free refills and cup cost stacking up. Capping refills at one drops the average from 1.4 drinks to about 1.1 and recovers most of the gap. Switching from name-brand to store-brand syrup is the next lever.`;
       if (s.label === 'Critical') note = `Above 22%. Something is off. Either the price is set for a smaller cup, the cup got a lot more expensive (switched to eco-friendly?), or people are taking closer to 2 drinks each instead of 1.4. Check the cup invoice first.`;
@@ -817,8 +817,9 @@ const schema = [
   .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, var(--color-saffron), var(--color-saffron-cta)); border-radius: 999px; }
   .bench-bar__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-heading); }
   .bench-bar__range { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.8125rem; color: var(--color-saffron-text); text-align: right; }
-  .bench-axis { padding-top: 6px; }
-  .bench-axis__track { position: relative; height: 14px; }
+  .bench-axis { padding-top: 6px; display: grid; grid-template-columns: 140px 1fr 90px; gap: var(--space-4); max-width: 720px; }
+  @media (max-width: 540px) { .bench-axis { grid-template-columns: 100px 1fr 80px; gap: var(--space-3); } }
+  .bench-axis__track { position: relative; height: 14px; grid-column: 2; }
   .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.6875rem; color: var(--color-muted); }
 
   .scenarios { margin-bottom: var(--space-16); }
