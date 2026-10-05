@@ -1317,6 +1317,8 @@ const allSchema = schema
         animation: share-cta-pulse 2.4s ease-in-out 1.5s 2;
       }
       .share-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(184, 101, 26, 0.45); }
+      /* Out of the way while the form or result card is on screen (the card has its own Share) */
+      .share-cta--away { opacity: 0; transform: translateY(16px); pointer-events: none; }
       .share-cta__icon { width: 17px; height: 17px; flex-shrink: 0; }
       @keyframes share-cta-pulse {
         0%, 100% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15); }
@@ -1682,6 +1684,23 @@ const allSchema = schema
         .house-ad__cta:hover { transform: none; }
       }
     </style>
+
+    <!-- Hide the floating Share button while it would cover the calculator -->
+    <script is:inline>
+      (function () {
+        var fab = document.querySelector('.share-cta');
+        var zones = document.querySelectorAll('.calc-form, .calc-result');
+        if (!fab || !zones.length || !('IntersectionObserver' in window)) return;
+        var visible = new Set();
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) visible.add(en.target); else visible.delete(en.target);
+          });
+          fab.classList.toggle('share-cta--away', visible.size > 0);
+        });
+        zones.forEach(function (z) { io.observe(z); });
+      })();
+    </script>
 
     <!-- GA4 calculator funnel events (one delegated tracker for every calc page) -->
     <script is:inline>

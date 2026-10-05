@@ -1,0 +1,49 @@
+---
+// "Next step" links under the result card: the calc that naturally follows,
+// plus the post that explains the result. Post picks favor the matching post
+// with the most search impressions.
+import { getCollection } from 'astro:content';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+
+const NEXT: Record<string, { calc: string; label: string; post: string }> = {
+  'fountain-cost':      { calc: 'menu-pricing',       label: 'Set the drink price with the Menu Pricing calc',      post: 'soda-fountain-margin-free-refills' },
+  'food-cost':          { calc: 'recipe-cost',        label: 'Find the plate pulling it up with Recipe Cost',       post: 'food-cost-percentage-by-restaurant-type' },
+  'recipe-cost':        { calc: 'menu-pricing',       label: 'Price the plate with the Menu Pricing calc',          post: 'how-to-cost-a-recipe' },
+  'labor-cost':         { calc: 'prime-cost',         label: 'Add food cost to get prime cost',                     post: 'splh-shift-cuts' },
+  'tip-pool':           { calc: 'labor-cost',         label: 'Check labor cost for the same shift',                 post: 'tip-pool-vs-tip-out' },
+  'menu-pricing':       { calc: 'menu-engineering',   label: 'Rank the whole menu with Menu Engineering',           post: 'highest-margin-menu-items' },
+  'liquor-pour-cost':   { calc: 'keg-cost',           label: 'Run your draft lines through Keg Cost',               post: 'how-to-price-a-cocktail' },
+  'break-even':         { calc: 'prime-cost',         label: 'See where the money goes with Prime Cost',            post: 'restaurant-break-even-formula' },
+  'inventory-variance': { calc: 'food-cost',          label: 'See what the gap does to food cost',                  post: 'acceptable-inventory-variance-percentage' },
+  'prime-cost':         { calc: 'labor-cost',         label: 'Break out the labor side',                            post: 'good-prime-cost-ratio' },
+  'keg-cost':           { calc: 'liquor-pour-cost',   label: 'Do the same for spirits and cocktails',               post: 'how-to-price-draft-beer' },
+  'no-show-deposit':    { calc: 'break-even',         label: 'See what empty seats do to break-even',               post: 'how-much-to-charge-no-show-fee' },
+  'menu-engineering':   { calc: 'menu-pricing',       label: 'Reprice the puzzles and dogs',                        post: 'contribution-margin-vs-food-cost-percentage' },
+  'delivery-profit':    { calc: 'menu-pricing',       label: 'Set delivery menu prices',                            post: 'how-much-does-doordash-take' },
+  'catering-pricing':   { calc: 'recipe-cost',        label: 'Cost each dish on the catering menu',                 post: 'catering-pricing-offsite-events' },
+  'turnover-cost':      { calc: 'labor-cost',         label: 'See the labor cost side',                             post: 'how-to-reduce-restaurant-turnover' },
+};
+
+const pick = NEXT[slug];
+const posts = pick ? await getCollection('blog', ({ id, data }) => id === pick.post && !data.draft && data.pubDate <= new Date()) : [];
+const post = posts[0];
+---
+{pick && (
+  <div class="result-next">
+    <p class="result-next__label">Next step</p>
+    <a class="result-next__link" href={`/calculators/${pick.calc}/`}>{pick.label}&nbsp;<span aria-hidden="true">→</span></a>
+    {post && (
+      <a class="result-next__link result-next__link--post" href={`/blog/${post.id}/`}>Read: {post.data.title}&nbsp;<span aria-hidden="true">→</span></a>
+    )}
+  </div>
+)}
+
+<style>
+  .result-next { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px dashed var(--color-border); }
+  .result-next__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-muted); margin: 0; }
+  .result-next__link { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; line-height: 1.4; color: var(--color-saffron-text); text-decoration: none; padding: var(--space-2) 0; }
+  .result-next__link:hover { text-decoration: underline; }
+  .result-next__link--post { font-weight: 500; color: var(--color-heading); }
+</style>
