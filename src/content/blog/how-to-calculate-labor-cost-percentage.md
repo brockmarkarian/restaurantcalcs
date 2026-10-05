@@ -8,7 +8,7 @@ relatedCalc: "labor-cost"
 heroImage: "/illustrations/labor-cost.webp"
 ---
 
-When I first ran labor cost percentage for my own restaurant, I divided gross wages by sales and got 24%. Healthy by any benchmark. Six months later the bookkeeper slid the P&L across the desk and pointed at the labor line: 32%. I figured he'd fat-fingered something. He hadn't. I'd been reading the wrong number for half a year.
+When I first ran labor cost percentage at Cosmos, I divided gross wages by sales and got 24%. Healthy by any benchmark. Six months later the bookkeeper slid the P&L across the desk and pointed at the labor line: 32%. I figured he'd fat-fingered something. He hadn't. I'd been reading the wrong number for half a year.
 
 The 24% was wages. The 32% was what it actually costs to employ people once you count everything. The industry calls that difference payroll burden, and most operators leave it out of their weekly tracking. That's the eight points right there.
 

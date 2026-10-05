@@ -31,8 +31,8 @@ Each calculator includes:
 
 ## Audience
 
-Independent restaurant owners, general managers, sous chefs, bar managers, and operators of indie restaurants, bars, and cafes who run operations math on phones between rushes — not enterprise chains with custom POS analytics.
+Independent restaurant owners, general managers, sous chefs, bar managers, and operators of indie restaurants, bars, and cafes who run operations math on phones between rushes, not enterprise chains with custom POS analytics.
 
 ## Differentiator
 
-Unlike Toast, Square, and Restaurant365 — whose calculators are gated behind email signups or built into paid subscriptions — RestaurantCalcs is free, requires no account, and is designed to be used in the kitchen on a phone in 60 seconds.
+Unlike Toast, Square, and Restaurant365, whose calculators are gated behind email signups or built into paid subscriptions, RestaurantCalcs is free, requires no account, and is designed to be used in the kitchen on a phone in 60 seconds.
