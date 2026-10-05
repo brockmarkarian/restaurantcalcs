@@ -1,6 +1,6 @@
 ---
 title: "Pour Cost Benchmarks for Bars (Beer, Wine, Liquor Split)"
-description: "Pour cost targets by category: spirits 14-18%, beer 18-30%, wine 28-35%. The blended bar target and why single-number tracking misleads."
+description: "Pour cost targets by category: spirits 14-18%, beer 18-30%, wine 28-40%. The blended bar target and why single-number tracking misleads."
 pubDate: 2026-05-21
 updatedDate: 2026-10-04
 author: "Brock"
@@ -60,7 +60,7 @@ A $14 wholesale wine bottle yielding 5 glasses sold at $9.50 each: $2.80 cost pe
 
 The same bottle at $11 a glass is 25.5%, under the band, which is good margin as long as it still sells. At $14 a glass it's 20%. Aggressive, and guests who know that bottle will notice.
 
-**Wine by the bottle target:** 28-35% pour cost (BinWise, Provi)
+**Wine by the bottle target:** 30-40% pour cost (BinWise, Provi)
 
 Bottles carry a lower markup than wine by the glass. A $14 wholesale bottle sold at $42 is 33% pour cost. A $35 wholesale bottle sold at $95 is 36.8%. Customers expect "fair markup on a bottle" to land around 2.5-3x wholesale, and that expectation sets your ceiling whether you like it or not. Push past 3x and the regulars start ordering by the glass instead.
 

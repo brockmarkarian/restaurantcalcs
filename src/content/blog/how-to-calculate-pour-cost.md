@@ -62,7 +62,7 @@ A 20% blended pour cost target is fine as a back-of-envelope check. As an operat
 - **Beer (bottle):** 24-30%
 - **Beer (draft):** 18-24%
 - **Wine (BTG):** 28-32%
-- **Wine (bottle service):** 28-35%
+- **Wine (bottle service):** 30-40%
 - **Cocktails (blended):** 18-22%
 - **Total beverage program:** 18-24%
 

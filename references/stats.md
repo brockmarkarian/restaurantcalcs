@@ -50,7 +50,7 @@
 - **Beer (draft):** 18–24% across a tap list (domestic 18–22%, craft 20–25%, imports 22–28%)
 - **Beer (bottled):** 25–30%
 - **Wine (by glass):** 28–32% (decided 2026-10-04; posts aligned)
-- **Wine (by bottle):** 30–40%
+- **Wine (by bottle):** 30–40% (decided 2026-10-04; posts aligned)
 - **Combined beverage program:** 20–25%
 - Sources: Toast, BinWise, BevSpot, USBG
 
