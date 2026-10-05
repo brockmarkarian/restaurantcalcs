@@ -24,7 +24,7 @@ Operators see a 28% pour cost on liquor (when the healthy range is 18–24%) and
 
 This is the single biggest leak in most indie bars. New bartenders don't trust jiggers, so they eyeball it because that's what they saw on TV, on YouTube, in cocktail competitions. Every one of us was that bartender once. Two ounces becomes two-and-a-half before anyone notices, and multiply that by three hundred drinks on a busy Saturday and you've given away more product than a comp tab would ever have flagged.
 
-Industry-standard cocktail pour is **1.5 oz** ([Toast](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-pour-cost), USBG curriculum). A consistent 0.25 oz over-pour on a 1.5 oz spec is a 17% give-away on every drink. Nobody is stealing. Nobody is malicious. The pour cost just bleeds.
+Industry-standard cocktail pour is **1.5 oz** ([Toast](https://pos.toasttab.com/blog/on-the-line/bar-menu-pricing), USBG curriculum). A consistent 0.25 oz over-pour on a 1.5 oz spec is a 17% give-away on every drink. Nobody is stealing. Nobody is malicious. The pour cost just bleeds.
 
 **The fix:** measured pour spouts on every well bottle. Not jiggers. Bartenders hate those during a rush, and a senior bartender holding a jigger up at the end of a shift is doing remedial training, not service. Pour spouts give you a consistent measure with no decision required. Train every new hire on the spec, do a one-shift audit at the 30-day mark, and re-train if it's off. Pour spouts run about $4 a bottle. A 4-point drift in pour cost runs hundreds per shift. That math isn't close.
 
@@ -92,7 +92,7 @@ The pour cost percentage you compute over a week or month, total beverage cost d
 - Wine by bottle: 30–40%
 - Blended beverage program: 20–25%
 
-(Sources: [Toast](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-pour-cost), [BinWise](https://home.binwise.com/blog/pour-cost), USBG bar management curriculum.)
+(Sources: [Toast](https://pos.toasttab.com/blog/on-the-line/bar-menu-pricing), [BinWise](https://home.binwise.com/guides/bar-profitability), USBG bar management curriculum.)
 
 But the aggregate number alone doesn't tell you which drinks are leaking. For that you need per-drink cost, bottle cost ÷ usable ounces × pour size, with a spillage factor. This site's [liquor pour cost calculator](/calculators/liquor-pour-cost/) does both: aggregate mode for the period total, per-drink mode for spec-by-spec analysis.
 
@@ -110,7 +110,7 @@ Also, if you're a new bartender and the senior bartender just held up a jigger a
 
 ## Sources cited
 
-- [Toast: How to Calculate Pour Cost](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-pour-cost)
-- [BinWise: Pour Cost Guide](https://home.binwise.com/blog/pour-cost)
+- [Toast: Bar Menu Pricing and Pour Cost](https://pos.toasttab.com/blog/on-the-line/bar-menu-pricing)
+- [BinWise: Bar Profitability Guide](https://home.binwise.com/guides/bar-profitability)
 - USBG (United States Bartenders' Guild) bar management curriculum, standard pour size + spillage factor benchmarks
-- Industry healthy-range bands cross-referenced with [Backbar](https://backbar.com/blog/how-to-calculate-pour-cost) and Bevager publications
+- Industry healthy-range bands cross-referenced with [Backbar](https://www.getbackbar.com/how-to-calculate-pour-cost) and Bevager publications

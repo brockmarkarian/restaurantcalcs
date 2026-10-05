@@ -56,7 +56,7 @@ Not counting them isn't an option either. Same fix: a family-and-friends button 
 
 The loaf that didn't sell. The fish that came in slightly off and got cooked for staff. The mistake plate the cook ate at 2pm because it was already plated when the order got recalled. **Food waste consumed by staff is the most invisible cost line in the entire restaurant.** It's already in inventory, already in COGS, but it's not generating revenue. It just disappears.
 
-The Toast operations playbooks recommend a daily waste log for exactly this reason ([Toast: Restaurant Waste Management Guide](https://pos.toasttab.com/blog/on-the-line/restaurant-food-waste)). MarginEdge does the same in its inventory module. Let the staff eat the mistake plates, that food was already paid for. Just write it down so the cost is visible and you can actually manage it.
+The Toast operations playbooks recommend a daily waste log for exactly this reason ([Toast: How to Track and Reduce Food Waste](https://pos.toasttab.com/blog/on-the-line/reduce-food-waste)). MarginEdge does the same in its inventory module. Let the staff eat the mistake plates, that food was already paid for. Just write it down so the cost is visible and you can actually manage it.
 
 ## The "love doesn't have a price tag" problem
 
@@ -96,6 +96,6 @@ Run your numbers. The [food cost calculator](/calculators/food-cost/) on this si
 
 - National Restaurant Association, *Uniform System of Accounts for Restaurants*, 10th ed.
 - [Toast: Restaurant Food Cost Calculator + Operations Playbook](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage)
-- [Restaurant365: Calculating Restaurant COGS](https://www.restaurant365.com/blog/calculate-restaurant-cogs/)
+- [Restaurant365: Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/)
 - MarginEdge, Plate & Menu Costing 101
-- Industry comp budget benchmarks cross-referenced with [Toast](https://pos.toasttab.com/blog/on-the-line/restaurant-food-waste) and Lightspeed publications
+- Industry comp budget benchmarks cross-referenced with [Toast](https://pos.toasttab.com/blog/on-the-line/reduce-food-waste) and Lightspeed publications

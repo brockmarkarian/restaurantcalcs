@@ -30,7 +30,7 @@ That's the entire cost of goods on a fountain pour. What the customer pays for i
 
 ## The BIB math
 
-A standard branded BIB is five gallons. That is **640 ounces of concentrated syrup** (Coca-Cola Foodservice).
+A standard branded BIB is five gallons. That is **640 ounces of concentrated syrup** ([WebstaurantStore](https://www.webstaurantstore.com/guide/526/number-of-servings-per-5-gallon-bag-in-box-syrup.html)).
 
 The mix ratio for fountain is **5:1**, five parts carbonated water to one part syrup. Diet runs 4:1. Specialty syrups can go 6:1.
 

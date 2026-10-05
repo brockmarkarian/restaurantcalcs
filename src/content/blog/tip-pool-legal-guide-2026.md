@@ -135,7 +135,7 @@ That's the conversation I had to have more than once. It got smoother every time
 - [DOL Fact Sheet #15: Tipped Employees Under the FLSA](https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa)
 - [DOL Final Rule on Tip Regulations (86 FR 60114, September 2021)](https://www.dol.gov/agencies/whd/flsa/tips)
 - [29 U.S. Code § 203(m), Tip pooling statute (Cornell Legal Information Institute)](https://www.law.cornell.edu/uscode/text/29/203)
-- [National Restaurant Association, Tip pooling overview](https://restaurant.org/education-and-resources/resource-library/tip-pooling/)
+- [National Restaurant Association, Tips on Tipping](https://restaurant.org/education-and-resources/resource-library/tips-on-tipping/)
 - *Restaurant Law Center v. U.S. Department of Labor*, 5th Cir. (Aug 2024), 80/20/30 vacatur
 - FLSA §3(m)(2)(B), Consolidated Appropriations Act, 2018
 - California Labor Code §351, no tip credit allowed
