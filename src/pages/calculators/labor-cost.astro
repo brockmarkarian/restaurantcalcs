@@ -1096,7 +1096,7 @@ const relatedCalcs = [
   .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
 
   .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
-  @media (max-width: 880px) { .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); } }
+  @media (max-width: 880px) { .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
 
   .mode-toggle { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 4px; gap: 2px; margin-bottom: var(--space-2); }
   @media (max-width: 540px) { .mode-toggle { grid-template-columns: 1fr; } }
@@ -1304,6 +1304,7 @@ const relatedCalcs = [
 
   /* ===== Redesign: live-tool feel, breathing room, result share ===== */
   .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
   .form-row { gap: var(--space-3); }
   .form-group { gap: var(--space-6); }
   .step-num {

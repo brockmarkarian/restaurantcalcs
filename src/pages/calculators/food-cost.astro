@@ -913,7 +913,7 @@ const relatedCalcs = [
   }
 
   @media (max-width: 880px) {
-    .calc-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+    .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
   }
 
   /* ===== FORM INTRO ===== */
@@ -1042,7 +1042,7 @@ const relatedCalcs = [
   }
 
   @media (max-width: 540px) {
-    .help-tip__pop { width: 240px; right: -50%; }
+    .help-tip__pop { width: min(240px, calc(100vw - 48px)); right: 0; }
   }
 
   /* Mode-switch link below form */
@@ -1989,6 +1989,7 @@ const relatedCalcs = [
 
   /* ===== Redesign prototype: live-tool feel, breathing room, result share ===== */
   .calc-form { gap: var(--space-6); padding: var(--space-8); }
+  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
   .form-row { gap: var(--space-3); }
   .form-group { gap: var(--space-6); }
 
