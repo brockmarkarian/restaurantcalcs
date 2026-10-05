@@ -534,7 +534,7 @@ button:focus-visible {
 /* Skip link - appears only on focus, jumps to main content */
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: -100px;
   left: 8px;
   background: var(--color-heading);
   color: var(--color-white);

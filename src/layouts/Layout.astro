@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import fontFaces from '../styles/fonts.css?raw';
 
 interface Props {
   title?: string;
@@ -129,13 +130,10 @@ const allSchema = schema
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Fraunces (display) + Geist + Geist Mono from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,500;12..96,75..100,600;12..96,75..100,700&family=Geist:ital,wght@0,300..700;1,400..600&family=Geist+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts: preload the two faces used above the fold -->
+    <link rel="preload" href="/fonts/bricolage-grotesque-normal-latin-fbdbf8.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-normal-latin-e09adc.woff2" as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontFaces}></style>
 
     <!-- JSON-LD: Organization + WebSite + page-specific schema -->
     <script type="application/ld+json" set:html={JSON.stringify(allSchema)}></script>
@@ -305,7 +303,7 @@ const allSchema = schema
     <header class="site-header">
       <div class="container site-header__inner">
         <a href="/" class="site-header__logo" aria-label="RestaurantCalcs home">
-          <img src="/logo.png" alt="RestaurantCalcs" class="site-header__logo-img" width="220" height="48" />
+          <img src="/logo-header.webp" alt="RestaurantCalcs" class="site-header__logo-img" width="333" height="56" fetchpriority="high" />
         </a>
         <nav class="site-header__nav">
           <a href="/blog/" class="site-header__link">Blog</a>

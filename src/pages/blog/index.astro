@@ -79,7 +79,7 @@ function readingMin(post: any): number {
         <a href={`/blog/${featured.id}/`} class="blog-featured__card">
           {featured.data.heroImage && (
             <div class="blog-featured__media">
-              <img src={featured.data.heroImage} alt={`Editorial illustration for ${featured.data.title}`} width="1264" height="848" loading="eager" />
+              <img src={featured.data.heroImage} srcset={`${featured.data.heroImage.replace('.webp', '-640.webp')} 640w, ${featured.data.heroImage} 1264w`} sizes="(max-width: 900px) 92vw, 640px" alt={`Editorial illustration for ${featured.data.title}`} width="1264" height="848" loading="eager" />
             </div>
           )}
           <div class="blog-featured__copy">
@@ -117,7 +117,7 @@ function readingMin(post: any): number {
             <a href={`/blog/${post.id}/`} class="post-card">
               {post.data.heroImage && (
                 <div class="post-card__media">
-                  <img src={post.data.heroImage} alt={`Editorial illustration for ${post.data.title}`} width="1264" height="848" loading="lazy" />
+                  <img src={post.data.heroImage} srcset={`${post.data.heroImage.replace('.webp', '-640.webp')} 640w, ${post.data.heroImage} 1264w`} sizes="(max-width: 700px) 92vw, 380px" alt={`Editorial illustration for ${post.data.title}`} width="1264" height="848" loading="lazy" />
                   <span class="post-card__num num">{String(i + 2).padStart(2, '0')}</span>
                 </div>
               )}

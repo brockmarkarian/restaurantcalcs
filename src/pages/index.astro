@@ -482,7 +482,7 @@ const homepageSchema = [
             <a href={`/blog/${post.id}/`} class="home-blog__card">
               {post.data.heroImage && (
                 <div class="home-blog__media">
-                  <img src={post.data.heroImage} alt={`Editorial illustration for ${post.data.title}`} width="1264" height="848" loading="lazy" />
+                  <img src={post.data.heroImage} srcset={`${post.data.heroImage.replace('.webp', '-640.webp')} 640w, ${post.data.heroImage} 1264w`} sizes="(max-width: 700px) 92vw, 380px" alt={`Editorial illustration for ${post.data.title}`} width="1264" height="848" loading="lazy" />
                   <span class="home-blog__num num">{String(i + 1).padStart(2, '0')}</span>
                 </div>
               )}
