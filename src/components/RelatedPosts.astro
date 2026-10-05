@@ -1,0 +1,36 @@
+---
+// Every published post written for this calculator (relatedCalc === slug),
+// newest first. Gives each calc page contextual links into its supporting posts.
+import { getCollection } from 'astro:content';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+
+const now = new Date();
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= now && data.relatedCalc === slug))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+{posts.length > 0 && (
+  <section class="related-reading" aria-labelledby="related-reading-title">
+    <h2 class="related-reading__headline" id="related-reading-title">Related reading</h2>
+    <ul class="related-reading__list">
+      {posts.map((p) => (
+        <li>
+          <a class="related-reading__link" href={`/blog/${p.id}/`}>{p.data.title}</a>
+          <p class="related-reading__desc">{p.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .related-reading { max-width: 880px; margin-bottom: var(--space-16); }
+  .related-reading__headline { font-family: var(--font-display); font-size: clamp(1.5rem, 2vw + 0.5rem, 2rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: 0 0 var(--space-6); }
+  .related-reading__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .related-reading__list li { padding: var(--space-4) 0; border-top: 1px solid var(--color-border); }
+  .related-reading__list li:last-child { border-bottom: 1px solid var(--color-border); }
+  .related-reading__link { font-family: var(--font-body); font-size: 1.0625rem; font-weight: 600; line-height: 1.35; color: var(--color-heading); text-decoration: none; }
+  .related-reading__link:hover { color: var(--color-saffron-text); text-decoration: underline; }
+  .related-reading__desc { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.5; color: var(--color-body); margin: var(--space-2) 0 0; }
+</style>
