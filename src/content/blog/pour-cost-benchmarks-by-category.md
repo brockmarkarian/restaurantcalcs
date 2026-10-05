@@ -1,6 +1,6 @@
 ---
 title: "Pour Cost Benchmarks for Bars (Beer, Wine, Liquor Split)"
-description: "Pour cost targets by category: spirits 14-18%, beer 20-30%, wine 22-35%. The blended bar target and why single-number tracking misleads."
+description: "Pour cost targets by category: spirits 14-18%, beer 18-30%, wine 28-35%. The blended bar target and why single-number tracking misleads."
 pubDate: 2026-05-21
 updatedDate: 2026-10-04
 author: "Brock"
@@ -52,13 +52,13 @@ For the full draft beer math, see [Half-Barrel Pints, Foam Loss, and What a Draf
 
 ## Wine
 
-**Wine by the glass (BTG) target:** 22-30% pour cost (Provi, BinWise)
+**Wine by the glass (BTG) target:** 28-32% pour cost (Provi, BinWise)
 
 A 750mL bottle is 25.4 oz. Pour 5 oz and you get 5 glasses. Spec it at 4 oz and you get 6. Most places run 5 oz, and honestly that's the right call. The 4 oz pour saves you money on paper, but the guest notices a skinny glass faster than they notice a high price.
 
-A $14 wholesale wine bottle yielding 5 glasses sold at $11 each: $2.80 cost per glass on $11 sale = 25.5% pour cost. Healthy.
+A $14 wholesale wine bottle yielding 5 glasses sold at $9.50 each: $2.80 cost per glass on $9.50 = 29.5% pour cost. Healthy, right in the band.
 
-The same bottle at a $14 menu price (lower-end pricing): 20% pour cost. Aggressive.
+The same bottle at $11 a glass is 25.5%, under the band, which is good margin as long as it still sells. At $14 a glass it's 20%. Aggressive, and guests who know that bottle will notice.
 
 **Wine by the bottle target:** 28-35% pour cost (BinWise, Provi)
 

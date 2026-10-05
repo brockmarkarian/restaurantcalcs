@@ -2,6 +2,7 @@
 title: "How to Calculate a Tip-Out (Servers, Bussers, Bartenders)"
 description: "How tip-outs actually get calculated, standard percentages by role, and a worked shift example. The math, not the legal guide. From a 5-year GM."
 pubDate: 2026-06-15
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Tips", "Tip-out", "Front of house", "Operations"]
 relatedCalc: "tip-pool"
@@ -14,7 +15,7 @@ This is the math. For the legal side, who can and cannot be in a pool, see [the 
 
 ## The short answer
 
-A standard tip-out is **2 to 5% of a server's total sales**, or **15 to 30% of their tips**, divided among the support staff who helped them: bartenders, bussers, runners, and sometimes the host. There are two ways to calculate it. Which one you use changes who carries the cost on a bad night.
+A standard tip-out is **4 to 8% of a server's total sales**, or **15 to 25% of their tips**, divided among the support staff who helped them: bartenders, bussers, runners, and sometimes the host. There are two ways to calculate it. Which one you use changes who carries the cost on a bad night.
 
 ## The two methods
 
@@ -32,12 +33,12 @@ The difference matters more than it looks. Percent of sales means the server owe
 
 These are typical, and they add up to the total tip-out:
 
-- **Bartender:** 1 to 1.5% of sales (or 5 to 10% of tips)
-- **Bussers:** 1 to 2% of sales
-- **Runners / food runners:** 1% of sales
-- **Host:** 0.5 to 1% of sales, where they share at all
+- **Bartender:** 1.5 to 3% of sales (or 6 to 10% of tips)
+- **Bussers:** 1.5 to 2.5% of sales (or 5 to 8% of tips)
+- **Runners / food runners:** 1 to 1.5% of sales (or 3 to 5% of tips)
+- **Host:** 0.5 to 1% of sales (or 1 to 2% of tips), where they share at all
 
-Add those up and a full-service server is usually tipping out 3 to 5% of sales total. A bar-heavy concept leans more toward the bartender. A high-volume dining room leans toward the bussers and runners who are actually turning the tables.
+Add those up and a full-service server is usually tipping out 4 to 8% of sales total, or 15 to 25% of tips. A bar-heavy concept leans more toward the bartender. A high-volume dining room leans toward the bussers and runners who are actually turning the tables.
 
 ## A worked example
 
@@ -46,17 +47,17 @@ A server has a Friday night:
 - Total sales: **$1,500**
 - Tips collected: **$300**
 
-Using percent of sales, with a 1% bar, 1.5% busser, 1% runner tip-out:
+Using percent of sales, with a 2% bar, 1.5% busser, 1% runner tip-out:
 
-- Bartender: $1,500 x 1% = **$15**
+- Bartender: $1,500 x 2% = **$30**
 - Bussers: $1,500 x 1.5% = **$22.50**
 - Runner: $1,500 x 1% = **$15**
-- **Total tipped out: $52.50**
-- Server keeps: $300 - $52.50 = **$247.50**
+- **Total tipped out: $67.50**
+- Server keeps: $300 - $67.50 = **$232.50**
 
-That is a 3.5% of sales total tip-out, or about 17.5% of the server's tips. Right in the normal range. Nobody is getting hurt here.
+That is a 4.5% of sales total tip-out, or 22.5% of the server's tips. Right in the normal range. Nobody is getting hurt here.
 
-Now run the same night where the server got stiffed on a $400 table and only collected $220 in tips. Under percent of sales, they still owe the same $52.50, so they keep $167.50. Under percent of tips, they would owe less. That is the exact case where percent-of-tips feels fairer, and it is the kind of thing you want settled before a bad night, not after it, when somebody is standing at the bar doing the math in their head and deciding the place is screwing them.
+Now run the same night where the server got stiffed on a $400 table and only collected $220 in tips. Under percent of sales, they still owe the same $67.50, so they keep $152.50. Under percent of tips, they would owe less. That is the exact case where percent-of-tips feels fairer, and it is the kind of thing you want settled before a bad night, not after it, when somebody is standing at the bar doing the math in their head and deciding the place is screwing them.
 
 ## One legal line that matters
 

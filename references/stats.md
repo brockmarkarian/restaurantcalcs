@@ -49,10 +49,17 @@
 - **Liquor / spirits, whole program:** 18–24% (spirits poured straight 14–18%, cocktails 18–22%)
 - **Beer (draft):** 18–24% across a tap list (domestic 18–22%, craft 20–25%, imports 22–28%)
 - **Beer (bottled):** 25–30%
-- **Wine (by glass):** 28–32%
+- **Wine (by glass):** 28–32% (decided 2026-10-04; posts aligned)
 - **Wine (by bottle):** 30–40%
 - **Combined beverage program:** 20–25%
 - Sources: Toast, BinWise, BevSpot, USBG
+
+### Tip-out (decided 2026-10-04)
+
+- **Total tip-out:** 4–8% of a server's sales, or 15–25% of their tips
+- **By role (sales basis):** bartender 1.5–3%, bussers 1.5–2.5%, runners 1–1.5%, host 0.5–1%
+- **By role (tips basis):** bartender 6–10%, bussers 5–8%, runners 3–5%, host 1–2%
+- Managers and supervisors can never take from a tip-out or tip pool (FLSA §3(m)(2)(B))
 
 ### Fountain soda pour cost
 

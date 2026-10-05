@@ -61,7 +61,7 @@ A 20% blended pour cost target is fine as a back-of-envelope check. As an operat
 - **Spirits / liquor:** 14-18% poured straight, 18-24% for the whole liquor program once cocktails are in (highest margin category)
 - **Beer (bottle):** 24-30%
 - **Beer (draft):** 18-24%
-- **Wine (BTG):** 22-30%
+- **Wine (BTG):** 28-32%
 - **Wine (bottle service):** 28-35%
 - **Cocktails (blended):** 18-22%
 - **Total beverage program:** 18-24%

@@ -28,10 +28,10 @@ Here's the line that matters: in a tip pool, the tips are collective from the se
 
 Industry-typical tip-out percentages by support role:
 
-- **Bartender:** 1-2% of total sales (or 4-8% of server tips)
-- **Busser:** 1-2% of total sales (or 4-8% of server tips)
-- **Food runner:** 0.5-1% of sales (or 2-5% of server tips)
-- **Host:** 0.25-0.5% of sales (or 1-3% of server tips)
+- **Bartender:** 1.5-3% of total sales (or 6-10% of server tips)
+- **Busser:** 1.5-2.5% of total sales (or 5-8% of server tips)
+- **Food runner:** 1-1.5% of sales (or 3-5% of server tips)
+- **Host:** 0.5-1% of sales (or 1-2% of server tips)
 
 **Total tip-out:** Most concepts run **4-8% of sales** out to support staff, or **15-25% of server tips** depending on how it's structured.
 
@@ -43,19 +43,19 @@ Say a server section does $4,800 in food and beverage sales over a Friday-Saturd
 
 **Scenario A: Sales-based tip-out (typical full-service)**
 
-- Bartender: $4,800 × 1.5% = $72
+- Bartender: $4,800 × 2% = $96
 - Busser: $4,800 × 1.5% = $72
-- Food runner: $4,800 × 0.5% = $24
-- **Total tip-out: $168**
-- Server take-home: $1,056 − $168 = **$888**
+- Food runner: $4,800 × 1% = $48
+- **Total tip-out: $216** (4.5% of sales)
+- Server take-home: $1,056 − $216 = **$840**
 
 **Scenario B: Tips-based tip-out**
 
-- Bartender: $1,056 × 5% = $52.80
-- Busser: $1,056 × 5% = $52.80
-- Food runner: $1,056 × 3% = $31.68
-- **Total tip-out: $137.28**
-- Server take-home: $1,056 − $137.28 = **$918.72**
+- Bartender: $1,056 × 8% = $84.48
+- Busser: $1,056 × 7% = $73.92
+- Food runner: $1,056 × 5% = $52.80
+- **Total tip-out: $211.20** (20% of tips)
+- Server take-home: $1,056 − $211.20 = **$844.80**
 
 Sales-based tip-out is cleaner to run because the number pulls straight off the POS report, but it stings support staff on a slow, low-tip night when the sales were still there. Tips-based tip-out is fairer to the bussers and runners. It's just a bigger pain, since servers have to report their tips honestly and the whole thing runs off that number. My take: if you trust your floor, go tips-based. If you don't, that's a different problem than your tip structure.
 
