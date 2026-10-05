@@ -1682,5 +1682,65 @@ const allSchema = schema
         .house-ad__cta:hover { transform: none; }
       }
     </style>
+
+    <!-- GA4 calculator funnel events (one delegated tracker for every calc page) -->
+    <script is:inline>
+      (function () {
+        if (typeof window.gtag !== 'function') return;
+        var m = location.pathname.match(/^\/calculators\/([^/]+)\//);
+        var page = m ? m[1] : (location.pathname.match(/^\/blog\/([^/]+)\//) || [])[1] || 'other';
+        var isCalc = !!m;
+        function send(name, params) {
+          try { window.gtag('event', name, Object.assign({ calc_slug: page }, params || {})); } catch (e) {}
+        }
+
+        if (isCalc) {
+          var form = document.querySelector('.calc-form');
+          var started = false;
+          if (form) form.addEventListener('input', function () {
+            if (started) return;
+            started = true;
+            send('calc_start');
+          });
+
+          // calc_result: once per page view, after the big number settles following real input
+          var big = document.querySelector('.calc-result__big');
+          var sentResult = false, timer;
+          if (big && 'MutationObserver' in window) {
+            new MutationObserver(function () {
+              if (!started || sentResult) return;
+              clearTimeout(timer);
+              timer = setTimeout(function () {
+                sentResult = true;
+                var num = (big.textContent || '').replace(/\s+/g, '').match(/-?\$?-?[\d.,]+[%KkMm]?/);
+                send('calc_result', { result_text: num ? num[0] : '' });
+              }, 1500);
+            }).observe(big, { childList: true, subtree: true, characterData: true });
+          }
+
+          // Count only a visitor opening it (desktop opens it automatically on load)
+          var mathSummary = document.querySelector('details.show-math > summary');
+          if (mathSummary) mathSummary.addEventListener('click', function () {
+            if (!mathSummary.parentElement.open) send('show_math_open');
+          });
+        }
+
+        document.addEventListener('click', function (e) {
+          var el = e.target.closest && e.target.closest('a, button');
+          if (!el) return;
+          if (el.matches('[data-load-example]')) return send('example_load');
+          if (el.matches('[data-share-open]')) return send('share_click', { method: 'open' });
+          if (el.matches('[data-share-copylink]')) return send('share_click', { method: 'copy_link' });
+          if (el.matches('[data-share-copycode]')) return send('share_click', { method: 'embed_code' });
+          if (el.matches('[data-share-native]')) return send('share_click', { method: 'native' });
+          if (el.matches('[data-share-email]')) return send('share_click', { method: 'email' });
+          if (el.tagName === 'A' && el.closest('main')) {
+            var href = el.getAttribute('href') || '';
+            var t = href.match(/^\/(calculators|blog)\/([^/]+)\//);
+            if (t && t[2] !== page) send('related_click', { target_type: t[1] === 'blog' ? 'post' : 'calc', target: t[2] });
+          }
+        }, true);
+      })();
+    </script>
   </body>
 </html>
