@@ -186,8 +186,32 @@ const allSchema = schema
       } catch (e) {}
     </script>
 
-    <!-- Google AdSense (loaded for review purposes; ins blocks replaced by house ads below until approved) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
+    <!-- Google AdSense + GA4 load after the page has rendered (first interaction or 2.5s after load).
+         AdSense is still present on every page for review; GA4 calls queue in dataLayer until gtag.js arrives. -->
+    <script is:inline>
+      (function () {
+        function inject(src, cross) {
+          var s = document.createElement('script');
+          s.async = true; s.src = src;
+          if (cross) s.crossOrigin = cross;
+          document.head.appendChild(s);
+        }
+        function loadThirdParty() {
+          inject('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305', 'anonymous');
+          inject('https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y');
+        }
+        // First interaction or 2.5s after load, whichever comes first (crawlers still get it via the timer)
+        var done = false, evs = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+        function go() {
+          if (done) return; done = true;
+          evs.forEach(function (e) { window.removeEventListener(e, go, { passive: true }); });
+          loadThirdParty();
+        }
+        evs.forEach(function (e) { window.addEventListener(e, go, { passive: true }); });
+        function arm() { setTimeout(go, 2500); }
+        if (document.readyState === 'complete') arm(); else window.addEventListener('load', arm);
+      })();
+    </script>
 
     <!-- House Ads (active while AdSense application pending). Set window.__RC_HOUSE_ADS__ = false to restore native AdSense slots after approval. -->
     <script is:inline>
@@ -292,7 +316,6 @@ const allSchema = schema
     </script>
 
     <!-- Google Analytics 4 (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y"></script>
     <script is:inline>
       gtag('js', new Date());
       gtag('config', 'G-2N6BDLH40Y', { anonymize_ip: true });

@@ -120,12 +120,11 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: url('/noise.svg');
+  background: url('/noise.png');
   background-size: 200px 200px;
   opacity: 0.55;
   pointer-events: none;
   z-index: 1;
-  mix-blend-mode: multiply;
 }
 
 /* Decorative section divider - saffron tick marks */
