@@ -63,4 +63,4 @@ The [liquor pour cost calculator](/calculators/liquor-pour-cost/) on this site r
 
 Take your three most complex cocktails, the ones with the longest ingredient list, and cost the full build line by line. Compare the 20% pour cost price to what you actually charge. Those are your underpriced drinks, almost every time, because the modifier cost hides from a feel-based price. Reprice those. Leave the simple drinks alone.
 
-Sources: [Backbar](https://getbackbar.com/), [BinWise](https://home.binwise.com/), [Jeffrey Morgenthaler](https://www.jeffreymorgenthaler.com/), [Sculpture Hospitality](https://sculpturehospitality.com/).
+Sources: [Backbar, How to Set Cocktail Prices](https://academy.getbackbar.com/how-to-set-cocktail-prices-for-your-bar), [BinWise, Alcohol Pricing](https://home.binwise.com/blog/alcohol-pricing), [Jeffrey Morgenthaler, How to Price a Cocktail Menu](https://jeffreymorgenthaler.com/how-to-price-a-cocktail-menu/), [Sculpture Hospitality, Cocktail Costing Formula](https://www.sculpturehospitality.com/blog/cocktail-costing-formula-how-to-set-cocktail-prices-for-your-bar).

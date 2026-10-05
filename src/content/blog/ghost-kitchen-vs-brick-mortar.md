@@ -56,7 +56,7 @@ A dining room needs real estate people actually pass by. Foot traffic, visibilit
 
 This is the line item that wrecks the ghost kitchen pitch for a lot of operators.
 
-Ghost kitchens are 60-95% delivery-driven, and delivery means platform commission. DoorDash, Uber Eats, and GrubHub all-in cost runs **30-40%** of order value once you add up commission, processing, promotions, and refunds. See [Third-Party Delivery Real Cost](/blog/third-party-delivery-real-cost/) for the full math.
+Ghost kitchens are 60-95% delivery-driven, and delivery means platform commission. DoorDash, Uber Eats, and GrubHub all-in cost runs **30-40%** of order value once you add up commission, processing, promotions, and refunds. See [Third-Party Delivery Real Cost](/blog/how-much-does-doordash-take/) for the full math.
 
 A ghost kitchen pushing 90% of revenue through third-party platforms is handing over a **27-36% take rate** off the top before it pays for a single thing. A brick-and-mortar usually runs 10-30% of revenue through third-party and keeps the rest as dine-in or first-party pickup, so its blended platform cost lands much lower, around 3-12% of total revenue.
 

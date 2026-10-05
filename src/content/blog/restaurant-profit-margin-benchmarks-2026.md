@@ -95,7 +95,7 @@ The top-quartile operations keep winning on the same handful of things, and none
 
 QSR runs higher net margin (6-12%) for two reasons. Labor is a smaller share of revenue because there's no full-service waiter ratio to carry, and food cost percentage is lower thanks to volume purchasing, standardized recipes, and less stuff hitting the trash. What you give up is the per-unit revenue ceiling. There's only so much you can ring up per ticket.
 
-Ghost kitchens look great on *paper*, 10-15% net, because they skip the rent and the front-of-house labor. Then reality shows up and it's more like 3-8% once third-party delivery commission swallows the savings whole. See [What Third-Party Delivery Actually Costs You](/blog/third-party-delivery-real-cost/).
+Ghost kitchens look great on *paper*, 10-15% net, because they skip the rent and the front-of-house labor. Then reality shows up and it's more like 3-8% once third-party delivery commission swallows the savings whole. See [What Third-Party Delivery Actually Costs You](/blog/how-much-does-doordash-take/).
 
 Fine dining throws off more *dollars* per cover but lands at a similar or slightly higher percentage margin (4-10%), because the whole check is bigger. A 6% net on a $90 average check is just a lot more money than 6% net on a $32 check, even though the percentage reads the same.
 

@@ -1,6 +1,6 @@
 ---
 title: "What's a Good Prime Cost for a Bar vs a Restaurant?"
-description: "A healthy prime cost by concept, why bars run lower than kitchens, and what your number should be. The benchmark, not the formula. From a 5-year GM."
+description: "A healthy prime cost by concept, how to calculate it weekly with fully loaded labor, and which half to fix when it runs hot. From a 5-year GM."
 pubDate: 2026-06-24
 updatedDate: 2026-10-04
 author: "Brock"
@@ -15,18 +15,39 @@ Here is what a healthy prime cost actually looks like by concept, and why the nu
 
 ## The short answer
 
-A healthy prime cost is **55 to 65% of sales**. Bars often run **50 to 55%** thanks to higher beverage margins. Full-service kitchens run **60 to 65%**. Fine dining can push higher on the labor side. Prime cost is your food plus beverage cost plus total labor, and the right target tracks your concept, not a single industry number.
+Prime cost is food and beverage cost plus fully loaded labor, divided by sales. A healthy number depends on the concept: bars **50 to 55%**, quick service and fast casual **55 to 60%**, sit-down restaurants **60 to 65%**, fine dining up to **70%**. Run it weekly, not monthly, and when it's high, check which half is heavy (food or labor) before you fix anything.
 
-Quick reminder on what we are measuring. Prime cost is COGS plus labor as a share of sales. For the formula and the weekly cadence, see [how to calculate prime cost](/blog/how-to-calculate-prime-cost/). This post is about what the number should be.
+## How to calculate it
+
+> **Prime cost % = (food and beverage cost + total labor) ÷ total sales × 100**
+
+The math is easy. What goes into each bucket is where people get it wrong.
+
+**Cost of goods** means food **and** beverage. A kitchen running a great 28% food cost next to a 28% pour cost on beer still runs hot on prime cost, because the bar side is leaking and nobody's looking at it.
+
+**Total labor** means fully loaded, not the gross wages on the payroll report. Add employer FICA (7.65%), federal and state unemployment, workers comp (3 to 7% of payroll in restaurants), health insurance if you offer it, paid time off, and manager salaries for the week. All of that runs **25 to 35% on top of gross wages** (Restaurant365, Toast). Run prime cost on gross wages alone and you understate it by 4 to 6 points.
+
+**A worked week.** A casual full-service spot does **$82,000** in sales:
+
+- Food: $14,200 beginning inventory + $22,800 purchases − $13,400 ending = **$23,600**
+- Beverage: $8,400 + $5,200 − $7,800 = **$5,800**
+- Labor: $9,800 hourly + $1,750 manager + $3,234 payroll burden (about 28%) + $620 health insurance = **$15,404**
+- Prime cost: ($23,600 + $5,800 + $15,404) ÷ $82,000 = **54.6%**
+
+That's under the 60 to 65% band for a sit-down restaurant, which means room to buy better ingredients, hold prices for a season, or pay people more without risking the model.
+
+**Why weekly.** A monthly prime cost is a postmortem: by the time it lands, the week that broke it is four weeks gone. A 65% week on a 60% target costs you about 1% of that week's sales. Catch it in week one and you eat 1%. Wait for the month to close and you eat 4% for the same mistake. All you need is a Sunday night count of your top items, sales from the POS, and labor from the time clock with a 28% burden applied. Call it forty minutes on a Monday morning.
+
+This post is mostly about what the number should be. Here's the benchmark.
 
 ## Benchmark by concept
 
 | Concept | Healthy prime cost | Why |
 |---|---|---|
 | Bar / cocktail-led | 50 to 55% | High beverage margin pulls COGS down |
-| Fast casual / QSR | 58 to 62% | Lower labor, moderate food cost |
+| Quick service / fast casual | 55 to 60% | Lower labor, moderate food cost |
 | Full-service restaurant | 60 to 65% | Balanced food and labor load |
-| Fine dining | 62 to 68% | Labor-heavy service drives it up |
+| Fine dining | 60 to 70% | Labor-heavy service drives it up |
 | Pizza / high-margin niche | 55 to 60% | Cheap food cost offsets labor |
 
 These are healthy ranges, not red lines. A full-service restaurant at 66% is not on fire. But it has no cushion, and at full-service margins there is not much room below the prime-cost line for rent, utilities, and profit.
@@ -39,7 +60,7 @@ Beverage margin. That is the whole reason, start to finish. Spirits poured strai
 
 Labor. Fine dining is service-heavy: more bodies per cover, skilled kitchen labor, longer prep. The food cost might actually be reasonable, but the labor load pushes prime cost up toward the high end of healthy.
 
-And that is fine. A fine-dining room at 66% prime cost can absolutely work, because the model assumes a higher average check and a different cost structure below the line. Hold it to a 58% target meant for fast casual and you would gut the exact service the concept is selling. The number is not the enemy. Comparing it to the wrong concept is.
+And that is fine. A fine-dining room at 66% prime cost can absolutely work, because the model assumes a higher average check and a different cost structure below the line. Hold it to a 55 to 60% target meant for fast casual and you would gut the exact service the concept is selling. The number is not the enemy. Comparing it to the wrong concept is.
 
 ## If you are over your range
 
@@ -47,6 +68,9 @@ Here is the part I actually care about, because this is where most operators get
 
 - **COGS too high?** The problem is purchasing, portioning, pricing, or waste. Run [inventory variance](/blog/how-to-calculate-inventory-variance/) and check your [food cost](/blog/why-is-my-food-cost-too-high/).
 - **Labor too high?** The problem is scheduling, overtime, or sales per labor hour. The fix is in the schedule, not the kitchen. See [reduce labor cost without cutting hours](/blog/reduce-labor-cost-without-cutting-hours/).
+- **Bar leaking?** Pour cost above 18 to 24% across the program usually traces to free pours, comps nobody approved, and heavy hands on the well. It's the leak people miss most. See [5 ways bar pour cost leaks](/blog/bar-pour-cost-leaks/).
+
+Check them in that order: food variance is the cheapest to check and the fastest to fix, then labor by daypart, then the bar.
 
 A 64% prime cost that is 32% food and 32% labor is a completely different problem than a 64% that is 28% food and 36% labor. Same total. Different leak. And you cannot fix it until you know which half is heavy.
 
@@ -58,4 +82,4 @@ The [prime cost calculator](/calculators/prime-cost/) on this site runs food plu
 
 Pull your prime cost for last week and put it next to your concept's range above. Inside the range? Watch the split and keep it there. Over? Break it into food and labor and look at which half is heavy, because that one decision is what sends you into the kitchen or into the schedule. The number alone is a score. The split is the instruction.
 
-Sources: [Restaurant365](https://www.restaurant365.com/), [Toast](https://pos.toasttab.com/), [National Restaurant Association](https://restaurant.org/), [TouchBistro](https://www.touchbistro.com/).
+Sources: [Toast, How to Calculate Prime Cost](https://pos.toasttab.com/blog/on-the-line/restaurant-prime-cost), [Restaurant365, Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/), [Toast, Restaurant Labor Cost Percentage](https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost-percentage).

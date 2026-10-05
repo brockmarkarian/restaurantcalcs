@@ -1,6 +1,6 @@
 ---
-title: "What Restaurant Turnover Actually Costs (The $5,864 Per Quit)"
-description: "Real cost of losing one hourly employee, why 75% turnover is normal but expensive, and the math on a $1,000 retention bonus. From a 5-year GM."
+title: "What Restaurant Turnover Costs and How to Cut It ($5,864 Per Quit)"
+description: "The real cost of losing one hourly employee, why 75% turnover is normal but expensive, and the fixes that actually cut it. From a 5-year GM."
 pubDate: 2026-05-13
 updatedDate: 2026-10-04
 author: "Brock"
@@ -18,13 +18,13 @@ This is the version of turnover cost I wish somebody had run for me on a napkin 
 
 ## The short answer
 
-Each hourly quit costs about **$5,864** to replace, between hiring, training and the productivity you lose while someone ramps up. The industry turns over **75 to 77%** of hourly staff a year. On a 50-person team that's about **37 quits and $217,000** a year, roughly **10 to 14% of revenue**, more than most independents make in profit.
+Each hourly quit costs about **$5,864** to replace, between hiring, training and the productivity you lose while someone ramps up. The industry turns over **75 to 77%** of hourly staff a year. On a 50-person team that's about **37 quits and $217,000** a year, roughly **10 to 14% of revenue**, more than most independents make in profit. The fixes that work are boring: predictable schedules, trained managers, and check-ins at 30, 60 and 90 days.
 
 ## The $5,864 number
 
 Restaurant industry turnover sits around **75-77% annually** for hourly employees (NRA 2024 Industry Factbook). On a fifty-person team, that's thirty-seven to thirty-nine people walking through the door and back out every year. Some quit. Some you fire. Either way you're paying to replace them.
 
-The cost per replacement of an hourly restaurant employee runs **$3,000-$7,000**, with the industry-weighted average around **$5,864** (HigherMe Restaurant Turnover Report, [7shifts Restaurant Statistics 2024](https://www.7shifts.com/blog/)). That sounds high. It's not. It's what one quit actually costs once you stop hiding the cost in other line items.
+The cost per replacement of an hourly restaurant employee runs **$3,000-$7,000**, with the industry-weighted average around **$5,864** (HigherMe Restaurant Turnover Report, [7shifts Restaurant Statistics](https://www.7shifts.com/blog/restaurant-statistics/)). That sounds high. It's not. It's what one quit actually costs once you stop hiding the cost in other line items.
 
 What is in the $5,864:
 
@@ -99,6 +99,22 @@ Workers will take fewer hours, less choice, and tighter constraints if the sched
 Operators who post two weeks out, honor the posted shifts even on a dead night, and let workers swap among themselves with manager approval retain better than the ones white-knuckling every shift. What you give up is a little flexibility on slow nights. What you get back is a real retention lift, which is the $5,864-per-quit cost you didn't have to eat.
 
 It's a move where the money massively favors doing it, but you have to give up a little control to get the bigger win. Most operators won't. They'd rather keep the optionality and complain about turnover. That's why it stays at 75%.
+
+## The fixes that actually move it
+
+The exit interviews, the 90-day cliff and the schedule research all point the same way. Here's what to do about it, roughly in order of cost.
+
+**Structured check-ins at 30, 60 and 90 days.** Half your quits walk inside 90 days, so check in on every new hire on a schedule, on purpose. Fifteen minutes at day 30 ("How is the schedule working? What part of training didn't work? Anyone giving you trouble?"), twenty at day 60 ("What do you need more training on? Anything about pay or the tip pool that isn't clear?"), thirty at day 90 (the same, plus where they want to be in a year and whether they're planning to stay through next quarter). About 90 minutes of manager time per hire. It isn't spying. A worker who feels seen stays longer.
+
+**Pay you can explain out loud.** A lot of pay-driven quits start as a perception problem, not a money problem. Write down the wage scale by position (starts at X, Y at one year, Z at two), the shift differentials, how the tip pool splits and why, and how raises get decided. When a line cook thinks he's getting shorted next to the new guy, you want to be able to walk him through the actual numbers instead of arguing.
+
+**Cross-training.** Server learns bar, line cook learns a second station, host learns to serve. People who can run two roles pick up hours when they want them and don't feel boxed in. Operations running real cross-training see turnover **8 to 15 points lower** (7shifts).
+
+**Retention bonuses, set up right.** One payment at 90 days or one year, explained at hire, tied to a clear milestone, handed over in front of the team. What doesn't work: an annual bonus everyone starts counting as pay, vague criteria like "attitude," or surprise cash with no explanation. Paired with the check-ins, the prevention rate on borderline quits runs higher than the 50% used above, and the ROI climbs to 4 to 5x.
+
+**What doesn't move turnover.** Free meals (already expected), a ping-pong table, appreciation week followed by 51 normal weeks, branded T-shirts, the pizza party. None of it is bad. Throw the pizza party if you want. It just won't keep anybody past day 90. What keeps people is how the place runs on a normal Tuesday.
+
+Run one fix for 90 days, measure turnover before and after with no fudging, then stack the next one. Dragging an operation from 80% turnover down to 50% saves $90,000 to $130,000 a year depending on team size.
 
 ## What to do today
 
