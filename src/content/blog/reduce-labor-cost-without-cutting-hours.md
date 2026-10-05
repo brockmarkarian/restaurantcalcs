@@ -2,6 +2,7 @@
 title: "How to Reduce Labor Cost Without Cutting Hours"
 description: "Five scheduling fixes that cut labor cost 2-4 points without firing anyone: staggered starts, forecast scheduling, OT control. From a 5-year GM."
 pubDate: 2026-05-27
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Labor cost", "Scheduling", "Operations", "Retention"]
 relatedCalc: "labor-cost"

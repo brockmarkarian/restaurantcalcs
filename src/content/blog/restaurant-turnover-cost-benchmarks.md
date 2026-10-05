@@ -2,6 +2,7 @@
 title: "What Restaurant Turnover Actually Costs (The $5,864 Per Quit)"
 description: "Real cost of losing one hourly employee, why 75% turnover is normal but expensive, and the math on a $1,000 retention bonus. From a 5-year GM."
 pubDate: 2026-05-13
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Turnover", "Labor", "Retention", "Operations"]
 relatedCalc: "turnover-cost"

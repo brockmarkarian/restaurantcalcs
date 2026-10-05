@@ -2,6 +2,7 @@
 title: "Why Monthly Inventory Lies (And the Weekly Fix That Catches Leaks)"
 description: "From a 5-year bar GM: monthly variance is too late, weekly is the real number, and the discipline of looking matters more than the math."
 pubDate: 2026-05-04
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Inventory", "Variance", "Operations"]
 relatedCalc: "inventory-variance"

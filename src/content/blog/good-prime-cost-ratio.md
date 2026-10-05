@@ -2,6 +2,7 @@
 title: "What's a Good Prime Cost for a Bar vs a Restaurant?"
 description: "A healthy prime cost by concept, why bars run lower than kitchens, and what your number should be. The benchmark, not the formula. From a 5-year GM."
 pubDate: 2026-06-24
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Prime cost", "Benchmarks", "Profit", "Operations"]
 relatedCalc: "prime-cost"

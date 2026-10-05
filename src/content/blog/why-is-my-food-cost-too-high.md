@@ -2,6 +2,7 @@
 title: "Why Is My Food Cost Too High? 7 Root Causes (Diagnostic Order)"
 description: "The seven root causes of high food cost, the diagnostic flowchart for finding which one is yours, and the triage order based on variance size."
 pubDate: 2026-05-26
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Food cost", "Variance", "Diagnostics", "Operations"]
 relatedCalc: "food-cost"

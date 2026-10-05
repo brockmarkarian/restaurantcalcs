@@ -2,6 +2,7 @@
 title: "Theoretical vs Actual Food Cost (Variance Explained)"
 description: "Theoretical food cost vs actual: what the gap means, acceptable variance bands by segment, and the five places variance hides. From a 5-year GM."
 pubDate: 2026-05-23
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Food cost", "Variance", "Inventory", "Operations"]
 relatedCalc: "inventory-variance"

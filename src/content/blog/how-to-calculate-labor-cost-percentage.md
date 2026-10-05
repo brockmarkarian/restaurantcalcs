@@ -2,6 +2,7 @@
 title: "How to Calculate Labor Cost Percentage (Beyond Just Wages)"
 description: "The fully loaded labor cost formula most operators miss, why your $20/hr hire actually costs $26.40, and the segment-by-segment benchmarks. From a 5-year GM."
 pubDate: 2026-05-16
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Labor cost", "Payroll", "Operations", "Burden"]
 relatedCalc: "labor-cost"

@@ -2,6 +2,7 @@
 title: "Restaurant Break-Even Formula (In Dollars and In Covers)"
 description: "Two break-even formulas every operator should run, the cover gap reading, and what changes when you add or kill a daypart. From a 5-year GM."
 pubDate: 2026-05-18
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Break-even", "Operations", "P&L", "Formulas"]
 relatedCalc: "break-even"

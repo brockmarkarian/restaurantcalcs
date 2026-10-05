@@ -2,6 +2,7 @@
 title: "Pour Cost Benchmarks for Bars (Beer, Wine, Liquor Split)"
 description: "Pour cost targets by category: spirits 14-18%, beer 20-30%, wine 22-35%. The blended bar target and why single-number tracking misleads."
 pubDate: 2026-05-21
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Pour cost", "Bar program", "Benchmarks", "Beverage"]
 relatedCalc: "liquor-pour-cost"

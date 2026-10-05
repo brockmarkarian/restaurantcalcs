@@ -2,6 +2,7 @@
 title: "Contribution Margin vs Food Cost Percentage (Why Food Cost % Lies)"
 description: "The dollar-vs-percentage trap that makes operators kill profitable items: why a 38% food cost steak makes more money than a 22% food cost salad."
 pubDate: 2026-05-25
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Margin", "Pricing", "Menu engineering", "Operations"]
 relatedCalc: "menu-engineering"

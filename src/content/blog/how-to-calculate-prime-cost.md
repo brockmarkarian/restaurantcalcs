@@ -2,6 +2,7 @@
 title: "How to Calculate Prime Cost (Weekly, Not Monthly)"
 description: "The right way to calculate restaurant prime cost: weekly cadence, fully loaded labor, why a 60% target hides more than it reveals. From a 5-year GM."
 pubDate: 2026-05-14
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Prime cost", "Food cost", "Labor", "Operations"]
 relatedCalc: "prime-cost"

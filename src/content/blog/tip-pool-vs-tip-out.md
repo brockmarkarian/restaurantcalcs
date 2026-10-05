@@ -2,6 +2,7 @@
 title: "Tip Pool vs Tip Out (When to Switch and When Not To)"
 description: "Tip pool vs tip out: standard percentages, FLSA compliance, and four questions that decide which structure fits your concept. From a 5-year GM."
 pubDate: 2026-05-29
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Tip pool", "FLSA", "Service", "Operations"]
 relatedCalc: "tip-pool"

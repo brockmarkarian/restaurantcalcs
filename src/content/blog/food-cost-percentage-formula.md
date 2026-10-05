@@ -2,6 +2,7 @@
 title: "Food Cost Percentage Formula (With a Real Worked Weekly Example)"
 description: "The food cost formula every restaurant should run weekly, three reasons your number is wrong even when math is right. From a 5-year GM."
 pubDate: 2026-05-15
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Food cost", "Operations", "COGS", "Formulas"]
 relatedCalc: "food-cost"

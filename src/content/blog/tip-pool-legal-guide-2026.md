@@ -2,6 +2,7 @@
 title: "Tip Pool Legal Guide: FLSA, Tip Credits, and What Gets You Sued"
 description: "Plain-English FLSA guide to tip pools written by a former bar GM. Manager prohibition, tip credit rules, state-by-state, and what actually gets operators sued."
 pubDate: 2026-05-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Compliance", "Tip pools", "FLSA"]
 relatedCalc: "tip-pool"

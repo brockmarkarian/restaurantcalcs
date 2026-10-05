@@ -2,6 +2,7 @@
 title: "What Third-Party Delivery Actually Costs You (The Math Nobody Quotes)"
 description: "Real all-in cost of DoorDash, Uber Eats, GrubHub. The fees commission rates hide and when delivery makes money. From a 5-year GM."
 pubDate: 2026-05-12
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Delivery", "Margin", "Operations", "Third-party"]
 relatedCalc: "delivery-profit"

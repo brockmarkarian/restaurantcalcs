@@ -2,6 +2,7 @@
 title: "Average Labor Cost Percentage by Segment (2026 NRA Data)"
 description: "Latest NRA labor cost benchmarks: full-service 36.5%, limited-service 31.7%. State and segment breakdowns. Where to actually target. From a 5-year GM."
 pubDate: 2026-05-20
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Labor cost", "Benchmarks", "By segment", "NRA"]
 relatedCalc: "labor-cost"

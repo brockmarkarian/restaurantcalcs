@@ -2,6 +2,7 @@
 title: "Average Food Cost Percentage by Restaurant Type (2026)"
 description: "Food cost benchmarks by segment: pizza, burgers, casual, steakhouse, sushi, fine dining. Industry-wide range 28-35%, with the segment-specific spreads."
 pubDate: 2026-05-19
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Food cost", "Benchmarks", "By segment", "Operations"]
 relatedCalc: "food-cost"

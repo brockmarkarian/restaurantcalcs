@@ -2,6 +2,7 @@
 title: "How to Calculate Pour Cost (And Why 20% Is the Wrong Target)"
 description: "The right way to calculate liquor pour cost, why a single 20% target hides the bar program's real problem, and the math by category. From a 5-year bar GM."
 pubDate: 2026-05-17
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Pour cost", "Bar program", "Beverage", "Operations"]
 relatedCalc: "liquor-pour-cost"

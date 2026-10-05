@@ -2,6 +2,7 @@
 title: "What Is Menu Engineering (Stars / Plowhorses / Puzzles / Dogs)"
 description: "The menu engineering matrix explained: how to classify items by margin and popularity, what to do with each quadrant, and when to rerun the analysis."
 pubDate: 2026-05-24
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Menu engineering", "Pricing", "Margin", "Operations"]
 relatedCalc: "menu-engineering"

@@ -2,6 +2,7 @@
 title: "How to Reduce Restaurant Turnover (Real Numbers, Not Perks)"
 description: "Retention strategies that actually work, the ROI math on bonuses and onboarding, and why manager training beats every other intervention. From a 5-year GM."
 pubDate: 2026-05-28
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Turnover", "Retention", "Labor", "Operations"]
 relatedCalc: "turnover-cost"

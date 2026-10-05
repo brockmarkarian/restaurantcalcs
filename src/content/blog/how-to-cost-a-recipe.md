@@ -2,6 +2,7 @@
 title: "How to Cost a Recipe (The Yield Percentage Most Operators Skip)"
 description: "How to cost a recipe plate-by-plate, why yield percentage matters more than spec sheets show, and the Q-factor most kitchens forget. From a 5-year GM."
 pubDate: 2026-05-11
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Recipe costing", "Food cost", "Kitchen ops", "Operations"]
 relatedCalc: "recipe-cost"

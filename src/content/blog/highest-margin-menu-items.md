@@ -2,6 +2,7 @@
 title: "The 7 Highest-Margin Items on a Restaurant Menu"
 description: "The seven items that carry the most margin, ranked by a GM who ran the numbers, with the food cost percentage on each. From a 5-year GM."
 pubDate: 2026-06-12
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Menu", "Margin", "Pricing", "Profit"]
 relatedCalc: "menu-pricing"

@@ -2,6 +2,7 @@
 title: "Half-Barrel Pints, Foam Loss, and What a Draft Beer Actually Costs"
 description: "From a 5-year bar GM: how many pints actually pour out of a half-barrel keg, why foam and line cleaning eat 5-10%, and what every pint really costs."
 pubDate: 2026-05-04
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Bar program", "Draft beer", "Pour cost", "Operations"]
 relatedCalc: "keg-cost"

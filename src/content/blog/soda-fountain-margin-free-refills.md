@@ -2,6 +2,7 @@
 title: "Soda Fountain Margin: How Much a Free Refill Actually Costs You"
 description: "BIB math, ice fill, free refill multipliers, and the line-by-line on why fountain is the best margin on your menu, even with refills."
 pubDate: 2026-05-04
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Beverage program", "Fountain", "Pour cost", "Operations"]
 relatedCalc: "fountain-cost"

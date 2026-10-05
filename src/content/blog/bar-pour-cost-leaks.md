@@ -2,6 +2,7 @@
 title: "5 Ways Bar Pour Cost Actually Leaks (And Why Your % Lies)"
 description: "From a 5-year bar GM: five real reasons your pour cost runs hot, why theft is rarely the first answer, and how to find the leak before it kills margin."
 pubDate: 2026-05-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Bar program", "Pour cost", "Operations"]
 relatedCalc: "liquor-pour-cost"

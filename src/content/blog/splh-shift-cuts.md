@@ -2,6 +2,7 @@
 title: "Sales Per Labor Hour: The Number That Tells You Who To Cut First"
 description: "From a 5-year bar GM: the math behind the 9pm 'cut a server' decision, why SPLH beats labor cost % at the shift level, and concept-by-concept benchmarks."
 pubDate: 2026-05-04
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Labor cost", "Scheduling", "SPLH", "Operations"]
 relatedCalc: "labor-cost"

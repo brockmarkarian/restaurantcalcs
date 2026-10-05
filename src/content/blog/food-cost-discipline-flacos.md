@@ -2,6 +2,7 @@
 title: "What Food Cost Actually Means (And What Killed Flaco's Cafe)"
 description: "Food cost discipline isn't being cheap. It's knowing what you give away. Story of a Florida cafe that closed, and the weekly habit that would've saved it."
 pubDate: 2026-05-01
+updatedDate: 2026-10-04
 author: "Brock"
 tags: ["Food cost", "Operations", "Case study"]
 relatedCalc: "food-cost"

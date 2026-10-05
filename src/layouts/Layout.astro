@@ -44,7 +44,16 @@ const baseSchema = [
     '@id': `${SITE_URL}/#founder`,
     name: 'Brock Markarian',
     jobTitle: 'Founder, RestaurantCalcs',
-    description: 'Restaurant operator and digital strategist. Builds tools used by independent restaurant owners, GMs, sous chefs, and bar managers. Former General Manager at Cosmos Taverna (5 years).',
+    description: 'Restaurant operator and digital strategist. Builds tools used by independent restaurant owners, GMs, sous chefs, and bar managers. Five years at Cosmos Taverna, bartender to General Manager.',
+    image: `${SITE_URL}/brock-markarian.webp`,
+    sameAs: [
+      'https://x.com/brockmarkarian',
+      'https://github.com/brockmarkarian',
+      'https://www.linkedin.com/in/brock-markarian-b7418595/',
+      'https://www.producthunt.com/@brockmarkarian',
+      'https://www.indiehackers.com/brockmarkarian',
+      'https://www.youtube.com/@brockmarkarian',
+    ],
     knowsAbout: [
       'Restaurant operations',
       'Food cost percentage',
@@ -68,7 +77,11 @@ const baseSchema = [
     logo: `${SITE_URL}/logo.png`,
     description: 'Free calculators for restaurant operators. Food cost, labor, tip pool, menu pricing, and more.',
     founder: { '@id': `${SITE_URL}/#founder` },
-    sameAs: [],
+    sameAs: [
+      'https://www.producthunt.com/products/restaurantcalcs',
+      'https://sourceforge.net/projects/restaurantcalcs/',
+      'https://github.com/brockmarkarian/restaurantcalcs',
+    ],
   },
   {
     '@context': 'https://schema.org',

@@ -97,9 +97,9 @@
 
 ### Prime cost (food + labor combined)
 
-- **Healthy:** 55–60% (NRA target)
-- **Watch:** 60–65%
-- **Critical:** above 65%
+- **Healthy by concept** (matches the prime cost calculator): quick service / fast casual / pizza / cafe 55–60%, sit-down casual 60–65%, fine dining 60–70%
+- **Watch:** up to 5 points over the concept band. **Critical:** above 65% for counter service, above 70% for sit-down
+- Source: NRA, Toast prime cost guide
 
 ### Burden / fully-loaded labor
 

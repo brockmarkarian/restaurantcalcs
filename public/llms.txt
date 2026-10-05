@@ -1,38 +1,65 @@
 # RestaurantCalcs
 
-> Free, no-signup calculators for independent restaurant operators. Food cost, recipe cost, labor, tip pool, menu pricing, liquor pour cost, break-even revenue, inventory variance, prime cost, draft beer / keg cost, no-show deposit, and menu engineering, with the math shown underneath every result.
+> Free, no-signup calculators for independent restaurant operators: food cost, recipe cost, labor, prime cost, tip pool, menu pricing, menu engineering, liquor and draft pour cost, fountain soda cost, break-even, inventory variance, no-show deposits, delivery profit, catering pricing and staff turnover. The math is shown under every result.
 
-RestaurantCalcs is a single-page utility site for restaurant operations math. Every calculator is free, requires no account, runs in the browser, and shows step-by-step calculations alongside the result so operators can trust the answer and teach it to their staff. Built by a restaurant operator who got tired of spreadsheets that crash on phones.
-
-Each calculator includes:
-- Plain-English explanation of the formula
-- Industry benchmark comparison
-- "Show your math" expandable breakdown
-- Mobile-first interface for use on the line
+Every calculator is free, needs no account, runs in the browser (nothing is stored or sent), and shows step-by-step math next to the result so an operator can check it and teach it to staff. Built by Brock Markarian, who spent five years at Cosmos Taverna in Victorville, California, going from bartender to General Manager.
 
 ## Calculators
 
-- [Food Cost Percentage](https://restaurantcalcs.com/calculators/food-cost): Compare food cost to revenue to spot menu margin issues. Industry healthy range: 28–32%.
-- [Recipe & Plate Cost](https://restaurantcalcs.com/calculators/recipe-cost): Build plate cost from ingredient quantities and prices. Calculates per-portion food cost.
-- [Labor Cost Percentage](https://restaurantcalcs.com/calculators/labor-cost): Track labor as a share of revenue across shifts. Includes shift-by-shift schedule mode with OT detection. Industry healthy range: 25–35%.
-- [Tip Pool & Tip Out](https://restaurantcalcs.com/calculators/tip-pool): Split tips fairly across roles by hours or points. Supports multi-role pools.
-- [Menu Pricing](https://restaurantcalcs.com/calculators/menu-pricing): Reverse-engineer menu price from cost and target margin.
-- [Liquor Pour Cost](https://restaurantcalcs.com/calculators/liquor-pour-cost): Calculate pour cost % and benchmark against industry. Industry healthy range: 18–24%.
-- [Restaurant Break-Even Revenue](https://restaurantcalcs.com/calculators/break-even): Find revenue needed to cover fixed and variable costs.
-- [Inventory Variance](https://restaurantcalcs.com/calculators/inventory-variance): Spot theft, waste, or counting errors in food inventory.
-- [Prime Cost](https://restaurantcalcs.com/calculators/prime-cost): Food + beverage + labor as % of revenue. Concept-aware benchmarks. The single ops metric every operator should track weekly.
-- [Draft Beer / Keg Cost](https://restaurantcalcs.com/calculators/keg-cost): Pour cost, cost per pour, profit per keg. Healthy draft pour cost: 18–22%.
-- [No-Show & Deposit](https://restaurantcalcs.com/calculators/no-show-deposit): Cost of empty reserved seats, suggested deposit amount, and break-even no-show rate.
-- [Menu Engineering](https://restaurantcalcs.com/calculators/menu-engineering): Star, Plowhorse, Puzzle, and Dog matrix. Classify each menu item by contribution margin and popularity.
-- [Delivery True-Profit](https://restaurantcalcs.com/calculators/delivery-profit): DoorDash, UberEats, GrubHub net profit per order. Stacks commission + processing + packaging + promo. Reverse-solves "what should I charge on platform" for target margin.
-- [Catering & Event Pricing](https://restaurantcalcs.com/calculators/catering-pricing): Per-head pricing with food, labor, rentals, line items. Service charge and gratuity legal distinction (DOL Fact Sheet #15). Operator margin + customer-facing quote.
-- [Employee Turnover Cost](https://restaurantcalcs.com/calculators/turnover-cost): Annual cost of replacement hires. Hourly + salaried. Industry full-service: 75-130% turnover (NRA), $3K-$7K replacement cost per hourly hire (Cornell SHA).
-- [Fountain Drink / BIB Cost](https://restaurantcalcs.com/calculators/fountain-cost): BIB (bag-in-box) yield, mix ratio, ice fill, cup cost, free-refill multiplier. Real pour cost on soda and sparkling drinks. Healthy 8-15% on small drinks.
+- [Food Cost Percentage](https://restaurantcalcs.com/calculators/food-cost/): Food cost as a share of food sales, quick or detailed COGS mode. Healthy for casual full-service: 28–32% (published industry range 28–35%).
+- [Recipe & Plate Cost](https://restaurantcalcs.com/calculators/recipe-cost/): Plate cost from ingredient quantities, prices and yield. Per-portion food cost and food cost % at your menu price.
+- [Labor Cost Percentage](https://restaurantcalcs.com/calculators/labor-cost/): Labor as a share of revenue, with a shift schedule mode and overtime detection. Healthy by concept: QSR 20–25%, fast casual 25–30%, casual dining 28–35%, fine dining 30–40%.
+- [Prime Cost](https://restaurantcalcs.com/calculators/prime-cost/): Food + beverage + labor as a share of revenue. Healthy by concept: quick service and fast casual 55–60%, sit-down 60–65%, fine dining 60–70%.
+- [Tip Pool & Tip Out](https://restaurantcalcs.com/calculators/tip-pool/): Split tips across roles by hours or points, with FLSA rules shown on the form (managers and supervisors cannot take from a tip pool).
+- [Menu Pricing](https://restaurantcalcs.com/calculators/menu-pricing/): Set a menu price from plate cost and a target food cost %.
+- [Menu Engineering](https://restaurantcalcs.com/calculators/menu-engineering/): Star, Plowhorse, Puzzle and Dog matrix by contribution margin and popularity.
+- [Liquor Pour Cost](https://restaurantcalcs.com/calculators/liquor-pour-cost/): Pour cost % per drink or for the whole bar. Healthy: spirits poured straight 14–18%, cocktails 18–22%, whole liquor program 18–24%, wine by the glass 28–32%.
+- [Draft Beer / Keg Cost](https://restaurantcalcs.com/calculators/keg-cost/): Pints per keg, cost per pour, pour cost %, profit per keg. Healthy draft pour cost 18–22% on domestics, 18–24% across a typical tap list.
+- [Fountain Drink / BIB Cost](https://restaurantcalcs.com/calculators/fountain-cost/): Cost per cup and pour cost for fountain soda: bag-in-box yield, mix ratio, ice, cup, CO2 and free refills. Healthy 8–15% before refills; rises with cup size.
+- [Restaurant Break-Even Revenue](https://restaurantcalcs.com/calculators/break-even/): Monthly sales needed to cover fixed and variable costs.
+- [Inventory Variance](https://restaurantcalcs.com/calculators/inventory-variance/): Gap between theoretical and actual usage. Acceptable 2–3% of sales; investigate above 3%.
+- [No-Show & Deposit](https://restaurantcalcs.com/calculators/no-show-deposit/): Monthly cost of no-shows, suggested deposit, and break-even no-show rate.
+- [Delivery True-Profit](https://restaurantcalcs.com/calculators/delivery-profit/): Net profit per DoorDash, Uber Eats or Grubhub order after commission (15–30%), processing, packaging and promos.
+- [Catering & Event Pricing](https://restaurantcalcs.com/calculators/catering-pricing/): Per-guest pricing with food, labor, rentals, service charge and gratuity, plus a customer-facing quote.
+- [Employee Turnover Cost](https://restaurantcalcs.com/calculators/turnover-cost/): Yearly cost of replacing hourly and salaried staff.
+
+## Key benchmarks used on this site
+
+- Food cost, casual full-service: 28–32% healthy; 32–35% worth watching (published range 28–35%)
+- Labor cost: 25–35% of revenue for full-service; QSR 20–25%
+- Prime cost: quick service 55–60%, sit-down 60–65%, fine dining 60–70%
+- Pour cost: spirits straight 14–18%, cocktails 18–22%, whole liquor program 18–24%, draft beer 18–24% (domestic 18–22%), wine by the glass 28–32%
+- Fountain soda: 8–15% before free refills. A 5-gallon bag-in-box (640 oz syrup) makes 3,840 oz at a 5:1 mix, about 342 sixteen-ounce drinks at 30% ice. Free refills average 1.4 drinks per visit
+- Inventory variance: 2–3% of sales acceptable, above 3% investigate, above 5% audit
+- Third-party delivery commission: 15–30% per order
+
+## Guides
+
+- [Soda Fountain Margin: How Much a Free Refill Actually Costs You](https://restaurantcalcs.com/blog/soda-fountain-margin-free-refills/): BIB math, ice fill, free refill multipliers, and the line-by-line on why fountain is the best margin on your menu, even with refills.
+- [How to Price a Cocktail (The Pour Cost Math Bars Skip)](https://restaurantcalcs.com/blog/how-to-price-a-cocktail/): How to price a cocktail off its real pour cost, the multiplier that works, and a worked build from spirit to menu price. From a 5-year bar GM.
+- [Tip Pool vs Tip Out (When to Switch and When Not To)](https://restaurantcalcs.com/blog/tip-pool-vs-tip-out/): Tip pool vs tip out: standard percentages, FLSA compliance, and four questions that decide which structure fits your concept. From a 5-year GM.
+- [How to Price Draft Beer (Profit Per Keg, Not Per Pint)](https://restaurantcalcs.com/blog/how-to-price-draft-beer/): How to price draft beer to a target pour cost, the real servable pints after foam, and the profit-per-keg number that matters. From a 5-year bar GM.
+- [Average Food Cost Percentage by Restaurant Type (2026)](https://restaurantcalcs.com/blog/food-cost-percentage-by-restaurant-type/): Food cost benchmarks by segment: pizza, burgers, casual, steakhouse, sushi, fine dining. Industry-wide range 28-35%, with the segment-specific spreads.
+- [How to Calculate a Tip-Out (Servers, Bussers, Bartenders)](https://restaurantcalcs.com/blog/how-to-calculate-tip-out/): How tip-outs actually get calculated, standard percentages by role, and a worked shift example. The math, not the legal guide. From a 5-year GM.
+- [Sales Per Labor Hour: The Number That Tells You Who To Cut First](https://restaurantcalcs.com/blog/splh-shift-cuts/): From a 5-year bar GM: the math behind the 9pm 'cut a server' decision, why SPLH beats labor cost % at the shift level, and concept-by-concept benchmarks.
+- [Pour Cost Benchmarks for Bars (Beer, Wine, Liquor Split)](https://restaurantcalcs.com/blog/pour-cost-benchmarks-by-category/): Pour cost targets by category: spirits 14-18%, beer 20-30%, wine 22-35%. The blended bar target and why single-number tracking misleads.
+- [Contribution Margin vs Food Cost Percentage (Why Food Cost % Lies)](https://restaurantcalcs.com/blog/contribution-margin-vs-food-cost-percentage/): The dollar-vs-percentage trap that makes operators kill profitable items: why a 38% food cost steak makes more money than a 22% food cost salad.
+- [The 7 Highest-Margin Items on a Restaurant Menu](https://restaurantcalcs.com/blog/highest-margin-menu-items/): The seven items that carry the most margin, ranked by a GM who ran the numbers, with the food cost percentage on each. From a 5-year GM.
+- [What's a Good Prime Cost for a Bar vs a Restaurant?](https://restaurantcalcs.com/blog/good-prime-cost-ratio/): A healthy prime cost by concept, why bars run lower than kitchens, and what your number should be. The benchmark, not the formula. From a 5-year GM.
+- [How Much Does DoorDash Actually Take From Restaurants?](https://restaurantcalcs.com/blog/how-much-does-doordash-take/): What DoorDash, Uber Eats, and Grubhub really take per order, the fees the commission rate hides, and when delivery still makes money. From a 5-year GM.
+- [Is a 2% Inventory Variance Bad? What's Actually Acceptable](https://restaurantcalcs.com/blog/acceptable-inventory-variance-percentage/): Acceptable inventory variance by category, why it is not the same as food cost, and how to set a target that catches leaks. From a 5-year GM.
+- [Catering Pricing: Off-Site Event Math (Beyond Food Cost)](https://restaurantcalcs.com/blog/catering-pricing-offsite-events/): Catering pricing formula that captures off-site labor, travel, equipment, minimum spend. Target margins 7-15% net, gross 65-70%. From a 5-year GM.
 
 ## Audience
 
-Independent restaurant owners, general managers, sous chefs, bar managers, and operators of indie restaurants, bars, and cafes who run operations math on phones between rushes, not enterprise chains with custom POS analytics.
+Independent restaurant owners, general managers, kitchen managers, sous chefs and bar managers who run operations math on a phone between rushes.
 
 ## Differentiator
 
-Unlike Toast, Square, and Restaurant365, whose calculators are gated behind email signups or built into paid subscriptions, RestaurantCalcs is free, requires no account, and is designed to be used in the kitchen on a phone in 60 seconds.
+Most free restaurant calculators from POS and software vendors sit behind an email signup or a paid product. RestaurantCalcs is free, needs no account, and is built to be used in under a minute on a phone.
+
+## Contact
+
+- About: https://restaurantcalcs.com/about/
+- Contact: https://restaurantcalcs.com/contact/
+- Blog: https://restaurantcalcs.com/blog/

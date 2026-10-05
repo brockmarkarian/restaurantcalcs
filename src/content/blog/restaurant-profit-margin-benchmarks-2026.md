@@ -2,6 +2,7 @@
 title: "Restaurant Profit Margin Benchmarks (2026 Net by Segment)"
 description: "Restaurant net profit margins by segment: full-service 3-8%, fast casual 4-10%, QSR 6-12%, ghost kitchen 10-15%. What 6% net actually means on $1.2M revenue."
 pubDate: 2026-05-22
+updatedDate: 2026-06-01
 author: "Brock"
 tags: ["Profit margin", "Benchmarks", "P&L", "Operations"]
 relatedCalc: "prime-cost"
