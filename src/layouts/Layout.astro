@@ -729,7 +729,7 @@ const allSchema = schema
         </div>
         <div class="site-footer__legal">
           <span class="t-caption">© 2026 RestaurantCalcs. Free tools for restaurant operators. Built by <a href="https://marketing760.com" rel="noopener" class="site-footer__credit">Marketing 760</a>.</span>
-          <span class="t-caption site-footer__updated">Last reviewed <time datetime="2026-05-30">May 30, 2026</time></span>
+          <span class="t-caption site-footer__updated">Last reviewed <time datetime="2026-10-04">October 4, 2026</time></span>
         </div>
       </div>
     </footer>
@@ -908,6 +908,10 @@ const allSchema = schema
         }
         .site-header__try {
           display: inline-flex;
+        }
+        @media (max-width: 420px) {
+          /* Not enough room next to the wordmark; the menu links every calc */
+          .site-header__try { display: none; }
         }
         .site-header__burger {
           display: inline-flex;

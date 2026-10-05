@@ -409,11 +409,11 @@ const relatedCalcs = [
       row.dataset.rowId = String(id);
       const roleOpts = Object.keys(ROLE_POINTS).map(k => `<option value="${k}"${k === role ? ' selected' : ''}>${k.charAt(0).toUpperCase() + k.slice(1)} (weight ${ROLE_POINTS[k]})</option>`).join('');
       row.innerHTML = `
-        <input type="text" class="employee-row__name" name="name-${id}" placeholder="e.g. Alex" value="${name}" autocomplete="off" />
-        <select class="employee-row__role" name="role-${id}">${roleOpts}</select>
-        <input type="number" class="employee-row__hours num" name="hours-${id}" inputmode="decimal" min="0" step="0.25" placeholder="6.5" value="${hours}" autocomplete="off" />
-        <input type="number" class="employee-row__points num" name="points-${id}" inputmode="decimal" min="0" step="0.5" placeholder="auto" value="${points}" autocomplete="off" title="Leave blank to use the role's default weight, or type your own." />
-        <button type="button" class="employee-row__remove" data-remove-row aria-label="Remove employee">×</button>
+        <input type="text" class="employee-row__name" name="name-${id}" aria-label="Name, employee ${id}" placeholder="e.g. Alex" value="${name}" autocomplete="off" />
+        <select class="employee-row__role" name="role-${id}" aria-label="Role, employee ${id}">${roleOpts}</select>
+        <input type="number" class="employee-row__hours num" name="hours-${id}" aria-label="Hours worked, employee ${id}" inputmode="decimal" min="0" step="0.25" placeholder="6.5" value="${hours}" autocomplete="off" />
+        <input type="number" class="employee-row__points num" name="points-${id}" aria-label="Weight, employee ${id} (blank uses the role default)" inputmode="decimal" min="0" step="0.5" placeholder="auto" value="${points}" autocomplete="off" title="Leave blank to use the role's default weight, or type your own." />
+        <button type="button" class="employee-row__remove" data-remove-row aria-label="Remove employee ${id}">×</button>
       `;
       rowsEl!.appendChild(row);
 
@@ -455,7 +455,7 @@ const relatedCalcs = [
         if (poolHint) poolHint.textContent = 'All the tips you are about to hand out for this shift or this week.';
         if (methodHint) methodHint.textContent = 'By hours: split by how long each person worked. By role: jobs with more responsibility get a bigger weight. Even: same amount each.';
         if (hoursCol) hoursCol.textContent = 'Hours';
-        if (pointsCol) { pointsCol.style.display = ''; pointsCol.style.opacity = method === 'points' ? '1' : '0.4'; }
+        if (pointsCol) { pointsCol.style.display = ''; pointsCol.textContent = method === 'points' ? 'Weight' : 'Weight (optional)'; }
         if (roleCol) roleCol.style.display = '';
         if (addLabel) addLabel.textContent = 'Add a person';
         if (resultLabel) resultLabel.textContent = 'Average each person takes home';

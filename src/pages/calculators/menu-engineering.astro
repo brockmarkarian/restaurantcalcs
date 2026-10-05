@@ -920,8 +920,8 @@ const schema = [
   .matrix__dot--plowhorse { background: var(--color-saffron-cta); }
   .matrix__dot--puzzle { background: #285082; }
   .matrix__dot--dog { background: #c0392b; }
-  .matrix__dot-tip { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--color-heading); color: var(--color-white); font-family: var(--font-body); font-size: 0.6875rem; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
-  .matrix__dot:hover .matrix__dot-tip, .matrix__dot:focus .matrix__dot-tip { opacity: 1; }
+  :global(.matrix__dot-tip) { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--color-heading); color: var(--color-white); font-family: var(--font-body); font-size: 0.6875rem; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
+  :global(.matrix__dot:hover .matrix__dot-tip), :global(.matrix__dot:focus .matrix__dot-tip) { opacity: 1; }
 
   .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: background var(--transition-fast), color var(--transition-fast); }
   .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -946,15 +946,15 @@ const schema = [
   .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
   .show-math[open] .show-math__icon { transform: rotate(45deg); }
   .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
-  .math-table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-  .math-table td { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
-  .math-table td:first-child { color: var(--color-body); padding-left: 0; }
-  .math-table td:last-child { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  .math-table__step td:first-child { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
-  .math-table__step td:last-child { color: var(--color-saffron-text); font-weight: 500; }
-  .math-table__final td { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
-  .math-table__final td:last-child { font-size: 1.0625rem; }
-  .math-table__final td strong { color: var(--color-saffron-text); }
+  :global(.math-table) { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  :global(.math-table td) { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
+  :global(.math-table td:first-child) { color: var(--color-body); padding-left: 0; }
+  :global(.math-table td:last-child) { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  :global(.math-table__step td:first-child) { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
+  :global(.math-table__step td:last-child) { color: var(--color-saffron-text); font-weight: 500; }
+  :global(.math-table__final td) { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
+  :global(.math-table__final td:last-child) { font-size: 1.0625rem; }
+  :global(.math-table__final td strong) { color: var(--color-saffron-text); }
   .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
 
   /* Classified results table */
@@ -993,7 +993,7 @@ const schema = [
   .qg-card--star .qg-card__badge { background: rgba(74, 88, 38, 0.14); color: #4a5826; }
   .qg-card--plowhorse .qg-card__badge { background: rgba(200, 117, 0, 0.16); color: var(--color-saffron-text); }
   .qg-card--puzzle .qg-card__badge { background: rgba(40, 80, 130, 0.12); color: #285082; }
-  .qg-card--dog .qg-card__badge { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
+  .qg-card--dog .qg-card__badge { background: rgba(192, 57, 43, 0.14); color: #a12f23; }
   .qg-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin: 0; }
   .qg-card__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
   .qg-card__list li { position: relative; padding-left: var(--space-5); font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }

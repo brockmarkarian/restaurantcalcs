@@ -140,7 +140,7 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
           <p class="t-micro post-toc__label">In this article</p>
           <ol class="post-toc__list">
             {tocHeadings.map((h: any) => (
-              <li><a href={`#${h.slug}`} data-toc-link>{h.text}</a></li>
+              <li><a href={`#${h.slug}`} data-toc-link>{h.text.replace(/\s*#\s*$/, '')}</a></li>
             ))}
           </ol>
         </aside>

@@ -12,13 +12,13 @@ const calcs = [
   { slug: 'break-even', title: 'Break-Even Revenue', desc: 'Find revenue needed to cover fixed and variable costs.', time: '5 min', tag: null, viz: 'break-even' },
   { slug: 'inventory-variance', title: 'Inventory Variance', desc: 'Spot theft, waste, or counting errors in food inventory.', time: '4 min', tag: null, viz: 'inventory-variance' },
   { slug: 'prime-cost', title: 'Prime Cost', desc: 'Food + beverage + labor as % of revenue. The single number every operator should track weekly.', time: '2 min', tag: null, viz: 'prime-cost' },
-  { slug: 'keg-cost', title: 'Draft Beer / Keg Cost', desc: 'Pour cost, cost per pour, profit per keg. Fixes the leakiest line item in any bar.', time: '2 min', tag: 'New', viz: 'keg-cost' },
-  { slug: 'no-show-deposit', title: 'No-Show & Deposit', desc: 'Cost of empty reserved seats. Suggested deposit, break-even no-show rate, annual recovery.', time: '3 min', tag: 'New', viz: 'no-show' },
+  { slug: 'keg-cost', title: 'Draft Beer / Keg Cost', desc: 'Pour cost, cost per pour, profit per keg. Fixes the leakiest line item in any bar.', time: '2 min', viz: 'keg-cost' },
+  { slug: 'no-show-deposit', title: 'No-Show & Deposit', desc: 'Cost of empty reserved seats. Suggested deposit, break-even no-show rate, annual recovery.', time: '3 min', viz: 'no-show' },
   { slug: 'menu-engineering', title: 'Menu Engineering', desc: 'Star / Plowhorse / Puzzle / Dog matrix. Classify items by margin and popularity.', time: '5 min', tag: null, viz: 'menu-eng' },
-  { slug: 'delivery-profit', title: 'Delivery True-Profit', desc: 'DoorDash, UberEats, GrubHub commission stack vs your real cost. Net per platform order.', time: '4 min', tag: 'New', viz: 'delivery' },
-  { slug: 'catering-pricing', title: 'Catering Pricing', desc: 'Per-head price + service charge + suggested gratuity. Operator margin protected.', time: '5 min', tag: 'New', viz: 'catering' },
-  { slug: 'turnover-cost', title: 'Employee Turnover Cost', desc: 'Annual cost of replacement hires. Industry runs 75-130% turnover.', time: '3 min', tag: 'New', viz: 'turnover' },
-  { slug: 'fountain-cost', title: 'Fountain Drink / BIB Cost', desc: 'BIB yield + ice + free refills + cup cost. Real pour cost on soda.', time: '3 min', tag: 'New', viz: 'fountain' },
+  { slug: 'delivery-profit', title: 'Delivery True-Profit', desc: 'DoorDash, UberEats, GrubHub commission stack vs your real cost. Net per platform order.', time: '4 min', viz: 'delivery' },
+  { slug: 'catering-pricing', title: 'Catering Pricing', desc: 'Per-head price + service charge + suggested gratuity. Operator margin protected.', time: '5 min', viz: 'catering' },
+  { slug: 'turnover-cost', title: 'Employee Turnover Cost', desc: 'Annual cost of replacement hires. Industry runs 75-130% turnover.', time: '3 min', viz: 'turnover' },
+  { slug: 'fountain-cost', title: 'Fountain Drink / BIB Cost', desc: 'BIB yield + ice + free refills + cup cost. Real pour cost on soda.', time: '3 min', viz: 'fountain' },
 ];
 
 const nowHome = new Date();
@@ -226,7 +226,7 @@ const homepageSchema = [
   <section class="tools" id="calculators">
     <div class="container">
       <div class="tools__header">
-        <p class="t-micro t-micro--saffron">Twelve calculators</p>
+        <p class="t-micro t-micro--saffron">Sixteen calculators</p>
         <h2 class="tools__headline">
           Every number a kitchen runs.
           <em class="tools__em">Nothing it doesn't.</em>
