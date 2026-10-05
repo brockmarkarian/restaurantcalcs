@@ -1319,6 +1319,28 @@ const allSchema = schema
       .share-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(184, 101, 26, 0.45); }
       /* Out of the way while the form or result card is on screen (the card has its own Share) */
       .share-cta--away { opacity: 0; transform: translateY(16px); pointer-events: none; }
+
+      /* Mobile live-result bar: keeps the answer in view while filling in the form */
+      :global(.result-bar) { display: none; }
+      @media (max-width: 880px) {
+        :global(.result-bar) {
+          position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+          display: flex; align-items: center; gap: 12px;
+          padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+          background: var(--color-heading); color: var(--color-cream, #f4f1ea);
+          border: 0; width: 100%; text-align: left; cursor: pointer;
+          font-family: var(--font-body);
+          box-shadow: 0 -6px 20px rgba(0,0,0,0.12);
+          transform: translateY(110%); transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        :global(.result-bar--on) { transform: translateY(0); }
+        :global(.result-bar__label) { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        :global(.result-bar__value) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 500; white-space: nowrap; }
+        :global(.result-bar__status) { font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,0.14); white-space: nowrap; }
+        :global(.result-bar__status:empty) { display: none; }
+        :global(.result-bar__go) { font-size: 1rem; opacity: 0.8; }
+      }
+      @media (prefers-reduced-motion: reduce) { :global(.result-bar) { transition: none; } }
       .share-cta__icon { width: 17px; height: 17px; flex-shrink: 0; }
       @keyframes share-cta-pulse {
         0%, 100% { box-shadow: 0 6px 20px rgba(184, 101, 26, 0.35), 0 2px 6px rgba(0,0,0,0.15); }
@@ -1699,6 +1721,59 @@ const allSchema = schema
           fab.classList.toggle('share-cta--away', visible.size > 0);
         });
         zones.forEach(function (z) { io.observe(z); });
+      })();
+    </script>
+
+    <!-- Mobile live-result bar: shows the answer while the form is on screen and the card isn't -->
+    <script is:inline>
+      (function () {
+        var form = document.querySelector('.calc-form');
+        var result = document.querySelector('.calc-result');
+        var big = document.querySelector('.calc-result__big');
+        if (!form || !result || !big || !('IntersectionObserver' in window)) return;
+
+        var head = result.querySelector('.calc-result__head');
+        var labelEl = head && head.querySelector('p, span, h2, h3');
+        var bar = document.createElement('button');
+        bar.type = 'button';
+        bar.className = 'result-bar';
+        bar.setAttribute('aria-label', 'Jump to the full result');
+        bar.innerHTML = '<span class="result-bar__label"></span><span class="result-bar__value"></span><span class="result-bar__status"></span><span class="result-bar__go" aria-hidden="true">↓</span>';
+        bar.querySelector('.result-bar__label').textContent = labelEl ? labelEl.textContent.trim() : 'Result';
+        document.body.appendChild(bar);
+        var valueEl = bar.querySelector('.result-bar__value');
+        var statusEl = bar.querySelector('.result-bar__status');
+
+        function read() {
+          var c = big.cloneNode(true);
+          c.querySelectorAll('.visually-hidden').forEach(function (n) { n.remove(); });
+          valueEl.textContent = c.textContent.replace(/\s+/g, '');
+          var pill = result.querySelector('.status-pill');
+          var st = pill ? pill.textContent.trim() : '';
+          statusEl.textContent = pill && pill.getAttribute('data-status') !== 'empty' ? st : '';
+        }
+        read();
+        new MutationObserver(read).observe(result, { childList: true, subtree: true, characterData: true });
+
+        var formIn = false, resultIn = false;
+        function update() {
+          var cmp = document.getElementById('cmp');
+          var cmpOpen = cmp && !cmp.hidden;
+          bar.classList.toggle('result-bar--on', formIn && !resultIn && !cmpOpen);
+        }
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.target === form) formIn = e.isIntersecting; else resultIn = e.isIntersecting; });
+          update();
+        }, { threshold: [0, 0.15] }).observe(form);
+        new IntersectionObserver(function (es) {
+          resultIn = es[0].intersectionRatio > 0.15; update();
+        }, { threshold: [0, 0.15] }).observe(result);
+        document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('#cmp button')) setTimeout(update, 50); });
+
+        bar.addEventListener('click', function () {
+          result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.gtag) try { window.gtag('event', 'result_bar_click', { calc_slug: (location.pathname.split('/')[2] || '') }); } catch (e) {}
+        });
       })();
     </script>
 
