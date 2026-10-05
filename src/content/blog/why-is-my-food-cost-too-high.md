@@ -139,4 +139,4 @@ If your food cost is running hot, don't start with theft. Start with pricing dri
 
 Theft investigations feel important. They make for a good story at the bar. But in the first round they almost never pay off, so sit on the camera budget until you've ruled out the boring stuff. The boring stuff is where your money went.
 
-Sources: [Toast](https://pos.toasttab.com/), [Restaurant365](https://www.restaurant365.com/), Restaurant Systems Pro (David Scott Peters), [Apicbase](https://get.apicbase.com/blog/), [MarginEdge](https://www.marginedge.com/blog/).
+Sources: [Toast, Food Cost Percentage](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage), [Restaurant365, Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/), Restaurant Systems Pro (David Scott Peters), [Apicbase, How to Control Food Cost in a Multi-Site Restaurant Operation](https://get.apicbase.com/reduce-food-cost/), [MarginEdge, Actual vs Theoretical Food Cost](https://www.marginedge.com/blog/a-restaurant-operators-guide-to-actual-vs-theoretical-food-costs-and-usage).

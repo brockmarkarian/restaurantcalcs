@@ -117,4 +117,4 @@ Pull last month's top 10 items by sales count. Work out CM in dollars for each o
 
 And the fix isn't a recipe overhaul or a vendor renegotiation. It's where things sit on the page. A plain repositioning pass built on CM dollars usually lifts category contribution 5-12% in the first quarter (Cornell School of Hotel Administration research). Go look at your menu tonight.
 
-Sources: [Toast](https://pos.toasttab.com/), [TouchBistro](https://www.touchbistro.com/), [meez](https://www.getmeez.com/), Cornell Hotel School research on menu engineering, [Restaurant365](https://www.restaurant365.com/).
+Sources: [Toast, Menu Engineering Worksheet](https://pos.toasttab.com/blog/on-the-line/restaurant-menu-engineering-worksheet-free-menu-template), [TouchBistro, Restaurant Accounting 101: Contribution Margins](https://www.touchbistro.com/blog/contribution-margins/), [meez, Food Cost Percentage vs. Contribution Margin](https://www.getmeez.com/blog/food-cost-percentage-vs-contribution-margin), Cornell Hotel School research on menu engineering, [Restaurant365, Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/).

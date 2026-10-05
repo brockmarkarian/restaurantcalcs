@@ -56,4 +56,4 @@ The [keg cost calculator](/calculators/keg-cost/) on this site runs cost per pin
 
 Take your three best-selling drafts. Pull the real keg cost off your last invoice, and price each one off 115 servable pints to a 22% pour cost. Compare that to what you actually charge. If you are under, you are leaving margin on every keg. If you are way over, your velocity is probably hurting for it. Set the price to the math, then watch which lines move.
 
-Sources: [Backbar](https://getbackbar.com/), [BinWise](https://home.binwise.com/), [Brewers Association](https://www.brewersassociation.org/), [Kegerator.com](https://www.kegerator.com/).
+Sources: [Backbar, How to Price Draft and Bottled Beer](https://academy.getbackbar.com/pricing-draft-vs-bottle-beer), [BinWise, Bar Profitability Guide](https://home.binwise.com/guides/bar-profitability), Brewers Association, Kegerator.com.

@@ -123,4 +123,4 @@ Pull last week's bar sales by category if your POS supports it, then pull last w
 
 If your POS doesn't separate bar sales by category, that's the first fix to make. A bar program without category-level visibility is a bar program running blind, and you won't catch the leak until it's already cost you a month of margin.
 
-Sources: [Backbar](https://getbackbar.com/), [BinWise](https://home.binwise.com/), [Provi](https://www.provi.com/), [Sculpture Hospitality](https://sculpturehospitality.com/), [BevSpot](https://bevspot.com/blog/).
+Sources: [Backbar, How to Calculate Pour Cost](https://www.getbackbar.com/how-to-calculate-pour-cost), [BinWise, Bar Profitability Guide](https://home.binwise.com/guides/bar-profitability), [Provi, Understanding Bar and Beverage Costs](https://www.provi.com/blog/operations/understanding-bar-and-beverage-costs), [Sculpture Hospitality, Average Liquor Cost for a Bar](https://www.sculpturehospitality.com/blog/what-is-the-average-liquor-cost-for-a-bar), [BevSpot, Average Pour Cost by Drink Type](https://bevspot.com/blog/whats-average-pour-cost-bar-industry/).

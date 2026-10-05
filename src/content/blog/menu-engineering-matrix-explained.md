@@ -142,4 +142,4 @@ Pull last month's sales count by menu item. Pull the current food cost per item.
 
 The first time you do this you'll find a Star you haven't been featuring and a Dog you've been protecting out of pure habit. Both are easy wins, and both have probably been sitting there for months.
 
-Sources: [Toast](https://pos.toasttab.com/), [MarginEdge](https://www.marginedge.com/blog/), Restaurant Peers, [meez](https://www.getmeez.com/), Cornell Hotel School menu engineering research.
+Sources: [Toast, Menu Engineering Worksheet](https://pos.toasttab.com/blog/on-the-line/restaurant-menu-engineering-worksheet-free-menu-template), [MarginEdge, How to Tackle 4 Types of Menu Performance](https://www.marginedge.com/blog/2021/08/29/how-to-tackle-4-types-of-menu-performance), Restaurant Peers, [meez, The Menu Engineering Matrix: Stars, Plowhorses, Puzzles, and Dogs](https://www.getmeez.com/blog/menu-engineering-matrix), Cornell Hotel School menu engineering research.

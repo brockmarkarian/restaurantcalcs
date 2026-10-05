@@ -148,4 +148,4 @@ Pull last month's P&L. Tag every line as fixed or variable. Remember to push the
 
 This number moves every time rent goes up, wages shift, food cost creeps, or you mess with the menu mix. Run it quarterly at the bare minimum, and run it again the day any big cost line moves on you.
 
-Sources: [Toast](https://pos.toasttab.com/), [Restaurant365](https://www.restaurant365.com/), [Lightspeed](https://www.lightspeedhq.com/blog/), NRA 2024 Industry Factbook, Baker Tilly Restaurant Industry Benchmark Report.
+Sources: [Toast, Break-Even Analysis for Restaurants](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-break-even-point), [Restaurant365, How to Calculate a Restaurant Break-Even Point](https://www.restaurant365.com/blog/how-to-calculate-a-restaurant-break-even-point/), [Lightspeed, How to Perform a Restaurant Break-Even Analysis](https://www.lightspeedhq.com/blog/restaurant-break-even-point-analysis/), NRA 2024 Industry Factbook, Baker Tilly Restaurant Industry Benchmark Report.

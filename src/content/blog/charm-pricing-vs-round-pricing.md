@@ -168,4 +168,4 @@ For most concepts the move is simple. Pick .99 or .95 and run it clean across th
 
 And if you're running a fine-dining concept with prices sitting at "$24.99," I'll just say it, you're leaving money on the table every single night. Convert to round, kill the dollar sign, and watch your average check move inside 30 days.
 
-Sources: [William Poundstone *Priceless*](https://www.priceless-book.com/), Cornell School of Hotel Administration menu studies, MIT Sloan pricing research, [Toast](https://pos.toasttab.com/), [TouchBistro](https://www.touchbistro.com/).
+Sources: [William Poundstone, Priceless: The Myth of Fair Value (Hill and Wang)](https://us.macmillan.com/books/9780809078813/priceless/), Cornell School of Hotel Administration menu studies, MIT Sloan pricing research, [Toast, Restaurant Menu Pricing Strategy](https://pos.toasttab.com/blog/on-the-line/restaurant-menu-pricing-strategy), [TouchBistro, A Guide to Restaurant Menu Design, Menu Layout & Menu Size](https://www.touchbistro.com/blog/restaurant-menu-design/).

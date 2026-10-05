@@ -126,4 +126,4 @@ Find your concept above. Run your actual food cost for last month, not last quar
 
 And the fix is almost never "renegotiate with vendors." It's tightening recipe compliance, killing portion drift, and raising prices on the items where the ingredient cost moved out from under you. Not one of those needs a new contract. You can start every one of them tomorrow.
 
-Sources: [Toast Industry Reports](https://pos.toasttab.com/resources), [Lightspeed restaurant data](https://www.lightspeedhq.com/blog/), [WebstaurantStore](https://www.webstaurantstore.com/), NRA 2024 Industry Factbook, [Restaurant365](https://www.restaurant365.com/).
+Sources: [Toast, Food Cost Percentage](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage), [Lightspeed, How to Calculate Food Cost Percentage](https://www.lightspeedhq.com/blog/how-to-calculate-restaurant-food-costs/), [WebstaurantStore, How to Control & Reduce Food Costs in Your Restaurant](https://www.webstaurantstore.com/article/213/how-to-reduce-food-costs.html), NRA 2024 Industry Factbook, [Restaurant365, Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/).

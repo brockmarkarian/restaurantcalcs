@@ -71,4 +71,4 @@ The [tip pool calculator](/calculators/tip-pool/) on this site runs the split by
 
 Write down your tip-out percentages by role and which method you use, sales or tips. If your staff cannot tell you those numbers off the top of their head, that is the problem, right there. Unclear tip-outs are where resentment starts, and resentment is where good people start looking for another job. Pick one method. Post the percentages. Make sure no manager is in the pool. Clear beats generous here, every time.
 
-Sources: [U.S. Department of Labor](https://www.dol.gov/agencies/whd/flsa/tips), [7shifts](https://www.7shifts.com/), [Toast](https://pos.toasttab.com/), [Square](https://squareup.com/us/en/townsquare).
+Sources: [U.S. Department of Labor](https://www.dol.gov/agencies/whd/flsa/tips), [7shifts, Restaurant Tip Outs](https://www.7shifts.com/blog/restaurant-tipping-out-guide/), [Toast, Tip Out Guide](https://pos.toasttab.com/blog/on-the-line/tip-out), [Square, What Is Tip Pooling and How Does It Work?](https://squareup.com/us/en/the-bottom-line/operating-your-business/what-you-need-to-know-about-tip-pooling).

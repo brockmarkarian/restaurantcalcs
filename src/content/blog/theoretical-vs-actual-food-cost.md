@@ -129,4 +129,4 @@ Pull last month's theoretical food cost. Your POS or inventory software can usua
 
 Within band? Run the diagnostic anyway and keep the number trending down. Above band? That diagnostic is your priority work for the next two weeks, no debate. The margin you recover pays for the time, and then some.
 
-Sources: [Restaurant365](https://www.restaurant365.com/), [MarginEdge](https://www.marginedge.com/blog/), [Supy](https://supy.io/), [Toast](https://pos.toasttab.com/), CrunchTime Information Systems.
+Sources: [Restaurant365, Food Costing 101](https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/), [MarginEdge, Actual vs Theoretical Food Cost](https://www.marginedge.com/blog/a-restaurant-operators-guide-to-actual-vs-theoretical-food-costs-and-usage), [Supy, Theoretical vs Actual Food Cost: Diagnosing Variance in Your Kitchen](https://supy.io/blog/learn-theoretical-food-cost-vs-actual-guide), [Toast, Food Cost Percentage](https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage), CrunchTime Information Systems.

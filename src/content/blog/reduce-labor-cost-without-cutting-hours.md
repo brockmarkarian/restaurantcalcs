@@ -147,4 +147,4 @@ Pull last week's shifts by daypart and calculate SPLH for each one. Find the bot
 
 None of this is about cutting people. It's about putting them on the clock at the right times. Those two are not the same thing, no matter how the labor number makes you feel on a Monday.
 
-Sources: [7shifts](https://www.7shifts.com/blog/), [Toast](https://pos.toasttab.com/), [HigherMe Restaurant Turnover Report](https://www.higherme.com/), NRA 2024 Industry Factbook, [Restaurant365](https://www.restaurant365.com/).
+Sources: [7shifts, Restaurant Labor Cost: 8 Ways to Take Control](https://www.7shifts.com/blog/restaurant-labor-cost/), [Toast, Restaurant Labor Cost Percentage](https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost-percentage), [HigherMe, The Real Cost of Restaurant Turnover](https://higherme.com/blog/the-real-cost-of-restaurant-turnover-5864-per-employee-and-how-to-reduce-it), NRA 2024 Industry Factbook, [Restaurant365, How to Lower Labor Costs at Your Restaurant](https://www.restaurant365.com/blog/how-to-lower-labor-costs-at-your-restaurant/).

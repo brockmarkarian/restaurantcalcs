@@ -74,4 +74,4 @@ The [no-show deposit calculator](/calculators/no-show-deposit/) on this site doe
 
 Pull your reservation no-show rate for the last month, if your system tracks it. Multiply your no-show count by your average check. Then add a conservative number for the tables you held and could not turn. That total is what your missing policy costs you, and it is usually bigger than it feels. Start with the big parties. Set a deposit on 10-plus first, since that is where the damage concentrates, communicate it clearly at booking, and apply it to the final bill when they show. The smaller tables can wait.
 
-Sources: [OpenTable](https://www.opentable.com/), [Resy](https://resy.com/), [Tock](https://www.exploretock.com/), [National Restaurant Association](https://restaurant.org/).
+Sources: [OpenTable, 3 Proven Payment Strategies to Reduce No-Shows and Cancellations](https://www.opentable.com/restaurant-solutions/resources/3-proven-payment-strategies-reduce-no-shows/), [Resy, Cancellation Fee Charges (Resy OS Help)](https://helpdesk.resy.com/how-do-i-charge-a-cancellation-or-no-show-fee-HJQXfP7Lu), Tock, National Restaurant Association.

@@ -125,4 +125,4 @@ Pull last week's payroll. Add a 28% burden multiplier, or the right number for y
 
 This doesn't need a software purchase. It needs you to multiply gross wages by 1.28 every week before you write the number down. That's the whole job.
 
-Sources: [NRA 2024 Industry Factbook](https://restaurant.org/research-and-media/research/economists-notebook/), [Toast](https://pos.toasttab.com/), [7shifts](https://www.7shifts.com/blog/), [Restaurant365](https://www.restaurant365.com/), [DOL Wage and Hour Division](https://www.dol.gov/agencies/whd).
+Sources: [NRA 2024 Industry Factbook](https://restaurant.org/research-and-media/research/economists-notebook/), [Toast, Restaurant Labor Cost Percentage](https://pos.toasttab.com/blog/on-the-line/restaurant-labor-cost-percentage), [7shifts, How to Manage & Calculate Your Restaurant Labor Cost Percentage](https://www.7shifts.com/blog/how-to-manage-your-restaurant-labor-cost-percentage/), [Restaurant365, How To Calculate Restaurant Labor Cost Percentage](https://www.restaurant365.com/blog/how-to-calculate-labor-cost-percentage/), [DOL Wage and Hour Division](https://www.dol.gov/agencies/whd).

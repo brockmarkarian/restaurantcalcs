@@ -95,4 +95,4 @@ Pull the last 90 days of deposits and divide by your order count: that's your re
 - **Grubhub:** 15 to 25% commission plus a delivery fee; all-in often 25 to 35%
 - **ChowNow and other first-party ordering:** a flat monthly fee, a different model entirely
 
-Sources: [DoorDash for Merchants](https://merchant.doordash.com/), [Uber Eats](https://merchants.ubereats.com/), [Toast, delivery app commissions compared](https://pos.toasttab.com/blog/on-the-line/cheapest-delivery-app).
+Sources: [DoorDash for Merchants, Commission and Fees on DoorDash, Explained](https://merchants.doordash.com/en-us/learning-center/delivery-commission), [Uber Eats for Merchants, Pricing and Fees](https://merchants.ubereats.com/us/en/pricing/), [Toast, delivery app commissions compared](https://pos.toasttab.com/blog/on-the-line/cheapest-delivery-app).
