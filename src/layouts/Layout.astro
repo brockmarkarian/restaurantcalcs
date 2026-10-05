@@ -714,11 +714,11 @@ const allSchema = schema
         </div>
         <div class="cmp__panel" id="cmp-panel" hidden>
           <label class="cmp__toggle">
-            <input type="checkbox" id="cmp-analytics" checked />
+            <input type="checkbox" id="cmp-analytics" />
             <span><strong>Analytics.</strong> Google Analytics tracks page views and traffic source.</span>
           </label>
           <label class="cmp__toggle">
-            <input type="checkbox" id="cmp-ads" checked />
+            <input type="checkbox" id="cmp-ads" />
             <span><strong>Advertising.</strong> Google AdSense serves personalized ads.</span>
           </label>
         </div>
@@ -1453,6 +1453,7 @@ const allSchema = schema
         padding: 10px 0;
         border-top: 1px solid var(--color-border);
       }
+      .cmp__panel[hidden], .cmp__btn[hidden] { display: none; }
       .cmp__toggle {
         display: flex;
         align-items: flex-start;
