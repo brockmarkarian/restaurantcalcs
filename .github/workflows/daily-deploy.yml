@@ -4,8 +4,8 @@ name: Daily blog deploy
 # become visible on their target date.
 #
 # Required repo secrets:
-#   CLOUDFLARE_API_TOKEN  — token with Workers Scripts:Edit + Account:Read
-#   CLOUDFLARE_ACCOUNT_ID — Cloudflare account ID
+#   CLOUDFLARE_API_TOKEN  token with Workers Scripts:Edit + Account:Read
+#   CLOUDFLARE_ACCOUNT_ID Cloudflare account ID
 #   INDEXNOW_KEY          (optional), for IndexNow ping (read by scripts/indexnow.mjs)
 
 on:
