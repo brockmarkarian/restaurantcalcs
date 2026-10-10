@@ -6,7 +6,7 @@ name: Daily blog deploy
 # Required repo secrets:
 #   CLOUDFLARE_API_TOKEN  — token with Workers Scripts:Edit + Account:Read
 #   CLOUDFLARE_ACCOUNT_ID — Cloudflare account ID
-#   INDEXNOW_KEY          — optional, for IndexNow ping (read by scripts/indexnow.mjs)
+#   INDEXNOW_KEY          (optional), for IndexNow ping (read by scripts/indexnow.mjs)
 
 on:
   schedule:
