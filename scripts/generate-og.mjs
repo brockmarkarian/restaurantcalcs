@@ -26,12 +26,12 @@ const geist = await readFile(join(__dirname, 'fonts', 'Geist-500.ttf'));
 const PAGE_TITLES = {
   '/': { title: 'Restaurant math, done right.', eyebrow: 'Free calculators · No signup' },
   '/calculators/': { title: 'Restaurant math, solved.', eyebrow: 'All free ops calculators' },
-  '/calculators/food-cost/': { title: 'Food Cost Percentage Calculator', eyebrow: 'Free · Math shown' },
-  '/calculators/recipe-cost/': { title: 'Recipe & Plate Cost Calculator', eyebrow: 'Free · Multi-row · Q-factor' },
+  '/calculators/food-cost/': { title: 'Food Cost Percentage Calculator', eyebrow: 'Formula + healthy range' },
+  '/calculators/recipe-cost/': { title: 'Recipe Cost Calculator', eyebrow: 'Plate cost per portion' },
   '/calculators/labor-cost/': { title: 'Labor Cost Percentage Calculator', eyebrow: 'Free · Concept-aware · SPLH' },
   '/calculators/tip-pool/': { title: 'Tip Pool & Tip Out Calculator', eyebrow: 'Free · FLSA compliance flags' },
-  '/calculators/menu-pricing/': { title: 'Menu Pricing Calculator', eyebrow: 'Free · Charm rounding · CM%' },
-  '/calculators/liquor-pour-cost/': { title: 'Liquor Pour Cost Calculator', eyebrow: 'Free · Per-drink + aggregate' },
+  '/calculators/menu-pricing/': { title: 'Menu Pricing Calculator', eyebrow: 'Price a dish from plate cost' },
+  '/calculators/liquor-pour-cost/': { title: 'Liquor Cost Calculator', eyebrow: 'Pour cost per drink + bottle' },
   '/calculators/break-even/': { title: 'Restaurant Break-Even Calculator', eyebrow: 'Free · Margin of Safety' },
   '/calculators/inventory-variance/': { title: 'Inventory Variance Calculator', eyebrow: 'Free · Sign-aware status' },
   '/calculators/prime-cost/': { title: 'Restaurant Prime Cost Calculator', eyebrow: 'Free · Concept benchmarks' },
@@ -118,7 +118,7 @@ function template(title, eyebrow) {
             },
           },
         },
-        // Header — RestaurantCalcs brand
+        // Header: RestaurantCalcs brand
         {
           type: 'div',
           props: {
@@ -259,7 +259,7 @@ async function main() {
       console.error(`[og] failed ${route}:`, err.message);
     }
   }
-  console.log(`[og] done — ${routes.length} images`);
+  console.log(`[og] done, ${routes.length} images`);
 }
 
 main();
