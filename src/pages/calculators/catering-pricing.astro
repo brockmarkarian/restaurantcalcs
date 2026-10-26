@@ -1,7 +1,8 @@
 ---
 import ResultNext from '../../components/ResultNext.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import Layout from '../../layouts/Layout.astro';
+import CalcLayout from '../../layouts/CalcLayout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 const title = 'Catering Quote & Event Pricing Calculator, Free | RestaurantCalcs';
 const description = 'Catering pricing calculator. Builds an operator-margin price plus a customer-facing quote. Service charge vs gratuity handled correctly (DOL Fact Sheet #15).';
@@ -118,11 +119,10 @@ const schema = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<CalcLayout {title} {description} {schema}>
   <article class="calc-page">
     <header class="calc-page__header">
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Catering Pricing</span></nav>
-      <p class="t-micro t-micro--saffron calc-page__eyebrow">Catering quote calculator &middot; <strong>100% free &middot; no signup</strong></p>
       <h1 class="calc-page__title">Catering Quote &amp; Event Pricing Calculator</h1>
       <p class="calc-page__intro">
         Builds an operator-margin price and a clean customer quote. Food, fully-burdened labor, rentals, line items, target margin, service charge, suggested gratuity. Handles the service-charge-versus-gratuity distinction the way DOL Fact Sheet #15 says to handle it. Most operators wing this from gut. The math is the easy part.
@@ -132,7 +132,6 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Adds up everything the event costs you (food, staff pay, rentals, and extras), adds the profit you want on top, then lays out a clean price the customer sees. It keeps the service charge (money your company keeps) and the suggested tip for staff on separate lines, the way the law wants.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -346,95 +345,96 @@ const schema = [
       </aside>
     </section>
 
-    <section class="essay">
-      <img src="/illustrations/catering-pricing.webp" srcset="/illustrations/catering-pricing-640.webp 640w, /illustrations/catering-pricing.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a catering kitchen prep table with stacked chafer dishes, a leather portfolio open showing a hand-drawn quote sketch, a brass scale weighing a plate model on one side and a stack of cards on the other." class="operator-story__hero" width="1264" height="848" loading="lazy" />
-      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
-      <h2 class="essay__headline">Catering is a different concept than dine-in <em>service</em>.</h2>
-      <div class="essay__body">
-        <p>
-          Most operators treat catering as overflow. The kitchen is already running, the staff is already on the clock, the food is already costed for the menu. Quote a per-head number, send the invoice, deliver the food. Margin shows up or it does not. Either way, the next event gets quoted the same way. I have watched operators run catering at a 9% net while telling the bank it was 25%.
-        </p>
-        <p>
-          The leak is service-charge math. Operators write 18% on the contract, distribute it to staff like a tip, and call it gratuity in the same paragraph. That is a misclassification problem in every state I am aware of (DOL Fact Sheet #15 handles the federal frame; California and New York are stricter). A mandatory service charge collected by the employer is wages, not a tip. If the contract says one thing and the staff payout says another, the back-wage exposure is real. Six-figure settlements with liquidated damages double the claim. Talk to a labor attorney before you write the policy. Then keep the service charge and the gratuity on two different lines, in two different paragraphs, with two different recipients.
-        </p>
-        <p class="essay__pull">
-          Catering is not dine-in with a delivery van. It is a different concept. The cost stack is different. The labor is lumpier. The margin target is higher. Price it accordingly.
-        </p>
-        <p>
-          The discipline is itemizing labor like accountants do. Catering hours, travel hours, setup hours, breakdown hours. Each line gets a fully-burdened rate. Wages alone undercount labor by 15&ndash;25% per Restaurant365. A 4-hour event is rarely 4 hours of labor. Add prep at the restaurant, drive to the venue, setup, service, breakdown, drive back, drop linens at the rental house. Suddenly an event you quoted at 12 hours of labor cost 18 hours of payroll. That difference is the entire margin. I poured 1.7oz on the well when I started bartending and called it 1.5oz. Same mistake at a different scale: optimistic numbers on the line item nobody is auditing.
-        </p>
-        <p>
-          Quote from cost. Layer the margin. Add the service charge in writing as operator revenue. Display the suggested gratuity separately as optional. Send the invoice. Save the template. Re-cost the template every six months. The math is the easy part. The discipline of running it on every quote, including the corporate client you have had for four years, is the entire game.
-        </p>
-      </div>
-    </section>
+    <NextSteps slug="catering-pricing" />
 
-    <hr class="rule" aria-hidden="true" />
-
-    <div class="container ad-wrap">
-      <aside class="ad-inline">
-        <span class="ad-inline__label">Advertisement</span>
-        <div class="ad-inline__inner">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-6332696231897305"
-               data-ad-slot="0000000000"
-               data-ad-format="auto"
-               data-full-width-responsive="true"
-               data-adtest="on"></ins>
-          <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="calc-body">
+      <nav class="calc-toc" aria-label="On this page" data-toc hidden></nav>
+      <div class="calc-body__main" data-toc-root>
+      <section class="scenarios">
+        <p class="t-micro t-micro--saffron">Real scenarios</p>
+        <h2 class="scenarios__headline">Three operators, three catering pricing stories</h2>
+        <p class="t-body-large scenarios__intro">
+          Same calculator. Different mistakes. Underprice from gut, conflate service charge with gratuity, or quietly drift on a repeat client. All three are common. All three are fixable.
+        </p>
+        <div class="scenarios__grid">
+          {scenarios.map((s, i) => (
+            <details class="scenario-card">
+              <summary class="scenario-card__summary"><span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="scenario-card__title">{s.title}</h3></summary>
+              <p class="scenario-card__setup">{s.setup}</p>
+              <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+              <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+              <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+            </details>
+          ))}
         </div>
-      </aside>
-    </div>
+      </section>
 
-    <section class="scenarios">
-      <p class="t-micro t-micro--saffron">Real scenarios</p>
-      <h2 class="scenarios__headline">Three operators, three catering pricing stories</h2>
-      <p class="t-body-large scenarios__intro">
-        Same calculator. Different mistakes. Underprice from gut, conflate service charge with gratuity, or quietly drift on a repeat client. All three are common. All three are fixable.
-      </p>
-      <div class="scenarios__grid">
-        {scenarios.map((s, i) => (
-          <article class="scenario-card">
-            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="scenario-card__title">{s.title}</h3>
-            <p class="scenario-card__setup">{s.setup}</p>
-            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
-            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
-            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
-          </article>
-        ))}
+      <section class="essay">
+        <img src="/illustrations/catering-pricing.webp" srcset="/illustrations/catering-pricing-640.webp 640w, /illustrations/catering-pricing.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a catering kitchen prep table with stacked chafer dishes, a leather portfolio open showing a hand-drawn quote sketch, a brass scale weighing a plate model on one side and a stack of cards on the other." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+        <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+        <h2 class="essay__headline">Catering is a different concept than dine-in <em>service</em>.</h2>
+        <div class="essay__body">
+          <p>
+            Most operators treat catering as overflow. The kitchen is already running, the staff is already on the clock, the food is already costed for the menu. Quote a per-head number, send the invoice, deliver the food. Margin shows up or it does not. Either way, the next event gets quoted the same way. I have watched operators run catering at a 9% net while telling the bank it was 25%.
+          </p>
+          <p>
+            The leak is service-charge math. Operators write 18% on the contract, distribute it to staff like a tip, and call it gratuity in the same paragraph. That is a misclassification problem in every state I am aware of (DOL Fact Sheet #15 handles the federal frame; California and New York are stricter). A mandatory service charge collected by the employer is wages, not a tip. If the contract says one thing and the staff payout says another, the back-wage exposure is real. Six-figure settlements with liquidated damages double the claim. Talk to a labor attorney before you write the policy. Then keep the service charge and the gratuity on two different lines, in two different paragraphs, with two different recipients.
+          </p>
+          <p class="essay__pull">
+            Catering is not dine-in with a delivery van. It is a different concept. The cost stack is different. The labor is lumpier. The margin target is higher. Price it accordingly.
+          </p>
+          <p>
+            The discipline is itemizing labor like accountants do. Catering hours, travel hours, setup hours, breakdown hours. Each line gets a fully-burdened rate. Wages alone undercount labor by 15&ndash;25% per Restaurant365. A 4-hour event is rarely 4 hours of labor. Add prep at the restaurant, drive to the venue, setup, service, breakdown, drive back, drop linens at the rental house. Suddenly an event you quoted at 12 hours of labor cost 18 hours of payroll. That difference is the entire margin. I poured 1.7oz on the well when I started bartending and called it 1.5oz. Same mistake at a different scale: optimistic numbers on the line item nobody is auditing.
+          </p>
+          <p>
+            Quote from cost. Layer the margin. Add the service charge in writing as operator revenue. Display the suggested gratuity separately as optional. Send the invoice. Save the template. Re-cost the template every six months. The math is the easy part. The discipline of running it on every quote, including the corporate client you have had for four years, is the entire game.
+          </p>
+        </div>
+      </section>
+
+      <div class="container ad-wrap">
+        <aside class="ad-inline">
+          <span class="ad-inline__label">Advertisement</span>
+          <div class="ad-inline__inner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6332696231897305"
+                 data-ad-slot="0000000000"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </aside>
       </div>
-    </section>
 
-    <hr class="rule" aria-hidden="true" />
+      <section class="calc-faq">
+        <p class="t-micro t-micro--saffron">FAQ</p>
+        <h2 class="calc-faq__headline">Common questions</h2>
+        {faq.map((f, i) => (
+          <details class="calc-faq__item">
+            <summary class="calc-faq__q">
+              <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="calc-faq__qtext">{f.q}</span>
+              <span class="calc-faq__plus" aria-hidden="true">+</span>
+            </summary>
+            <p class="calc-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </section>
 
-    <section class="calc-faq">
-      <p class="t-micro t-micro--saffron">FAQ</p>
-      <h2 class="calc-faq__headline">Common questions</h2>
-      {faq.map((f, i) => (
-        <details class="calc-faq__item">
-          <summary class="calc-faq__q">
-            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="calc-faq__qtext">{f.q}</span>
-            <span class="calc-faq__plus" aria-hidden="true">+</span>
-          </summary>
-          <p class="calc-faq__a">{f.a}</p>
-        </details>
-      ))}
-    </section>
-
-    <section class="cited-sources">
-      <p class="t-micro t-micro--saffron">Cited sources</p>
-      <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-price-catering" target="_blank" rel="noopener">Toast, How to Price Catering</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Off-Premise Pricing Trends</a></li>
-        <li><a href="https://www.restaurant365.com/blog/what-is-the-average-profit-margin-for-a-restaurant/" target="_blank" rel="noopener">Restaurant365, Average Profit Margins for a Restaurant (incl. catering)</a></li>
-        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15, Service Charge vs Tip Distinction</a></li>
-      </ul>
-    </section>
-
-    <RelatedPosts slug="catering-pricing" />
+      <section class="cited-sources">
+        <p class="t-micro t-micro--saffron">Cited sources</p>
+        <ul>
+          <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-price-catering" target="_blank" rel="noopener">Toast, How to Price Catering</a></li>
+          <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Off-Premise Pricing Trends</a></li>
+          <li><a href="https://www.restaurant365.com/blog/what-is-the-average-profit-margin-for-a-restaurant/" target="_blank" rel="noopener">Restaurant365, Average Profit Margins for a Restaurant (incl. catering)</a></li>
+          <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15, Service Charge vs Tip Distinction</a></li>
+        </ul>
+      </section>
+      </div>
+    </div>
 
     <section class="related">
       <h2 class="related__headline">Related calculators</h2>
@@ -452,8 +452,10 @@ const schema = [
         ))}
       </div>
     </section>
+
+    <RelatedPosts slug="catering-pricing" />
   </article>
-</Layout>
+</CalcLayout>
 
 <script>
   const form = document.querySelector('[data-form]') as HTMLFormElement | null;
@@ -761,38 +763,12 @@ const schema = [
 </script>
 
 <style>
-  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
-  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
-  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
-  .breadcrumb a:hover { color: var(--color-saffron-text); }
-  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
-  .calc-page__eyebrow { margin-bottom: var(--space-4); }
-  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
-  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
-  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
-  @media (max-width: 880px) { .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
-  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
-  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
-  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
-  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
-  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
-  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
-  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
-
-  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
-  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
-  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
-
-  /* Line items dynamic rows */
   .line-items { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
   .line-items__head { display: flex; flex-direction: column; gap: 4px; }
   .line-items__title { font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-heading); margin: 0; }
   .line-items__hint { font-family: var(--font-body); font-size: 0.75rem; line-height: 1.45; color: var(--color-muted); margin: 0; }
   .line-items__rows { display: flex; flex-direction: column; gap: 10px; }
   .line-items__empty { color: var(--color-muted); padding: var(--space-6) var(--space-4); text-align: center; font-style: italic; border: 1.5px dashed var(--color-border); border-radius: 12px; background: var(--color-white); }
-  /* .line-row + descendants moved to global style block (JS-injected, can't use scoped) */
   .line-items__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
   .line-items__example, .line-items__clear { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 10px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-muted); cursor: pointer; transition: all var(--transition-fast); }
   .line-items__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
@@ -801,30 +777,8 @@ const schema = [
   .line-items__total-row { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-body); font-size: 0.9375rem; }
   .line-items__total-label { color: rgba(255,255,255,0.78); font-weight: 500; letter-spacing: 0.005em; }
   .line-items__total-value { font-weight: 600; color: var(--color-white); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; letter-spacing: -0.01em; }
-
-  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
-  @media (max-width: 880px) { .calc-result { position: static; } }
-  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
-  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
-  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-  .calc-result__card > * { position: relative; z-index: 1; }
-  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
-  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--color-cream); color: var(--color-muted); }
-  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
-  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
-  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
-  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
-  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
-  .result-num--pulse { transform: scale(1.025); }
-  .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
-  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
-  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
-  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
   .extras-row--final { padding-top: 10px; margin-top: 4px; border-top: 1.5px solid var(--color-heading); }
-  .extras-row__label { color: var(--color-body); }
   .extras-row__value { font-weight: 500; color: var(--color-heading); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-
   .quote-card { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
   .quote-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--color-saffron); opacity: 0.6; }
   .quote-card__head { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px dashed var(--color-border); }
@@ -839,115 +793,11 @@ const schema = [
   .quote-row--final { border-top: 1.5px solid var(--color-heading); padding-top: 10px; margin-top: 6px; font-size: 1rem; font-weight: 600; }
   .quote-row--final .quote-row__value { color: var(--color-saffron-text); font-size: 1.0625rem; }
   .quote-card__legal { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); font-family: var(--font-body); font-size: 0.75rem; line-height: 1.5; color: var(--color-muted); }
-
-  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
-  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
-  .show-math__trigger::-webkit-details-marker { display: none; }
-  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
-  .show-math[open] .show-math__icon { transform: rotate(45deg); }
-  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
-  :global(.math-table) { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-  :global(.math-table td) { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
-  :global(.math-table td:first-child) { color: var(--color-body); padding-left: 0; }
-  :global(.math-table td:last-child) { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  :global(.math-table__step td:first-child) { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
-  :global(.math-table__step td:last-child) { color: var(--color-saffron-text); font-weight: 500; }
-  :global(.math-table__final td) { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
-  :global(.math-table__final td:last-child) { font-size: 1.0625rem; }
-  :global(.math-table__final td strong) { color: var(--color-saffron-text); }
-  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
-
-  .essay { margin: var(--space-16) auto; max-width: 720px; }
-  .essay__eyebrow { margin-bottom: var(--space-4); }
-  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
-  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
-  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
-  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
-
-  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
-  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
-  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
-  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
-  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
-
-  .scenarios { margin-bottom: var(--space-16); }
-  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
-  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
-  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
-  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
-  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
-  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
-  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
-  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
-  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
-  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
-  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
-
-  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
-  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
-  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
-  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
-  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
-  .calc-faq__q::-webkit-details-marker { display: none; }
-  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
-  .calc-faq__qtext { flex: 1; }
-  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
-  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
-  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
-
-  .cited-sources { margin-bottom: var(--space-12); }
-  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
-  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
-  .cited-sources a { color: var(--color-saffron-text); }
-  .cited-sources a:hover { color: var(--color-saffron-hover); }
-
-  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
-  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
-  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
-  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
-  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
-  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
-  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
-  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
-  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
-  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
-  .related-card:hover .related-card__arrow { transform: translateX(4px); }
-  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
-  .calc-form { gap: var(--space-6); padding: var(--space-8); }
-  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
-  .form-row { gap: var(--space-3); }
-  .form-group { gap: var(--space-6); }
-  .step-num {
-    background: transparent; color: var(--color-saffron-text);
-    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
-  }
-  .calc-form__live {
-    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
-    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
-  }
-  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
-  .calc-form__live-dot {
-    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
-  }
   @keyframes live-pulse {
     0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
     70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
     100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
   }
-  .result-share {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
-    background: var(--color-white); color: var(--color-saffron-text);
-    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
-    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  }
-  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
-  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
-  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>
 
 <style is:global>
