@@ -43,6 +43,18 @@ export default defineConfig({
       },
     }),
   ],
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          // Astro names page CSS like "food-cost@_@astro.[hash].css". Cloudflare
+          // 307s the "@" URL to its %40 form and Chrome loops on it, so the
+          // stylesheet never loads. Swap "@" for "_" in every emitted name.
+          assetFileNames: (info) => `_astro/${(info.names?.[0] ?? info.name ?? 'asset').replace(/@/g, '_').replace(/\.[^.]+$/, '')}.[hash][extname]`,
+        },
+      },
+    },
+  },
   markdown: {
     rehypePlugins: [
       rehypeSlug,
