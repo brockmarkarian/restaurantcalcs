@@ -118,6 +118,8 @@ const allSchema = schema
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafaf7" />
     <meta name="color-scheme" content="light" />
+    <meta name="google-adsense-account" content="ca-pub-6332696231897305" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -199,8 +201,8 @@ const allSchema = schema
       } catch (e) {}
     </script>
 
-    <!-- Google AdSense + GA4 load after the page has rendered (first interaction or 2.5s after load).
-         AdSense is still present on every page for review; GA4 calls queue in dataLayer until gtag.js arrives. -->
+    <!-- GA4 loads after the page has rendered (first interaction or 2.5s after load). AdSense loads from a static tag in the head
+         so the review crawler sees it. GA4 calls queue in dataLayer until gtag.js arrives. -->
     <script is:inline>
       (function () {
         function inject(src, cross) {
@@ -210,7 +212,6 @@ const allSchema = schema
           document.head.appendChild(s);
         }
         function loadThirdParty() {
-          inject('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305', 'anonymous');
           inject('https://www.googletagmanager.com/gtag/js?id=G-2N6BDLH40Y');
         }
         // First interaction or 2.5s after load, whichever comes first (crawlers still get it via the timer)
@@ -228,7 +229,7 @@ const allSchema = schema
 
     <!-- House Ads (active while AdSense application pending). Set window.__RC_HOUSE_ADS__ = false to restore native AdSense slots after approval. -->
     <script is:inline>
-      window.__RC_HOUSE_ADS__ = true;
+      window.__RC_HOUSE_ADS__ = false; // off during AdSense review
       (function () {
         if (!window.__RC_HOUSE_ADS__) return;
         var CALCS = [
