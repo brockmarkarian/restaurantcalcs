@@ -1,7 +1,8 @@
 ---
 import ResultNext from '../../components/ResultNext.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import Layout from '../../layouts/Layout.astro';
+import CalcLayout from '../../layouts/CalcLayout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 const title = 'Food Cost Percentage Calculator (Formula + Healthy Range) | RestaurantCalcs';
 const description = 'Free food cost % calculator: (beginning inventory + purchases - ending inventory) / food sales. Healthy is 28-32% for casual dining. No signup, math shown.';
@@ -154,15 +155,10 @@ const relatedCalcs = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<CalcLayout {title} {description} {schema}>
   <article class="calc-page">
     <header class="calc-page__header">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        <span aria-hidden="true">/</span>
-        <span>Food Cost Calculator</span>
-      </nav>
-      <p class="t-micro t-micro--saffron calc-page__eyebrow">Food cost calculator · <strong>100% free · no signup</strong></p>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Food Cost Calculator</span></nav>
       <h1 class="calc-page__title">Food Cost Percentage Calculator</h1>
       <p class="calc-page__intro">
         The single most important number in any kitchen. Put in <strong>what your food cost you</strong> and <strong>what you sold</strong>, and it tells you the percent that goes to food, whether that is healthy, and where money might be leaking. The quick version takes two numbers. Want it exact? Count your inventory.
@@ -171,8 +167,11 @@ const relatedCalcs = [
 
     <section class="calc-grid">
       <form class="calc-form" data-form data-mode="quick">
+        <div class="mode-tabs" role="tablist" aria-label="Mode">
+          <button type="button" role="tab" class="mode-switch is-active" data-mode-btn="quick" aria-selected="true">Quick</button>
+          <button type="button" role="tab" class="mode-switch" data-mode-btn="detailed" aria-selected="false">Detailed</button>
+        </div>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Shows what percent of your food sales gets eaten up by what the food cost you. A high number means money is leaking somewhere: portions too big, waste, theft, or prices set too low.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -327,16 +326,6 @@ const relatedCalcs = [
           </details>
         </div>
 
-        <!-- Mode toggle moved below form, framed as accuracy upgrade -->
-        <div class="mode-switch-wrap">
-          <button type="button" class="mode-switch" data-mode-btn="detailed" data-mode-quick-text="Want the exact number? Count your inventory →" data-mode-detailed-text="← Back to the quick 2-input version">
-            Want the exact number? Count your inventory →
-          </button>
-          <button type="button" class="mode-switch mode-switch--hidden" data-mode-btn="quick">
-            ← Switch back to quick mode
-          </button>
-        </div>
-
         <div class="form-row">
           <label class="form-row__label" for="period">Period (for reference)</label>
           <select id="period" name="period">
@@ -427,168 +416,162 @@ const relatedCalcs = [
       </aside>
     </section>
 
-    <!-- Editorial: why this matters -->
-    <section class="essay">
-      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
-      <h2 class="essay__headline">Food cost is the only number that <em>compounds</em>.</h2>
-      <div class="essay__body">
-        <p>
-          Most P&amp;L line items are step changes. Rent goes up at lease renewal. A new hire shifts labor by a known amount. Insurance reprices once a year.
-        </p>
-        <p>
-          Food cost is different. It drifts continuously. Cheese goes up two cents a pound. The new line cook plates 9 oz instead of 7. A walk-in seal fails for three days. A vendor short-ships and gets back-billed at retail. None of those individually move the dial. But thirty of them stacked across a month is two full points of margin gone, silently.
-        </p>
-        <p class="essay__pull">
-          A 2-point food cost slip on $80,000/month in food sales is $19,200 a year. The same operator running prime cost weekly catches it in week 3 and fixes it in week 4.
-        </p>
-        <p>
-          The operators who win on food cost don't run smarter calculators. They run the same calculation more often. Once a month means you're reacting to October's problem in November. Once a week means you're reacting to Tuesday's problem on Friday. That is the entire moat.
-        </p>
-      </div>
-    </section>
+    <NextSteps slug="food-cost" />
 
-    <hr class="rule" aria-hidden="true" />
-
-    <!-- Operator story: Flaco's Cafe, Florida -->
-    <section class="operator-story">
-      <img src="/illustrations/food-cost.webp" srcset="/illustrations/food-cost-640.webp 640w, /illustrations/food-cost.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a chef's hand writing in a restaurant ledger book on a stainless steel kitchen prep table." class="operator-story__hero" width="1264" height="848" loading="lazy" />
-      <p class="essay__eyebrow t-micro t-micro--saffron">A story I won't forget</p>
-      <h2 class="essay__headline">A great restaurant <em>that gave itself away</em>.</h2>
-      <div class="essay__body">
-        <p>
-          A friend of mine ran a cafe in Florida, Flaco's. His parents came straight from Cuba and cooked the menu themselves. Paella on weekends. Traditional Cuban plates Monday through Friday. The food was incredible. The service was warm in a way you can't fake. Regulars walked in and got hugged.
+    <div class="calc-body">
+      <nav class="calc-toc" aria-label="On this page" data-toc hidden></nav>
+      <div class="calc-body__main" data-toc-root>
+      <section class="benchmarks">
+        <h2 class="benchmarks__headline">Benchmarks <em>by concept type</em></h2>
+        <p class="t-body-large benchmarks__intro">
+          Healthy food cost varies by concept. Use these as a sanity check, not a hard rule, your local market, supplier mix, menu mix, and labor model all shift the target. The shaded saffron band shows the typical healthy range for each.
         </p>
-        <p>
-          The food didn't cost a lot to make either, proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, it should have worked.
-        </p>
-        <p>
-          But they gave the business away. Free meals for staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the guys who fixed the AC, the priest, anyone who walked in hungry. Nobody was tracking the cost of any of it. The food was love, and love doesn't have a price tag, until rent is due.
-        </p>
-        <p class="essay__pull">
-          Food cost discipline isn't about being cheap. It's about knowing what you're giving away, so you can choose to do it on purpose.
-        </p>
-        <p>
-          Flaco's closed. Not because the food was wrong. Not because the service was wrong. Because nobody was running the math on the generosity. There's a version of that restaurant that lives on, same family, same recipes, same warmth, if someone had been pulling food cost weekly and flagging the comp creep before it ate the margin. It would have been an uncomfortable conversation. It would have saved the restaurant.
-        </p>
-        <p>
-          That's the entire reason this calculator exists. You can be generous. You can comp regulars. You can feed your staff. But you have to <em>know</em> what it costs you. Once a week, every week, no exceptions. The number doesn't lie. The number doesn't have feelings about your regulars. The number just tells you whether you're still in business in twelve months.
-        </p>
-        <div class="operator-byline">
-          <span class="operator-byline__dash">Signed</span>
-          <span class="operator-byline__name">Brock Markarian</span>
-          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
-        </div>
-      </div>
-    </section>
-
-    <hr class="rule" aria-hidden="true" />
-
-    <!-- Visual benchmarks -->
-    <section class="benchmarks">
-      <h2 class="benchmarks__headline">Benchmarks <em>by concept type</em></h2>
-      <p class="t-body-large benchmarks__intro">
-        Healthy food cost varies by concept. Use these as a sanity check, not a hard rule, your local market, supplier mix, menu mix, and labor model all shift the target. The shaded saffron band shows the typical healthy range for each.
-      </p>
-      <div class="benchmarks__chart">
-        {benchmarks.map((b) => (
-          <div class="bench-bar">
-            <div class="bench-bar__name">{b.name}</div>
-            <div class="bench-bar__track">
-              <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
-              <div class="bench-bar__tick" style={`left: ${b.low * 2}%`} title={`${b.low}%`}></div>
-              <div class="bench-bar__tick" style={`left: ${b.high * 2}%`} title={`${b.high}%`}></div>
+        <div class="benchmarks__chart">
+          {benchmarks.map((b) => (
+            <div class="bench-bar">
+              <div class="bench-bar__name">{b.name}</div>
+              <div class="bench-bar__track">
+                <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
+                <div class="bench-bar__tick" style={`left: ${b.low * 2}%`} title={`${b.low}%`}></div>
+                <div class="bench-bar__tick" style={`left: ${b.high * 2}%`} title={`${b.high}%`}></div>
+              </div>
+              <div class="bench-bar__range num">{b.low}–{b.high}%</div>
             </div>
-            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
-          </div>
-        ))}
-        <div class="bench-axis">
-          <div class="bench-axis__track">
-            <span class="bench-axis__tick num" style="left: 0%">0%</span>
-            <span class="bench-axis__tick num" style="left: 20%">10%</span>
-            <span class="bench-axis__tick num" style="left: 40%">20%</span>
-            <span class="bench-axis__tick num" style="left: 60%">30%</span>
-            <span class="bench-axis__tick num" style="left: 80%">40%</span>
-            <span class="bench-axis__tick num" style="left: 100%">50%</span>
+          ))}
+          <div class="bench-axis">
+            <div class="bench-axis__track">
+              <span class="bench-axis__tick num" style="left: 0%">0%</span>
+              <span class="bench-axis__tick num" style="left: 20%">10%</span>
+              <span class="bench-axis__tick num" style="left: 40%">20%</span>
+              <span class="bench-axis__tick num" style="left: 60%">30%</span>
+              <span class="bench-axis__tick num" style="left: 80%">40%</span>
+              <span class="bench-axis__tick num" style="left: 100%">50%</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <div class="container ad-wrap">
-      <aside class="ad-inline">
-        <span class="ad-inline__label">Advertisement</span>
-        <div class="ad-inline__inner">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-6332696231897305"
-               data-ad-slot="0000000000"
-               data-ad-format="auto"
-               data-full-width-responsive="true"
-               data-adtest="on"></ins>
-          <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <section class="scenarios">
+        <p class="t-micro t-micro--saffron">Real scenarios</p>
+        <h2 class="scenarios__headline">Three operators, three different problems</h2>
+        <p class="t-body-large scenarios__intro">
+          Same number, different stories. Food cost % alone never tells you what's wrong, it just tells you to look.
+        </p>
+        <div class="scenarios__grid">
+          {scenarios.map((s, i) => (
+            <details class="scenario-card">
+              <summary class="scenario-card__summary"><span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="scenario-card__title">{s.title}</h3></summary>
+              <p class="scenario-card__setup">{s.setup}</p>
+              <div class="scenario-card__row">
+                <span class="scenario-card__label">Diagnosis</span>
+                <p class="scenario-card__text">{s.diagnosis}</p>
+              </div>
+              <div class="scenario-card__row">
+                <span class="scenario-card__label">Fix</span>
+                <p class="scenario-card__text">{s.fix}</p>
+              </div>
+              <div class="scenario-card__row scenario-card__row--outcome">
+                <span class="scenario-card__label">Outcome</span>
+                <p class="scenario-card__text"><strong>{s.outcome}</strong></p>
+              </div>
+            </details>
+          ))}
         </div>
-      </aside>
+      </section>
+
+      <section class="essay">
+        <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+        <h2 class="essay__headline">Food cost is the only number that <em>compounds</em>.</h2>
+        <div class="essay__body">
+          <p>
+            Most P&amp;L line items are step changes. Rent goes up at lease renewal. A new hire shifts labor by a known amount. Insurance reprices once a year.
+          </p>
+          <p>
+            Food cost is different. It drifts continuously. Cheese goes up two cents a pound. The new line cook plates 9 oz instead of 7. A walk-in seal fails for three days. A vendor short-ships and gets back-billed at retail. None of those individually move the dial. But thirty of them stacked across a month is two full points of margin gone, silently.
+          </p>
+          <p class="essay__pull">
+            A 2-point food cost slip on $80,000/month in food sales is $19,200 a year. The same operator running prime cost weekly catches it in week 3 and fixes it in week 4.
+          </p>
+          <p>
+            The operators who win on food cost don't run smarter calculators. They run the same calculation more often. Once a month means you're reacting to October's problem in November. Once a week means you're reacting to Tuesday's problem on Friday. That is the entire moat.
+          </p>
+        </div>
+      </section>
+
+      <div class="container ad-wrap">
+        <aside class="ad-inline">
+          <span class="ad-inline__label">Advertisement</span>
+          <div class="ad-inline__inner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6332696231897305"
+                 data-ad-slot="0000000000"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </aside>
+      </div>
+
+      <section class="operator-story">
+        <img src="/illustrations/food-cost.webp" srcset="/illustrations/food-cost-640.webp 640w, /illustrations/food-cost.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a chef's hand writing in a restaurant ledger book on a stainless steel kitchen prep table." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+        <p class="essay__eyebrow t-micro t-micro--saffron">A story I won't forget</p>
+        <h2 class="essay__headline">A great restaurant <em>that gave itself away</em>.</h2>
+        <div class="essay__body">
+          <p>
+            A friend of mine ran a cafe in Florida, Flaco's. His parents came straight from Cuba and cooked the menu themselves. Paella on weekends. Traditional Cuban plates Monday through Friday. The food was incredible. The service was warm in a way you can't fake. Regulars walked in and got hugged.
+          </p>
+          <p>
+            The food didn't cost a lot to make either, proteins were sourced cheap, simple cuts done well, sides built around rice and beans. On paper, it should have worked.
+          </p>
+          <p>
+            But they gave the business away. Free meals for staff every shift. Comps for regulars. Plates out the kitchen for friends, family, the guys who fixed the AC, the priest, anyone who walked in hungry. Nobody was tracking the cost of any of it. The food was love, and love doesn't have a price tag, until rent is due.
+          </p>
+          <p class="essay__pull">
+            Food cost discipline isn't about being cheap. It's about knowing what you're giving away, so you can choose to do it on purpose.
+          </p>
+          <p>
+            Flaco's closed. Not because the food was wrong. Not because the service was wrong. Because nobody was running the math on the generosity. There's a version of that restaurant that lives on, same family, same recipes, same warmth, if someone had been pulling food cost weekly and flagging the comp creep before it ate the margin. It would have been an uncomfortable conversation. It would have saved the restaurant.
+          </p>
+          <p>
+            That's the entire reason this calculator exists. You can be generous. You can comp regulars. You can feed your staff. But you have to <em>know</em> what it costs you. Once a week, every week, no exceptions. The number doesn't lie. The number doesn't have feelings about your regulars. The number just tells you whether you're still in business in twelve months.
+          </p>
+          <div class="operator-byline">
+            <span class="operator-byline__dash">Signed</span>
+            <span class="operator-byline__name">Brock Markarian</span>
+            <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="calc-faq">
+        <p class="t-micro t-micro--saffron">FAQ</p>
+        <h2 class="calc-faq__headline">Common questions</h2>
+        {faq.map((f, i) => (
+          <details class="calc-faq__item">
+            <summary class="calc-faq__q">
+              <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="calc-faq__qtext">{f.q}</span>
+              <span class="calc-faq__plus" aria-hidden="true">+</span>
+            </summary>
+            <p class="calc-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <section class="cited-sources">
+        <p class="t-micro t-micro--saffron">Cited sources</p>
+        <ul>
+          <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast, How to Calculate Food Cost Percentage</a></li>
+          <li><a href="https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/" target="_blank" rel="noopener">Restaurant365, Food Costing 101</a></li>
+          <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Economist's Notebook</a></li>
+          <li><a href="https://www.marginedge.com/blog/a-restaurant-operators-guide-to-actual-vs-theoretical-food-costs-and-usage" target="_blank" rel="noopener">MarginEdge, Theoretical vs Actual Food Cost</a></li>
+        </ul>
+      </section>
+      </div>
     </div>
-
-    <!-- Scenarios -->
-    <section class="scenarios">
-      <p class="t-micro t-micro--saffron">Real scenarios</p>
-      <h2 class="scenarios__headline">Three operators, three different problems</h2>
-      <p class="t-body-large scenarios__intro">
-        Same number, different stories. Food cost % alone never tells you what's wrong, it just tells you to look.
-      </p>
-      <div class="scenarios__grid">
-        {scenarios.map((s, i) => (
-          <article class="scenario-card">
-            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="scenario-card__title">{s.title}</h3>
-            <p class="scenario-card__setup">{s.setup}</p>
-            <div class="scenario-card__row">
-              <span class="scenario-card__label">Diagnosis</span>
-              <p class="scenario-card__text">{s.diagnosis}</p>
-            </div>
-            <div class="scenario-card__row">
-              <span class="scenario-card__label">Fix</span>
-              <p class="scenario-card__text">{s.fix}</p>
-            </div>
-            <div class="scenario-card__row scenario-card__row--outcome">
-              <span class="scenario-card__label">Outcome</span>
-              <p class="scenario-card__text"><strong>{s.outcome}</strong></p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <hr class="rule" aria-hidden="true" />
-
-    <!-- FAQ -->
-    <section class="calc-faq">
-      <p class="t-micro t-micro--saffron">FAQ</p>
-      <h2 class="calc-faq__headline">Common questions</h2>
-      {faq.map((f, i) => (
-        <details class="calc-faq__item">
-          <summary class="calc-faq__q">
-            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="calc-faq__qtext">{f.q}</span>
-            <span class="calc-faq__plus" aria-hidden="true">+</span>
-          </summary>
-          <p class="calc-faq__a">{f.a}</p>
-        </details>
-      ))}
-    </section>
-
-    <section class="cited-sources">
-      <p class="t-micro t-micro--saffron">Cited sources</p>
-      <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/how-to-calculate-food-cost-percentage" target="_blank" rel="noopener">Toast, How to Calculate Food Cost Percentage</a></li>
-        <li><a href="https://www.restaurant365.com/blog/how-to-calculate-food-cost-percentage/" target="_blank" rel="noopener">Restaurant365, Food Costing 101</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/economists-notebook/" target="_blank" rel="noopener">National Restaurant Association, Economist's Notebook</a></li>
-        <li><a href="https://www.marginedge.com/blog/a-restaurant-operators-guide-to-actual-vs-theoretical-food-costs-and-usage" target="_blank" rel="noopener">MarginEdge, Theoretical vs Actual Food Cost</a></li>
-      </ul>
-    </section>
-
-    <RelatedPosts slug="food-cost" />
 
     <section class="related">
       <h2 class="related__headline">Related calculators</h2>
@@ -606,8 +589,10 @@ const relatedCalcs = [
         ))}
       </div>
     </section>
+
+    <RelatedPosts slug="food-cost" />
   </article>
-</Layout>
+</CalcLayout>
 
 <script>
   const form = document.querySelector('[data-form]') as HTMLFormElement | null;
@@ -815,13 +800,12 @@ const relatedCalcs = [
       document.querySelectorAll<HTMLElement>('[data-group]').forEach((g) => {
         g.classList.toggle('form-group--hidden', g.dataset.group !== mode);
       });
-      // Toggle which mode-switch button is shown
-      const quickSwitch = document.querySelector('.mode-switch[data-mode-btn="detailed"]') as HTMLElement | null;
-      const detailedSwitch = document.querySelector('.mode-switch[data-mode-btn="quick"]') as HTMLElement | null;
-      if (quickSwitch && detailedSwitch) {
-        quickSwitch.classList.toggle('mode-switch--hidden', mode === 'detailed');
-        detailedSwitch.classList.toggle('mode-switch--hidden', mode === 'quick');
-      }
+      // Mark the active mode tab
+      document.querySelectorAll<HTMLButtonElement>('.mode-switch').forEach((b) => {
+        const on = b.dataset.modeBtn === mode;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', String(on));
+      });
       // Re-trigger calc w/ existing values (which will reset if values invalid for new mode)
       calc();
     }
@@ -857,1210 +841,8 @@ const relatedCalcs = [
 </script>
 
 <style>
-  .calc-page {
-    padding: var(--space-12) var(--space-6) var(--space-24);
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    color: var(--color-muted);
-    margin-bottom: var(--space-8);
-  }
-
-  .breadcrumb a {
-    color: var(--color-muted);
-    transition: color var(--transition-fast);
-  }
-
-  .breadcrumb a:hover { color: var(--color-saffron-text); }
-
-  .calc-page__header {
-    max-width: 760px;
-    margin-bottom: var(--space-12);
-  }
-
-  .calc-page__eyebrow {
-    margin-bottom: var(--space-4);
-  }
-
-  .calc-page__title {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 96, "wdth" 95;
-    font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--color-heading);
-    margin-bottom: var(--space-5);
-  }
-
-  .calc-page__intro {
-    font-family: var(--font-body);
-    font-size: 1.125rem;
-    line-height: 1.55;
-    color: var(--color-body);
-    max-width: 64ch;
-  }
-
-  /* ===== CALC GRID ===== */
-  .calc-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: var(--space-12);
-    margin-bottom: var(--space-16);
-    align-items: start;
-  }
-
-  @media (max-width: 880px) {
-    .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
-  }
-
-  /* ===== FORM INTRO ===== */
-  .form-intro {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-5);
-    background: var(--color-saffron-light);
-    border: 1px solid var(--color-saffron);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-3);
-  }
-
-  .form-intro__what {
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    color: var(--color-heading);
-  }
-
-  .form-intro__example {
-    align-self: flex-start;
-    background: transparent;
-    border: 1px dashed var(--color-saffron);
-    border-radius: var(--radius-sm);
-    padding: 6px 12px;
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-saffron-text);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .form-intro__example:hover {
-    background: var(--color-white);
-    border-style: solid;
-  }
-
-  /* Numbered step indicators next to labels */
-  .form-row__label {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .step-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 28px;
-    padding: 2px 8px;
-    background: var(--color-saffron-text);
-    color: var(--color-white);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-
-  /* Tooltip help icons */
-  .help-tip {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    padding: 0;
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    cursor: help;
-    transition: all var(--transition-fast);
-    margin-left: auto;
-  }
-
-  .help-tip:hover,
-  .help-tip:focus-visible {
-    background: var(--color-saffron-light);
-    border-color: var(--color-saffron);
-    color: var(--color-saffron-text);
-  }
-
-  .help-tip__pop {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    width: 280px;
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-heading);
-    color: var(--color-cream);
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0;
-    text-transform: none;
-    border-radius: var(--radius-md);
-    box-shadow: 0 6px 20px rgba(60, 50, 40, 0.20);
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition: opacity 180ms, transform 180ms;
-  }
-
-  .help-tip__pop strong {
-    color: var(--color-saffron-light);
-    font-weight: 600;
-  }
-
-  .help-tip:hover .help-tip__pop,
-  .help-tip:focus-visible .help-tip__pop,
-  .help-tip:focus-within .help-tip__pop {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 540px) {
-    .help-tip__pop { width: min(240px, calc(100vw - 48px)); right: 0; }
-  }
-
-  /* Mode-switch link below form */
-  .mode-switch-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: var(--space-3) 0;
-  }
-
-  .mode-switch {
-    background: transparent;
-    border: none;
-    padding: var(--space-2) var(--space-3);
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-saffron-text);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    border-bottom: 1px dashed var(--color-saffron-text);
-  }
-
-  .mode-switch:hover {
-    color: var(--color-heading);
-    border-bottom-color: var(--color-heading);
-  }
-
-  .mode-switch--hidden { display: none; }
-
-  /* ===== FORM ===== */
-  .calc-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-7);
-    box-shadow: var(--shadow-warm);
-  }
-
-  .form-group { display: flex; flex-direction: column; gap: var(--space-5); }
-
-  .form-group--hidden { display: none; }
-
-  .form-row {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .form-row__label {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--color-heading);
-  }
-
-  .input-shell {
-    display: flex;
-    align-items: center;
-    background: var(--color-canvas);
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    overflow: hidden;
-  }
-
-  .input-shell:focus-within {
-    border-color: var(--color-saffron);
-    box-shadow: 0 0 0 3px var(--alpha-saffron-focus);
-    background: var(--color-white);
-  }
-
-  .input-shell__prefix,
-  .input-shell__suffix {
-    padding: 0 var(--space-4);
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: var(--color-muted);
-    flex-shrink: 0;
-  }
-
-  .input-shell__prefix { padding-right: 0; }
-  .input-shell__suffix { padding-left: 0; }
-
-  .input-shell input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 14px 16px;
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: var(--color-heading);
-    outline: none;
-    width: 100%;
-  }
-
-  .calc-form select {
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    background: var(--color-canvas);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-heading);
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-  }
-
-  .calc-form select:focus {
-    outline: none;
-    border-color: var(--color-saffron);
-    box-shadow: 0 0 0 3px var(--alpha-saffron-focus);
-  }
-
-  .form-row__hint {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    color: var(--color-muted);
-    line-height: 1.40;
-  }
-
-
-
-  /* Optional fields collapse */
-  .optional-fields {
-    background: var(--color-cream);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-
-  .optional-fields__trigger {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-heading);
-    list-style: none;
-  }
-
-  .optional-fields__trigger::-webkit-details-marker { display: none; }
-
-  .optional-fields__icon {
-    font-family: var(--font-mono);
-    color: var(--color-saffron-text);
-    transition: transform var(--transition-fast);
-  }
-
-  .optional-fields[open] .optional-fields__icon { transform: rotate(45deg); }
-
-  .optional-fields__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    padding: var(--space-4);
-    border-top: 1px dashed var(--color-border);
-  }
-
-  /* ===== RESULT ===== */
-  .calc-result {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    position: sticky;
-    top: 120px;
-  }
-
-  @media (max-width: 880px) {
-    .calc-result { position: static; }
-  }
-
-  .calc-result__card {
-    background: var(--gradient-card-warm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-10) var(--space-8);
-    box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong);
-    position: relative;
-    overflow: hidden;
-  }
-  .calc-result__card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent);
-    opacity: 0.7;
-    pointer-events: none;
-  }
-  .calc-result__card::after {
-    content: '';
-    position: absolute;
-    top: -140px;
-    right: -140px;
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .calc-result__card > * { position: relative; z-index: 1; }
-
-  .calc-result__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-5);
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .calc-result__big {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 4px;
-    margin-bottom: var(--space-5);
-  }
-
-  .calc-result__big .result-num {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
-    font-size: clamp(4rem, 11vw + 0.5rem, 7.5rem);
-    font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: -0.04em;
-    color: var(--color-saffron-text);
-    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .calc-result__big .result-num--pulse { transform: scale(1.025); }
-
-  .calc-result__big .result-num__pct {
-    font-family: var(--font-mono);
-    font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem);
-    color: var(--color-saffron-text);
-    font-weight: 400;
-  }
-
-  .calc-result__benchmark {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--space-3) 0;
-    border-top: 1px dashed var(--color-border);
-    border-bottom: 1px dashed var(--color-border);
-    margin-bottom: var(--space-5);
-  }
-
-  .calc-result__bar {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-  }
-
-  .bar-track {
-    position: relative;
-    height: 8px;
-    background: var(--color-cream);
-    border-radius: 999px;
-  }
-
-  .bar-zone {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    border-radius: 999px;
-  }
-
   .bar-zone--lean { left: 0%; width: 56%; background: rgba(74, 88, 38, 0.18); }
   .bar-zone--good { left: 56%; width: 8%; background: rgba(74, 88, 38, 0.40); }
   .bar-zone--watch { left: 64%; width: 6%; background: rgba(200, 117, 0, 0.32); }
   .bar-zone--bad { left: 70%; width: 30%; background: rgba(156, 79, 28, 0.28); }
-
-  .bar-marker {
-    position: absolute;
-    top: -4px;
-    width: 16px;
-    height: 16px;
-    background: var(--color-saffron);
-    border: 3px solid var(--color-white);
-    border-radius: 50%;
-    box-shadow: 0 1px 6px var(--alpha-shadow-deep);
-    transform: translateX(-50%);
-    transition: left var(--transition-med);
-  }
-
-  .bar-labels { display: flex; justify-content: space-between; }
-
-  /* Status pill variants */
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 11px;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: background var(--transition-fast), color var(--transition-fast);
-  }
-
-  .status-pill__dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-  }
-
-  .status-pill[data-status="empty"] {
-    background: rgba(122, 117, 105, 0.10);
-    color: var(--color-muted);
-  }
-  .status-pill[data-status="empty"] .status-pill__dot {
-    background: var(--color-muted);
-    box-shadow: 0 0 0 3px rgba(122, 117, 105, 0.18);
-  }
-  .status-pill[data-status="lean"],
-  .status-pill[data-status="healthy"] {
-    background: var(--alpha-success-tint);
-    color: var(--color-result-success);
-  }
-  .status-pill[data-status="lean"] .status-pill__dot,
-  .status-pill[data-status="healthy"] .status-pill__dot {
-    background: var(--color-result-success);
-    box-shadow: 0 0 0 3px var(--alpha-success-ring);
-  }
-  .status-pill[data-status="watch"] {
-    background: rgba(200, 117, 0, 0.12);
-    color: var(--color-saffron-text);
-  }
-  .status-pill[data-status="watch"] .status-pill__dot {
-    background: var(--color-saffron);
-    box-shadow: 0 0 0 3px rgba(200, 117, 0, 0.20);
-  }
-  .status-pill[data-status="critical"] {
-    background: rgba(156, 79, 28, 0.14);
-    color: #823a14;
-  }
-  .status-pill[data-status="critical"] .status-pill__dot {
-    background: #9c4f1c;
-    box-shadow: 0 0 0 3px rgba(156, 79, 28, 0.22);
-  }
-
-  /* Detailed-mode extras, [hidden] must beat display:flex */
-  .calc-result__extras {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .calc-result__extras[hidden] { display: none; }
-
-  .extras-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-  }
-
-  .extras-row[hidden] { display: none; }
-
-  .extras-row__label { color: var(--color-body); }
-  .extras-row__value { font-weight: 500; color: var(--color-heading); }
-  .extras-row__value.is-good { color: var(--color-result-success); }
-  .extras-row__value.is-lean { color: var(--color-result-success); }
-  .extras-row__value.is-watch { color: var(--color-saffron-text); }
-  .extras-row__value.is-bad { color: #823a14; }
-
-  /* ===== SHOW MATH ===== */
-  .show-math {
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-
-  .show-math__trigger {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-5);
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-heading);
-    list-style: none;
-    transition: background var(--transition-fast);
-  }
-
-  .show-math__trigger::-webkit-details-marker { display: none; }
-  .show-math__trigger:hover { background: var(--color-border-soft); }
-
-  .show-math__icon {
-    font-family: var(--font-mono);
-    font-size: 1.125rem;
-    color: var(--color-saffron-text);
-    transition: transform var(--transition-fast);
-    width: 16px;
-    text-align: center;
-  }
-
-  .show-math[open] .show-math__icon { transform: rotate(45deg); }
-
-  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
-
-  :global(.math-table) { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-  :global(.math-table td) { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
-  :global(.math-table td:first-child) { color: var(--color-body); padding-left: 0; }
-  :global(.math-table td:last-child) { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  :global(.math-table__step td:first-child) { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
-  :global(.math-table__step td:last-child) { color: var(--color-saffron-text); font-weight: 500; }
-  :global(.math-table__final td) { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
-  :global(.math-table__final td:last-child) { font-size: 1.0625rem; }
-  :global(.math-table__final td strong) { color: var(--color-saffron-text); }
-  @media (max-width: 540px) { :global(.math-table) { font-size: 0.875rem; } :global(.math-table td) { padding: 8px 4px; } }
-
-  .math-note {
-    margin-top: var(--space-4);
-    padding-top: var(--space-3);
-    border-top: 1px dashed var(--color-border);
-    color: var(--color-body);
-    line-height: 1.5;
-  }
-
-  /* ===== ESSAY ===== */
-  .essay,
-  .operator-story {
-    margin: var(--space-16) auto;
-    max-width: 720px;
-  }
-
-  .essay__eyebrow { margin-bottom: var(--space-4); }
-
-  .essay__headline {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 96, "wdth" 95;
-    font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
-    font-weight: 500;
-    line-height: 1.10;
-    letter-spacing: -0.018em;
-    color: var(--color-heading);
-    margin-bottom: var(--space-8);
-  }
-
-  .essay__headline em {
-    font-style: italic;
-    font-weight: 500;
-    color: var(--color-saffron-text);
-  }
-
-  .essay__body p {
-    font-family: var(--font-body);
-    font-size: 1.125rem;
-    line-height: 1.65;
-    color: var(--color-body);
-    margin-bottom: var(--space-5);
-  }
-
-  .essay__pull {
-    position: relative;
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 96, "wdth" 95;
-    font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important;
-    font-weight: 500;
-    line-height: 1.18 !important;
-    letter-spacing: -0.018em;
-    color: var(--color-heading) !important;
-    padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important;
-    margin: var(--space-10) 0 !important;
-    border-left: 4px solid var(--color-saffron);
-    background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%);
-  }
-  .essay__pull::before {
-    content: '\201C';
-    position: absolute;
-    left: 8px;
-    top: -8px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 5rem;
-    line-height: 1;
-    color: var(--color-saffron);
-    opacity: 0.40;
-    pointer-events: none;
-  }
-
-  .rule {
-    border: none;
-    height: 1px;
-    background: var(--color-border);
-    margin: var(--space-12) 0;
-  }
-
-  /* ===== BENCHMARKS ===== */
-  .benchmarks {
-    margin-bottom: var(--space-16);
-    max-width: 880px;
-  }
-
-  .benchmarks__headline {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 60, "wdth" 100;
-    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
-    font-weight: 500;
-    line-height: 1.20;
-    letter-spacing: -0.012em;
-    color: var(--color-heading);
-    margin-bottom: var(--space-3);
-  }
-
-  .benchmarks__headline em {
-    font-style: italic;
-    font-weight: 500;
-    color: var(--color-muted);
-  }
-
-  .benchmarks__intro {
-    max-width: 64ch;
-    margin-bottom: var(--space-8);
-  }
-
-  .benchmarks__chart {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-  }
-
-  .bench-bar {
-    display: grid;
-    grid-template-columns: 220px 1fr 90px;
-    gap: var(--space-5);
-    align-items: center;
-    padding: var(--space-3) 0;
-    border-bottom: 1px dashed var(--color-border);
-  }
-
-  .bench-bar:last-of-type { border-bottom: none; }
-
-  @media (max-width: 640px) {
-    .bench-bar {
-      grid-template-columns: 1fr 80px;
-      grid-template-rows: auto auto;
-      gap: var(--space-2);
-    }
-    .bench-bar__name { grid-column: 1 / -1; }
-    .bench-bar__track { grid-column: 1 / 2; }
-    .bench-bar__range { grid-column: 2 / 3; align-self: center; }
-  }
-
-  .bench-bar__name {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-heading);
-  }
-
-  .bench-bar__track {
-    position: relative;
-    height: 6px;
-    background: var(--color-cream);
-    border-radius: 999px;
-  }
-
-  .bench-bar__zone {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    background: var(--color-saffron);
-    border-radius: 999px;
-    opacity: 0.55;
-  }
-
-  .bench-bar__tick {
-    position: absolute;
-    top: -3px;
-    width: 2px;
-    height: 12px;
-    background: var(--color-saffron);
-    transform: translateX(-50%);
-  }
-
-  .bench-bar__range {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-saffron-text);
-    text-align: right;
-  }
-
-  .bench-axis {
-    display: grid;
-    grid-template-columns: 220px 1fr 90px;
-    gap: var(--space-5);
-    align-items: center;
-    padding-top: var(--space-3);
-    margin-top: var(--space-2);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .bench-axis__track {
-    grid-column: 2;
-    position: relative;
-    height: 14px;
-  }
-
-  .bench-axis__tick {
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    color: var(--color-muted);
-  }
-
-  @media (max-width: 640px) {
-    .bench-axis { display: none; }
-  }
-
-  /* ===== AD WRAP ===== */
-  .ad-wrap {
-    margin: var(--space-12) 0;
-    padding: 0;
-  }
-
-  .ad-inline {
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-cream);
-    overflow: hidden;
-  }
-
-  .ad-inline__label {
-    display: block;
-    padding: 6px 12px;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-muted);
-    background: rgba(122, 117, 105, 0.06);
-    border-bottom: 1px dashed var(--color-border);
-  }
-
-  .ad-inline__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: var(--space-6);
-    min-height: 280px;
-  }
-
-  /* ===== SCENARIOS ===== */
-  .scenarios {
-    margin-bottom: var(--space-16);
-  }
-
-  .scenarios__headline {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 72, "wdth" 100;
-    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: -0.012em;
-    color: var(--color-heading);
-    margin: var(--space-3) 0 var(--space-4);
-  }
-
-  .scenarios__intro {
-    max-width: 64ch;
-    margin-bottom: var(--space-8);
-  }
-
-  .scenarios__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-
-  @media (max-width: 880px) {
-    .scenarios__grid { grid-template-columns: 1fr; }
-  }
-
-  .scenario-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-7);
-    box-shadow: var(--shadow-warm);
-    position: relative;
-  }
-
-  .scenario-card__num {
-    position: absolute;
-    top: var(--space-5);
-    right: var(--space-5);
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--color-saffron-text);
-  }
-
-  .scenario-card__title {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 36, "wdth" 100;
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.25;
-    color: var(--color-heading);
-    margin-bottom: var(--space-2);
-    padding-right: var(--space-8);
-  }
-
-  .scenario-card__setup {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: var(--color-body);
-    margin-bottom: var(--space-2);
-  }
-
-  .scenario-card__row {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: var(--space-3) 0;
-    border-top: 1px dashed var(--color-border);
-  }
-
-  .scenario-card__row--outcome {
-    border-top: 1px solid var(--color-saffron);
-    padding-top: var(--space-4);
-    margin-top: var(--space-2);
-  }
-
-  .scenario-card__label {
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--color-saffron-text);
-  }
-
-  .scenario-card__text {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: var(--color-body);
-  }
-
-  /* ===== FAQ ===== */
-  .calc-faq {
-    margin-bottom: var(--space-16);
-    max-width: 880px;
-  }
-
-  .calc-faq__headline {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 60, "wdth" 100;
-    font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
-    font-weight: 500;
-    line-height: 1.20;
-    letter-spacing: -0.012em;
-    color: var(--color-heading);
-    margin: var(--space-3) 0 var(--space-8);
-  }
-
-  .calc-faq__item {
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-5) 0;
-  }
-
-  .calc-faq__item:last-child {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .calc-faq__q {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-4);
-    cursor: pointer;
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 28, "wdth" 100;
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.3;
-    color: var(--color-heading);
-    list-style: none;
-  }
-
-  .calc-faq__q::-webkit-details-marker { display: none; }
-
-  .calc-faq__num {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-saffron-text);
-    flex-shrink: 0;
-  }
-
-  .calc-faq__qtext { flex: 1; }
-
-  .calc-faq__plus {
-    font-family: var(--font-mono);
-    font-size: 1.5rem;
-    font-weight: 300;
-    color: var(--color-saffron-text);
-    transition: transform var(--transition-fast);
-    flex-shrink: 0;
-  }
-
-  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
-
-  .calc-faq__a {
-    margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4));
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.65;
-    color: var(--color-body);
-    max-width: 64ch;
-  }
-
-  /* ===== RELATED ===== */
-  .related {
-    margin-top: var(--space-16);
-    padding-top: var(--space-12);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .related__headline {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 48, "wdth" 100;
-    font-size: 1.75rem;
-    font-weight: 500;
-    line-height: 1.20;
-    color: var(--color-heading);
-    margin-bottom: var(--space-6);
-  }
-
-  .related__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-
-  @media (max-width: 720px) {
-    .related__grid { grid-template-columns: 1fr; }
-  }
-
-  .related-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    transition: all var(--transition-fast);
-    color: inherit;
-  }
-
-  .related-card:hover {
-    border-color: var(--color-saffron);
-    box-shadow: var(--shadow-lift);
-    transform: translateY(-2px);
-  }
-
-  .related-card__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-4);
-  }
-
-  .related-card__num {
-    color: var(--color-saffron-text);
-    font-size: 0.8125rem;
-    font-weight: 500;
-  }
-
-  .related-card__title {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 24, "wdth" 100;
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.25;
-    color: var(--color-heading);
-    margin-bottom: var(--space-2);
-  }
-
-  .related-card__desc {
-    font-size: 0.9375rem;
-    color: var(--color-body);
-    margin-bottom: var(--space-5);
-    flex: 1;
-  }
-
-  .related-card__arrow {
-    font-family: var(--font-mono);
-    font-size: 1.125rem;
-    color: var(--color-saffron-text);
-    align-self: flex-end;
-    transition: transform var(--transition-fast);
-  }
-
-  .related-card:hover .related-card__arrow {
-    transform: translateX(4px);
-  }
-
-  /* ===== Redesign prototype: live-tool feel, breathing room, result share ===== */
-  .calc-form { gap: var(--space-6); padding: var(--space-8); }
-  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
-  .form-row { gap: var(--space-3); }
-  .form-group { gap: var(--space-6); }
-
-  /* Calmer step badges (outline, not filled saffron) */
-  .step-num {
-    background: transparent;
-    color: var(--color-saffron-text);
-    border: 1px solid rgba(184, 101, 26, 0.28);
-    min-width: 22px;
-    padding: 1px 6px;
-    font-weight: 700;
-  }
-
-  /* Live indicator replaces the Calculate button */
-  .calc-form__live {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-1);
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    color: var(--color-muted);
-    line-height: 1.45;
-  }
-  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
-  .calc-form__live-dot {
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-saffron-text);
-    animation: live-pulse 2s ease-out infinite;
-  }
-  @keyframes live-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
-    70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
-  }
-
-  /* Result-area share (peak-intent placement) */
-  .result-share {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    width: 100%;
-    margin-top: var(--space-5);
-    padding: 11px 16px;
-    background: var(--color-white);
-    color: var(--color-saffron-text);
-    border: 1.5px solid rgba(184, 101, 26, 0.3);
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  }
-  .result-share:hover {
-    background: var(--color-saffron-text);
-    color: var(--color-white);
-    transform: translateY(-1px);
-  }
-  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .calc-form__live-dot { animation: none; }
-  }
 </style>

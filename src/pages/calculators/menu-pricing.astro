@@ -1,7 +1,8 @@
 ---
 import ResultNext from '../../components/ResultNext.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import Layout from '../../layouts/Layout.astro';
+import CalcLayout from '../../layouts/CalcLayout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 const title = 'Menu Pricing Calculator: Price a Dish from Plate Cost | RestaurantCalcs';
 const description = 'Free menu pricing calculator: enter plate cost and target food cost % to get a menu price, with charm rounding and the profit per plate. No signup, math shown.';
@@ -119,11 +120,10 @@ const relatedCalcs = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<CalcLayout {title} {description} {schema}>
   <article class="calc-page">
     <header class="calc-page__header">
-      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Menu Pricing Calculator</span></nav>
-      <p class="t-micro t-micro--saffron calc-page__eyebrow">Menu pricing calculator · <strong>100% free · no signup</strong></p>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Menu Pricing Calculator</span></nav>
       <h1 class="calc-page__title">Menu Pricing Calculator</h1>
       <p class="calc-page__intro">
         Reverse-engineer menu price from item cost and target food cost percentage. Get the price you should charge before you build the menu, not after you discover the margin’s gone.
@@ -133,7 +133,6 @@ const relatedCalcs = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Tells you the price to put on the menu. Start with what the plate costs you to make and how much of that price you want food to be. $5 plate, you want food to be 30% of the price, gives a $16.67 menu price (round to $16.95 or $17).</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example numbers</button>
         </div>
 
@@ -235,147 +234,146 @@ const relatedCalcs = [
       </aside>
     </section>
 
-    <section class="essay">
-      <img src="/illustrations/menu-pricing.webp" srcset="/illustrations/menu-pricing-640.webp 640w, /illustrations/menu-pricing.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a leather-bound restaurant menu open on a table with a fountain pen marking prices in margins, alongside a vintage calculator and folded napkin." class="operator-story__hero" width="1264" height="848" loading="lazy" />
-      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
-      <h2 class="essay__headline">Pricing is the only lever that <em>doesn't cost you money</em>.</h2>
-      <div class="essay__body">
-        <p>
-          Cutting cost takes vendor renegotiation, recipe re-engineering, or staff conversations. Each costs you something, time, supplier relationship, or service quality. Pricing costs nothing to change. You print a new menu Tuesday.
-        </p>
-        <p>
-          Yet pricing is the lever most operators move last. They negotiate vendors first, audit portions second, cut prep hours third, and only after all that gets uncomfortable do they raise prices. By then they've left a year of margin on the table.
-        </p>
-        <p class="essay__pull">
-          The reason: pricing feels like a gamble. Cost-side moves feel safe (you know the saving). Price moves feel risky (will customers leave?). Most don't. Most don't notice. Most price increases under 8% have zero measurable impact on covers.
-        </p>
-        <p>
-          Run pricing the way you run cost: as a discipline. Reprice quarterly on the top 20 movers. Catch up to inflation in real time, not at the next "menu refresh" 18 months later when you have to raise everything 22% at once.
-        </p>
-      </div>
-    </section>
+    <NextSteps slug="menu-pricing" />
 
-    <hr class="rule" aria-hidden="true" />
-
-    <section class="operator-story">
-      <p class="essay__eyebrow t-micro t-micro--saffron">A dollar I was scared of</p>
-      <h2 class="essay__headline">Afraid to raise a price that was <em>four years old</em>.</h2>
-      <div class="essay__body">
-        <p>
-          I have watched more operators lose money to fear than to any competitor. Menu prices that had not moved in four years while every invoice climbed. The owner convinced that the day he raised the burger a dollar, the regulars would walk out and never come back.
+    <div class="calc-body">
+      <nav class="calc-toc" aria-label="On this page" data-toc hidden></nav>
+      <div class="calc-body__main" data-toc-root>
+      <section class="benchmarks">
+        <h2 class="benchmarks__headline">Target food cost <em>by concept</em></h2>
+        <p class="t-body-large benchmarks__intro">
+          Use these as starting targets. Adjust per-item: high-cost proteins typically run 5pp above category target, starches and salads 5pp below. The category target is the average, not the rule.
         </p>
-        <p>
-          We finally moved it. The burger went from fourteen to sixteen, and I braced for the blowback. It never came. Not one complaint, not one lost regular, nothing. Two dollars on the highest-volume item on the menu, which on three hundred burgers a week was real money that had been sitting on the table for years because nobody wanted to touch it.
-        </p>
-        <p class="essay__pull">
-          The price increase you are scared of is almost always smaller than the one your costs already made for you.
-        </p>
-        <p>
-          Pricing is the only lever that does not cost you anything to pull. A dollar you add to the price is a dollar of margin, full stop. No extra food, no extra labor. The fear is real, I get it. But the cost of not pricing is bigger and quieter, and it shows up at the bottom of the P&amp;L every single month you wait.
-        </p>
-        <div class="operator-byline">
-          <span class="operator-byline__dash">Signed</span>
-          <span class="operator-byline__name">Brock Markarian</span>
-          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
-        </div>
-      </div>
-    </section>
-
-    <hr class="rule" aria-hidden="true" />
-
-    <section class="benchmarks">
-      <h2 class="benchmarks__headline">Target food cost <em>by concept</em></h2>
-      <p class="t-body-large benchmarks__intro">
-        Use these as starting targets. Adjust per-item: high-cost proteins typically run 5pp above category target, starches and salads 5pp below. The category target is the average, not the rule.
-      </p>
-      <div class="benchmarks__chart">
-        {benchmarks.map((b) => (
-          <div class="bench-bar">
-            <div class="bench-bar__name">{b.name}</div>
-            <div class="bench-bar__track">
-              <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
-              <div class="bench-bar__tick" style={`left: ${b.low * 2}%`}></div>
-              <div class="bench-bar__tick" style={`left: ${b.high * 2}%`}></div>
+        <div class="benchmarks__chart">
+          {benchmarks.map((b) => (
+            <div class="bench-bar">
+              <div class="bench-bar__name">{b.name}</div>
+              <div class="bench-bar__track">
+                <div class="bench-bar__zone" style={`left: ${b.low * 2}%; width: ${(b.high - b.low) * 2}%`}></div>
+                <div class="bench-bar__tick" style={`left: ${b.low * 2}%`}></div>
+                <div class="bench-bar__tick" style={`left: ${b.high * 2}%`}></div>
+              </div>
+              <div class="bench-bar__range num">{b.low}–{b.high}%</div>
             </div>
-            <div class="bench-bar__range num">{b.low}–{b.high}%</div>
-          </div>
-        ))}
-        <div class="bench-axis">
-          <div class="bench-axis__track">
-            <span class="bench-axis__tick num" style="left: 0%">0%</span>
-            <span class="bench-axis__tick num" style="left: 20%">10%</span>
-            <span class="bench-axis__tick num" style="left: 40%">20%</span>
-            <span class="bench-axis__tick num" style="left: 60%">30%</span>
-            <span class="bench-axis__tick num" style="left: 80%">40%</span>
-            <span class="bench-axis__tick num" style="left: 100%">50%</span>
+          ))}
+          <div class="bench-axis">
+            <div class="bench-axis__track">
+              <span class="bench-axis__tick num" style="left: 0%">0%</span>
+              <span class="bench-axis__tick num" style="left: 20%">10%</span>
+              <span class="bench-axis__tick num" style="left: 40%">20%</span>
+              <span class="bench-axis__tick num" style="left: 60%">30%</span>
+              <span class="bench-axis__tick num" style="left: 80%">40%</span>
+              <span class="bench-axis__tick num" style="left: 100%">50%</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <div class="container ad-wrap">
-      <aside class="ad-inline">
-        <span class="ad-inline__label">Advertisement</span>
-        <div class="ad-inline__inner">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-6332696231897305"
-               data-ad-slot="0000000000"
-               data-ad-format="auto"
-               data-full-width-responsive="true"
-               data-adtest="on"></ins>
-          <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <section class="scenarios">
+        <p class="t-micro t-micro--saffron">Real scenarios</p>
+        <h2 class="scenarios__headline">Three pricing decisions, three different outcomes</h2>
+        <p class="t-body-large scenarios__intro">
+          Same calculator, different judgment. The math gives you a number, the call is yours.
+        </p>
+        <div class="scenarios__grid">
+          {scenarios.map((s, i) => (
+            <details class="scenario-card">
+              <summary class="scenario-card__summary"><span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="scenario-card__title">{s.title}</h3></summary>
+              <p class="scenario-card__setup">{s.setup}</p>
+              <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+              <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+              <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+            </details>
+          ))}
         </div>
-      </aside>
+      </section>
+
+      <section class="essay">
+        <img src="/illustrations/menu-pricing.webp" srcset="/illustrations/menu-pricing-640.webp 640w, /illustrations/menu-pricing.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a leather-bound restaurant menu open on a table with a fountain pen marking prices in margins, alongside a vintage calculator and folded napkin." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+        <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+        <h2 class="essay__headline">Pricing is the only lever that <em>doesn't cost you money</em>.</h2>
+        <div class="essay__body">
+          <p>
+            Cutting cost takes vendor renegotiation, recipe re-engineering, or staff conversations. Each costs you something, time, supplier relationship, or service quality. Pricing costs nothing to change. You print a new menu Tuesday.
+          </p>
+          <p>
+            Yet pricing is the lever most operators move last. They negotiate vendors first, audit portions second, cut prep hours third, and only after all that gets uncomfortable do they raise prices. By then they've left a year of margin on the table.
+          </p>
+          <p class="essay__pull">
+            The reason: pricing feels like a gamble. Cost-side moves feel safe (you know the saving). Price moves feel risky (will customers leave?). Most don't. Most don't notice. Most price increases under 8% have zero measurable impact on covers.
+          </p>
+          <p>
+            Run pricing the way you run cost: as a discipline. Reprice quarterly on the top 20 movers. Catch up to inflation in real time, not at the next "menu refresh" 18 months later when you have to raise everything 22% at once.
+          </p>
+        </div>
+      </section>
+
+      <div class="container ad-wrap">
+        <aside class="ad-inline">
+          <span class="ad-inline__label">Advertisement</span>
+          <div class="ad-inline__inner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6332696231897305"
+                 data-ad-slot="0000000000"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </aside>
+      </div>
+
+      <section class="operator-story">
+        <p class="essay__eyebrow t-micro t-micro--saffron">A dollar I was scared of</p>
+        <h2 class="essay__headline">Afraid to raise a price that was <em>four years old</em>.</h2>
+        <div class="essay__body">
+          <p>
+            I have watched more operators lose money to fear than to any competitor. Menu prices that had not moved in four years while every invoice climbed. The owner convinced that the day he raised the burger a dollar, the regulars would walk out and never come back.
+          </p>
+          <p>
+            We finally moved it. The burger went from fourteen to sixteen, and I braced for the blowback. It never came. Not one complaint, not one lost regular, nothing. Two dollars on the highest-volume item on the menu, which on three hundred burgers a week was real money that had been sitting on the table for years because nobody wanted to touch it.
+          </p>
+          <p class="essay__pull">
+            The price increase you are scared of is almost always smaller than the one your costs already made for you.
+          </p>
+          <p>
+            Pricing is the only lever that does not cost you anything to pull. A dollar you add to the price is a dollar of margin, full stop. No extra food, no extra labor. The fear is real, I get it. But the cost of not pricing is bigger and quieter, and it shows up at the bottom of the P&amp;L every single month you wait.
+          </p>
+          <div class="operator-byline">
+            <span class="operator-byline__dash">Signed</span>
+            <span class="operator-byline__name">Brock Markarian</span>
+            <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="calc-faq">
+        <p class="t-micro t-micro--saffron">FAQ</p>
+        <h2 class="calc-faq__headline">Common questions</h2>
+        {faq.map((f, i) => (
+          <details class="calc-faq__item">
+            <summary class="calc-faq__q">
+              <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="calc-faq__qtext">{f.q}</span>
+              <span class="calc-faq__plus" aria-hidden="true">+</span>
+            </summary>
+            <p class="calc-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <section class="cited-sources">
+        <p class="t-micro t-micro--saffron">Cited sources</p>
+        <ul>
+          <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-menu-pricing-strategy" target="_blank" rel="noopener">Toast, Restaurant Menu Pricing Strategy</a></li>
+          <li><a href="https://www.restaurant365.com/blog/menu-engineering/" target="_blank" rel="noopener">Restaurant365, Menu Engineering & Pricing</a></li>
+          <li><a href="https://restaurant.org/research-and-media/research/restaurant-economic-insights/economic-indicators/menu-prices/" target="_blank" rel="noopener">National Restaurant Association, Menu Price Tracker</a></li>
+        </ul>
+      </section>
+      </div>
     </div>
-
-    <section class="scenarios">
-      <p class="t-micro t-micro--saffron">Real scenarios</p>
-      <h2 class="scenarios__headline">Three pricing decisions, three different outcomes</h2>
-      <p class="t-body-large scenarios__intro">
-        Same calculator, different judgment. The math gives you a number, the call is yours.
-      </p>
-      <div class="scenarios__grid">
-        {scenarios.map((s, i) => (
-          <article class="scenario-card">
-            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="scenario-card__title">{s.title}</h3>
-            <p class="scenario-card__setup">{s.setup}</p>
-            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
-            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
-            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <hr class="rule" aria-hidden="true" />
-
-    <section class="calc-faq">
-      <p class="t-micro t-micro--saffron">FAQ</p>
-      <h2 class="calc-faq__headline">Common questions</h2>
-      {faq.map((f, i) => (
-        <details class="calc-faq__item">
-          <summary class="calc-faq__q">
-            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="calc-faq__qtext">{f.q}</span>
-            <span class="calc-faq__plus" aria-hidden="true">+</span>
-          </summary>
-          <p class="calc-faq__a">{f.a}</p>
-        </details>
-      ))}
-    </section>
-
-    <section class="cited-sources">
-      <p class="t-micro t-micro--saffron">Cited sources</p>
-      <ul>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-menu-pricing-strategy" target="_blank" rel="noopener">Toast, Restaurant Menu Pricing Strategy</a></li>
-        <li><a href="https://www.restaurant365.com/blog/menu-engineering/" target="_blank" rel="noopener">Restaurant365, Menu Engineering & Pricing</a></li>
-        <li><a href="https://restaurant.org/research-and-media/research/restaurant-economic-insights/economic-indicators/menu-prices/" target="_blank" rel="noopener">National Restaurant Association, Menu Price Tracker</a></li>
-      </ul>
-    </section>
-
-    <RelatedPosts slug="menu-pricing" />
 
     <section class="related">
       <h2 class="related__headline">Related calculators</h2>
@@ -393,8 +391,10 @@ const relatedCalcs = [
         ))}
       </div>
     </section>
+
+    <RelatedPosts slug="menu-pricing" />
   </article>
-</Layout>
+</CalcLayout>
 
 <script>
   const form = document.querySelector('[data-form]') as HTMLFormElement | null;
@@ -542,163 +542,13 @@ const relatedCalcs = [
 </script>
 
 <style>
-  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
-  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
-  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
-  .breadcrumb a:hover { color: var(--color-saffron-text); }
-  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
-  .calc-page__eyebrow { margin-bottom: var(--space-4); }
-  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
-  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
-  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
-  @media (max-width: 880px) { .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
-  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
-  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
-  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
-  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
-  .input-shell__prefix, .input-shell__suffix { padding: 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
-  .input-shell__prefix { padding-right: 0; } .input-shell__suffix { padding-left: 0; }
-  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
-  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
-  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
-  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
-  @media (max-width: 880px) { .calc-result { position: static; } }
-  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
-  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
-  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-  .calc-result__card > * { position: relative; z-index: 1; }
-  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
-  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
   .calc-result__big--money { gap: 2px; }
-  .calc-result__big .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(4rem, 11vw + 0.5rem, 7.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
-  .calc-result__big .result-num--pulse { transform: scale(1.025); }
-  .calc-result__big .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
-  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
-  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
-  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
-  .extras-row[hidden] { display: none; }
-  .extras-row__label { color: var(--color-body); }
-  .extras-row__value { font-weight: 500; color: var(--color-heading); }
   .extras-row__value.is-good { color: #4a5826; }
-  .extras-row__value.is-watch { color: var(--color-saffron-text); }
   .extras-row__value.is-bad { color: #c0392b; }
-  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
-  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
-  .show-math__trigger::-webkit-details-marker { display: none; }
-  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
-  .show-math[open] .show-math__icon { transform: rotate(45deg); }
-  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
-  :global(.math-table) { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-  :global(.math-table td) { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
-  :global(.math-table td:first-child) { color: var(--color-body); padding-left: 0; }
-  :global(.math-table td:last-child) { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  :global(.math-table__step td:first-child) { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
-  :global(.math-table__step td:last-child) { color: var(--color-saffron-text); font-weight: 500; }
-  :global(.math-table__final td) { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
-  :global(.math-table__final td:last-child) { font-size: 1.0625rem; }
-  :global(.math-table__final td strong) { color: var(--color-saffron-text); }
-  @media (max-width: 540px) { :global(.math-table) { font-size: 0.875rem; } :global(.math-table td) { padding: 8px 4px; } }
   :global(.math-note) { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
-  .essay { margin: var(--space-16) auto; max-width: 720px; }
-  .essay__eyebrow { margin-bottom: var(--space-4); }
-  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
-  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
-  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
-  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
-  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
-  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
-  .benchmarks { margin-bottom: var(--space-16); max-width: 880px; }
-  .benchmarks__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-3); }
-  .benchmarks__headline em { font-style: italic; font-weight: 500; color: var(--color-muted); }
-  .benchmarks__intro { max-width: 64ch; margin-bottom: var(--space-8); }
-  .benchmarks__chart { display: flex; flex-direction: column; gap: 0; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); }
-  .bench-bar { display: grid; grid-template-columns: 220px 1fr 90px; gap: var(--space-5); align-items: center; padding: var(--space-3) 0; border-bottom: 1px dashed var(--color-border); }
-  .bench-bar:last-of-type { border-bottom: none; }
-  @media (max-width: 640px) { .bench-bar { grid-template-columns: 1fr 80px; grid-template-rows: auto auto; gap: var(--space-2); } .bench-bar__name { grid-column: 1 / -1; } .bench-bar__track { grid-column: 1 / 2; } .bench-bar__range { grid-column: 2 / 3; align-self: center; } }
-  .bench-bar__name { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); }
-  .bench-bar__track { position: relative; height: 6px; background: var(--color-cream); border-radius: 999px; }
-  .bench-bar__zone { position: absolute; top: 0; bottom: 0; background: var(--color-saffron); border-radius: 999px; opacity: 0.55; }
-  .bench-bar__tick { position: absolute; top: -3px; width: 2px; height: 12px; background: var(--color-saffron); transform: translateX(-50%); }
-  .bench-bar__range { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); text-align: right; }
-  .bench-axis { display: grid; grid-template-columns: 220px 1fr 90px; gap: var(--space-5); align-items: center; padding-top: var(--space-3); margin-top: var(--space-2); border-top: 1px solid var(--color-border); }
-  .bench-axis__track { grid-column: 2; position: relative; height: 14px; }
-  .bench-axis__tick { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-muted); }
-  @media (max-width: 640px) { .bench-axis { display: none; } }
-  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
-  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
-  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
-  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
-  .scenarios { margin-bottom: var(--space-16); }
-  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
-  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
-  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
-  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
-  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
-  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
-  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
-  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
-  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
-  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
-  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
-  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
-  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
-  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
-  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
-  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
-  .calc-faq__q::-webkit-details-marker { display: none; }
-  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
-  .calc-faq__qtext { flex: 1; }
-  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
-  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
-  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
-  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
-  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
-  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
-  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
-  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
-  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
-  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
-  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
-  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
-  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
-  .related-card:hover .related-card__arrow { transform: translateX(4px); }
-
-  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
-  .calc-form { gap: var(--space-6); padding: var(--space-8); }
-  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
-  .form-row { gap: var(--space-3); }
-  .form-group { gap: var(--space-6); }
-  .step-num {
-    background: transparent; color: var(--color-saffron-text);
-    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
-  }
-  .calc-form__live {
-    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
-    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
-  }
-  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
-  .calc-form__live-dot {
-    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
-  }
   @keyframes live-pulse {
     0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
     70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
     100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
   }
-  .result-share {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
-    background: var(--color-white); color: var(--color-saffron-text);
-    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
-    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  }
-  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
-  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
-  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

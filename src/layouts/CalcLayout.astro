@@ -1,0 +1,57 @@
+---
+// Shared shell for every calculator page: site layout, shared calculator
+// styles, and the "On this page" menu. The phone result bar lives in Layout.
+import Layout from './Layout.astro';
+import '../styles/calc.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  schema?: Record<string, any> | Array<Record<string, any>>;
+}
+const props = Astro.props;
+---
+<Layout {...props}>
+  <slot />
+</Layout>
+
+<script>
+  // "On this page" menu built from the H2s in the long-form section
+  const root = document.querySelector('[data-toc-root]');
+  const toc = document.querySelector('[data-toc]') as HTMLElement | null;
+  if (root && toc) {
+    const heads = Array.from(root.querySelectorAll('h2')) as HTMLElement[];
+    const used = new Set<string>();
+    const links: HTMLAnchorElement[] = [];
+    const title = document.createElement('p');
+    title.className = 'calc-toc__title';
+    title.textContent = 'On this page';
+    toc.appendChild(title);
+    heads.forEach((h) => {
+      if (!h.id) {
+        let id = (h.textContent || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'section';
+        while (used.has(id) || document.getElementById(id)) id += '-2';
+        h.id = id;
+      }
+      used.add(h.id);
+      const a = document.createElement('a');
+      a.href = `#${h.id}`;
+      a.className = 'calc-toc__link';
+      a.textContent = (h.textContent || '').replace(/\s+#$/, '').trim();
+      toc.appendChild(a);
+      links.push(a);
+    });
+    if (links.length > 1) {
+      toc.hidden = false;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          links.forEach((l) => l.classList.toggle('is-active', l.hash === `#${e.target.id}`));
+        });
+      }, { rootMargin: '0px 0px -70% 0px' });
+      heads.forEach((h) => io.observe(h));
+    }
+  }
+
+</script>

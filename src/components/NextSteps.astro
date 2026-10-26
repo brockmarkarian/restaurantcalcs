@@ -1,0 +1,28 @@
+---
+// "Next steps" row under the calculator: spreadsheet, partner tool, local
+// marketing check. Off until the offers are decided. Flip NEXT_STEPS_ENABLED
+// and fill in STEPS to turn it on for every calculator.
+interface Props { slug: string }
+const { slug } = Astro.props;
+
+const NEXT_STEPS_ENABLED = false;
+
+const STEPS: { title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; badge?: string }[] = [
+  // { title: 'Get this as a spreadsheet', desc: '', href: '', tone: 'amber' },
+  // { title: 'Track it every week, automatically', desc: '', href: '', tone: 'green', badge: 'Partner' },
+  // { title: 'Fill more tables', desc: '', href: '', tone: 'blue' },
+];
+---
+{NEXT_STEPS_ENABLED && STEPS.length > 0 && (
+  <section class="next-steps" data-slug={slug} aria-labelledby="next-steps-title">
+    <h2 class="next-steps__title" id="next-steps-title">Next steps</h2>
+    <div class="next-steps__grid">
+      {STEPS.map((s) => (
+        <a class={`next-step next-step--${s.tone}`} href={s.href}>
+          <span class="next-step__title">{s.title}{s.badge && <span class="next-step__badge">{s.badge}</span>}</span>
+          <span class="next-step__desc">{s.desc}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

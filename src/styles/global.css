@@ -4,22 +4,22 @@
   /* Color */
   --color-saffron: #c87500;            /* visual brand - accents, decorative use only (3.49:1 white) */
   --color-saffron-cta: #a86200;        /* CTA button BG - white text passes AA (4.8:1) */
-  --color-saffron-text: #8d5200;       /* text on light bg - passes AA on canvas + cream (~6:1) */
+  --color-saffron-text: #9a5800;       /* text on light bg - passes AA on canvas + cream (~6:1) */
   --color-saffron-hover: #6e3e00;      /* darker hover state */
   --color-saffron-light: #fbe9cf;
 
-  --color-canvas: #fafaf7;
-  --color-cream: #f4f1ea;
+  --color-canvas: #faf8f3;
+  --color-cream: #f2eee6;
   --color-white: #ffffff;
-  --color-heading: #1a1814;
-  --color-body: #3d3a32;
-  --color-muted: #6a6559;               /* darkened from #7a7569 → ~5.0:1 contrast */
+  --color-heading: #1c1a16;
+  --color-body: #45403a;
+  --color-muted: #6f685d;               /* darkened from #7a7569 → ~5.0:1 contrast */
 
   --color-result-default: #a86200;
   --color-result-warning: #9c4f1c;
   --color-result-success: #4a5826;
 
-  --color-border: #e8e4dd;
+  --color-border: #e6e0d5;
   --color-border-active: #c87500;
   --color-border-soft: #f0ece4;
 

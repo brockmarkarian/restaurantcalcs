@@ -1,7 +1,8 @@
 ---
 import ResultNext from '../../components/ResultNext.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import Layout from '../../layouts/Layout.astro';
+import CalcLayout from '../../layouts/CalcLayout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 const title = 'Menu Engineering Matrix Calculator, Free | RestaurantCalcs';
 const description = 'Free menu engineering calculator. Classifies every menu item as Star, Plowhorse, Puzzle, or Dog using contribution margin and popularity. Math shown.';
@@ -117,11 +118,10 @@ const schema = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<CalcLayout {title} {description} {schema}>
   <article class="calc-page">
     <header class="calc-page__header">
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Menu Engineering Matrix</span></nav>
-      <p class="t-micro t-micro--saffron calc-page__eyebrow">Menu engineering calculator · <strong>100% free · no signup</strong></p>
       <h1 class="calc-page__title">Menu Engineering Matrix Calculator</h1>
       <p class="calc-page__intro">
         Sort every item into a <strong>Star, Plowhorse, Puzzle, or Dog</strong> based on two things: how much profit each plate brings in (its price minus what the food cost you) and how often it sells. The framework comes from Donald Smith at Cornell, 1982. Still the single best menu decision tool an operator owns (Cornell SHA). The math is the easy part. The discipline of running it every quarter is the entire game.
@@ -131,7 +131,6 @@ const schema = [
     <section class="calc-grid">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Add every menu item with what the food cost you, what you charge, and how many you sold. It sorts each item by whether its profit per plate and how often it sells land above or below your menu average. You get total profit from all items, plus a clear plan for what to do with each one.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example menu</button>
         </div>
 
@@ -295,150 +294,149 @@ const schema = [
       </div>
     </section>
 
-    <section class="essay">
-      <img src="/illustrations/menu-engineering.webp" srcset="/illustrations/menu-engineering-640.webp 640w, /illustrations/menu-engineering.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a restaurant menu being marked up at a back-of-house desk with a vintage red pencil drawing star and check marks, brass scale weighing two plate cards, worn moleskine notebook with hand-drawn tally marks." class="operator-story__hero" width="1264" height="848" loading="lazy" />
-      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
-      <h2 class="essay__headline">Menu engineering is the <em>second</em> biggest move an operator makes.</h2>
-      <div class="essay__body">
-        <p>
-          Schedule discipline is the first. After that, nothing moves the P&amp;L like a properly engineered menu. Same revenue, same labor, same rent, and two or three points of margin between a menu built on data and a menu built on what the chef likes.
+    <NextSteps slug="menu-engineering" />
+
+    <div class="calc-body">
+      <nav class="calc-toc" aria-label="On this page" data-toc hidden></nav>
+      <div class="calc-body__main" data-toc-root>
+      <section class="quadrant-guide">
+        <h2 class="quadrant-guide__headline">The quadrant guide. <em>What to do with each one.</em></h2>
+        <p class="t-body-large quadrant-guide__intro">
+          Classification is the easy half. The hard half is acting on it. One specific play per quadrant. No mystery, no committee.
         </p>
-        <p>
-          Most operators run menu engineering by gut. They know the wings sell. They know the lamb does not. They have a vague sense the burger is profitable and the salad is not. What they do not have is a quadrant. Without a quadrant, you cannot tell a plowhorse from a star. Both sell. Only one pays rent. Confusing them is how a restaurant stays open while the bank account never grows.
-        </p>
-        <p class="essay__pull">
-          The menu is the only marketing asset most restaurants have. Every customer reads it. Every server uses it. Every dish on it is either pulling weight or being subsidized by another dish.
-        </p>
-        <p>
-          Felix at Flaco's Cafe is a friend of mine. His parents came straight from Cuba and cooked the menu themselves. The food was incredible. Service was warm in a way you cannot fake. They gave plates away to staff every shift, comped regulars, sent food out for the AC tech and the priest. Nobody tracked the cost of any of it. Flaco's closed. Not because the food was wrong. Because nobody was running the math on the generosity. A matrix would have caught that the comp-heavy plates were dogs by contribution while sitting in the highest-traffic slots on the menu. Discipline is not being cheap. It is knowing what you are giving away, so you can choose to do it on purpose.
-        </p>
-        <p>
-          The framework comes from Donald Smith at Cornell, 1982. Forty-plus years later it is still the standard because the underlying logic has not moved. Two axes. Four quadrants. Specific actions per quadrant. The math is high school algebra. Running it every quarter is what separates the operators who renew leases from the ones who quietly do not.
-        </p>
-      </div>
-    </section>
 
-    <hr class="rule" aria-hidden="true" />
-
-    <div class="container ad-wrap">
-      <aside class="ad-inline">
-        <span class="ad-inline__label">Advertisement</span>
-        <div class="ad-inline__inner">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-6332696231897305"
-               data-ad-slot="0000000000"
-               data-ad-format="auto"
-               data-full-width-responsive="true"
-               data-adtest="on"></ins>
-          <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-      </aside>
-    </div>
-
-    <section class="quadrant-guide">
-      <h2 class="quadrant-guide__headline">The quadrant guide. <em>What to do with each one.</em></h2>
-      <p class="t-body-large quadrant-guide__intro">
-        Classification is the easy half. The hard half is acting on it. One specific play per quadrant. No mystery, no committee.
-      </p>
-
-      <div class="quadrant-guide__grid">
-        <article class="qg-card qg-card--star">
-          <span class="qg-card__badge">Star</span>
-          <h3 class="qg-card__title">Protect the price. Hero on the menu.</h3>
-          <ul class="qg-card__list">
-            <li>Top-third menu placement with a box, photo, or "chef pick" callout.</li>
-            <li>Server training: lead with the star when describing the section.</li>
-            <li>Hold price until you see meaningful resistance. Stars are inelastic at small bumps.</li>
-            <li>Watch food cost monthly. A star with creeping food cost becomes a plowhorse fast.</li>
-          </ul>
-        </article>
-
-        <article class="qg-card qg-card--plowhorse">
-          <span class="qg-card__badge">Plowhorse</span>
-          <h3 class="qg-card__title">Raise price or rebuild the recipe.</h3>
-          <ul class="qg-card__list">
-            <li>Raise price 5–10%. Plowhorses are popular. Demand holds at small increases.</li>
-            <li>Rebuild the recipe to cut food cost. Smaller portion, swap a premium ingredient that does not change the dish identity.</li>
-            <li>Tighten plate spec. Walk the line. Plowhorses often suffer from over-portioning.</li>
-            <li>Demote on the menu. Plowhorses do not need a hero spot. The volume is already there.</li>
-          </ul>
-        </article>
-
-        <article class="qg-card qg-card--puzzle">
-          <span class="qg-card__badge">Puzzle</span>
-          <h3 class="qg-card__title">Better placement. Server training. Photograph it.</h3>
-          <ul class="qg-card__list">
-            <li>Move to a hero menu spot. Top of the section, boxed callout, photo on the table tent.</li>
-            <li>Train servers to recommend the puzzle when asked "what is good." High CM means every conversion is worth more.</li>
-            <li>Photograph for socials. Puzzles are often photogenic items that customers do not know exist.</li>
-            <li>Consider featuring as a daily special for two weeks to seed demand.</li>
-          </ul>
-        </article>
-
-        <article class="qg-card qg-card--dog">
-          <span class="qg-card__badge">Dog</span>
-          <h3 class="qg-card__title">Remove. Replace with a star variant.</h3>
-          <ul class="qg-card__list">
-            <li>Audit for strategic role first. Is this the only vegetarian, kids, or allergy-safe item? If yes, rework the recipe.</li>
-            <li>If no strategic role and two consecutive quarters as a dog, remove it.</li>
-            <li>Replace the menu slot with a star variant in the same category.</li>
-            <li>Last resort before deletion: price drop with rebrand. New name, new description, repositioned.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <hr class="rule" aria-hidden="true" />
-
-    <section class="scenarios">
-      <p class="t-micro t-micro--saffron">Real scenarios</p>
-      <h2 class="scenarios__headline">Three operators, three menu engineering wins</h2>
-      <p class="t-body-large scenarios__intro">
-        Same matrix, different fixes. The play depends on the quadrant the item lives in.
-      </p>
-      <div class="scenarios__grid">
-        {scenarios.map((s, i) => (
-          <article class="scenario-card">
-            <span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="scenario-card__title">{s.title}</h3>
-            <p class="scenario-card__setup">{s.setup}</p>
-            <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
-            <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
-            <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+        <div class="quadrant-guide__grid">
+          <article class="qg-card qg-card--star">
+            <span class="qg-card__badge">Star</span>
+            <h3 class="qg-card__title">Protect the price. Hero on the menu.</h3>
+            <ul class="qg-card__list">
+              <li>Top-third menu placement with a box, photo, or "chef pick" callout.</li>
+              <li>Server training: lead with the star when describing the section.</li>
+              <li>Hold price until you see meaningful resistance. Stars are inelastic at small bumps.</li>
+              <li>Watch food cost monthly. A star with creeping food cost becomes a plowhorse fast.</li>
+            </ul>
           </article>
-        ))}
+
+          <article class="qg-card qg-card--plowhorse">
+            <span class="qg-card__badge">Plowhorse</span>
+            <h3 class="qg-card__title">Raise price or rebuild the recipe.</h3>
+            <ul class="qg-card__list">
+              <li>Raise price 5–10%. Plowhorses are popular. Demand holds at small increases.</li>
+              <li>Rebuild the recipe to cut food cost. Smaller portion, swap a premium ingredient that does not change the dish identity.</li>
+              <li>Tighten plate spec. Walk the line. Plowhorses often suffer from over-portioning.</li>
+              <li>Demote on the menu. Plowhorses do not need a hero spot. The volume is already there.</li>
+            </ul>
+          </article>
+
+          <article class="qg-card qg-card--puzzle">
+            <span class="qg-card__badge">Puzzle</span>
+            <h3 class="qg-card__title">Better placement. Server training. Photograph it.</h3>
+            <ul class="qg-card__list">
+              <li>Move to a hero menu spot. Top of the section, boxed callout, photo on the table tent.</li>
+              <li>Train servers to recommend the puzzle when asked "what is good." High CM means every conversion is worth more.</li>
+              <li>Photograph for socials. Puzzles are often photogenic items that customers do not know exist.</li>
+              <li>Consider featuring as a daily special for two weeks to seed demand.</li>
+            </ul>
+          </article>
+
+          <article class="qg-card qg-card--dog">
+            <span class="qg-card__badge">Dog</span>
+            <h3 class="qg-card__title">Remove. Replace with a star variant.</h3>
+            <ul class="qg-card__list">
+              <li>Audit for strategic role first. Is this the only vegetarian, kids, or allergy-safe item? If yes, rework the recipe.</li>
+              <li>If no strategic role and two consecutive quarters as a dog, remove it.</li>
+              <li>Replace the menu slot with a star variant in the same category.</li>
+              <li>Last resort before deletion: price drop with rebrand. New name, new description, repositioned.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="scenarios">
+        <p class="t-micro t-micro--saffron">Real scenarios</p>
+        <h2 class="scenarios__headline">Three operators, three menu engineering wins</h2>
+        <p class="t-body-large scenarios__intro">
+          Same matrix, different fixes. The play depends on the quadrant the item lives in.
+        </p>
+        <div class="scenarios__grid">
+          {scenarios.map((s, i) => (
+            <details class="scenario-card">
+              <summary class="scenario-card__summary"><span class="scenario-card__num num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="scenario-card__title">{s.title}</h3></summary>
+              <p class="scenario-card__setup">{s.setup}</p>
+              <div class="scenario-card__row"><span class="scenario-card__label">Diagnosis</span><p class="scenario-card__text">{s.diagnosis}</p></div>
+              <div class="scenario-card__row"><span class="scenario-card__label">Fix</span><p class="scenario-card__text">{s.fix}</p></div>
+              <div class="scenario-card__row scenario-card__row--outcome"><span class="scenario-card__label">Outcome</span><p class="scenario-card__text"><strong>{s.outcome}</strong></p></div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="essay">
+        <img src="/illustrations/menu-engineering.webp" srcset="/illustrations/menu-engineering-640.webp 640w, /illustrations/menu-engineering.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of a restaurant menu being marked up at a back-of-house desk with a vintage red pencil drawing star and check marks, brass scale weighing two plate cards, worn moleskine notebook with hand-drawn tally marks." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+        <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+        <h2 class="essay__headline">Menu engineering is the <em>second</em> biggest move an operator makes.</h2>
+        <div class="essay__body">
+          <p>
+            Schedule discipline is the first. After that, nothing moves the P&amp;L like a properly engineered menu. Same revenue, same labor, same rent, and two or three points of margin between a menu built on data and a menu built on what the chef likes.
+          </p>
+          <p>
+            Most operators run menu engineering by gut. They know the wings sell. They know the lamb does not. They have a vague sense the burger is profitable and the salad is not. What they do not have is a quadrant. Without a quadrant, you cannot tell a plowhorse from a star. Both sell. Only one pays rent. Confusing them is how a restaurant stays open while the bank account never grows.
+          </p>
+          <p class="essay__pull">
+            The menu is the only marketing asset most restaurants have. Every customer reads it. Every server uses it. Every dish on it is either pulling weight or being subsidized by another dish.
+          </p>
+          <p>
+            Felix at Flaco's Cafe is a friend of mine. His parents came straight from Cuba and cooked the menu themselves. The food was incredible. Service was warm in a way you cannot fake. They gave plates away to staff every shift, comped regulars, sent food out for the AC tech and the priest. Nobody tracked the cost of any of it. Flaco's closed. Not because the food was wrong. Because nobody was running the math on the generosity. A matrix would have caught that the comp-heavy plates were dogs by contribution while sitting in the highest-traffic slots on the menu. Discipline is not being cheap. It is knowing what you are giving away, so you can choose to do it on purpose.
+          </p>
+          <p>
+            The framework comes from Donald Smith at Cornell, 1982. Forty-plus years later it is still the standard because the underlying logic has not moved. Two axes. Four quadrants. Specific actions per quadrant. The math is high school algebra. Running it every quarter is what separates the operators who renew leases from the ones who quietly do not.
+          </p>
+        </div>
+      </section>
+
+      <div class="container ad-wrap">
+        <aside class="ad-inline">
+          <span class="ad-inline__label">Advertisement</span>
+          <div class="ad-inline__inner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6332696231897305"
+                 data-ad-slot="0000000000"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </aside>
       </div>
-    </section>
 
-    <hr class="rule" aria-hidden="true" />
+      <section class="calc-faq">
+        <p class="t-micro t-micro--saffron">FAQ</p>
+        <h2 class="calc-faq__headline">Common questions</h2>
+        {faq.map((f, i) => (
+          <details class="calc-faq__item">
+            <summary class="calc-faq__q">
+              <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="calc-faq__qtext">{f.q}</span>
+              <span class="calc-faq__plus" aria-hidden="true">+</span>
+            </summary>
+            <p class="calc-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </section>
 
-    <section class="calc-faq">
-      <p class="t-micro t-micro--saffron">FAQ</p>
-      <h2 class="calc-faq__headline">Common questions</h2>
-      {faq.map((f, i) => (
-        <details class="calc-faq__item">
-          <summary class="calc-faq__q">
-            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="calc-faq__qtext">{f.q}</span>
-            <span class="calc-faq__plus" aria-hidden="true">+</span>
-          </summary>
-          <p class="calc-faq__a">{f.a}</p>
-        </details>
-      ))}
-    </section>
-
-    <section class="cited-sources">
-      <p class="t-micro t-micro--saffron">Cited sources</p>
-      <ul>
-        <li>Donald Smith, Menu Engineering: A Practical Guide (Cornell, 1982)</li>
-        <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-menu-engineering-worksheet-free-menu-template" target="_blank" rel="noopener">Toast, Menu Engineering Worksheet</a></li>
-        <li><a href="https://www.restaurant365.com/blog/menu-engineering-guide/" target="_blank" rel="noopener">Restaurant365, Guide to Menu Engineering for Restaurant Owners & Operators</a></li>
-        <li><a href="https://www.restauranttimes.com/blogs/menu-design/restaurant-menu-engineering/" target="_blank" rel="noopener">Restaurant Times (POSist), Restaurant Menu Engineering</a></li>
-      </ul>
-    </section>
-
-    <RelatedPosts slug="menu-engineering" />
+      <section class="cited-sources">
+        <p class="t-micro t-micro--saffron">Cited sources</p>
+        <ul>
+          <li>Donald Smith, Menu Engineering: A Practical Guide (Cornell, 1982)</li>
+          <li><a href="https://pos.toasttab.com/blog/on-the-line/restaurant-menu-engineering-worksheet-free-menu-template" target="_blank" rel="noopener">Toast, Menu Engineering Worksheet</a></li>
+          <li><a href="https://www.restaurant365.com/blog/menu-engineering-guide/" target="_blank" rel="noopener">Restaurant365, Guide to Menu Engineering for Restaurant Owners & Operators</a></li>
+          <li><a href="https://www.restauranttimes.com/blogs/menu-design/restaurant-menu-engineering/" target="_blank" rel="noopener">Restaurant Times (POSist), Restaurant Menu Engineering</a></li>
+        </ul>
+      </section>
+      </div>
+    </div>
 
     <section class="related">
       <h2 class="related__headline">Related calculators</h2>
@@ -456,8 +454,10 @@ const schema = [
         ))}
       </div>
     </section>
+
+    <RelatedPosts slug="menu-engineering" />
   </article>
-</Layout>
+</CalcLayout>
 
 <script>
   const form = document.querySelector('[data-form]') as HTMLFormElement | null;
@@ -823,46 +823,17 @@ const schema = [
 </script>
 
 <style>
-  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
-  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
-  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
-  .breadcrumb a:hover { color: var(--color-saffron-text); }
-  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
-  .calc-page__eyebrow { margin-bottom: var(--space-4); }
-  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
-  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
-
-  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
-  @media (max-width: 880px) { .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
-
-  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
-  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
-  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-
-  .form-intro { background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-intro__what { font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); margin: 0; }
-  .form-intro__example { background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-saffron-text); cursor: pointer; align-self: flex-start; transition: all var(--transition-fast); }
-  .form-intro__example:hover { border-color: var(--color-saffron); background: var(--color-saffron-light); }
-
-  /* Menu items table */
   .menu { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
   .menu__head { display: flex; flex-direction: column; gap: var(--space-2); }
   .menu__title { font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.0625rem; font-weight: 600; color: var(--color-heading); margin: 0; }
   .menu__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45; margin: 0; }
-
   .menu__table { display: flex; flex-direction: column; }
-
   .menu__rows { display: flex; flex-direction: column; gap: 10px; }
   .menu__rows:empty::before { content: 'No items yet. Click "Load example menu" or "+ Add item" to start.'; display: block; padding: var(--space-6) var(--space-4); text-align: center; font-family: var(--font-body); font-size: 0.8125rem; font-style: italic; color: var(--color-muted); border: 1.5px dashed var(--color-border); border-radius: 12px; background: var(--color-white); }
-
-  /* .menu-row + descendants moved to global style block below (JS-injected, can't use scoped) */
-
   .menu__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
   .menu__example, .menu__clear { background: transparent; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--color-body); cursor: pointer; transition: all var(--transition-fast); }
   .menu__example:hover { border-color: var(--color-saffron); color: var(--color-saffron-text); }
   .menu__clear:hover { border-color: #c0392b; color: #c0392b; }
-
   .menu__totals { display: flex; flex-direction: column; margin-top: var(--space-3); background: var(--color-heading); color: var(--color-white); border-radius: 10px; overflow: hidden; }
   .menu__total-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-family: var(--font-body); font-size: 0.875rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
   .menu__total-row:last-child { border-bottom: none; }
@@ -871,23 +842,8 @@ const schema = [
   .menu__total-row--final { background: rgba(200, 117, 0, 0.18); padding-top: 12px; padding-bottom: 12px; }
   .menu__total-row--final .menu__total-label { font-weight: 600; color: var(--color-white); letter-spacing: 0.005em; }
   .menu__total-row--final .menu__total-value { font-size: 1.125rem; color: #f5d19a; letter-spacing: -0.01em; }
-
-  /* Result card */
-  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
-  @media (max-width: 880px) { .calc-result { position: static; } }
-  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
-  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
-  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-  .calc-result__card > * { position: relative; z-index: 1; }
-  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); flex-wrap: wrap; gap: var(--space-2); }
-
-  .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: var(--space-5); }
   .result-num__pre { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
-  .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
-  .result-num--pulse { transform: scale(1.025); }
   .calc-result__benchmark { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); gap: var(--space-3); }
-
-  /* Scatter matrix in result card */
   .matrix { margin-bottom: var(--space-5); padding-left: 36px; padding-bottom: 24px; position: relative; }
   .matrix__plot { position: relative; aspect-ratio: 1; width: 100%; background:
     linear-gradient(135deg, rgba(40, 80, 130, 0.08) 0%, rgba(40, 80, 130, 0.08) 50%, transparent 50%),
@@ -922,42 +878,9 @@ const schema = [
   .matrix__dot--dog { background: #c0392b; }
   :global(.matrix__dot-tip) { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--color-heading); color: var(--color-white); font-family: var(--font-body); font-size: 0.6875rem; padding: 4px 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
   :global(.matrix__dot:hover .matrix__dot-tip), :global(.matrix__dot:focus .matrix__dot-tip) { opacity: 1; }
-
-  .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: background var(--transition-fast), color var(--transition-fast); }
-  .status-pill__dot { width: 6px; height: 6px; border-radius: 50%; }
-  .status-pill[data-status="empty"] { background: rgba(122, 117, 105, 0.10); color: var(--color-muted); }
-  .status-pill[data-status="empty"] .status-pill__dot { background: var(--color-muted); box-shadow: 0 0 0 3px rgba(122, 117, 105, 0.18); }
-  .status-pill[data-status="healthy"] { background: rgba(74, 88, 38, 0.12); color: #4a5826; }
-  .status-pill[data-status="healthy"] .status-pill__dot { background: #4a5826; box-shadow: 0 0 0 3px rgba(74, 88, 38, 0.18); }
-  .status-pill[data-status="watch"] { background: rgba(200, 117, 0, 0.14); color: var(--color-saffron-text); }
-  .status-pill[data-status="watch"] .status-pill__dot { background: var(--color-saffron); box-shadow: 0 0 0 3px rgba(200, 117, 0, 0.20); }
-  .status-pill[data-status="critical"] { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
-  .status-pill[data-status="critical"] .status-pill__dot { background: #c0392b; box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.22); }
-
-  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
   .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; gap: var(--space-3); }
   .extras-row__label { color: var(--color-body); flex-shrink: 0; }
   .extras-row__value { font-weight: 500; color: var(--color-heading); text-align: right; }
-
-  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
-  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; transition: background var(--transition-fast); }
-  .show-math__trigger::-webkit-details-marker { display: none; }
-  .show-math__trigger:hover { background: var(--color-border-soft); }
-  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
-  .show-math[open] .show-math__icon { transform: rotate(45deg); }
-  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
-  :global(.math-table) { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-  :global(.math-table td) { padding: 10px 6px; border-bottom: 1px dashed var(--color-border); vertical-align: middle; line-height: 1.45; }
-  :global(.math-table td:first-child) { color: var(--color-body); padding-left: 0; }
-  :global(.math-table td:last-child) { text-align: right; color: var(--color-heading); padding-right: 0; white-space: nowrap; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  :global(.math-table__step td:first-child) { padding-left: var(--space-4); color: var(--color-muted); font-size: 0.875rem; }
-  :global(.math-table__step td:last-child) { color: var(--color-saffron-text); font-weight: 500; }
-  :global(.math-table__final td) { padding-top: 14px; padding-bottom: 6px; border-bottom: none; border-top: 1.5px solid var(--color-heading); }
-  :global(.math-table__final td:last-child) { font-size: 1.0625rem; }
-  :global(.math-table__final td strong) { color: var(--color-saffron-text); }
-  .math-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dashed var(--color-border); color: var(--color-body); line-height: 1.5; }
-
-  /* Classified results table */
   .results-table { margin: var(--space-12) 0 var(--space-16); }
   .results-table[hidden] { display: none; }
   .results-table__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.625rem, 3vw + 0.5rem, 2.25rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.012em; color: var(--color-heading); margin-bottom: var(--space-2); }
@@ -974,14 +897,11 @@ const schema = [
   .results-table__table tbody tr:hover { background: var(--color-cream); }
   .results-table__table tbody tr:last-child td { border-bottom: none; }
   .results-table__table tbody td:nth-last-child(2) { color: var(--color-saffron-text); font-weight: 600; }
-
   .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
   .badge--star { background: rgba(74, 88, 38, 0.14); color: #4a5826; }
   .badge--plowhorse { background: rgba(200, 117, 0, 0.16); color: var(--color-saffron-text); }
   .badge--puzzle { background: rgba(40, 80, 130, 0.12); color: #285082; }
   .badge--dog { background: rgba(192, 57, 43, 0.14); color: #c0392b; }
-
-  /* Quadrant guide section */
   .quadrant-guide { margin-bottom: var(--space-16); }
   .quadrant-guide__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-3); }
   .quadrant-guide__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
@@ -998,65 +918,6 @@ const schema = [
   .qg-card__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
   .qg-card__list li { position: relative; padding-left: var(--space-5); font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
   .qg-card__list li::before { content: ''; position: absolute; left: 4px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--color-saffron); }
-
-  .essay { margin: var(--space-16) auto; max-width: 720px; }
-  .essay__eyebrow { margin-bottom: var(--space-4); }
-  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
-  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
-  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
-  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
-  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
-
-  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
-  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
-  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
-  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
-  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
-
-  .scenarios { margin-bottom: var(--space-16); }
-  .scenarios__headline { font-family: var(--font-display); font-variation-settings: "opsz" 72, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-4); }
-  .scenarios__intro { max-width: 64ch; margin-bottom: var(--space-8); }
-  .scenarios__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 880px) { .scenarios__grid { grid-template-columns: 1fr; } }
-  .scenario-card { display: flex; flex-direction: column; gap: var(--space-3); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); position: relative; }
-  .scenario-card__num { position: absolute; top: var(--space-5); right: var(--space-5); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-saffron-text); }
-  .scenario-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 36, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); padding-right: var(--space-8); }
-  .scenario-card__setup { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); margin-bottom: var(--space-2); }
-  .scenario-card__row { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); }
-  .scenario-card__row--outcome { border-top: 1px solid var(--color-saffron); padding-top: var(--space-4); margin-top: var(--space-2); }
-  .scenario-card__label { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-saffron-text); }
-  .scenario-card__text { font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.55; color: var(--color-body); }
-
-  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
-  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
-  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
-  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
-  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
-  .calc-faq__q::-webkit-details-marker { display: none; }
-  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
-  .calc-faq__qtext { flex: 1; }
-  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
-  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
-  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
-
-  .cited-sources { margin-bottom: var(--space-12); }
-  .cited-sources ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
-  .cited-sources li { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-body); }
-  .cited-sources a { color: var(--color-saffron-text); }
-  .cited-sources a:hover { color: var(--color-saffron-hover); }
-
-  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
-  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
-  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
-  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
-  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
-  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
-  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
-  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
-  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
-  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
-  .related-card:hover .related-card__arrow { transform: translateX(4px); }
 </style>
 
 <style is:global>

@@ -1,7 +1,8 @@
 ---
 import ResultNext from '../../components/ResultNext.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import Layout from '../../layouts/Layout.astro';
+import CalcLayout from '../../layouts/CalcLayout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 const title = 'Tip Pool & Tip Out Calculator, Free | RestaurantCalcs';
 const description = 'Split tips by hours, points, equal, or tip-out %. Built-in FLSA compliance flags + tip-credit gate + manager-prohibition warnings.';
@@ -97,11 +98,10 @@ const relatedCalcs = [
 ];
 ---
 
-<Layout {title} {description} {schema}>
+<CalcLayout {title} {description} {schema}>
   <article class="calc-page">
     <header class="calc-page__header">
-      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Tip Pool Calculator</span></nav>
-      <p class="t-micro t-micro--saffron calc-page__eyebrow">Tip pool calculator · <strong>100% free · no signup</strong></p>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/calculators/">Calculators</a><span aria-hidden="true">/</span><span>Tip Pool Calculator</span></nav>
       <h1 class="calc-page__title">Tip Pool &amp; Tip Out Calculator</h1>
       <p class="calc-page__intro">
         Split tips fairly across servers, bartenders, bussers, and runners. Choose <strong>by hours worked</strong>, <strong>by role (some jobs count more)</strong>, or <strong>even split</strong>. You get what each person takes home, with the math shown.
@@ -111,8 +111,16 @@ const relatedCalcs = [
     <section class="calc-grid calc-grid--wide">
       <form class="calc-form" data-form>
         <div class="form-intro">
-          <p class="form-intro__what"><strong>What this does:</strong> Splits tips fairly across servers, bartenders, bussers, and runners. Pick how you want to split (by hours, by role, even, or server-keeps-and-tips-out), add your people, and see what each one takes home.</p>
           <button type="button" class="form-intro__example" data-load-example>Try with example shift</button>
+        </div>
+
+        <div class="form-row">
+          <label class="form-row__label" for="tipcredit">Do you pay your tipped staff less than full minimum wage, and count their tips to make up the rest?</label>
+          <select id="tipcredit" name="tipcredit">
+            <option value="no" selected>No, I pay everyone full minimum wage (CA, WA, NY, etc.)</option>
+            <option value="yes">Yes, I pay tipped staff below minimum and tips fill the gap</option>
+          </select>
+          <p class="form-row__hint">This is called taking a "tip credit." If yes, only front-of-house tipped staff (servers, bartenders, bussers, runners, hosts) can share the tips. Cooks and dishwashers are left out.</p>
         </div>
 
         <aside class="legal-banner" role="note" aria-label="Legal compliance">
@@ -124,15 +132,6 @@ const relatedCalcs = [
             <li>This calc does not enforce these rules. Compliance is on you.</li>
           </ul>
         </aside>
-
-        <div class="form-row">
-          <label class="form-row__label" for="tipcredit">Do you pay your tipped staff less than full minimum wage, and count their tips to make up the rest?</label>
-          <select id="tipcredit" name="tipcredit">
-            <option value="no" selected>No, I pay everyone full minimum wage (CA, WA, NY, etc.)</option>
-            <option value="yes">Yes, I pay tipped staff below minimum and tips fill the gap</option>
-          </select>
-          <p class="form-row__hint">This is called taking a "tip credit." If yes, only front-of-house tipped staff (servers, bartenders, bussers, runners, hosts) can share the tips. Cooks and dishwashers are left out.</p>
-        </div>
 
         <div class="legal-warning" data-legal-warning hidden role="alert">
           <strong>Warning:</strong> You added a back-of-house role (cook or dishwasher) while taking a tip credit. <strong>This is illegal under FLSA</strong>. Either remove the BOH employee or switch tip-credit to "No" (and verify your wage rate complies with state law).
@@ -231,103 +230,103 @@ const relatedCalcs = [
       </aside>
     </section>
 
-    <section class="essay">
-      <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
-      <h2 class="essay__headline">A bad tip pool kills <em>more teams than slow shifts</em>.</h2>
-      <div class="essay__body">
-        <p>
-          Tipped employees notice every dollar. A pool that runs cleanly is invisible. A pool that drifts, math errors, missing hours, perceived favoritism, becomes the entire conversation in the back hallway by week two.
-        </p>
-        <p>
-          The fix isn't a fancier formula. It's consistency, transparency, and arithmetic that anyone can verify. Post the totals at end of shift. Show the formula. Let any employee recount on the spot.
-        </p>
-        <p class="essay__pull">
-          Hours-weighted is the simplest and best defense against accusations of favoritism. Points-weighted is fairer when roles have meaningfully different responsibility. Both work, what doesn't work is changing the method without telling the team.
-        </p>
-        <p>
-          And remember the federal rules: managers never in the pool, back-of-house only if no tip credit is taken, credit card fee deductions only at actual rate. The labor lawsuits in this category are routinely six-figure. Get it right.
-        </p>
-      </div>
-    </section>
+    <NextSteps slug="tip-pool" />
 
-    <hr class="rule" aria-hidden="true" />
-
-    <!-- Operator story: Cosmos bar tip pool reality -->
-    <section class="operator-story">
-      <img src="/illustrations/tip-pool.webp" srcset="/illustrations/tip-pool-640.webp 640w, /illustrations/tip-pool.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of folded cash bills being divided into neat piles on a bar at end of shift, with a glass tip jar nearby." class="operator-story__hero" width="1264" height="848" loading="lazy" />
-      <p class="essay__eyebrow t-micro t-micro--saffron">From behind the bar</p>
-      <h2 class="essay__headline">The tip pool is <em>where the team breaks</em>or doesn't.</h2>
-      <div class="essay__body">
-        <p>
-          I bartended at Cosmos for years before becoming GM. In that time I watched tip pool fights end friendships, end shifts early, end careers. The math is the easy part. The conversations around the math are the entire game.
-        </p>
-        <p>
-          The first thing I learned: hours-weighted is the only system that survives a busy Saturday with three new hires and one senior bartender. Equal split feels fair on paper but punishes the senior who actually carries the rush. Points-weighted feels fair until somebody asks why the bartender's points are double the busser's, and then you're defending an org chart on a Friday at 2am.
-        </p>
-        <p>
-          The second thing I learned: post the math. Print it. Tape it to the wall. Show every line, pool total, hours, share. Anybody on the team can recount it in thirty seconds. Transparency kills the conspiracy theories before they start. The minute somebody thinks the pool is rigged in someone else's favor, the team is broken until the next reset, and the next reset costs you a night.
-        </p>
-        <p class="essay__pull">
-          The bartender who works hardest doesn't notice the tip pool. The bartender who works the least notices it the most. Both are signals.
-        </p>
-        <p>
-          The third thing, and this one matters legally, is that managers and supervisors cannot legally take from the pool, ever, regardless of how much they helped on the floor. I had to give that conversation to owners more than once. The 2018 FLSA amendment is unambiguous. The 2024 Fifth Circuit ruling on the 80/20/30 rule didn't change it. Managers receiving tips from a pool is a direct DOL violation and a six-figure lawsuit waiting to happen.
-        </p>
-        <p>
-          That's why this calculator has the FLSA banner, the tip-credit toggle, and the BOH violation warning. The math is simple. The legal compliance is what kills operators who don't pay attention.
-        </p>
-        <div class="operator-byline">
-          <span class="operator-byline__dash">Signed</span>
-          <span class="operator-byline__name">Brock Markarian</span>
-          <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+    <div class="calc-body">
+      <nav class="calc-toc" aria-label="On this page" data-toc hidden></nav>
+      <div class="calc-body__main" data-toc-root>
+      <section class="essay">
+        <p class="essay__eyebrow t-micro t-micro--saffron">Why this matters</p>
+        <h2 class="essay__headline">A bad tip pool kills <em>more teams than slow shifts</em>.</h2>
+        <div class="essay__body">
+          <p>
+            Tipped employees notice every dollar. A pool that runs cleanly is invisible. A pool that drifts, math errors, missing hours, perceived favoritism, becomes the entire conversation in the back hallway by week two.
+          </p>
+          <p>
+            The fix isn't a fancier formula. It's consistency, transparency, and arithmetic that anyone can verify. Post the totals at end of shift. Show the formula. Let any employee recount on the spot.
+          </p>
+          <p class="essay__pull">
+            Hours-weighted is the simplest and best defense against accusations of favoritism. Points-weighted is fairer when roles have meaningfully different responsibility. Both work, what doesn't work is changing the method without telling the team.
+          </p>
+          <p>
+            And remember the federal rules: managers never in the pool, back-of-house only if no tip credit is taken, credit card fee deductions only at actual rate. The labor lawsuits in this category are routinely six-figure. Get it right.
+          </p>
         </div>
+      </section>
+
+      <div class="container ad-wrap">
+        <aside class="ad-inline">
+          <span class="ad-inline__label">Advertisement</span>
+          <div class="ad-inline__inner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6332696231897305"
+                 data-ad-slot="0000000000"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </aside>
       </div>
-    </section>
 
-    <hr class="rule" aria-hidden="true" />
-
-    <div class="container ad-wrap">
-      <aside class="ad-inline">
-        <span class="ad-inline__label">Advertisement</span>
-        <div class="ad-inline__inner">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-6332696231897305"
-               data-ad-slot="0000000000"
-               data-ad-format="auto"
-               data-full-width-responsive="true"
-               data-adtest="on"></ins>
-          <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <section class="operator-story">
+        <img src="/illustrations/tip-pool.webp" srcset="/illustrations/tip-pool-640.webp 640w, /illustrations/tip-pool.webp 1264w" sizes="(max-width: 760px) 92vw, 720px" alt="Editorial illustration of folded cash bills being divided into neat piles on a bar at end of shift, with a glass tip jar nearby." class="operator-story__hero" width="1264" height="848" loading="lazy" />
+        <p class="essay__eyebrow t-micro t-micro--saffron">From behind the bar</p>
+        <h2 class="essay__headline">The tip pool is <em>where the team breaks</em>or doesn't.</h2>
+        <div class="essay__body">
+          <p>
+            I bartended at Cosmos for years before becoming GM. In that time I watched tip pool fights end friendships, end shifts early, end careers. The math is the easy part. The conversations around the math are the entire game.
+          </p>
+          <p>
+            The first thing I learned: hours-weighted is the only system that survives a busy Saturday with three new hires and one senior bartender. Equal split feels fair on paper but punishes the senior who actually carries the rush. Points-weighted feels fair until somebody asks why the bartender's points are double the busser's, and then you're defending an org chart on a Friday at 2am.
+          </p>
+          <p>
+            The second thing I learned: post the math. Print it. Tape it to the wall. Show every line, pool total, hours, share. Anybody on the team can recount it in thirty seconds. Transparency kills the conspiracy theories before they start. The minute somebody thinks the pool is rigged in someone else's favor, the team is broken until the next reset, and the next reset costs you a night.
+          </p>
+          <p class="essay__pull">
+            The bartender who works hardest doesn't notice the tip pool. The bartender who works the least notices it the most. Both are signals.
+          </p>
+          <p>
+            The third thing, and this one matters legally, is that managers and supervisors cannot legally take from the pool, ever, regardless of how much they helped on the floor. I had to give that conversation to owners more than once. The 2018 FLSA amendment is unambiguous. The 2024 Fifth Circuit ruling on the 80/20/30 rule didn't change it. Managers receiving tips from a pool is a direct DOL violation and a six-figure lawsuit waiting to happen.
+          </p>
+          <p>
+            That's why this calculator has the FLSA banner, the tip-credit toggle, and the BOH violation warning. The math is simple. The legal compliance is what kills operators who don't pay attention.
+          </p>
+          <div class="operator-byline">
+            <span class="operator-byline__dash">Signed</span>
+            <span class="operator-byline__name">Brock Markarian</span>
+            <span class="operator-byline__role">Founder · 5 yrs at Cosmos Taverna (Bartender → GM)</span>
+          </div>
         </div>
-      </aside>
+      </section>
+
+      <section class="calc-faq">
+        <p class="t-micro t-micro--saffron">FAQ</p>
+        <h2 class="calc-faq__headline">Common questions</h2>
+        {faq.map((f, i) => (
+          <details class="calc-faq__item">
+            <summary class="calc-faq__q">
+              <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="calc-faq__qtext">{f.q}</span>
+              <span class="calc-faq__plus" aria-hidden="true">+</span>
+            </summary>
+            <p class="calc-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <section class="cited-sources">
+        <p class="t-micro t-micro--saffron">Cited sources</p>
+        <ul>
+          <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15, Tipped Employees Under the FLSA</a></li>
+          <li><a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener">DOL, Final Rule on Tip Regulations</a></li>
+          <li><a href="https://restaurant.org/education-and-resources/resource-library/tips-on-tipping/" target="_blank" rel="noopener">National Restaurant Association, Tips on Tipping</a></li>
+          <li><a href="https://www.7shifts.com/blog/tip-pooling-laws/" target="_blank" rel="noopener">7shifts, Tip Pooling Laws Guide</a></li>
+        </ul>
+      </section>
+      </div>
     </div>
-
-    <section class="calc-faq">
-      <p class="t-micro t-micro--saffron">FAQ</p>
-      <h2 class="calc-faq__headline">Common questions</h2>
-      {faq.map((f, i) => (
-        <details class="calc-faq__item">
-          <summary class="calc-faq__q">
-            <span class="calc-faq__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="calc-faq__qtext">{f.q}</span>
-            <span class="calc-faq__plus" aria-hidden="true">+</span>
-          </summary>
-          <p class="calc-faq__a">{f.a}</p>
-        </details>
-      ))}
-    </section>
-
-    <section class="cited-sources">
-      <p class="t-micro t-micro--saffron">Cited sources</p>
-      <ul>
-        <li><a href="https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa" target="_blank" rel="noopener">DOL Fact Sheet #15, Tipped Employees Under the FLSA</a></li>
-        <li><a href="https://www.dol.gov/agencies/whd/flsa/tips" target="_blank" rel="noopener">DOL, Final Rule on Tip Regulations</a></li>
-        <li><a href="https://restaurant.org/education-and-resources/resource-library/tips-on-tipping/" target="_blank" rel="noopener">National Restaurant Association, Tips on Tipping</a></li>
-        <li><a href="https://www.7shifts.com/blog/tip-pooling-laws/" target="_blank" rel="noopener">7shifts, Tip Pooling Laws Guide</a></li>
-      </ul>
-    </section>
-
-    <RelatedPosts slug="tip-pool" />
 
     <section class="related">
       <h2 class="related__headline">Related calculators</h2>
@@ -345,8 +344,10 @@ const relatedCalcs = [
         ))}
       </div>
     </section>
+
+    <RelatedPosts slug="tip-pool" />
   </article>
-</Layout>
+</CalcLayout>
 
 <script>
   const ROLE_POINTS: Record<string, number> = {
@@ -659,29 +660,9 @@ const relatedCalcs = [
 </script>
 
 <style>
-  .calc-page { padding: var(--space-12) var(--space-6) var(--space-24); max-width: 1180px; margin: 0 auto; }
-  .breadcrumb { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); font-size: 0.8125rem; color: var(--color-muted); margin-bottom: var(--space-8); }
-  .breadcrumb a { color: var(--color-muted); transition: color var(--transition-fast); }
-  .breadcrumb a:hover { color: var(--color-saffron-text); }
-  .calc-page__header { max-width: 760px; margin-bottom: var(--space-12); }
-  .calc-page__eyebrow { margin-bottom: var(--space-4); }
-  .calc-page__title { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2.25rem, 5vw + 0.5rem, 3.5rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--color-heading); margin-bottom: var(--space-5); }
-  .calc-page__intro { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.55; color: var(--color-body); max-width: 64ch; }
-  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); margin-bottom: var(--space-16); align-items: start; }
   .calc-grid--wide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
   @media (max-width: 880px) { .calc-grid, .calc-grid--wide { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
-  .calc-form { display: flex; flex-direction: column; gap: var(--space-5); background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-warm); }
-  .form-row { display: flex; flex-direction: column; gap: var(--space-2); }
-  .form-row__label { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em; color: var(--color-heading); }
-  .input-shell { display: flex; align-items: center; background: var(--color-canvas); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); transition: all var(--transition-fast); overflow: hidden; }
-  .input-shell:focus-within { border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); background: var(--color-white); }
   .input-shell__prefix { padding: 0 0 0 var(--space-4); font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-muted); flex-shrink: 0; }
-  .input-shell input { flex: 1; border: none; background: transparent; padding: 14px 16px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.125rem; font-weight: 500; color: var(--color-heading); outline: none; width: 100%; }
-  .calc-form select { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--color-canvas); font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--color-heading); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7569' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
-  .calc-form select:focus { outline: none; border-color: var(--color-saffron); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
-  .form-row__hint { font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.40; }
-
-  /* Employee table */
   .employees-table-wrap { display: flex; flex-direction: column; gap: var(--space-3); }
   .employees-table { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; background: var(--color-canvas); }
   .employees-table__head { display: grid; grid-template-columns: minmax(120px, 1.6fr) minmax(110px, 1.2fr) minmax(72px, 0.8fr) minmax(72px, 0.8fr) 36px; gap: var(--space-3); align-items: center; padding: 12px 16px; background: var(--color-cream); border-bottom: 1px solid var(--color-border); font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
@@ -694,7 +675,6 @@ const relatedCalcs = [
   :global(.employee-row input:focus), :global(.employee-row select:focus) { border-color: #c87500; box-shadow: 0 0 0 2px rgba(200, 117, 0, 0.18); }
   :global(.employee-row__remove) { width: 32px; height: 32px; padding: 0; border: none; background: transparent; color: var(--color-muted); font-size: 1.375rem; line-height: 1; cursor: pointer; border-radius: 6px; transition: all 200ms ease; }
   :global(.employee-row__remove:hover) { background: rgba(156, 79, 28, 0.10); color: #823a14; }
-
   @media (max-width: 760px) {
     .employees-table__head { display: none; }
     :global(.employee-row) { grid-template-columns: 1fr 1fr 36px; grid-template-rows: auto auto auto; gap: 8px; padding: 14px 14px; }
@@ -704,33 +684,9 @@ const relatedCalcs = [
     :global(.employee-row__points) { grid-column: 2; grid-row: 3; }
     :global(.employee-row__remove) { grid-column: 3; grid-row: 1 / 4; align-self: start; }
   }
-
   .btn-add-row { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--color-cream); border: 1px dashed var(--color-border); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--color-saffron-text); cursor: pointer; transition: all var(--transition-fast); align-self: flex-start; }
   .btn-add-row:hover { background: var(--color-saffron-light); border-color: var(--color-saffron); }
-
-  .calc-result { display: flex; flex-direction: column; gap: var(--space-5); position: sticky; top: 120px; }
-  @media (max-width: 880px) { .calc-result { position: static; } }
-  .calc-result__card { background: var(--gradient-card-warm); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-10) var(--space-8); box-shadow: 0 1px 2px var(--alpha-shadow-2), 0 12px 32px var(--alpha-shadow-1), 0 40px 80px -40px var(--alpha-saffron-glow-strong); position: relative; overflow: hidden; }
-  .calc-result__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--color-saffron) 50%, transparent); opacity: 0.7; pointer-events: none; }
-  .calc-result__card::after { content: ''; position: absolute; top: -140px; right: -140px; width: 280px; height: 280px; background: radial-gradient(circle, var(--alpha-saffron-glow-strong) 0%, transparent 70%); pointer-events: none; z-index: 0; }
-  .calc-result__card > * { position: relative; z-index: 1; }
-  .calc-result__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
   .calc-result__big { display: flex; align-items: baseline; justify-content: center; gap: 2px; margin-bottom: var(--space-5); }
-  .calc-result__big .result-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-size: clamp(3.5rem, 9vw + 0.5rem, 6.5rem); font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; color: var(--color-saffron-text); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
-  .calc-result__big .result-num--pulse { transform: scale(1.025); }
-  .calc-result__big .result-num__pct { font-family: var(--font-mono); font-size: clamp(2rem, 5.5vw + 0.5rem, 3.75rem); color: var(--color-saffron-text); font-weight: 400; }
-  .calc-result__benchmark { display: flex; justify-content: space-between; padding: var(--space-3) 0; border-top: 1px dashed var(--color-border); border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-5); }
-  .calc-result__extras { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
-  .extras-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-family: var(--font-body); font-size: 0.875rem; }
-  .extras-row[hidden] { display: none; }
-  .extras-row__label { color: var(--color-body); }
-  .extras-row__value { font-weight: 500; color: var(--color-heading); }
-  .show-math { background: var(--color-cream); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
-  .show-math__trigger { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; color: var(--color-heading); list-style: none; }
-  .show-math__trigger::-webkit-details-marker { display: none; }
-  .show-math__icon { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); transition: transform var(--transition-fast); width: 16px; text-align: center; }
-  .show-math[open] .show-math__icon { transform: rotate(45deg); }
-  .show-math__body { padding: var(--space-3) var(--space-5) var(--space-5); }
   .math-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
   .math-table th, .math-table td { padding: 6px 4px; }
   .math-table th { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); text-align: left; border-bottom: 1px solid var(--color-border); }
@@ -738,8 +694,6 @@ const relatedCalcs = [
   .math-table td:last-child, .math-table th:last-child { text-align: right; }
   .math-table__final td { padding-top: var(--space-3); border-bottom: none; border-top: 1.5px solid var(--color-heading); }
   .math-table--dist tbody tr:last-child td { border-bottom: none; }
-
-  /* Distribution list, stacked cards work in any width */
   :global(.dist-list) { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
   :global(.dist-card) { padding: 10px 12px; background: var(--color-canvas); border: 1px solid var(--color-border); border-radius: 8px; transition: all 150ms ease; }
   :global(.dist-card:hover) { border-color: var(--color-saffron); background: var(--color-cream); }
@@ -756,8 +710,6 @@ const relatedCalcs = [
   :global(.dist-summary__row--final) { padding-top: 10px; margin-top: 4px; border-top: 1.5px solid var(--color-heading); font-size: 1rem; }
   :global(.dist-summary__row--final strong) { color: var(--color-heading); }
   :global(.dist-summary__row--final .num strong) { color: var(--color-saffron-text); font-size: 1.125rem; }
-
-  /* Distribution table, looser, easier to read */
   .math-table--dist { font-size: 0.9375rem; }
   .math-table--dist th { padding: 10px 12px 8px; font-size: 0.6875rem; }
   .math-table--dist th:first-child { padding-left: 4px; }
@@ -779,85 +731,17 @@ const relatedCalcs = [
     .math-table--dist td { padding: 10px 8px; }
     .math-table--dist td:nth-child(2) { font-size: 0.75rem; }
   }
-  .essay, .operator-story { margin: var(--space-16) auto; max-width: 720px; }
-  .essay__eyebrow { margin-bottom: var(--space-4); }
-  .essay__headline { font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(2rem, 4vw + 0.5rem, 3rem); font-weight: 500; line-height: 1.10; letter-spacing: -0.018em; color: var(--color-heading); margin-bottom: var(--space-8); }
-  .essay__headline em { font-style: italic; font-weight: 500; color: var(--color-saffron-text); }
-  .essay__body p { font-family: var(--font-body); font-size: 1.125rem; line-height: 1.65; color: var(--color-body); margin-bottom: var(--space-5); }
-  .essay__pull { position: relative; font-family: var(--font-display); font-variation-settings: "opsz" 96, "wdth" 95; font-size: clamp(1.625rem, 3.2vw + 0.5rem, 2.5rem) !important; font-weight: 500; line-height: 1.18 !important; letter-spacing: -0.018em; color: var(--color-heading) !important; padding: var(--space-8) var(--space-2) var(--space-8) var(--space-10) !important; margin: var(--space-10) 0 !important; border-left: 4px solid var(--color-saffron); background: linear-gradient(90deg, var(--alpha-saffron-tint), transparent 80%); }
-  .essay__pull::before { content: '\201C'; position: absolute; left: 8px; top: -8px; font-family: var(--font-display); font-style: italic; font-size: 5rem; line-height: 1; color: var(--color-saffron); opacity: 0.40; pointer-events: none; }
-  .rule { border: none; height: 24px; margin: var(--space-16) 0; background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-border) 42%, transparent 48%, transparent 52%, var(--color-border) 58%, var(--color-border) 85%, transparent 100%), radial-gradient(circle 3px at center, var(--color-saffron) 55%, transparent 56%); background-position: 0 50%, center center; background-repeat: no-repeat; background-size: 100% 1px, 8px 8px; }
-  .ad-wrap { margin: var(--space-12) 0; padding: 0; }
-  .ad-inline { border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: var(--color-cream); overflow: hidden; }
-  .ad-inline__label { display: block; padding: 6px 12px; font-family: var(--font-body); font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); background: rgba(122, 117, 105, 0.06); border-bottom: 1px dashed var(--color-border); }
-  .ad-inline__inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: var(--space-6); min-height: 280px; }
-  .calc-faq { margin-bottom: var(--space-16); max-width: 880px; }
-  .calc-faq__headline { font-family: var(--font-display); font-variation-settings: "opsz" 60, "wdth" 100; font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem); font-weight: 500; line-height: 1.20; letter-spacing: -0.012em; color: var(--color-heading); margin: var(--space-3) 0 var(--space-8); }
-  .calc-faq__item { border-top: 1px solid var(--color-border); padding: var(--space-5) 0; }
-  .calc-faq__item:last-child { border-bottom: 1px solid var(--color-border); }
-  .calc-faq__q { display: flex; align-items: baseline; gap: var(--space-4); cursor: pointer; font-family: var(--font-display); font-variation-settings: "opsz" 28, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.3; color: var(--color-heading); list-style: none; }
-  .calc-faq__q::-webkit-details-marker { display: none; }
-  .calc-faq__num { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; color: var(--color-saffron-text); flex-shrink: 0; }
-  .calc-faq__qtext { flex: 1; }
-  .calc-faq__plus { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 300; color: var(--color-saffron-text); transition: transform var(--transition-fast); flex-shrink: 0; }
-  .calc-faq__item[open] .calc-faq__plus { transform: rotate(45deg); }
-  .calc-faq__a { margin: var(--space-4) 0 var(--space-2) calc(2ch + var(--space-4)); font-family: var(--font-body); font-size: 1rem; line-height: 1.65; color: var(--color-body); max-width: 64ch; }
-  .related { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--color-border); }
-  .related__headline { font-family: var(--font-display); font-variation-settings: "opsz" 48, "wdth" 100; font-size: 1.75rem; font-weight: 500; line-height: 1.20; color: var(--color-heading); margin-bottom: var(--space-6); }
-  .related__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-  @media (max-width: 720px) { .related__grid { grid-template-columns: 1fr; } }
-  .related-card { display: flex; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); transition: all var(--transition-fast); color: inherit; }
-  .related-card:hover { border-color: var(--color-saffron); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
-  .related-card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
-  .related-card__num { color: var(--color-saffron-text); font-size: 0.8125rem; font-weight: 500; }
-  .related-card__title { font-family: var(--font-display); font-variation-settings: "opsz" 24, "wdth" 100; font-size: 1.25rem; font-weight: 500; line-height: 1.25; color: var(--color-heading); margin-bottom: var(--space-2); }
-  .related-card__desc { font-size: 0.9375rem; color: var(--color-body); margin-bottom: var(--space-5); flex: 1; }
-  .related-card__arrow { font-family: var(--font-mono); font-size: 1.125rem; color: var(--color-saffron-text); align-self: flex-end; transition: transform var(--transition-fast); }
-  .related-card:hover .related-card__arrow { transform: translateX(4px); }
-
-  /* Legal compliance banner */
   .legal-banner { padding: var(--space-4) var(--space-5); background: #fef9f3; border: 1px solid #c87500; border-left: 4px solid #c87500; border-radius: var(--radius-md); }
   .legal-banner__head { margin: 0 0 var(--space-2) 0; font-family: var(--font-body); font-size: 0.9375rem; color: var(--color-heading); }
   .legal-banner__list { margin: 0; padding-left: var(--space-5); display: flex; flex-direction: column; gap: 6px; font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.5; color: var(--color-body); }
   .legal-banner__list a { color: var(--color-saffron-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
   .legal-banner__list a:hover { color: var(--color-saffron-hover); }
-
-  /* Legal violation warning (live) */
   .legal-warning { padding: var(--space-3) var(--space-4); background: #fbeaea; border: 1.5px solid #c0392b; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.875rem; line-height: 1.5; color: #823b32; }
   .legal-warning[hidden] { display: none; }
   .legal-warning strong { color: #c0392b; }
-  /* ===== Redesign: live-tool feel, breathing room, result share ===== */
-  .calc-form { gap: var(--space-6); padding: var(--space-8); }
-  @media (max-width: 480px) { .calc-form { padding: var(--space-5); } }
-  .form-row { gap: var(--space-3); }
-  .form-group { gap: var(--space-6); }
-  .step-num {
-    background: transparent; color: var(--color-saffron-text);
-    border: 1px solid rgba(184, 101, 26, 0.28); min-width: 22px; padding: 1px 6px; font-weight: 700;
-  }
-  .calc-form__live {
-    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1);
-    font-family: var(--font-body); font-size: 0.75rem; color: var(--color-muted); line-height: 1.45;
-  }
-  .calc-form__live strong { color: var(--color-heading); font-weight: 600; }
-  .calc-form__live-dot {
-    flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--color-saffron-text); animation: live-pulse 2s ease-out infinite;
-  }
   @keyframes live-pulse {
     0% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0.45); }
     70% { box-shadow: 0 0 0 7px rgba(184, 101, 26, 0); }
     100% { box-shadow: 0 0 0 0 rgba(184, 101, 26, 0); }
   }
-  .result-share {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    width: 100%; margin-top: var(--space-5); padding: 11px 16px;
-    background: var(--color-white); color: var(--color-saffron-text);
-    border: 1.5px solid rgba(184, 101, 26, 0.3); border-radius: 999px;
-    font-family: var(--font-body); font-size: 0.875rem; font-weight: 700; cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  }
-  .result-share:hover { background: var(--color-saffron-text); color: var(--color-white); transform: translateY(-1px); }
-  .result-share svg { width: 15px; height: 15px; flex-shrink: 0; }
-  @media (prefers-reduced-motion: reduce) { .calc-form__live-dot { animation: none; } }
 </style>

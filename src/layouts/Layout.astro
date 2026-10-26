@@ -118,6 +118,7 @@ const allSchema = schema
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafaf7" />
     <meta name="color-scheme" content="light" />
+    {import.meta.env.PUBLIC_NOINDEX === '1' && <meta name="robots" content="noindex, nofollow" />}
     <meta name="google-adsense-account" content="ca-pub-6332696231897305" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6332696231897305" crossorigin="anonymous"></script>
 
@@ -342,11 +343,14 @@ const allSchema = schema
         <a href="/" class="site-header__logo" aria-label="RestaurantCalcs home">
           <img src="/logo-header.webp" alt="RestaurantCalcs" class="site-header__logo-img" width="333" height="56" fetchpriority="high" />
         </a>
+        <form class="site-search" action="/calculators/" role="search" data-site-search>
+          <label for="site-search-q" class="visually-hidden">Find a calculator</label>
+          <svg class="site-search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="site-search-q" class="site-search__input" type="search" name="q" placeholder="Find a calculator" list="calc-list" autocomplete="off" />
+        </form>
         <nav class="site-header__nav">
-          <a href="/blog/" class="site-header__link">Blog</a>
-          <a href="/about/" class="site-header__link">About</a>
           <details class="nav-dd">
-            <summary class="nav-dd__trigger btn btn-primary btn-small">
+            <summary class="nav-dd__trigger site-header__link">
               Calculators
               <span class="nav-dd__chev" aria-hidden="true">▾</span>
             </summary>
@@ -418,9 +422,8 @@ const allSchema = schema
               <a href="/calculators/" class="nav-dd__all" role="menuitem">All calculators <span aria-hidden="true">→</span></a>
             </div>
           </details>
-          <button type="button" class="site-header__try btn btn-secondary btn-small" data-random-calc aria-label="Open a random calculator">
-            Try a calc
-          </button>
+          <a href="/blog/" class="site-header__link">Blog</a>
+          <a href="/about/" class="site-header__link">About</a>
           <button type="button" class="site-header__burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer" data-burger>
             <span class="site-header__burger-bar"></span>
             <span class="site-header__burger-bar"></span>
@@ -429,6 +432,12 @@ const allSchema = schema
         </nav>
       </div>
     </header>
+    <datalist id="calc-list">
+      <option value="Food Cost %"></option><option value="Recipe & Plate Cost"></option><option value="Labor Cost %"></option><option value="Tip Pool & Tip Out"></option>
+      <option value="Menu Pricing"></option><option value="Liquor Pour Cost"></option><option value="Break-Even Revenue"></option><option value="Inventory Variance"></option>
+      <option value="Prime Cost"></option><option value="Draft Beer / Keg Cost"></option><option value="No-Show & Deposit"></option><option value="Menu Engineering"></option>
+      <option value="Delivery True-Profit"></option><option value="Catering Pricing"></option><option value="Employee Turnover Cost"></option><option value="Fountain Drink / BIB Cost"></option>
+    </datalist>
 
     <!-- Mobile drawer -->
     <div class="drawer" id="mobile-drawer" data-drawer hidden>
@@ -560,6 +569,25 @@ const allSchema = schema
         if (panel) panel.addEventListener('click', function (e) {
           if (e.target.tagName === 'A') dd.open = false;
         });
+      })();
+
+      // Header search: picking a calculator name opens it, anything else filters /calculators/
+      (function () {
+        var form = document.querySelector('[data-site-search]');
+        if (!form) return;
+        var input = form.querySelector('input');
+        var map = {};
+        document.querySelectorAll('.nav-dd__item').forEach(function (a) {
+          var t = a.querySelector('.nav-dd__item-title');
+          if (t) map[t.textContent.trim().toLowerCase()] = a.getAttribute('href');
+        });
+        function go() {
+          var href = map[input.value.trim().toLowerCase()];
+          if (href) { location.href = href; return true; }
+          return false;
+        }
+        input.addEventListener('change', go);
+        form.addEventListener('submit', function (e) { if (go()) e.preventDefault(); });
       })();
 
       // Random calculator (any button w/ [data-random-calc])
@@ -738,6 +766,7 @@ const allSchema = schema
     <!-- Cookie consent (CMP) -->
     <div class="cmp" id="cmp" hidden role="dialog" aria-modal="false" aria-labelledby="cmp-title">
       <div class="cmp__inner">
+        <p class="cmp__short">Cookies keep this site free. <a href="/privacy/">Privacy</a></p>
         <div class="cmp__copy">
           <h2 class="cmp__title" id="cmp-title">We use cookies</h2>
           <p class="cmp__text">
@@ -756,7 +785,7 @@ const allSchema = schema
         </div>
         <div class="cmp__actions">
           <button type="button" class="cmp__btn cmp__btn--ghost" data-cmp-manage>Manage</button>
-          <button type="button" class="cmp__btn cmp__btn--ghost" data-cmp-reject>Reject non-essential</button>
+          <button type="button" class="cmp__btn cmp__btn--ghost" data-cmp-reject>Reject<span class="cmp__long"> non-essential</span></button>
           <button type="button" class="cmp__btn cmp__btn--primary" data-cmp-accept>Accept all</button>
           <button type="button" class="cmp__btn cmp__btn--primary" data-cmp-save hidden>Save preferences</button>
         </div>
@@ -775,8 +804,10 @@ const allSchema = schema
         var acceptBtn = banner.querySelector('[data-cmp-accept]');
         var saveBtn = banner.querySelector('[data-cmp-save]');
 
-        function show() { banner.hidden = false; }
-        function hide() { banner.hidden = true; }
+        function setOffset() { document.documentElement.style.setProperty('--cmp-h', banner.hidden ? '0px' : banner.offsetHeight + 'px'); }
+        function show() { banner.hidden = false; setOffset(); }
+        function hide() { banner.hidden = true; setOffset(); }
+        window.addEventListener('resize', setOffset);
         function resetActions() {
           panel.hidden = true;
           saveBtn.hidden = true;
@@ -840,7 +871,7 @@ const allSchema = schema
         position: sticky;
         top: 0;
         z-index: 50;
-        background: rgba(250, 250, 247, 0.85);
+        background: rgba(250, 248, 243, 0.92);
         backdrop-filter: saturate(180%) blur(10px);
         -webkit-backdrop-filter: saturate(180%) blur(10px);
         border-bottom: 1px solid var(--color-border);
@@ -850,37 +881,55 @@ const allSchema = schema
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 96px;
+        height: 64px;
+        gap: var(--space-6);
       }
 
       .site-header__logo {
         display: inline-flex;
         align-items: center;
-        height: 72px;
-        margin-left: -8px;
+        height: 48px;
+        margin-left: -4px;
+        flex: none;
       }
 
       .site-header__logo-img {
-        height: 56px;
+        height: 40px;
         width: auto;
         display: block;
       }
 
       @media (max-width: 540px) {
-        .site-header__logo-img { height: 40px; }
+        .site-header__logo-img { height: 32px; }
       }
 
       .site-header__nav {
         display: flex;
         align-items: center;
-        gap: var(--space-8);
+        gap: var(--space-6);
+        margin-left: auto;
       }
+
+      .site-search { position: relative; flex: 1 1 260px; max-width: 380px; }
+      .site-search__icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--color-muted); pointer-events: none; }
+      .site-search__input {
+        width: 100%;
+        height: 40px;
+        padding: 0 12px 0 38px;
+        border: 1px solid #dcd5c8;
+        border-radius: var(--radius-md);
+        background: var(--color-white);
+        font: 0.9375rem var(--font-body);
+        color: var(--color-heading);
+      }
+      .site-search__input:focus { outline: none; border-color: var(--color-saffron-text); box-shadow: 0 0 0 3px var(--alpha-saffron-focus); }
+      @media (max-width: 900px) { .site-search { display: none; } }
 
       .site-header__link {
         font-family: var(--font-body);
-        font-size: 0.875rem;
+        font-size: 0.9375rem;
         font-weight: 500;
-        color: var(--color-body);
+        color: var(--color-heading);
         transition: color var(--transition-fast);
         display: inline-flex;
         align-items: center;
@@ -965,8 +1014,7 @@ const allSchema = schema
       .nav-dd__chev {
         font-size: 0.75rem;
         transition: transform var(--transition-fast);
-        color: var(--color-white);
-        opacity: 0.85;
+        color: var(--color-muted);
       }
 
       .nav-dd[open] .nav-dd__chev {
@@ -1363,7 +1411,7 @@ const allSchema = schema
       :global(.result-bar) { display: none; }
       @media (max-width: 880px) {
         :global(.result-bar) {
-          position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+          position: fixed; left: 0; right: 0; bottom: var(--cmp-h, 0px); z-index: 60;
           display: flex; align-items: center; gap: 12px;
           padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
           background: var(--color-heading); color: var(--color-cream, #f4f1ea);
@@ -1551,10 +1599,21 @@ const allSchema = schema
         border-color: var(--color-border);
       }
       .cmp__btn--ghost:hover { background: var(--color-bg, #f0f0eb); }
-      @media (max-width: 540px) {
-        .cmp { padding: 16px; }
-        .cmp__actions { justify-content: stretch; }
-        .cmp__btn { flex: 1 1 auto; }
+      .cmp__short { display: none; }
+      .cmp__btn { min-height: 44px; }
+      @media (max-width: 640px) {
+        .cmp { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); }
+        .cmp__inner { display: flex; align-items: center; gap: 8px; }
+        .cmp__copy { display: none; }
+        .cmp__short { display: block; flex: 1 1 auto; min-width: 0; margin: 0; font-size: 0.8125rem; line-height: 1.3; color: var(--color-body); }
+        .cmp__short a { color: var(--color-heading); text-decoration: underline; }
+        .cmp__actions { flex-wrap: nowrap; gap: 6px; }
+        .cmp__btn { padding: 0 10px; min-height: 40px; font-size: 0.75rem; }
+        .cmp__btn[data-cmp-manage] { display: none; }
+        .cmp__long { display: none; }
+        .cmp__inner:has(.cmp__panel:not([hidden])) { flex-wrap: wrap; }
+        .cmp__inner:has(.cmp__panel:not([hidden])) .cmp__copy { display: block; }
+        .cmp__inner:has(.cmp__panel:not([hidden])) .cmp__short { display: none; }
       }
 
     </style>
@@ -1796,9 +1855,7 @@ const allSchema = schema
 
         var formIn = false, resultIn = false;
         function update() {
-          var cmp = document.getElementById('cmp');
-          var cmpOpen = cmp && !cmp.hidden;
-          bar.classList.toggle('result-bar--on', formIn && !resultIn && !cmpOpen);
+          bar.classList.toggle('result-bar--on', formIn && !resultIn);
         }
         new IntersectionObserver(function (es) {
           es.forEach(function (e) { if (e.target === form) formIn = e.isIntersecting; else resultIn = e.isIntersecting; });
