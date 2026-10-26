@@ -74,7 +74,7 @@ function readingMin(post: any): number {
     {featured && (
       <a href={`/blog/${featured.id}/`} class="blog-latest" data-post data-topic={topicOf(featured.data.tags).key}>
         {featured.data.heroImage && (
-          <img class="blog-latest__img" src={featured.data.heroImage} srcset={`${featured.data.heroImage.replace('.webp', '-640.webp')} 640w, ${featured.data.heroImage} 1264w`} sizes="(max-width: 900px) 92vw, 520px" alt={`Editorial illustration for ${featured.data.title}`} width="1264" height="848" loading="eager" fetchpriority="high" />
+          <img class="blog-latest__img" src={featured.data.heroImage} srcset={`${featured.data.heroImage.replace('.webp', '-640.webp')} 640w, ${featured.data.heroImage.replace('.webp', '-800.webp')} 800w, ${featured.data.heroImage} 1264w`} sizes="(max-width: 900px) 92vw, 520px" alt={`Editorial illustration for ${featured.data.title}`} width="1264" height="848" loading="eager" fetchpriority="high" />
         )}
         <div class="blog-latest__copy">
           <span class="blog-latest__meta">Latest · <time datetime={fmtDateISO(featured.data.pubDate)}>{fmtDate(featured.data.pubDate)}</time> · {readingMin(featured)} min read</span>

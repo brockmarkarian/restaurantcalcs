@@ -32,6 +32,8 @@ function lastmodFor(url) {
 export default defineConfig({
   site: 'https://restaurantcalcs.com',
   adapter: cloudflare(),
+  // Inline the CSS so no stylesheet blocks the first paint (styles are small per page)
+  build: { inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       changefreq: 'weekly',
