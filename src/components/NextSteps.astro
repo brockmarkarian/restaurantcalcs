@@ -1,7 +1,7 @@
 ---
 // "Next steps" row under the calculator (and at the end of blog posts).
-// Only the Marketing 760 card is on; the spreadsheet and partner cards turn on
-// by adding them to STEPS once their links exist.
+// Marketing 760 card everywhere; the bar cost spreadsheet card on the bar
+// calculators only. Partner cards turn on by adding them to STEPS.
 interface Props { slug: string }
 const { slug } = Astro.props;
 
@@ -10,13 +10,26 @@ const NEXT_STEPS_ENABLED = true;
 const utm = (content: string) =>
   `utm_source=restaurantcalcs&utm_medium=referral&utm_campaign=next-steps&utm_content=${encodeURIComponent(content)}`;
 
-const STEPS: { offer: string; title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; badge?: string }[] = [
+// The bar cost spreadsheet only shows on the calculators it covers
+const SPREADSHEET_SLUGS = ['fountain-cost', 'keg-cost', 'liquor-pour-cost'];
+const ETSY_BAR_KIT = 'https://www.etsy.com/listing/4603631587/bar-and-fountain-cost-kit-by';
+
+const STEPS: { offer: string; title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; rel: string; badge?: string }[] = [
+  ...(SPREADSHEET_SLUGS.includes(slug) ? [{
+    offer: 'bar-kit',
+    title: 'Get this as a spreadsheet',
+    desc: 'Fountain, draft beer, liquor and weekly pour cost in one Excel and Google Sheets file. $10.',
+    href: `${ETSY_BAR_KIT}?${utm(slug)}`,
+    tone: 'amber' as const,
+    rel: 'noopener sponsored',
+  }] : []),
   {
     offer: 'm760',
     title: 'Fill more tables',
     desc: 'Free check of your Google listing and local rankings, from the team that built this site.',
     href: `https://marketing760.com/free-audit?${utm(slug)}`,
     tone: 'blue',
+    rel: 'noopener',
   },
 ];
 ---
@@ -25,9 +38,11 @@ const STEPS: { offer: string; title: string; desc: string; href: string; tone: '
     <h2 class="next-steps__title" id="next-steps-title">Next steps</h2>
     <div class={`next-steps__grid next-steps__grid--${Math.min(STEPS.length, 3)}`}>
       {STEPS.map((s) => (
-        <a class={`next-step next-step--${s.tone}`} href={s.href} target="_blank" rel="noopener" data-next-step={s.offer} data-page={slug}>
+        <a class={`next-step next-step--${s.tone}`} href={s.href} target="_blank" rel={s.rel} data-next-step={s.offer} data-page={slug}>
           <span class="next-step__icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+            {s.offer === 'm760'
+              ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+              : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M4 10h16M10 4v16"></path></svg>}
           </span>
           <span class="next-step__text">
             <span class="next-step__title">{s.title}{s.badge && <span class="next-step__badge">{s.badge}</span>}</span>
