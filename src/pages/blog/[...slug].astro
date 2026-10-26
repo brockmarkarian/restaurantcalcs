@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import NextSteps from '../../components/NextSteps.astro';
 
 export async function getStaticPaths() {
   const now = new Date();
@@ -163,6 +164,10 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
       </aside>
     )}
 
+    <div class="post-page__next">
+      <NextSteps slug={`blog-${post.id}`} />
+    </div>
+
     <div class="post-page__ornament" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
@@ -293,6 +298,7 @@ const relatedCalcLabel = post.data.relatedCalc ? calcLabels[post.data.relatedCal
   .post-page__body :global(th) { font-family: var(--font-body); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); text-align: left; padding: 10px 8px; border-bottom: 1.5px solid var(--color-heading); }
   .post-page__body :global(td) { padding: 10px 8px; border-bottom: 1px dashed var(--color-border); vertical-align: top; }
 
+  .post-page__next { max-width: 720px; margin: 0 auto; }
   .post-page__ornament { display: flex; justify-content: center; align-items: center; gap: 12px; padding: var(--space-12) 0 var(--space-8); max-width: 720px; margin: 0 auto; }
   .post-page__ornament span { display: block; width: 5px; height: 5px; background: var(--color-saffron); border-radius: 50%; opacity: 0.7; }
   .post-page__ornament span:nth-child(2) { width: 8px; height: 8px; opacity: 1; }

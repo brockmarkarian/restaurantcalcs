@@ -1,28 +1,105 @@
 ---
-// "Next steps" row under the calculator: spreadsheet, partner tool, local
-// marketing check. Off until the offers are decided. Flip NEXT_STEPS_ENABLED
-// and fill in STEPS to turn it on for every calculator.
+// "Next steps" row under the calculator (and at the end of blog posts).
+// Only the Marketing 760 card is on; the spreadsheet and partner cards turn on
+// by adding them to STEPS once their links exist.
 interface Props { slug: string }
 const { slug } = Astro.props;
 
-const NEXT_STEPS_ENABLED = false;
+const NEXT_STEPS_ENABLED = true;
 
-const STEPS: { title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; badge?: string }[] = [
-  // { title: 'Get this as a spreadsheet', desc: '', href: '', tone: 'amber' },
-  // { title: 'Track it every week, automatically', desc: '', href: '', tone: 'green', badge: 'Partner' },
-  // { title: 'Fill more tables', desc: '', href: '', tone: 'blue' },
+const utm = (content: string) =>
+  `utm_source=restaurantcalcs&utm_medium=referral&utm_campaign=next-steps&utm_content=${encodeURIComponent(content)}`;
+
+const STEPS: { offer: string; title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; badge?: string }[] = [
+  {
+    offer: 'm760',
+    title: 'Fill more tables',
+    desc: 'Free check of your Google listing and local rankings, from the team that built this site.',
+    href: `https://marketing760.com/free-audit?${utm(slug)}`,
+    tone: 'blue',
+  },
 ];
 ---
 {NEXT_STEPS_ENABLED && STEPS.length > 0 && (
-  <section class="next-steps" data-slug={slug} aria-labelledby="next-steps-title">
+  <section class="next-steps" aria-labelledby="next-steps-title">
     <h2 class="next-steps__title" id="next-steps-title">Next steps</h2>
-    <div class="next-steps__grid">
+    <div class={`next-steps__grid next-steps__grid--${Math.min(STEPS.length, 3)}`}>
       {STEPS.map((s) => (
-        <a class={`next-step next-step--${s.tone}`} href={s.href}>
-          <span class="next-step__title">{s.title}{s.badge && <span class="next-step__badge">{s.badge}</span>}</span>
-          <span class="next-step__desc">{s.desc}</span>
+        <a class={`next-step next-step--${s.tone}`} href={s.href} target="_blank" rel="noopener" data-next-step={s.offer} data-page={slug}>
+          <span class="next-step__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+          </span>
+          <span class="next-step__text">
+            <span class="next-step__title">{s.title}{s.badge && <span class="next-step__badge">{s.badge}</span>}</span>
+            <span class="next-step__desc">{s.desc}</span>
+          </span>
+          <span class="next-step__arrow" aria-hidden="true">↗</span>
         </a>
       ))}
     </div>
   </section>
 )}
+
+<script>
+  // GA4: which offer was clicked, from which page
+  document.querySelectorAll<HTMLAnchorElement>('[data-next-step]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const g = (window as any).gtag;
+      if (typeof g === 'function') g('event', 'next_steps_click', { offer: a.dataset.nextStep, page: a.dataset.page });
+    });
+  });
+</script>
+
+<style>
+  .next-steps { margin-top: var(--space-8); }
+  .next-steps__title {
+    font: 700 1.375rem var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--color-heading);
+    margin-bottom: var(--space-3);
+  }
+  .next-steps__grid { display: grid; gap: var(--space-4); }
+  .next-steps__grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .next-steps__grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .next-step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 72px;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    color: var(--color-heading);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .next-step:hover { border-color: #dcd5c8; box-shadow: var(--shadow-lift); }
+  .next-step__icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+  }
+  .next-step--amber .next-step__icon { background: #fbebd0; color: #9a5800; }
+  .next-step--green .next-step__icon { background: #e9efdd; color: #4f6b2a; }
+  .next-step--blue .next-step__icon { background: #e3e8f2; color: #33507f; }
+  .next-step__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .next-step__title { font-weight: 600; font-size: 1rem; }
+  .next-step__desc { font-size: 0.875rem; line-height: 1.45; color: var(--color-body); }
+  .next-step__arrow { flex: none; color: var(--color-saffron-text); }
+  .next-step__badge {
+    margin-left: 6px;
+    padding: 0 4px;
+    border: 1px solid #dcd5c8;
+    border-radius: 4px;
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+  }
+  @media (max-width: 880px) {
+    .next-steps__grid--2, .next-steps__grid--3 { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
