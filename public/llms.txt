@@ -2,7 +2,7 @@
 
 > Free, no-signup calculators for independent restaurant operators: food cost, recipe cost, labor, prime cost, tip pool, menu pricing, menu engineering, liquor and draft pour cost, fountain soda cost, break-even, inventory variance, no-show deposits, delivery profit, catering pricing and staff turnover. The math is shown under every result.
 
-Every calculator is free, needs no account, runs in the browser (nothing is stored or sent), and shows step-by-step math next to the result so an operator can check it and teach it to staff. Built by Brock Markarian, who spent five years at Cosmos Taverna in Victorville, California, going from bartender to General Manager.
+Every calculator is free, needs no account, runs in the browser (nothing is stored or sent), and shows step-by-step math next to the result so an operator can check it and teach it to staff. Built by Brock Markarian, who spent five years behind a bar in California, going from bartender to General Manager.
 
 ## Calculators
 

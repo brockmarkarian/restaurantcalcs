@@ -15,7 +15,7 @@ He wasn't mean about it. He just held up the jigger like it was a remedial readi
 
 That moment is also the entire reason I have opinions about pour cost.
 
-I started behind the bar at Cosmos Taverna in California and worked my way up to general manager over five years. The bar program ran the full range in that time. Busy, slow, profitable, leaking, and twice a quarter, mysteriously profitable for reasons that always turned out to be a vendor short-shipping us. The pour cost number was my early warning system. Learning to read it correctly took longer than I'd like to admit.
+I started behind a bar in California and worked my way up to general manager over five years. The bar program ran the full range in that time. Busy, slow, profitable, leaking, and twice a quarter, mysteriously profitable for reasons that always turned out to be a vendor short-shipping us. The pour cost number was my early warning system. Learning to read it correctly took longer than I'd like to admit.
 
 Here's the thing nobody tells you when you start running a bar program: **the pour cost percentage tells you something is wrong. It does not tell you what.**
 
@@ -58,7 +58,7 @@ This one is sneaky. The truck pulls up Tuesday morning, and whoever's on receivi
 
 Same problem in reverse: you receive a case but the bottles are damaged or the wrong product, you don't catch it, and you eat the cost.
 
-In five years at Cosmos I caught vendor short-ships often enough that I built a habit of opening every spirits case at the door. Twice a month it caught a discrepancy. Most vendors fix it without an argument once you ask, they know the game. (I once had a driver wait twenty minutes while I counted three cases. He was unhappy. We were both still less unhappy than the alternative, which would have been me discovering the short two weeks later, when the credit window had closed.)
+In five years at my old bar I caught vendor short-ships often enough that I built a habit of opening every spirits case at the door. Twice a month it caught a discrepancy. Most vendors fix it without an argument once you ask, they know the game. (I once had a driver wait twenty minutes while I counted three cases. He was unhappy. We were both still less unhappy than the alternative, which would have been me discovering the short two weeks later, when the credit window had closed.)
 
 **The fix:** receiving discipline. Every spirits case opened, every count matched against the invoice, signed only after verification. If the driver doesn't have time to wait, refuse the delivery. Every distributor I've worked with has a policy on the books that backs your receiving process. They just won't volunteer it unless you push.
 

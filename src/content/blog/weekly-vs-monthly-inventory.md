@@ -82,7 +82,7 @@ Most operators don't switch to weekly because they think it doubles the team's w
 
 **Recipe cost monthly. Spec audit quarterly.** A recipe priced at six-month-old vendor numbers will produce theoretical numbers that don't match anything. Spec audit means walking the line and confirming the cooks are pulling the actual portion the recipe says. They drift. They always drift.
 
-## The Cosmos frame
+## How we framed it at my old bar
 
 I worked in a sports bar in California for five years. The owner wasn't heavily engaged in day-to-day operations. Three of those five years I was running variance reports because nobody else was going to. No playbook, no consultant. Just me, the count book, and the slow realization that the variance report's job wasn't to *catch* anything. Its job was to make the gap visible to a person whose job was to fix it.
 

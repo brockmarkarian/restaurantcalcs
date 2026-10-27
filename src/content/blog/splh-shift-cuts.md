@@ -84,7 +84,7 @@ The math sorts it out for you. If you haven't sold a drink in fifteen minutes an
 
 So cut. The forty bucks of lost sales is gone either way. No reason to stack another forty bucks of labor on top of it.
 
-Honest version: I cut wrong both directions plenty of times in my five years at Cosmos. Cut too early on a Saturday, the rush walked in at 1:45, and we ran the bar shorthanded for twenty ugly minutes. Cut too late on a Tuesday, handed away an hour of bartender wages on a dead room. You're not going to be perfect. Nobody is. The point is to *make the call on the math*, not on the manager's gut read of the room, because the gut is the thing that keeps everybody on the clock when it shouldn't.
+Honest version: I cut wrong both directions plenty of times in my five years running the bar. Cut too early on a Saturday, the rush walked in at 1:45, and we ran the bar shorthanded for twenty ugly minutes. Cut too late on a Tuesday, handed away an hour of bartender wages on a dead room. You're not going to be perfect. Nobody is. The point is to *make the call on the math*, not on the manager's gut read of the room, because the gut is the thing that keeps everybody on the clock when it shouldn't.
 
 ## Failure modes (where SPLH lies to you)
 

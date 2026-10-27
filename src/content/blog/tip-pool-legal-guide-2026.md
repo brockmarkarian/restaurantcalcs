@@ -15,7 +15,7 @@ Not in a "you can't do that" way. In a stammering, sweating, fight-or-flight way
 
 What I should have said: "Federal law is unambiguous on this. Managers and supervisors cannot legally take from a tip pool. Not a percentage, not just for tonight, not even if you jumped behind the bar to help during the rush."
 
-What I actually said was closer to "uhhh." Then a long pause. Then a much weirder, longer version of the same thing that left both of us feeling like we'd done something wrong. He walked off. He never brought it up again. (Also true: I had to give that same conversation more times than I'd like to admit, in the five years I ran the bar at Cosmos Taverna in California. It got smoother. Not by much.)
+What I actually said was closer to "uhhh." Then a long pause. Then a much weirder, longer version of the same thing that left both of us feeling like we'd done something wrong. He walked off. He never brought it up again. (Also true: I had to give that same conversation more times than I'd like to admit, in the five years I ran a bar in California. It got smoother. Not by much.)
 
 This conversation matters more than any other one you'll have as an operator. The alternative is a six-figure FLSA judgment two years later. And the bartender who got terminated last spring? He remembers every twenty.
 
@@ -69,7 +69,7 @@ Some states have eliminated the tip credit entirely. Tipped employees in these s
 - **Minnesota**, no tip credit
 - **Alaska**, no tip credit
 
-I ran the bar at Cosmos in California, which is why my picture of the rules is cleaner than most operators'. We never had to do the tip-credit math. Every tipped employee got full state minimum wage in cash before tips. So pool eligibility collapsed into one question: is this person a manager? No? They're in. Much easier conversation than the federal version.
+I ran a bar in California, which is why my picture of the rules is cleaner than most operators'. We never had to do the tip-credit math. Every tipped employee got full state minimum wage in cash before tips. So pool eligibility collapsed into one question: is this person a manager? No? They're in. Much easier conversation than the federal version.
 
 If you operate in any of the states above and you've been paying tipped staff less than the state minimum, you have a problem the size of three years of back wages times every employee. Get a labor attorney involved immediately. Yesterday, ideally.
 
@@ -107,7 +107,7 @@ In five years running a bar program, I watched a few patterns repeat. Here's wha
 
 ## How to run a tip pool that survives an audit
 
-This is what I built at Cosmos. I'd tell any operator setting up a pool to do roughly the same.
+This is what I built at my old bar. I'd tell any operator setting up a pool to do roughly the same.
 
 1. **Write the policy down.** One page. Distribution method, eligible roles, what happens with credit card processing fees, how often it's run, where to file complaints. Get every employee to sign it on hire. The signature is half the legal armor.
 
