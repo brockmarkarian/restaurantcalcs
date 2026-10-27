@@ -1,8 +1,8 @@
 ---
-title: "Soda Fountain Margin: How Much a Free Refill Actually Costs You"
-description: "BIB math, ice fill, free refill multipliers, and the line-by-line on why fountain is the best margin on your menu, even with refills."
+title: "How Much Does a Fountain Drink Cost a Restaurant? (With Refills)"
+description: "A fountain drink costs a restaurant about $0.35 to $0.49 with the cup, lid, straw and CO2. Free refills push branded cola to about 17.6%. Full math inside."
 pubDate: 2026-05-04
-updatedDate: 2026-10-04
+updatedDate: 2026-10-29
 author: "Brock"
 tags: ["Beverage program", "Fountain", "Pour cost", "Operations"]
 relatedCalc: "fountain-cost"
@@ -21,6 +21,13 @@ This post is the math somebody should have walked me through on day one. If you'
 ## The short answer
 
 A fountain drink costs about **$0.35 to $0.49** once you count the cup, lid, straw and CO2, depending on store-brand or branded syrup. On a **$3.50** drink that is a **10 to 14%** pour cost. Free refills average **1.4 drinks a visit** and push branded cola to about **17.6%**, which still beats most of the food on your menu. The real leaks are cup costs and prices nobody has touched since 2017, not the refills.
+
+| Syrup | Box price | Cost per drink | Pour cost at $3.50 | Per customer, free refills | Pour cost with refills |
+| --- | --- | --- | --- | --- | --- |
+| Branded cola | $90 | $0.49 | 14.1% | $0.62 | 17.6% |
+| Store brand | $40 | $0.35 | 9.9% | $0.41 | 11.8% |
+
+Both rows use a 5 gallon box, 5 to 1 mix, 16 oz cup with 30% ice, $0.18 for the cup, lid and straw, $0.05 for CO2, water and ice, and 1.4 drinks per visit with refills. Same math as the [fountain drink cost calculator](/calculators/fountain-cost/). Put your own numbers in there.
 
 ## What is in a fountain drink, cost-wise
 
