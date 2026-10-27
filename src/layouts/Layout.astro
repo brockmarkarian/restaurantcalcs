@@ -1606,7 +1606,21 @@ const allSchema = schema
       .cmp__btn--ghost:hover { background: var(--color-bg, #f0f0eb); }
       .cmp__short { display: none; }
       .cmp__btn { min-height: 44px; }
-      @media (max-width: 640px) {
+      /* Compact bar: title and text run as one short paragraph beside the buttons */
+      @media (min-width: 900px) {
+        .cmp { padding: 6px 20px; }
+        .cmp__inner { display: flex; align-items: center; gap: 16px; }
+        .cmp__copy { flex: 1 1 auto; min-width: 0; }
+        .cmp__title, .cmp__text { display: inline; font-size: 0.78rem; line-height: 1.35; }
+        .cmp__title { margin: 0 4px 0 0; }
+        .cmp__title::after { content: '.'; }
+        .cmp__text { max-width: none; }
+        .cmp__actions { flex: none; flex-wrap: nowrap; }
+        .cmp__btn { min-height: 40px; padding: 0 14px; }
+        .cmp__inner:has(.cmp__panel:not([hidden])) { flex-wrap: wrap; }
+        .cmp__panel { flex-basis: 100%; }
+      }
+      @media (max-width: 899px) {
         .cmp { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); }
         .cmp__inner { display: flex; align-items: center; gap: 8px; }
         .cmp__copy { display: none; }

@@ -104,7 +104,7 @@ html, body {
   background: var(--color-canvas);
   color: var(--color-body);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.6;
   font-feature-settings: "calt", "ss02";
   -webkit-font-smoothing: antialiased;
@@ -726,7 +726,7 @@ button:focus-visible {
 /* Container */
 .container {
   width: 100%;
-  max-width: 1180px;
+  max-width: 73.75rem;
   margin: 0 auto;
   padding: 0 var(--space-6);
 }
@@ -780,4 +780,12 @@ button:focus-visible {
   .odo__strip { transition: none; }
   .odo--intro .odo__strip { animation: none; }
   .stamp--pop { animation: none; }
+}
+
+/* Wide monitors: type and containers grow together (1rem = 16px up to 1600px, 18px at 2560px) */
+@media (min-width: 1600px) {
+  html { font-size: clamp(16px, calc(16px + (100vw - 1600px) / 480), 18px); }
+}
+@media (min-width: 1920px) {
+  .container { max-width: 82.5rem; }
 }

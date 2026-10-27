@@ -60,7 +60,7 @@
   align-items: start;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 759px) {
   .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
 }
 
@@ -375,7 +375,7 @@
   top: 120px;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 759px) {
   .calc-result { position: static; }
 }
 
@@ -1209,9 +1209,10 @@
    ========================================================================== */
 
 .calc-page {
-  max-width: 1200px;
+  max-width: 75rem;
   padding: var(--space-6) var(--space-6) var(--space-20);
 }
+@media (min-width: 1920px) { .calc-page { max-width: 82.5rem; } }
 
 .calc-page .breadcrumb {
   margin-bottom: var(--space-2);
@@ -1601,7 +1602,7 @@
   .calc-toc { display: none !important; }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 759px) {
   .calc-page { padding: var(--space-4) var(--space-4) var(--space-16); }
   .calc-page .calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .calc-page .calc-form { padding: var(--space-4); border-radius: 16px; gap: var(--space-4); }
@@ -1682,7 +1683,7 @@ html.embed .calc-page { padding: var(--space-4); }
   align-items: center;
   margin-bottom: var(--space-4);
 }
-.calc-page .dl-main { min-width: 0; }
+.calc-page .dl-main { min-width: 0; container-type: inline-size; }
 .calc-page .dl-row--solo { grid-template-columns: minmax(0, 1fr); }
 .calc-page .dl-row .calc-result__big { margin-bottom: 0; flex-wrap: wrap; }
 
@@ -1697,10 +1698,7 @@ html.embed .calc-page { padding: var(--space-4); }
   height: 1em;
   line-height: 1;
   overflow: hidden;
-  font-size: clamp(2rem, calc(14vw / max(var(--dl-len, 5), 4) * 3.4), 4.75rem);
-}
-@media (min-width: 881px) {
-  .calc-page .calc-result__big .odo { font-size: min(4.75rem, calc(17.5rem / max(var(--dl-len, 5), 3.2))); }
+  font-size: clamp(1.75rem, calc(100cqi / (max(var(--dl-len, 5), 3) * 0.62 + 1.1)), 4.75rem);
 }
 .calc-page .odo__col { display: inline-block; height: 1em; overflow: hidden; }
 .calc-page .odo__strip > span { display: block; height: 1em; }
@@ -1829,4 +1827,18 @@ html.embed .calc-page { padding: var(--space-4); }
   .calc-page .dl-spin,
   .calc-page .dl-steam,
   .calc-page .dl-receipt .show-math__body.dl-print { animation: none !important; }
+}
+
+/* Tablets and narrow laptop windows: keep inputs and the result side by side */
+@media (min-width: 760px) and (max-width: 1023px) {
+  /* Tip pool and recipe cost keep full width for their input tables until 881px */
+  .calc-page .calc-grid:not(.calc-grid--wide) { grid-template-columns: minmax(0, 1fr) minmax(300px, 340px); gap: var(--space-5); }
+  .calc-page .calc-result__card { padding: var(--space-5); }
+  .calc-page .dl-row:not(.dl-row--solo) { grid-template-columns: minmax(0, 1fr) 96px; gap: var(--space-2) var(--space-3); }
+  .calc-page .calc-page__intro { font-size: 1rem; }
+}
+/* The result panel never runs past the window; long extras scroll inside it */
+@media (min-width: 760px) {
+  .calc-page .calc-result { max-height: calc(100vh - 104px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-bottom: var(--space-2); }
+  .calc-page .calc-result > * { flex-shrink: 0; }
 }
