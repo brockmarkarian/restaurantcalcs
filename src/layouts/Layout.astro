@@ -719,6 +719,9 @@ const allSchema = schema
             <a href="https://sourceforge.net/projects/restaurantcalcs/" target="_blank" rel="noopener" class="site-footer__badge" aria-label="RestaurantCalcs on SourceForge">
               <img src="/sourceforge-badge.svg" alt="RestaurantCalcs reviews, SourceForge" width="80" height="80" loading="lazy" />
             </a>
+            <a href="https://toast.partner-experience.com/r/R-IGHF-RMQ4" target="_blank" rel="noopener sponsored" class="site-footer__badge" aria-label="Verified Toast Advocate, see Toast (partner link)">
+              <img src="/toast-advocate-badge.webp" alt="Verified Toast Advocate badge" width="80" height="80" loading="lazy" />
+            </a>
           </div>
         </div>
         <div class="site-footer__links">
@@ -1274,8 +1277,8 @@ const allSchema = schema
       .site-footer__badge img { display: block; height: auto; }
       .site-footer__badges {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
+        align-items: center;
         gap: var(--space-3);
         margin-top: var(--space-4);
       }
