@@ -4,8 +4,11 @@ import RelatedPosts from '../../components/RelatedPosts.astro';
 import CalcLayout from '../../layouts/CalcLayout.astro';
 import NextSteps from '../../components/NextSteps.astro';
 
-const title = 'Liquor Cost Calculator: Pour Cost per Drink & Bottle | RestaurantCalcs';
-const description = 'Free liquor cost calculator: cost per ounce, cost per drink, pour cost % and a suggested price. Healthy pour cost is 18-24% for a liquor program. Math shown.';
+const title = 'Free Liquor Cost Calculator per Drink | RestaurantCalcs';
+const description = 'Enter bottle price, bottle size and pour to get cost per ounce, cost per drink, pour cost % and the price that hits your target. Free, no signup.';
+// Schema keeps the earlier page name and description; only the search title and meta changed
+const schemaName = 'Liquor Cost Calculator: Pour Cost per Drink & Bottle | RestaurantCalcs';
+const schemaDescription = 'Free liquor cost calculator: cost per ounce, cost per drink, pour cost % and a suggested price. Healthy pour cost is 18-24% for a liquor program. Math shown.';
 
 const faq = [
   {
@@ -47,7 +50,7 @@ const faq = [
 ];
 
 const schema = [
-  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/liquor-pour-cost/#webpage', url: 'https://restaurantcalcs.com/calculators/liquor-pour-cost/', name: title, description, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/liquor-pour-cost/#breadcrumb' }, inLanguage: 'en-US' },
+  { '@context': 'https://schema.org', '@type': 'WebPage', '@id': 'https://restaurantcalcs.com/calculators/liquor-pour-cost/#webpage', url: 'https://restaurantcalcs.com/calculators/liquor-pour-cost/', name: schemaName, description: schemaDescription, isPartOf: { '@id': 'https://restaurantcalcs.com/#website' }, breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/liquor-pour-cost/#breadcrumb' }, inLanguage: 'en-US' },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', '@id': 'https://restaurantcalcs.com/calculators/liquor-pour-cost/#breadcrumb', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://restaurantcalcs.com/' },
     { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://restaurantcalcs.com/' },

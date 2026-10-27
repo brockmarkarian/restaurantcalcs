@@ -4,8 +4,11 @@ import RelatedPosts from '../../components/RelatedPosts.astro';
 import CalcLayout from '../../layouts/CalcLayout.astro';
 import NextSteps from '../../components/NextSteps.astro';
 
-const title = 'Food Cost Percentage Calculator (Formula + Healthy Range) | RestaurantCalcs';
-const description = 'Free food cost % calculator: (beginning inventory + purchases - ending inventory) / food sales. Healthy is 28-32% for casual dining. No signup, math shown.';
+const title = 'Food Cost Percentage Calculator + Formula | RestaurantCalcs';
+const description = 'Enter what you spent on food and what you sold to get your food cost %. Example: $7,500 on $25,000 in sales is 30%. Formula and 28-32% range shown. Free.';
+// Schema keeps the earlier page name and description; only the search title and meta changed
+const schemaName = 'Food Cost Percentage Calculator (Formula + Healthy Range) | RestaurantCalcs';
+const schemaDescription = 'Free food cost % calculator: (beginning inventory + purchases - ending inventory) / food sales. Healthy is 28-32% for casual dining. No signup, math shown.';
 
 const faq = [
   {
@@ -52,8 +55,8 @@ const schema = [
     '@type': 'WebPage',
     '@id': 'https://restaurantcalcs.com/calculators/food-cost/#webpage',
     url: 'https://restaurantcalcs.com/calculators/food-cost/',
-    name: title,
-    description,
+    name: schemaName,
+    description: schemaDescription,
     isPartOf: { '@id': 'https://restaurantcalcs.com/#website' },
     breadcrumb: { '@id': 'https://restaurantcalcs.com/calculators/food-cost/#breadcrumb' },
     inLanguage: 'en-US',
