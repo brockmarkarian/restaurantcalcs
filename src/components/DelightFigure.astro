@@ -1,0 +1,150 @@
+---
+// One small drawing per calculator for the dark result panel. The shared
+// delight script finds the [data-dl] parts and moves them as the result changes.
+interface Props { slug: string }
+const { slug } = Astro.props;
+---
+<svg class="dl-svg" viewBox="0 0 120 140" aria-hidden="true" focusable="false">
+  {slug === 'fountain-cost' && (
+    <g>
+      <defs><clipPath id="dl-clip"><path d="M18 22h84l-10 108q-1 6-7 6H35q-6 0-7-6Z" /></clipPath></defs>
+      <g clip-path="url(#dl-clip)">
+        <rect width="120" height="140" fill="#3a352d" />
+        <rect y="30" width="120" height="110" fill="#5a2a14" />
+        <rect data-dl="fill" y="136" width="120" height="0" fill="#f2b544" opacity=".9" />
+        <rect x="34" y="52" width="16" height="16" rx="4" fill="#eaf3f7" opacity=".8" transform="rotate(12 42 60)" />
+        <rect x="62" y="44" width="16" height="16" rx="4" fill="#eaf3f7" opacity=".8" transform="rotate(-10 70 52)" />
+        <circle class="dl-bub" cx="48" cy="120" r="2" fill="#8a4a26" />
+        <circle class="dl-bub" cx="70" cy="126" r="1.6" fill="#8a4a26" style="animation-delay:.9s" />
+        <circle class="dl-bub" cx="58" cy="110" r="1.4" fill="#8a4a26" style="animation-delay:1.6s" />
+      </g>
+      <path d="M18 22h84l-10 108q-1 6-7 6H35q-6 0-7-6Z" fill="none" stroke="#cfc7b8" stroke-width="3" />
+      <rect x="12" y="14" width="96" height="9" rx="4" fill="#cfc7b8" />
+      <rect x="72" y="0" width="6" height="22" rx="2" transform="rotate(14 75 11)" fill="#f2b544" />
+    </g>
+  )}
+  {slug === 'keg-cost' && (
+    <g>
+      <defs><clipPath id="dl-clip"><rect x="22" y="18" width="76" height="114" rx="12" /></clipPath></defs>
+      <g clip-path="url(#dl-clip)">
+        <rect width="120" height="140" fill="#3a352d" />
+        <rect data-dl="fill" y="132" width="120" height="0" fill="#f2b544" />
+      </g>
+      <rect x="22" y="18" width="76" height="114" rx="12" fill="none" stroke="#cfc7b8" stroke-width="3" />
+      <path d="M22 50h76M22 100h76" stroke="#cfc7b8" stroke-width="3" />
+      <rect x="50" y="6" width="20" height="12" rx="3" fill="#cfc7b8" />
+    </g>
+  )}
+  {slug === 'liquor-pour-cost' && (
+    <g>
+      <defs><clipPath id="dl-clip"><path d="M50 6h20v26q22 10 22 34v62q0 8-8 8H36q-8 0-8-8V66q0-24 22-34Z" /></clipPath></defs>
+      <g clip-path="url(#dl-clip)">
+        <rect width="120" height="140" fill="#3a352d" />
+        <rect data-dl="fill" y="136" width="120" height="0" fill="#f2b544" />
+      </g>
+      <path d="M50 6h20v26q22 10 22 34v62q0 8-8 8H36q-8 0-8-8V66q0-24 22-34Z" fill="none" stroke="#cfc7b8" stroke-width="3" />
+      <rect x="36" y="76" width="48" height="30" rx="3" fill="none" stroke="#cfc7b8" stroke-width="2" />
+    </g>
+  )}
+  {(slug === 'food-cost' || slug === 'recipe-cost') && (
+    <g>
+      <circle cx="60" cy="72" r="54" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <circle cx="60" cy="72" r="40" fill="none" stroke="#cfc7b8" stroke-width="1.5" opacity=".5" />
+      <circle data-dl="pie" cx="60" cy="72" r="20" fill="none" stroke="#f2b544" stroke-width="40" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 60 72)" />
+    </g>
+  )}
+  {slug === 'labor-cost' && (
+    <g>
+      <rect x="20" y="8" width="80" height="124" rx="6" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <rect x="20" y="8" width="80" height="20" rx="6" fill="#cfc7b8" />
+      <path d="M30 44h60M30 60h60M30 76h60M30 92h60M30 108h60" stroke="#cfc7b8" stroke-width="1.5" opacity=".5" />
+      <rect x="30" y="118" width="60" height="6" rx="3" fill="#1c1a16" />
+      <rect data-dl="bar" x="30" y="118" width="0" height="6" rx="3" fill="#f2b544" />
+      <circle cx="80" cy="44" r="3" fill="#f2b544" /><circle cx="80" cy="60" r="3" fill="#f2b544" /><circle cx="80" cy="76" r="3" fill="#f2b544" />
+    </g>
+  )}
+  {slug === 'prime-cost' && (
+    <g>
+      <rect x="38" y="8" width="44" height="124" rx="6" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <rect data-dl="fill" x="38" y="132" width="44" height="0" fill="#f2b544" />
+      <path d="M30 57.6h60" stroke="#b9d08a" stroke-width="2" stroke-dasharray="4 3" />
+      <path d="M30 51.4h60" stroke="#f0a77a" stroke-width="2" stroke-dasharray="4 3" />
+    </g>
+  )}
+  {slug === 'tip-pool' && (
+    <g>
+      <path d="M26 28h68v88q0 16-16 16H42q-16 0-16-16Z" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <rect x="22" y="18" width="76" height="12" rx="4" fill="#cfc7b8" />
+      <g data-dl="coins"></g>
+    </g>
+  )}
+  {slug === 'menu-pricing' && (
+    <g>
+      <path d="M20 40l34-30h50v60l-34 30q-6 5-12 0L22 64q-6-6-2-12Z" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" transform="translate(-4 20)" />
+      <circle cx="84" cy="44" r="6" fill="none" stroke="#cfc7b8" stroke-width="3" />
+      <text data-dl="text" x="58" y="86" text-anchor="middle" fill="#f2b544" font-family="ui-monospace,monospace" font-size="18" font-weight="700" transform="rotate(-40 58 82)"></text>
+    </g>
+  )}
+  {slug === 'menu-engineering' && (
+    <g>
+      <rect x="10" y="12" width="100" height="100" rx="6" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <path d="M60 12v100M10 62h100" stroke="#cfc7b8" stroke-width="2" />
+      <g font-family="ui-monospace,monospace" font-size="9" fill="#cfc7b8">
+        <text x="16" y="26">Puzzle</text><text x="66" y="26">Star</text><text x="16" y="106">Dog</text><text x="66" y="106">Plow</text>
+      </g>
+      <circle data-dl="dot" cx="85" cy="37" r="8" fill="#f2b544" />
+      <text x="60" y="132" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#cfc7b8">popular →</text>
+    </g>
+  )}
+  {slug === 'inventory-variance' && (
+    <g>
+      <path d="M60 30v92M40 128h40" stroke="#cfc7b8" stroke-width="3" />
+      <g data-dl="beam" style="transform-origin:60px 30px">
+        <path d="M14 30h92" stroke="#cfc7b8" stroke-width="3" />
+        <path d="M14 30l-10 26h20Z M106 30l-10 26h20Z" fill="#3a352d" stroke="#cfc7b8" stroke-width="2" />
+        <text x="14" y="70" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#cfc7b8">POS</text>
+        <text x="106" y="70" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#cfc7b8">Count</text>
+      </g>
+      <circle cx="60" cy="30" r="5" fill="#f2b544" />
+    </g>
+  )}
+  {slug === 'break-even' && (
+    <g>
+      <path d="M14 10v110h96" stroke="#cfc7b8" stroke-width="3" fill="none" />
+      <path d="M14 70L110 30" stroke="#f0a77a" stroke-width="3" />
+      <path d="M14 120L110 14" stroke="#b9d08a" stroke-width="3" />
+      <circle data-dl="dot" cx="68" cy="48" r="7" fill="#f2b544" />
+      <text x="62" y="134" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#cfc7b8">sales vs costs</text>
+    </g>
+  )}
+  {slug === 'delivery-profit' && (
+    <g>
+      <g data-dl="bag" style="transform-origin:60px 128px">
+        <path d="M24 48h72l-6 80H30Z" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+        <path d="M44 48v-8q0-16 16-16t16 16v8" fill="none" stroke="#cfc7b8" stroke-width="3" />
+        <text data-dl="text" x="60" y="98" text-anchor="middle" font-family="ui-monospace,monospace" font-size="16" font-weight="700" fill="#f2b544"></text>
+      </g>
+    </g>
+  )}
+  {slug === 'catering-pricing' && (
+    <g>
+      <path d="M22 96q0-44 38-44t38 44Z" fill="#3a352d" stroke="#cfc7b8" stroke-width="3" />
+      <circle cx="60" cy="48" r="5" fill="#cfc7b8" />
+      <rect x="10" y="96" width="100" height="10" rx="5" fill="#cfc7b8" />
+      <path class="dl-steam" d="M48 40q-6-8 0-16M72 40q6-8 0-16" stroke="#cfc7b8" stroke-width="2" fill="none" opacity=".6" />
+      <text data-dl="text" x="60" y="128" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#f2b544"></text>
+    </g>
+  )}
+  {slug === 'turnover-cost' && (
+    <g>
+      <rect x="14" y="10" width="92" height="120" rx="4" fill="none" stroke="#cfc7b8" stroke-width="3" />
+      <g data-dl="spin" class="dl-spin" style="transform-origin:60px 70px">
+        <path d="M60 22v96M14 70h92" stroke="#f2b544" stroke-width="4" />
+      </g>
+      <circle cx="60" cy="70" r="6" fill="#cfc7b8" />
+    </g>
+  )}
+  {slug === 'no-show-deposit' && (
+    <g data-dl="chairs"></g>
+  )}
+</svg>

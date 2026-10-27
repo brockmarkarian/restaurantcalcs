@@ -1,8 +1,11 @@
 ---
 // Shared shell for every calculator page: site layout, shared calculator
-// styles, and the "On this page" menu. The phone result bar lives in Layout.
+// styles, the "On this page" menu and the delight layer (rolling number,
+// drawing, verdict stamp, receipt math). The phone result bar lives in Layout.
 import Layout from './Layout.astro';
 import '../styles/calc.css';
+import DelightFigure from '../components/DelightFigure.astro';
+import verdictLines from '../data/verdict-lines.json';
 
 interface Props {
   title?: string;
@@ -11,9 +14,13 @@ interface Props {
   schema?: Record<string, any> | Array<Record<string, any>>;
 }
 const props = Astro.props;
+const slug = Astro.url.pathname.split('/').filter(Boolean)[1] || '';
+const lines = (verdictLines as Record<string, unknown>)[slug] ?? null;
 ---
 <Layout {...props}>
   <slot />
+  <template id="dl-figure"><DelightFigure slug={slug} /></template>
+  <script type="application/json" id="dl-data" set:html={JSON.stringify({ slug, lines })}></script>
 </Layout>
 
 <script>
@@ -54,4 +61,226 @@ const props = Astro.props;
     }
   }
 
+
+  // Delight layer. Reads the result and status each page already renders and
+  // never touches the page's own math.
+  type Level = 'healthy' | 'watch' | 'high' | null;
+  const data = JSON.parse(document.getElementById('dl-data')?.textContent || '{}');
+  const slug: string = data.slug || '';
+  const lines: Record<string, string> | null = data.lines;
+  const card = document.querySelector('.calc-result__card') as HTMLElement | null;
+  const big = card?.querySelector('.calc-result__big') as HTMLElement | null;
+  const rn = big?.querySelector('.result-num') as HTMLElement | null;
+
+  if (card && big && rn) {
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls: string) => {
+      const n = document.createElement(tag); n.className = cls; return n;
+    };
+    const SVG = 'http://www.w3.org/2000/svg';
+    const COLOR: Record<string, string> = { healthy: '#b9d08a', watch: '#f2b544', high: '#f0a77a' };
+    const LABEL: Record<string, string> = { healthy: 'Looks good', watch: 'Watch it', high: 'Fix this' };
+
+    // Layout: number, stamp and line on the left, drawing on the right
+    const row = el('div', 'dl-row');
+    const main = el('div', 'dl-main');
+    const fig = el('figure', 'dl-fig');
+    const tpl = document.getElementById('dl-figure') as HTMLTemplateElement | null;
+    if (tpl) fig.appendChild(tpl.content.cloneNode(true));
+    const cap = el('figcaption', 'dl-cap');
+    fig.appendChild(cap);
+    big.parentNode!.insertBefore(row, big);
+    main.appendChild(big);
+    row.append(main, fig);
+    const stamp = el('div', 'dl-stamp');
+    const quip = el('p', 'dl-quip');
+    main.append(stamp, quip);
+
+    // Rolling number: the real value stays in .result-num as text
+    const odo = el('span', 'result-num odo');
+    odo.setAttribute('aria-hidden', 'true');
+    rn.after(odo);
+    big.classList.add('has-odo');
+    card.classList.add('dl-on');
+    let shape = '';
+    const renderOdo = (txt: string) => {
+      const pattern = txt.replace(/\d/g, '0');
+      odo.style.setProperty('--dl-len', String(txt.length));
+      if (pattern !== shape) {
+        odo.textContent = '';
+        for (const ch of txt) {
+          const col = el('span', 'odo__col');
+          if (/\d/.test(ch)) {
+            const strip = el('span', 'odo__strip');
+            for (let d = 0; d < 10; d++) { const n = el('span', ''); n.textContent = String(d); strip.appendChild(n); }
+            col.appendChild(strip);
+          } else col.textContent = ch;
+          odo.appendChild(col);
+        }
+        shape = pattern;
+      }
+      [...txt].forEach((ch, i) => {
+        const strip = odo.children[i]?.querySelector('.odo__strip') as HTMLElement | null;
+        if (strip) strip.style.transform = `translateY(-${Number(ch)}em)`;
+      });
+    };
+
+    const pill = card.querySelector('.status-pill') as HTMLElement | null;
+    const extras = () => card.querySelector('.calc-result__extras')?.textContent || '';
+    const foodLevel = (p: number): Level => (isNaN(p) ? null : p <= 32 ? 'healthy' : p <= 35 ? 'watch' : 'high');
+    const level = (): Level => {
+      if (pill) {
+        const s = pill.dataset.status;
+        if (s === 'healthy' || s === 'good' || s === 'lean') return 'healthy';
+        if (s === 'watch') return 'watch';
+        if (s === 'critical' || s === 'bad') return 'high';
+        return null;
+      }
+      if (slug === 'menu-pricing') return foodLevel(parseFloat((extras().match(/food is ([\d.]+)%/) || [])[1]));
+      if (slug === 'recipe-cost') {
+        const m = parseFloat((extras().match(/([\d.]+)\s*×/) || [])[1]);
+        return m > 0 ? foodLevel(100 / m) : null;
+      }
+      if (slug === 'break-even') {
+        return card.querySelector('.is-bad') ? 'high' : card.querySelector('.is-watch') ? 'watch' : card.querySelector('.is-good') ? 'healthy' : null;
+      }
+      if (slug === 'tip-pool') {
+        const warn = document.querySelector('[data-legal-warning]') as HTMLElement | null;
+        if (warn && !warn.hidden) return 'high';
+        return (document.getElementById('tipcredit') as HTMLSelectElement | null)?.value === 'yes' ? 'watch' : 'healthy';
+      }
+      return null;
+    };
+
+    // Drawing
+    const part = (k: string) => fig.querySelector(`[data-dl="${k}"]`) as SVGElement | null;
+    const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
+    const fmt = (n: number) => (Math.round(n * 10) / 10).toString();
+    const drawChairs = (empty: number) => {
+      const g = part('chairs'); if (!g) return;
+      g.textContent = '';
+      for (let i = 0; i < 8; i++) {
+        const x = 16 + (i % 4) * 26, y = 26 + Math.floor(i / 4) * 56, isEmpty = i >= 8 - empty;
+        const seat = document.createElementNS(SVG, 'path');
+        seat.setAttribute('d', `M${x} ${y + 20}h20v-22M${x} ${y + 20}v16M${x + 20} ${y + 20}v16`);
+        seat.setAttribute('stroke', isEmpty ? '#6f685d' : '#cfc7b8');
+        seat.setAttribute('stroke-width', '3'); seat.setAttribute('fill', 'none');
+        if (isEmpty) seat.setAttribute('stroke-dasharray', '3 3');
+        g.appendChild(seat);
+        if (!isEmpty) {
+          const head = document.createElementNS(SVG, 'circle');
+          head.setAttribute('cx', String(x + 8)); head.setAttribute('cy', String(y + 4)); head.setAttribute('r', '6');
+          head.setAttribute('fill', '#f2b544'); g.appendChild(head);
+        }
+      }
+    };
+    const drawCoins = (n: number) => {
+      const g = part('coins'); if (!g) return;
+      g.textContent = '';
+      const count = clamp(n, 1, 8);
+      const w = 60 / count;
+      for (let i = 0; i < count; i++) {
+        const h = 22 + ((i * 37) % 5) * 8;
+        const r = document.createElementNS(SVG, 'rect');
+        r.setAttribute('x', String(30 + i * w + 1)); r.setAttribute('y', String(124 - h));
+        r.setAttribute('width', String(Math.max(2, w - 2))); r.setAttribute('height', String(h));
+        r.setAttribute('rx', '2'); r.setAttribute('fill', i % 2 ? '#c87500' : '#f2b544');
+        g.appendChild(r);
+      }
+    };
+    const fillTo = (ratio: number) => {
+      const f = part('fill'); if (f) f.style.transform = `scaleY(${clamp(ratio, 0, 1)})`;
+    };
+    const FILL: Record<string, number> = { 'fountain-cost': 50, 'keg-cost': 50, 'liquor-pour-cost': 50, 'prime-cost': 100 };
+    const drawFigure = (v: number, lv: Level) => {
+      let caption = '';
+      if (FILL[slug]) {
+        fillTo(v / FILL[slug]);
+        caption = slug === 'prime-cost' ? `${fmt(v)}% of sales` : `${fmt(v)}% of the price`;
+      } else if (slug === 'food-cost' || slug === 'recipe-cost') {
+        let pct = v;
+        if (slug === 'recipe-cost') {
+          const m = parseFloat((extras().match(/([\d.]+)\s*×/) || [])[1]);
+          pct = m > 0 ? 100 / m : NaN;
+        }
+        const pie = part('pie');
+        if (pie && !isNaN(pct)) pie.setAttribute('stroke-dasharray', `${clamp(pct, 0, 100)} 100`);
+        if (!isNaN(pct)) caption = `${fmt(pct)}% of the plate is food cost`;
+      } else if (slug === 'labor-cost') {
+        const bar = part('bar'); if (bar) bar.setAttribute('width', String(60 * clamp(v / 50, 0, 1)));
+        caption = `${fmt(v)}% of sales to payroll`;
+      } else if (slug === 'tip-pool') {
+        const n = parseInt((extras().match(/People in the split\s*(\d+)/) || [])[1] || '0', 10);
+        drawCoins(n || 1);
+        if (n) caption = `${n}-way split`;
+      } else if (slug === 'menu-pricing') {
+        const t = part('text'); if (t) t.textContent = `$${v.toFixed(2)}`;
+      } else if (slug === 'menu-engineering') {
+        const pos: Record<string, [number, number]> = { healthy: [85, 37], watch: [35, 37], high: [35, 87] };
+        const d = part('dot'); const p = pos[lv || 'healthy'];
+        if (d) d.style.transform = `translate(${p[0] - 85}px, ${p[1] - 37}px)`;
+      } else if (slug === 'inventory-variance') {
+        const beam = part('beam'); if (beam) beam.style.transform = `rotate(${clamp(v, 0, 8) * 3}deg)`;
+        caption = `${fmt(v)}% gap`;
+      } else if (slug === 'break-even') {
+        const d = part('dot'); if (d) d.setAttribute('fill', lv ? COLOR[lv] : '#f2b544');
+      } else if (slug === 'delivery-profit') {
+        const bag = part('bag'); if (bag) bag.style.transform = `scale(${clamp(0.8 + v / 50, 0.72, 1)})`;
+        const t = part('text'); if (t) { t.textContent = `${v < 0 ? '-' : ''}$${Math.abs(v).toFixed(2)}`; t.setAttribute('fill', v < 0 ? '#f0a77a' : '#f2b544'); }
+      } else if (slug === 'catering-pricing') {
+        const t = part('text'); if (t) t.textContent = `$${v.toFixed(2)} a head`;
+      } else if (slug === 'turnover-cost') {
+        fig.style.setProperty('--dl-spin', lv === 'high' ? '1.4s' : lv === 'watch' ? '3s' : '8s');
+      } else if (slug === 'no-show-deposit') {
+        drawChairs(lv === 'high' ? 4 : lv === 'watch' ? 2 : 1);
+      }
+      cap.textContent = caption;
+    };
+
+    // Receipt-style math
+    const mathBody = card.parentElement?.querySelector('.show-math__body') as HTMLElement | null;
+    const mathWrap = mathBody?.closest('details') as HTMLDetailsElement | null;
+    const crumb = document.querySelector('.breadcrumb span:last-child')?.textContent?.trim().toUpperCase() || 'CALCULATOR';
+    if (mathWrap && mathBody) {
+      mathWrap.classList.add('dl-receipt');
+      mathWrap.addEventListener('toggle', () => {
+        if (!mathWrap.open) return;
+        mathBody.classList.remove('dl-print'); void mathBody.offsetWidth; mathBody.classList.add('dl-print');
+      });
+    }
+
+    let lastLabel = '';
+    const update = () => {
+      const txt = (rn.textContent || '').trim();
+      renderOdo(txt);
+      const v = parseFloat(txt.replace(/[^0-9.\-]/g, ''));
+      const lv = level();
+      const label = lv ? (pill?.textContent?.trim() || LABEL[lv]) : '';
+      stamp.hidden = !lv;
+      quip.hidden = !lv || !lines;
+      if (lv) {
+        stamp.style.color = COLOR[lv];
+        if (label !== lastLabel) {
+          stamp.textContent = label;
+          stamp.classList.remove('pop'); void stamp.offsetWidth; stamp.classList.add('pop');
+        }
+        if (lines) quip.textContent = lines[lv] || '';
+      }
+      lastLabel = label;
+      if (!isNaN(v)) drawFigure(v, lv);
+      if (mathBody) mathBody.dataset.head = `RESTAURANTCALCS\n${crumb} · TICKET #${1000 + (Math.round(Math.abs(v || 0) * 10) % 9000)}`;
+    };
+
+    let timer = 0;
+    const schedule = () => { clearTimeout(timer); timer = window.setTimeout(update, 90); };
+    const mo = new MutationObserver(schedule);
+    mo.observe(rn, { childList: true, characterData: true, subtree: true });
+    if (pill) mo.observe(pill, { attributes: true, attributeFilter: ['data-status'] });
+    const ex = card.querySelector('.calc-result__extras');
+    if (ex) mo.observe(ex, { childList: true, characterData: true, subtree: true, attributes: true });
+    const warn = document.querySelector('[data-legal-warning]');
+    if (warn) mo.observe(warn, { attributes: true, attributeFilter: ['hidden'] });
+    document.addEventListener('input', schedule);
+    document.addEventListener('change', schedule);
+    update();
+  }
 </script>

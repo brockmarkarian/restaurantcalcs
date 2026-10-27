@@ -1849,7 +1849,7 @@ const allSchema = schema
 
         function read() {
           var c = big.cloneNode(true);
-          c.querySelectorAll('.visually-hidden').forEach(function (n) { n.remove(); });
+          c.querySelectorAll('.visually-hidden, .odo').forEach(function (n) { n.remove(); });
           valueEl.textContent = c.textContent.replace(/\s+/g, '');
           var pill = result.querySelector('.status-pill');
           var st = pill ? pill.textContent.trim() : '';
