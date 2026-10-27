@@ -1,7 +1,7 @@
 ---
 // "Next steps" row under the calculator (and at the end of blog posts).
 // Marketing 760 card everywhere; the bar cost spreadsheet card on the bar
-// calculators only. Partner cards turn on by adding them to STEPS.
+// calculators only; the Toast partner card on POS-related calculators only.
 interface Props { slug: string }
 const { slug } = Astro.props;
 
@@ -14,6 +14,10 @@ const utm = (content: string) =>
 const SPREADSHEET_SLUGS = ['fountain-cost', 'keg-cost', 'liquor-pour-cost'];
 const ETSY_BAR_KIT = 'https://www.etsy.com/listing/4603631587/bar-and-fountain-cost-kit-by';
 
+// Toast referral link. No UTM: extra params replace Toast's own utm_source.
+const TOAST_SLUGS = ['menu-pricing', 'tip-pool', 'prime-cost', 'break-even', 'delivery-profit'];
+const TOAST_REFERRAL = 'https://toast.partner-experience.com/r/R-IGHF-RMQ4';
+
 const STEPS: { offer: string; title: string; desc: string; href: string; tone: 'amber' | 'green' | 'blue'; rel: string; badge?: string }[] = [
   ...(SPREADSHEET_SLUGS.includes(slug) ? [{
     offer: 'bar-kit',
@@ -22,6 +26,15 @@ const STEPS: { offer: string; title: string; desc: string; href: string; tone: '
     href: `${ETSY_BAR_KIT}?${utm(slug)}`,
     tone: 'amber' as const,
     rel: 'noopener sponsored',
+  }] : []),
+  ...(TOAST_SLUGS.includes(slug) ? [{
+    offer: 'toast',
+    title: 'Shopping for a new POS?',
+    desc: 'See Toast and get a quote for your restaurant.',
+    href: TOAST_REFERRAL,
+    tone: 'green' as const,
+    rel: 'noopener sponsored',
+    badge: 'Partner link',
   }] : []),
   {
     offer: 'm760',
@@ -40,7 +53,9 @@ const STEPS: { offer: string; title: string; desc: string; href: string; tone: '
       {STEPS.map((s) => (
         <a class={`next-step next-step--${s.tone}`} href={s.href} target="_blank" rel={s.rel} data-next-step={s.offer} data-page={slug}>
           <span class="next-step__icon" aria-hidden="true">
-            {s.offer === 'm760'
+            {s.offer === 'toast'
+              ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg>
+              : s.offer === 'm760'
               ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
               : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M4 10h16M10 4v16"></path></svg>}
           </span>
