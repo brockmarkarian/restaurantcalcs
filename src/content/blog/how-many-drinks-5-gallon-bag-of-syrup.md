@@ -5,7 +5,7 @@ pubDate: 2026-10-29
 author: "Brock"
 tags: ["Beverage program", "Fountain", "Pour cost"]
 relatedCalc: "fountain-cost"
-draft: true
+draft: false
 ---
 
 A 5 gallon bag-in-box of soda syrup makes **30 gallons of finished soda** at the standard 5 to 1 mix. That's **3,840 ounces**, or about **342 sixteen-ounce drinks** with a normal 30% ice fill, and **240** if you pour to the rim with no ice.
