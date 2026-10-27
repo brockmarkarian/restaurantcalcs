@@ -1,0 +1,83 @@
+{
+  "_note": "One line under the verdict stamp on each calculator, by result: healthy, watch, high. Brock approves these. Plain bar GM voice, no em dashes.",
+  "food-cost": {
+    "healthy": "Right where it should be. Keep counting weekly so it stays there.",
+    "watch": "Drifting. Check portions on the line before you touch prices.",
+    "high": "Food is eating the margin. Start with portions, then waste, then prices."
+  },
+  "recipe-cost": {
+    "healthy": "Priced with room to breathe. Write the spec down so it stays that way.",
+    "watch": "Tight plate. One supplier increase and this one is underwater.",
+    "high": "This plate is priced like a favor. Recost it or raise it."
+  },
+  "labor-cost": {
+    "healthy": "The schedule is earning its keep. Don't let overtime creep in.",
+    "watch": "A little heavy. Look at the slow shifts first.",
+    "high": "Too many people on the clock for these sales. Cut by the hour, not the head."
+  },
+  "tip-pool": {
+    "healthy": "Clean split. Post the math so nobody has to ask.",
+    "watch": "Tip credit means tighter rules. Keep the pool front of house.",
+    "high": "Something in this pool breaks the rules. Fix it before payday."
+  },
+  "prime-cost": {
+    "healthy": "Prime cost in the zone. This is the number that keeps the doors open.",
+    "watch": "Edging up. Food or labor, one of them is slipping.",
+    "high": "Prime cost this high eats the rent. Find which half moved."
+  },
+  "menu-pricing": {
+    "healthy": "Good price. The plate pays for itself and then some.",
+    "watch": "It works, but there is not much cushion if costs move.",
+    "high": "Priced too close to cost. This one sells and loses."
+  },
+  "liquor-pour-cost": {
+    "healthy": "Clean bar. Buy your bartender a shift drink.",
+    "watch": "Pours are getting generous. Jiggers on the well.",
+    "high": "That bottle is walking out the door. Count it, then jigger everything."
+  },
+  "keg-cost": {
+    "healthy": "Every pint is paying. Keep the lines clean.",
+    "watch": "Foam and free pints add up. Check the taps.",
+    "high": "Too much of this keg is going down the drain or out for free. Find it."
+  },
+  "fountain-cost": {
+    "healthy": "Clean pour. This drink is paying the rent.",
+    "watch": "Refills are creeping in. Watch the cup size.",
+    "high": "This drink is a giveaway. Cap refills or raise the price."
+  },
+  "inventory-variance": {
+    "healthy": "Counts and sales line up. Keep doing what you're doing.",
+    "watch": "Small gap. Usually a miscount or a missed invoice. Check those first.",
+    "high": "That gap is real money. Count again, then watch the bar."
+  },
+  "break-even": {
+    "healthy": "Plenty of cushion above break-even. Good place to be.",
+    "watch": "Close to the line. One slow month puts you under.",
+    "high": "You're under break-even. Something has to give: sales, rent or labor."
+  },
+  "delivery-profit": {
+    "healthy": "Delivery is actually making you money. Protect it.",
+    "watch": "Thin. The apps are taking most of the margin.",
+    "high": "You're paying to deliver this order. Raise delivery prices or drop the item."
+  },
+  "catering-pricing": {
+    "healthy": "Good margin per head. Book more of these.",
+    "watch": "Thin for the work. Check labor and rentals.",
+    "high": "This event costs more than it pays. Rework the quote."
+  },
+  "turnover-cost": {
+    "healthy": "Low turnover. Your crew wants to be there. Keep it that way.",
+    "watch": "Turnover is costing real money. Post the schedule on time.",
+    "high": "You're paying to train people who leave. Fix their first 30 days."
+  },
+  "no-show-deposit": {
+    "healthy": "No-shows are under control. A deposit policy keeps it that way.",
+    "watch": "Empty seats are adding up. Time to think about deposits.",
+    "high": "No-shows are eating a real chunk of sales. Take deposits."
+  },
+  "menu-engineering": {
+    "healthy": "Strong menu mix. Feature the Stars and leave them alone.",
+    "watch": "Some dead weight. Rework the Puzzles, cut the Dogs.",
+    "high": "Too many Dogs. Shorten the menu."
+  }
+}
