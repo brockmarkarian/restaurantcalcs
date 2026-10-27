@@ -1658,3 +1658,15 @@
 }
 .calc-page .form-intro { order: 40; }
 .calc-page .calc-form__live { order: 50; }
+
+/* Embed mode (?embed=1): just the calculator. These live here, not in the
+   Layout's scoped style, so they reach markup written in the page files. */
+html.embed .cmp,
+html.embed .result-bar,
+html.embed .calc-page__header,
+html.embed .next-steps,
+html.embed .calc-body,
+html.embed .related,
+html.embed .related-reading,
+html.embed .share-cta { display: none !important; }
+html.embed .calc-page { padding: var(--space-4); }
