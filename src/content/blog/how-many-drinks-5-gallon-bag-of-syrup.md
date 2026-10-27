@@ -12,7 +12,7 @@ A 5 gallon bag-in-box of soda syrup makes **30 gallons of finished soda** at the
 
 The number most people quote is the no-ice number. It's wrong for every restaurant that puts ice in the cup, which is all of them.
 
-[Brock: one line here from your bar about the first time you counted a box. Something real.]
+My favorite part of every bag-in-box is the half-perforated triangle that says "press with thumb." It expects you to punch through two solid layers of cardboard with the power of one thumb. Once you get it open, here is what is actually inside.
 
 ## The short answer, by box size
 
