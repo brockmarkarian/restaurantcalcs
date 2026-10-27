@@ -1,0 +1,12 @@
+---
+// Server-rendered rolling number: digit strips already sit on the right
+// digit at first paint, so nothing shifts when the script takes over.
+// `intro` rolls up from zero once on load (CSS only).
+interface Props { text: string; intro?: boolean; class?: string }
+const { text, intro = false, class: cls = '' } = Astro.props;
+---
+<span class={`odo ${intro ? 'odo--intro' : ''} ${cls}`} aria-hidden="true" data-odo>
+  {[...text].map((ch) => /\d/.test(ch)
+    ? <span class="odo__col"><span class="odo__strip" style={`--d:${ch};transform:translateY(-${ch}em)`}>{[0,1,2,3,4,5,6,7,8,9].map((d) => <span>{d}</span>)}</span></span>
+    : <span class="odo__col">{ch}</span>)}
+</span>

@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import Odo from '../components/Odo.astro';
+import CalcIcon from '../components/CalcIcon.astro';
+import DelightFigure from '../components/DelightFigure.astro';
+import verdictLines from '../data/verdict-lines.json';
 
 const calcs = [
   { slug: 'food-cost', title: 'Food Cost Percentage', desc: 'Compare food cost to revenue to spot menu margin issues.', time: '2 min', tag: 'Most used', viz: 'food-cost' },
@@ -28,13 +32,39 @@ const groups = [
 ];
 const bySlug = Object.fromEntries(calcs.map((c) => [c.slug, c]));
 
-// Most-used tiles show the same example answers the old homepage cards showed
+// Most-used tiles are mini calculators. Defaults are each full calculator's
+// example numbers; thresholds match the full pages (labor and prime use the
+// casual-dining default those pages start on).
+const lines = verdictLines as Record<string, any>;
+const firstSentence = (t: string) => (t.match(/^[^.]*\./) || [t])[0];
+type Band = { lean: number; healthy: number; watch: number };
 const featured = [
-  { slug: 'food-cost', label: 'Food cost %', value: '28.4%' },
-  { slug: 'labor-cost', label: 'Labor cost %', value: '30.0%' },
-  { slug: 'prime-cost', label: 'Prime cost', value: '60.0%' },
-  { slug: 'tip-pool', label: 'Tip pool', value: '$184' },
+  { slug: 'food-cost', label: 'Food cost %', a: { label: 'Food you bought', value: 7500 }, b: { label: 'Food sales', value: 25000 }, band: { lean: 28, healthy: 32, watch: 35 } as Band, pct: true },
+  { slug: 'labor-cost', label: 'Labor cost %', a: { label: 'What staff cost you', value: 9000 }, b: { label: 'Sales', value: 30000 }, band: { lean: 28, healthy: 35, watch: 39 } as Band, pct: true },
+  { slug: 'prime-cost', label: 'Prime cost', a: { label: 'Food, drink and labor', value: 18000 }, b: { label: 'Sales', value: 30000 }, band: { lean: 57, healthy: 65, watch: 70 } as Band, pct: true },
+  { slug: 'tip-pool', label: 'Tip pool', a: { label: 'Total tips', value: 2400 }, b: { label: 'People splitting', value: 4 }, band: null, pct: false },
 ];
+const tileResult = (f: (typeof featured)[number]) => {
+  const v = f.b.value > 0 ? (f.pct ? (f.a.value / f.b.value) * 100 : f.a.value / f.b.value) : 0;
+  const text = f.pct ? v.toFixed(1) : v.toFixed(2);
+  let key = '', label = '';
+  if (f.band) {
+    if (v < f.band.lean) { key = 'healthy'; label = 'Lean'; }
+    else if (v <= f.band.healthy) { key = 'healthy'; label = 'Healthy'; }
+    else if (v <= f.band.watch) { key = 'watch'; label = 'Watch'; }
+    else { key = 'high'; label = 'Critical'; }
+  }
+  return { v, text, key, label, quip: key ? firstSentence(lines[f.slug][key]) : '' };
+};
+const STAMP_COLOR: Record<string, string> = { healthy: '#b9d08a', watch: '#f2b544', high: '#f0a77a' };
+const tileData = featured.map((f) => ({ slug: f.slug, band: f.band, pct: f.pct, lines: Object.fromEntries(Object.entries(lines[f.slug]).map(([k, t]) => [k, firstSentence(t as string)])) }));
+
+// Calculator of the day: picked by build date (the site rebuilds daily)
+const dayIndex = Math.floor(Date.now() / 86400000);
+const todaySlug = calcs[dayIndex % calcs.length].slug;
+const today = bySlug[todaySlug];
+const todayLine = lines[todaySlug]?.healthy || '';
+const todayTicket = String(dayIndex % 10000).padStart(4, '0');
 
 const nowHome = new Date();
 const recentPosts = (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= nowHome))
@@ -131,7 +161,7 @@ const homepageSchema = [
     <div class="container home-hero__inner">
       <div class="home-hero__copy">
         <h1 class="home-hero__title">Restaurant math, <span class="home-hero__accent">done right.</span></h1>
-        <p class="home-hero__sub">16 free calculators for everyday restaurant math. No accounts. No paywalls. The formula shown underneath every result so you can trust it and teach it.</p>
+        <p class="home-hero__sub"><span class="home-roll"><span class="visually-hidden">16</span><Odo text="16" intro /></span> free calculators for everyday restaurant math. No accounts. No paywalls. The formula shown underneath every result so you can trust it and teach it.</p>
       </div>
       <form class="home-search" role="search" action="/calculators/" data-home-search>
         <label for="home-q" class="visually-hidden">What do you need to figure out?</label>
@@ -144,13 +174,28 @@ const homepageSchema = [
   <section class="container home-featured" aria-labelledby="home-featured-title">
     <h2 class="home-label" id="home-featured-title">Most used</h2>
     <div class="home-featured__grid">
-      {featured.map((f) => (
-        <a href={`/calculators/${f.slug}/`} class="home-tile">
-          <span class="home-tile__label">{f.label}</span>
-          <span class="home-tile__value num">{f.value}</span>
-          <span class="home-tile__go">Open calculator <span aria-hidden="true">→</span></span>
-        </a>
-      ))}
+      {featured.map((f) => {
+        const r = tileResult(f);
+        return (
+          <div class="home-tile" data-tile={f.slug}>
+            <div class="home-tile__head">
+              <span class="home-tile__label">{f.label}</span>
+              <span class="home-tile__fig"><DelightFigure slug={f.slug} value={f.pct ? r.v : undefined} count={f.pct ? undefined : f.b.value} /></span>
+            </div>
+            <div class="home-tile__result">
+              <span class="visually-hidden" data-out>{f.pct ? `${r.text}%` : `$${r.text} each`}</span>
+              <span class="home-tile__value">{!f.pct && <span class="home-tile__unit">$</span>}<Odo text={r.text} />{f.pct && <span class="home-tile__unit">%</span>}</span>
+              {f.band && <span class="stamp home-tile__stamp" data-stamp style={`color:${STAMP_COLOR[r.key]}`}>{r.label}</span>}
+            </div>
+            <p class="home-tile__quip" data-quip>{f.pct ? r.quip : `Average per person, split ${f.b.value} ways.`}</p>
+            <div class="home-tile__inputs">
+              <label class="home-tile__field"><span>{f.a.label}</span><span class="home-tile__money">$<input type="text" inputmode="decimal" value={String(f.a.value)} data-in="a" aria-label={`${f.label}: ${f.a.label}`} /></span></label>
+              <label class="home-tile__field"><span>{f.b.label}</span><span class="home-tile__money">{f.pct && '$'}<input type="text" inputmode="decimal" value={String(f.b.value)} data-in="b" aria-label={`${f.label}: ${f.b.label}`} /></span></label>
+            </div>
+            <a href={`/calculators/${f.slug}/`} class="home-tile__go">Open calculator <span aria-hidden="true">→</span></a>
+          </div>
+        );
+      })}
     </div>
   </section>
 
@@ -164,6 +209,7 @@ const homepageSchema = [
             {g.slugs.map((slug) => (
               <li data-home-item data-search={`${bySlug[slug].title} ${bySlug[slug].desc}`.toLowerCase()}>
                 <a href={`/calculators/${slug}/`} class="home-row">
+                  <span class="home-row__icon"><CalcIcon slug={slug} /></span>
                   <span class="home-row__text">
                     <span class="home-row__title">{bySlug[slug].title}</span>
                     <span class="home-row__desc">{bySlug[slug].desc}</span>
@@ -177,6 +223,26 @@ const homepageSchema = [
       ))}
     </div>
     <p class="home-all__empty" data-home-empty hidden>No calculator matches that. Try "food", "labor" or "tips".</p>
+  </section>
+
+  <section class="container home-today" aria-labelledby="home-today-title">
+    <div class="receipt home-today__ticket">
+      <p class="home-today__head">RESTAURANTCALCS</p>
+      <p class="home-today__sub"><span id="home-today-title">CALCULATOR OF THE DAY</span> · TICKET #{todayTicket}</p>
+      <hr class="receipt__rule" />
+      <div class="home-today__item">
+        <span class="home-today__icon"><CalcIcon slug={todaySlug} size={32} /></span>
+        <span>
+          <span class="home-today__name">{today.title}</span>
+          <span class="home-today__desc">{today.desc}</span>
+        </span>
+      </div>
+      <hr class="receipt__rule" />
+      <p class="home-today__line">"{todayLine}"</p>
+      <hr class="receipt__rule" />
+      <a class="home-today__open" href={`/calculators/${todaySlug}/`}>Open the calculator <span aria-hidden="true">→</span></a>
+      <p class="home-today__foot">Math checked. Tip your bartender.</p>
+    </div>
   </section>
 
   <section class="container home-trust">
@@ -225,7 +291,84 @@ const homepageSchema = [
   </section>
 </Layout>
 
+<script type="application/json" id="tile-data" set:html={JSON.stringify(tileData)}></script>
+
 <script>
+  // Most-used tiles: recompute as you type, roll the number, swap the stamp
+  type Tile = { slug: string; band: { lean: number; healthy: number; watch: number } | null; pct: boolean; lines: Record<string, string> };
+  const tileData: Tile[] = JSON.parse(document.getElementById('tile-data')?.textContent || '[]');
+  const COLORS: Record<string, string> = { healthy: '#b9d08a', watch: '#f2b544', high: '#f0a77a' };
+  const num = (el: HTMLInputElement | null) => parseFloat((el?.value || '').replace(/[^0-9.]/g, ''));
+  const roll = (odo: HTMLElement, txt: string) => {
+    const cols = [...odo.children] as HTMLElement[];
+    if (cols.length !== txt.length || [...txt].some((ch, i) => /\d/.test(ch) !== !!cols[i].querySelector('.odo__strip'))) {
+      odo.textContent = '';
+      for (const ch of txt) {
+        const col = document.createElement('span'); col.className = 'odo__col';
+        if (/\d/.test(ch)) {
+          const strip = document.createElement('span'); strip.className = 'odo__strip';
+          for (let d = 0; d < 10; d++) { const n = document.createElement('span'); n.textContent = String(d); strip.appendChild(n); }
+          col.appendChild(strip);
+        } else col.textContent = ch;
+        odo.appendChild(col);
+      }
+    }
+    [...txt].forEach((ch, i) => {
+      const strip = odo.children[i]?.querySelector('.odo__strip') as HTMLElement | null;
+      if (strip) strip.style.transform = `translateY(-${Number(ch)}em)`;
+    });
+  };
+  tileData.forEach((t) => {
+    const tile = document.querySelector(`[data-tile="${t.slug}"]`) as HTMLElement | null;
+    if (!tile) return;
+    const a = tile.querySelector('[data-in="a"]') as HTMLInputElement | null;
+    const b = tile.querySelector('[data-in="b"]') as HTMLInputElement | null;
+    const odo = tile.querySelector('[data-odo]') as HTMLElement;
+    const out = tile.querySelector('[data-out]') as HTMLElement;
+    const stamp = tile.querySelector('[data-stamp]') as HTMLElement | null;
+    const quip = tile.querySelector('[data-quip]') as HTMLElement;
+    let last = stamp?.textContent || '';
+    const update = () => {
+      const x = num(a), y = num(b);
+      if (!(x >= 0) || !(y > 0)) return;
+      const v = t.pct ? (x / y) * 100 : x / y;
+      const txt = t.pct ? v.toFixed(1) : v.toFixed(2);
+      roll(odo, txt);
+      out.textContent = t.pct ? `${txt}%` : `$${txt} each`;
+      if (t.band && stamp) {
+        const key = v < t.band.lean || v <= t.band.healthy ? 'healthy' : v <= t.band.watch ? 'watch' : 'high';
+        const label = v < t.band.lean ? 'Lean' : key === 'healthy' ? 'Healthy' : key === 'watch' ? 'Watch' : 'Critical';
+        stamp.style.color = COLORS[key];
+        if (label !== last) { stamp.textContent = label; stamp.classList.remove('stamp--pop'); void stamp.offsetWidth; stamp.classList.add('stamp--pop'); last = label; }
+        quip.textContent = t.lines[key];
+        const pie = tile.querySelector('[data-dl="pie"]');
+        if (pie) pie.setAttribute('stroke-dasharray', `${Math.min(100, Math.max(0, v))} 100`);
+        const bar = tile.querySelector('[data-dl="bar"]');
+        if (bar) bar.setAttribute('width', String(60 * Math.min(1, Math.max(0, v / 50))));
+        const fill = tile.querySelector('[data-dl="fill"]') as SVGElement | null;
+        if (fill) fill.style.transform = `scaleY(${Math.min(1, Math.max(0, v / 100))})`;
+      } else {
+        const n = Math.round(y);
+        quip.textContent = `Average per person, split ${n} ways.`;
+        const g = tile.querySelector('[data-dl="coins"]');
+        if (g) {
+          g.textContent = '';
+          const count = Math.min(8, Math.max(1, n)), w = 60 / count;
+          for (let i = 0; i < count; i++) {
+            const h = 22 + ((i * 37) % 5) * 8;
+            const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            r.setAttribute('x', String(30 + i * w + 1)); r.setAttribute('y', String(124 - h));
+            r.setAttribute('width', String(Math.max(2, w - 2))); r.setAttribute('height', String(h));
+            r.setAttribute('rx', '2'); r.setAttribute('fill', i % 2 ? '#c87500' : '#f2b544');
+            g.appendChild(r);
+          }
+        }
+      }
+    };
+    a?.addEventListener('input', update);
+    b?.addEventListener('input', update);
+  });
+
   // Homepage search: filters the calculator list, Enter opens the top match
   const form = document.querySelector('[data-home-search]') as HTMLFormElement | null;
   const input = document.querySelector('[data-home-q]') as HTMLInputElement | null;
@@ -296,21 +439,90 @@ const homepageSchema = [
   .home-featured { margin-top: var(--space-4); }
   .home-featured__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
   .home-tile {
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    min-height: 148px;
+    gap: var(--space-3);
     padding: var(--space-5);
     border-radius: 16px;
     background: #1c1a16;
     color: #faf8f3;
-    text-decoration: none;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
   .home-tile:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(28, 26, 22, 0.2); }
+  .home-tile__head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-2); }
   .home-tile__label { font-weight: 600; font-size: 1.0625rem; }
-  .home-tile__value { margin-top: auto; font-family: var(--font-mono); font-size: 2.125rem; line-height: 1; color: #f2b544; }
-  .home-tile__go { font-size: 0.8125rem; color: #cfc7b8; }
+  .home-tile__fig { flex: none; width: 52px; }
+  .home-tile__fig :global(.dl-svg) { width: 100%; height: auto; display: block; }
+  .home-tile__fig :global([data-dl="fill"]) { y: 0; height: 140px; transform-box: fill-box; transform-origin: bottom; transition: transform 0.6s cubic-bezier(0.3, 1.2, 0.5, 1); }
+  .home-tile__fig :global([data-dl="pie"]) { transition: stroke-dasharray 0.6s ease; }
+  .home-tile__fig :global([data-dl="bar"]) { transition: width 0.6s ease; }
+  .home-tile__result { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; }
+  .home-tile__value { display: inline-flex; align-items: flex-end; font-family: var(--font-mono); font-size: 2.25rem; line-height: 1; color: #f2b544; }
+  .home-tile__unit { font-size: 0.55em; padding-bottom: 0.1em; }
+  .home-tile__stamp { font-size: 0.6875rem; }
+  .home-tile__quip { min-height: 2.6em; font-size: 0.8125rem; line-height: 1.3; color: #e8e1d3; }
+  .home-tile__inputs { display: grid; gap: var(--space-2); min-width: 0; }
+  .home-tile__field, .home-tile__money { min-width: 0; }
+  .home-tile__field { display: flex; flex-direction: column; gap: 4px; font-size: 0.75rem; color: #cfc7b8; }
+  .home-tile__money {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    border: 1px solid #4a443a;
+    border-radius: var(--radius-md);
+    background: #2a2620;
+    font-family: var(--font-mono);
+    color: #cfc7b8;
+  }
+  .home-tile__money:focus-within { border-color: #f2b544; }
+  .home-tile__money input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font: 500 1rem var(--font-mono);
+    color: #faf8f3;
+    outline: none;
+  }
+  .home-tile__go { margin-top: auto; display: inline-flex; align-items: center; min-height: 44px; font-size: 0.875rem; font-weight: 600; color: #f2b544; text-decoration: none; }
+  .home-tile__go:hover { color: #ffd27a; }
+
+  .home-roll { display: inline-block; vertical-align: bottom; font-variant-numeric: tabular-nums; }
+  /* Roll on the paragraph's own line height so the digits sit on the text baseline */
+  .home-roll :global(.odo) { height: 1.55em; line-height: 1.55; vertical-align: bottom; }
+  .home-roll :global(.odo__col),
+  .home-roll :global(.odo__strip > span) { height: 1.55em; }
+  .home-roll :global(.odo__strip) { line-height: 1.55; transform: translateY(calc(var(--d) * -1.55em)) !important; }
+
+  .home-row__icon { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--color-cream); color: var(--color-saffron-text); transition: transform var(--transition-fast); }
+  .home-row:hover .home-row__icon { transform: rotate(-6deg) scale(1.06); }
+  .home-row { transition: transform var(--transition-fast); }
+  .home-row:hover { transform: translateX(2px); }
+
+  .home-today { margin-top: var(--space-12); display: flex; justify-content: center; }
+  .home-today__ticket { width: 100%; max-width: 420px; transform: rotate(-1deg); transition: transform var(--transition-fast); }
+  .home-today__ticket:hover { transform: rotate(0deg) translateY(-2px); }
+  .home-today__head { text-align: center; font-weight: 700; letter-spacing: 0.1em; }
+  .home-today__sub { text-align: center; font-size: 0.75rem; letter-spacing: 0.04em; opacity: 0.75; }
+  .home-today__item { display: flex; gap: var(--space-3); align-items: flex-start; }
+  .home-today__icon { flex: none; color: #9a5800; }
+  .home-today__name { display: block; font-weight: 700; font-size: 1rem; }
+  .home-today__desc { display: block; font-size: 0.8125rem; opacity: 0.85; }
+  .home-today__line { font-size: 0.875rem; }
+  .home-today__open { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; color: #9a5800; text-decoration: underline; text-underline-offset: 3px; }
+  .home-today__foot { text-align: center; margin-top: var(--space-2); font-size: 0.75rem; opacity: 0.7; }
+
+  .home-trust__card { transition: transform var(--transition-fast); }
+  .home-trust__card:hover { transform: translateY(-2px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-tile, .home-row, .home-row__icon, .home-today__ticket, .home-trust__card { transition: none; }
+    .home-tile:hover, .home-row:hover, .home-today__ticket:hover, .home-trust__card:hover { transform: none; }
+    .home-today__ticket { transform: none; }
+  }
 
   .home-all { margin-top: var(--space-12); }
   .home-all__title, .home-posts__title, .home-faq__title {
