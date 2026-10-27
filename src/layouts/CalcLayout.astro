@@ -16,10 +16,13 @@ interface Props {
 const props = Astro.props;
 const slug = Astro.url.pathname.split('/').filter(Boolean)[1] || '';
 const lines = (verdictLines as Record<string, unknown>)[slug] ?? null;
+// Drawings only where they show real data; the other six keep the number, stamp and receipt
+const DRAWN = ['fountain-cost', 'keg-cost', 'liquor-pour-cost', 'food-cost', 'recipe-cost', 'prime-cost', 'labor-cost', 'tip-pool', 'inventory-variance'];
+const showFigure = DRAWN.includes(slug);
 ---
 <Layout {...props}>
   <slot />
-  <template id="dl-figure"><DelightFigure slug={slug} /></template>
+  {showFigure && <template id="dl-figure"><DelightFigure slug={slug} /></template>}
   <script type="application/json" id="dl-data" set:html={JSON.stringify({ slug, lines })}></script>
 </Layout>
 
@@ -90,7 +93,8 @@ const lines = (verdictLines as Record<string, unknown>)[slug] ?? null;
     fig.appendChild(cap);
     big.parentNode!.insertBefore(row, big);
     main.appendChild(big);
-    row.append(main, fig);
+    if (tpl) row.append(main, fig);
+    else { row.append(main); row.classList.add('dl-row--solo'); }
     const stamp = el('div', 'dl-stamp');
     const quip = el('p', 'dl-quip');
     main.append(stamp, quip);
